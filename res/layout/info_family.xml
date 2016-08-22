@@ -21,9 +21,21 @@
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:ems="10" >
+        android:ems="10" 
+        android:background="@null">
 
         <requestFocus />
     </EditText>
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/editText1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="textPostalAddress" />
 
 </RelativeLayout>
