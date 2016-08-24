@@ -19,9 +19,16 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.example.cxjminfodemo.LoginActivity" >
+        </activity>
+        <activity android:name="com.example.cxjminfodemo.InfoActivity.InfoPersonalActivity" >
+        </activity>
+        <activity android:name="com.example.cxjminfodemo.InfoActivity.InfoMainActivity" >
+        </activity>
+        <activity android:name="com.example.cxjminfodemo.InfoActivity.InfoFamilyActivity" >
         </activity>
     </application>
 
