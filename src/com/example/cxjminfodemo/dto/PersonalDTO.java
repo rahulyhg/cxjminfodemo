@@ -22,7 +22,11 @@ public class PersonalDTO {
 	private String edit_cbrylb;
 	private String edit_jf;
 
-
+	 public PersonalDTO()
+	 {
+		 //Ä¬ÈÏÎ´½»·Ñ
+		 this.edit_jf="0";
+	 }
 	
 	
 	/**

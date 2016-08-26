@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
+import com.example.cxjminfodemo.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity;
 import com.example.cxjminfodemo.dto.FamilyDTO;
 import com.example.cxjminfodemo.dto.PersonalDTO;
 import com.example.cxjminfodemo.utils.IDCard;
@@ -59,7 +60,7 @@ public class InfoPersonalActivity extends Activity {
 	private Spinner edit_mz;
 	private Calendar calendar;
 
-	PersonalDTO tempPersonal = new PersonalDTO();
+	PersonalDTO tempPersonal;
 	Gson gson = new Gson();
 	ArrayList<PersonalDTO> listPersonal = new ArrayList<PersonalDTO>();
 
@@ -72,6 +73,8 @@ public class InfoPersonalActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_personal);
 		ButterKnife.bind(InfoPersonalActivity.this);
+		
+		tempPersonal = new PersonalDTO();
 		initView();
 
 		fixID();
@@ -193,7 +196,6 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnItemSelected(R.id.edit_yhzgx)
 	void onItemSelected(int position) {
-		Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
 		switch (position) {
 		// 家属
 		case 0:
@@ -222,7 +224,6 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.edit_cbrq)
 	public void toDateDialog() {
-		Toast.makeText(getApplicationContext(), "日期", Toast.LENGTH_LONG).show();
 		new DatePickerDialog(InfoPersonalActivity.this, new DatePickerDialog.OnDateSetListener() {
 			@Override
 			public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -245,6 +246,8 @@ public class InfoPersonalActivity extends Activity {
 	public void zxzf() {
 		Toast.makeText(getApplicationContext(), "完成在线支付", Toast.LENGTH_SHORT).show();
 		tempPersonal.setEdit_jf("1");
+		Intent intent = new Intent(this, InfoPersonalzxzfActivity.class);
+		startActivity(intent);
 	}
 
 	@OnClick(R.id.btn_save)
@@ -260,6 +263,7 @@ public class InfoPersonalActivity extends Activity {
 				intent.putExtra("Personal", str);
 				setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
 				Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
+				tempPersonal.setEdit_jf("0");
 			}
 		};
 		mHandler.post(r);

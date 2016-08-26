@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ import android.widget.TextView;
 public class MyAdapter extends BaseAdapter {
 
 	ArrayList<HashMap<String, String>> listItem;
-	
+
 	/* 存放控件 的ViewHolder */
 	public final class ViewHolder {
 		public TextView gmsfzh;
@@ -36,9 +37,9 @@ public class MyAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 
-	public MyAdapter(Context context,ArrayList<HashMap<String, String>> listItem) {
+	public MyAdapter(Context context, ArrayList<HashMap<String, String>> listItem) {
 		this.mInflater = LayoutInflater.from(context);
-		this.listItem=listItem;
+		this.listItem = listItem;
 	}
 
 	@Override
@@ -67,6 +68,7 @@ public class MyAdapter extends BaseAdapter {
 			/* 得到各个控件的对象 */
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
+			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
 
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
@@ -76,6 +78,10 @@ public class MyAdapter extends BaseAdapter {
 		/* 设置TextView显示的内容，即我们存放在动态数组中的数据 */
 		holder.gmsfzh.setText(listItem.get(position).get("gmsfzh").toString());
 		holder.name.setText(listItem.get(position).get("name").toString());
+		if (listItem.get(position).get("jf").toString().equals("1")) {
+			holder.jf.setText("已缴费");
+			holder.jf.setTextColor(Color.BLACK);
+		}
 		return convertView;
 	}
 }

@@ -5,6 +5,7 @@
  */
 package com.example.cxjminfodemo.InfoActivity;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +23,10 @@ import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -59,6 +62,7 @@ public class InfoMainActivity extends Activity {
 	 */
 	public static final int INFO_FAMILY = 101;
 	public static final int INFO＿PERSONAL = 102;
+	public static final int CAMERA = 1001;
 
 	@Bind(R.id.image_left)
 	ImageView image_left;
@@ -197,6 +201,7 @@ public class InfoMainActivity extends Activity {
 					HashMap<String, String> map = new HashMap<String, String>();
 					map.put("name", tempPersonal.getEdit_cbrxm());
 					map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
+					map.put("jf", tempPersonal.getEdit_jf());
 					listItem.add(map);
 				}
 				adapter.notifyDataSetChanged();
@@ -211,8 +216,18 @@ public class InfoMainActivity extends Activity {
 
 			text_name.setText(tempFamily.getEdit_hzxm());
 			text_id.setText(tempFamily.getEdit_gmcfzh());
-
 			break;
+		case CAMERA:
+			if (resultCode == RESULT_OK) {
+				edit_num.setText("130226197310280817");
+			}
+			if (resultCode == RESULT_CANCELED) {
+				edit_num.setText("130226197310280817");
+			}
+			if (resultCode == RESULT_FIRST_USER ) {
+				edit_num.setText("130226197310280817");
+			}
+			
 		default:
 			break;
 		}
@@ -264,4 +279,19 @@ public class InfoMainActivity extends Activity {
 		mHandler2.post(r2);
 	}
 
+	@OnClick(R.id.btn_camera)
+	public void toOCR() {
+		String imgPath = "/sdcard/test/img.jpg";
+		// 必须确保文件夹路径存在，否则拍照后无法完成回调
+		File vFile = new File(imgPath);
+		if (!vFile.exists()) {
+			File vDirPath = vFile.getParentFile(); // new//
+													// File(vFile.getParent());
+			vDirPath.mkdirs();
+		}
+		Uri uri = Uri.fromFile(vFile);
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//
+		startActivityForResult(intent, CAMERA);
+	}
 }
