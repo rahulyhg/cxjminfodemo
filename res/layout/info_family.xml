@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:text="家庭登记"
             android:textColor="#ffffff"
-            android:textSize="17sp" >
+            android:textSize="18sp" >
         </TextView>
     </RelativeLayout>
 
@@ -49,7 +49,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="80"
+                android:layout_weight="70"
                 android:background="#ffffff"
                 android:orientation="vertical" >
 
@@ -74,19 +74,22 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="机构所在村委会:" />
+                            android:text="机构所在村委会:"
+                            android:textSize="15sp" />
 
-                        <EditText
+                        <Spinner
                             android:id="@+id/edit_jgszcwh"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
+                            android:gravity="center"
                             android:inputType="textPersonName"
+                            android:paddingLeft="10dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
-                        </EditText>
+                            android:textSize="15sp" >
+                        </Spinner>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -120,7 +123,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="户主姓名:" />
+                            android:text="户主姓名:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_hzxm"
@@ -130,8 +134,9 @@
                             android:layout_marginRight="10dp"
                             android:background="@null"
                             android:inputType="textPersonName"
+                            android:paddingLeft="50dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
@@ -166,7 +171,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="户籍编号:" />
+                            android:text="户籍编号:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_hjbh"
@@ -175,10 +181,57 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:numeric="integer"
+                            android:paddingLeft="50dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="*"
+                            android:textColor="#ffffff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="登记日期:"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/edit_djrq"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingLeft="50dp"
+                            android:textSize="15sp" >
+                        </TextView>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -212,7 +265,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="联系电话:" />
+                            android:text="联系电话:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_lxdh"
@@ -221,9 +275,10 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:inputType="number"
+                            android:paddingLeft="50dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
@@ -258,7 +313,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="电子邮箱:" />
+                            android:text="电子邮箱:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_dzyx"
@@ -267,9 +323,10 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:inputType="textEmailAddress"
+                            android:paddingLeft="50dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
@@ -304,7 +361,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="邮政编码:" />
+                            android:text="邮政编码:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_yzbm"
@@ -313,9 +371,10 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:inputType="number"
+                            android:paddingLeft="50dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
@@ -350,7 +409,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="参加其他保险人数:" />
+                            android:text="参加其他保险人数:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_cjqtbxrs"
@@ -359,9 +419,10 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:numeric="integer"
+                            android:paddingLeft="10dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
@@ -377,7 +438,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:background="#ffffff"
                     android:orientation="vertical" >
 
@@ -396,7 +457,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="户口详细地址:" />
+                            android:text="户口详细地址:"
+                            android:textSize="15sp" />
 
                         <EditText
                             android:id="@+id/edit_hkxxdz"
@@ -405,9 +467,9 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:paddingLeft="10dp"
                             android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
+                            android:textSize="15sp" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
@@ -454,8 +516,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:text="保存"
                         android:layout_weight="4"
+                        android:text="保存"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

@@ -20,8 +20,11 @@ public class PersonalDTO {
 	private String edit_csrq;
 	private String edit_cbrq;
 	private String edit_cbrylb;
+	private String edit_jf;
 
 
+	
+	
 	/**
 	 * @return the edit_cbrxm
 	 */
@@ -135,5 +138,19 @@ public class PersonalDTO {
 		return "PersonalDTO [edit_cbrxm=" + edit_cbrxm + ", edit_gmcfzh=" + edit_gmcfzh + ", edit_mz=" + edit_mz
 				+ ", edit_xb=" + edit_xb + ", edit_csrq=" + edit_csrq + ", edit_cbrq=" + edit_cbrq + ", edit_cbrylb="
 				+ edit_cbrylb + "]";
+	}
+
+	/**
+	 * @return the edit_jf
+	 */
+	public String getEdit_jf() {
+		return edit_jf;
+	}
+
+	/**
+	 * @param edit_jf the edit_jf to set
+	 */
+	public void setEdit_jf(String edit_jf) {
+		this.edit_jf = edit_jf;
 	}
 }

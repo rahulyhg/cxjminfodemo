@@ -42,6 +42,7 @@ public class FamilyDTO {
 	 */
 	public FamilyDTO() {
 		// TODO Auto-generated constructor stub
+		this.edit_gmcfzh="";
 	}
 
 	/**

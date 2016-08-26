@@ -44,7 +44,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="8"
+            android:layout_weight="10"
             android:background="#ffffff"
             android:orientation="vertical" >
 
@@ -53,7 +53,7 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_weight="0.8"
+                android:layout_weight="7"
                 android:gravity="center"
                 android:text="家庭登记"
                 android:textColor="#000000"
@@ -62,71 +62,112 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1.2" 
-                android:gravity="center">
+                android:layout_weight="3" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="8"
+                android:gravity="center" >
+
+                
+                <ImageView
+                    android:id="@+id/btn_camera"
+                    android:layout_width="40dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="centerInside"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/camera" />
+                
+                
                 <EditText
                     android:id="@+id/edit_num"
-                    android:layout_width="0dp"
+                    android:layout_width="230dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="8"
+                    android:layout_toRightOf="@id/btn_camera"
+                    android:background="@drawable/input"
                     android:ems="18"
                     android:hint="请输入户主身份证号"
                     android:inputType="number"
-                    android:textSize="13sp" >
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp" >
                 </EditText>
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/add" />
-            </LinearLayout>
+                    android:id="@+id/btn_search"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/edit_num"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/search" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1" 
-                android:gravity="center">
+                android:layout_weight="3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#cfcfcf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="8"
+                android:gravity="center" >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="户主信息"
-                    android:layout_weight="2.3" 
+                    android:layout_weight="2.3"
+                    android:singleLine="true"
+                    android:text=" 户主 ："
                     android:textColor="#000000"
-                    android:textSize="13sp" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" 
-                    android:layout_weight="1" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" 
+                    android:layout_height="wrap_content"
                     android:layout_weight="10" >
 
                     <TextView
+                        android:id="@+id/text_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="haha"
-                        android:textSize="17sp" />
+                        android:singleLine="true"
+                        android:text=""
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/text_id"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="3"
-                        android:text="1111111111111111"
-                        android:textSize="17sp" />
+                        android:singleLine="true"
+                        android:text=""
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#cfcfcf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="3" />
         </LinearLayout>
 
         <LinearLayout
@@ -138,7 +179,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="25"
+            android:layout_weight="20"
             android:background="#ffffff"
             android:orientation="vertical" >
 
@@ -146,7 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="#ffffff" >
 

@@ -49,7 +49,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="80"
+                android:layout_weight="90"
                 android:background="#ffffff"
                 android:orientation="vertical" >
 
@@ -83,7 +83,55 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="参保人姓名:" />
+                            android:text="与户主关系："
+                            android:textSize="13sp" />
+
+                        <Spinner
+                            android:id="@+id/edit_yhzgx"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:textSize="13sp" >
+                        </Spinner>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="*"
+                            android:textColor="#ff0000" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="参保人姓名："
+                            android:textSize="13sp" />
 
                         <EditText
                             android:id="@+id/edit_cbrxm"
@@ -93,6 +141,7 @@
                             android:layout_marginRight="10dp"
                             android:background="@null"
                             android:inputType="textPersonName"
+                            android:paddingLeft="30dp"
                             android:textColorHint="#b3b2b2"
                             android:textSize="13sp" >
                         </EditText>
@@ -129,7 +178,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="公民身份证号:" />
+                            android:text="公民身份证号："
+                            android:textSize="13sp" />
 
                         <EditText
                             android:id="@+id/edit_gmcfzh"
@@ -139,6 +189,7 @@
                             android:layout_marginRight="10dp"
                             android:background="@null"
                             android:inputType="textPersonName"
+                            android:paddingLeft="30dp"
                             android:textColorHint="#b3b2b2"
                             android:textSize="13sp" >
                         </EditText>
@@ -175,19 +226,20 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="民族（国际码）:" />
+                            android:text="民族："
+                            android:textSize="13sp" />
 
-                        <EditText
+                        <Spinner
                             android:id="@+id/edit_mz"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
-                            android:textColorHint="#b3b2b2"
-                            android:textSize="13sp" >
-                        </EditText>
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:textSize="2sp" >
+                        </Spinner>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -221,19 +273,20 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="性别:" />
+                            android:text="性别："
+                            android:textSize="13sp" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/edit_xb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
                             android:background="@null"
-                            android:inputType="textPersonName"
+                            android:paddingLeft="30dp"
                             android:textColorHint="#b3b2b2"
                             android:textSize="13sp" >
-                        </EditText>
+                        </TextView>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -267,9 +320,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="出生日期:" />
+                            android:text="出生日期："
+                            android:textSize="13sp" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/edit_csrq"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -279,7 +333,7 @@
                             android:inputType="textPersonName"
                             android:textColorHint="#b3b2b2"
                             android:textSize="13sp" >
-                        </EditText>
+                        </TextView>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -313,10 +367,152 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="参保日期:" />
+                            android:text="参保日期："
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/edit_cbrq"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:inputType="textPersonName"
+                            android:textColorHint="#b3b2b2"
+                            android:textSize="13sp" >
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="*"
+                            android:textColor="#ffffff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="参保人员类别："
+                            android:textSize="13sp" />
+
+                        <Spinner
+                            android:id="@+id/edit_cbrylb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:textSize="5sp" >
+                        </Spinner>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="*"
+                            android:textColor="#ffffff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="户口性质："
+                            android:textSize="13sp" />
+
+                        <Spinner
+                            android:id="@+id/edit_hkxz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:textSize="5sp" >
+                        </Spinner>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="*"
+                            android:textColor="#ffffff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="详细居住地址："
+                            android:textSize="13sp" />
 
                         <EditText
-                            android:id="@+id/edit_cbrq"
+                            android:id="@+id/edit_xxjzdz"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -359,10 +555,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="参保人员类别:" />
+                            android:text="户籍所在地："
+                            android:textSize="13sp" />
 
                         <EditText
-                            android:id="@+id/edit_cbrylb"
+                            android:id="@+id/edit_hjszd"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -387,7 +584,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="13"
+                android:layout_weight="3"
                 android:background="#ffffff" />
 
             <LinearLayout

@@ -31,6 +31,7 @@ public class MyAdapter extends BaseAdapter {
 	public final class ViewHolder {
 		public TextView gmsfzh;
 		public TextView name;
+		public TextView jf;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
