@@ -78,6 +78,7 @@ public class InfoMainActivity extends Activity {
 
 	String tempFamily;
 	FamilyDTO family = new FamilyDTO();// 传回的数据
+	FamilyDTO thefamily;// 传出的数据
 	static ArrayList<FamilyDTO> listFamily = new ArrayList<FamilyDTO>();
 
 	// 存户主与成员的映射
@@ -218,16 +219,12 @@ public class InfoMainActivity extends Activity {
 			text_id.setText(tempFamily.getEdit_gmcfzh());
 			break;
 		case CAMERA:
-			if (resultCode == RESULT_OK) {
-				edit_num.setText("130226197310280817");
-			}
-			if (resultCode == RESULT_CANCELED) {
-				edit_num.setText("130226197310280817");
-			}
-			if (resultCode == RESULT_FIRST_USER ) {
-				edit_num.setText("130226197310280817");
-			}
-			
+			edit_num.setText("130226197310280817");
+			thefamily = new FamilyDTO();
+			thefamily.setEdit_hzxm("刘奎");
+			thefamily.setEdit_gmcfzh("130226197310280817");
+			thefamily.setEdit_hkxxdz("河北省秦皇岛市经济技术开发区孟营二区29栋1单元1号");
+			thefamily.setEdit_yzbm("066000");
 		default:
 			break;
 		}
@@ -269,6 +266,12 @@ public class InfoMainActivity extends Activity {
 						Toast.makeText(getApplicationContext(), "无匹配的身份证信息", Toast.LENGTH_LONG).show();
 						Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
 						intent.putExtra("gmsfzh", temp.toString());
+						if (thefamily != null) {
+							String str = gson.toJson(thefamily);
+							intent.putExtra("Family", str);
+							intent.putExtra("hasTemp", "1");
+						} else
+							intent.putExtra("hasTemp", "0");
 						startActivityForResult(intent, INFO_FAMILY);
 					}
 				} else

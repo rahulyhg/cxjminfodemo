@@ -73,7 +73,26 @@ public class InfoFamilyActivity extends Activity {
 		 * gson.toJson(defaultFamily)); System.out.println("first" +
 		 * gson.toJson(defaultFamily)); } }; mHandler.post(r);
 		 */
+		setSampleFamily();
 
+	}
+
+	/**
+	 * 
+	 */
+	private void setSampleFamily() {
+		// TODO Auto-generated method stub
+		Intent intent = getIntent();
+		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
+		String hasTemp = bundle.getString("hasTemp");
+		if(hasTemp.equals("1"))
+		{
+			String str = bundle.getString("Family");
+			FamilyDTO tempFamily = gson.fromJson(str, FamilyDTO.class);
+			edit_hzxm.setText(tempFamily.getEdit_hzxm());
+			edit_yzbm.setText(tempFamily.getEdit_yzbm());
+			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
+		}
 	}
 
 	/**

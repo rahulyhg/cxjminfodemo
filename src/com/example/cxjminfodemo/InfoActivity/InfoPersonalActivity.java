@@ -5,9 +5,11 @@
  */
 package com.example.cxjminfodemo.InfoActivity;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
@@ -17,12 +19,15 @@ import com.example.cxjminfodemo.dto.PersonalDTO;
 import com.example.cxjminfodemo.utils.IDCard;
 import com.example.cxjminfodemo.utils.PersonalUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
@@ -50,6 +55,8 @@ public class InfoPersonalActivity extends Activity {
 	private EditText edit_gmcfzh;
 	private TextView edit_xb;
 	private TextView edit_csrq;
+	private TextView edit_xxjzdz;
+	private TextView edit_hjszd;
 	private LinearLayout btn_save;
 	private LinearLayout btn_xjzf;
 	private LinearLayout btn_zxzf;
@@ -60,6 +67,7 @@ public class InfoPersonalActivity extends Activity {
 	private Spinner edit_mz;
 	private Calendar calendar;
 
+	public static final int CAMERA = 1001;
 	PersonalDTO tempPersonal;
 	Gson gson = new Gson();
 	ArrayList<PersonalDTO> listPersonal = new ArrayList<PersonalDTO>();
@@ -73,7 +81,7 @@ public class InfoPersonalActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_personal);
 		ButterKnife.bind(InfoPersonalActivity.this);
-		
+
 		tempPersonal = new PersonalDTO();
 		initView();
 
@@ -141,7 +149,8 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_xb = (TextView) findViewById(R.id.edit_xb);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
-
+		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
+		edit_hjszd = (TextView) findViewById(R.id.edit_hjszd);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
 		ArrayList<String> data_list = new ArrayList<String>();
@@ -209,6 +218,8 @@ public class InfoPersonalActivity extends Activity {
 
 			edit_cbrxm.setText(hzxm);
 			edit_gmcfzh.setText(gmsfzh);
+			edit_xxjzdz.setText("河北省秦皇岛市经济技术开发区孟营二区29栋1单元1号");
+			edit_hjszd.setText("河北秦皇岛");
 
 			break;
 		default:
@@ -275,9 +286,39 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh.setText("");
 		edit_xb.setText("");
 		edit_csrq.setText("");
-		edit_cbrq.setText("");
+		edit_yhzgx.setSelection(0);
+		edit_xxjzdz.setText("");
+		edit_hjszd.setText("");
 		tempPersonal = new PersonalDTO();
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
+	}
+
+	@OnClick(R.id.btn_camera)
+	public void toOCR() {
+		String imgPath = "/sdcard/test/img.jpg";
+		// 必须确保文件夹路径存在，否则拍照后无法完成回调
+		File vFile = new File(imgPath);
+		if (!vFile.exists()) {
+			File vDirPath = vFile.getParentFile(); // new//
+													// File(vFile.getParent());
+			vDirPath.mkdirs();
+		}
+		Uri uri = Uri.fromFile(vFile);
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//
+		startActivityForResult(intent, CAMERA);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
+		case CAMERA:
+			edit_cbrxm.setText("张金辉");
+			edit_gmcfzh.setText("130629198303120036");
+			edit_xxjzdz.setText("河北省秦皇岛市海港区河北大街西段169号");
+			edit_hjszd.setText("河北秦皇岛");
+		default:
+			break;
+		}
 	}
 
 	private void getDataFromEdit() {
