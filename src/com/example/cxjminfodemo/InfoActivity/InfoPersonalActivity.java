@@ -10,6 +10,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
@@ -18,6 +24,7 @@ import com.example.cxjminfodemo.dto.FamilyDTO;
 import com.example.cxjminfodemo.dto.PersonalDTO;
 import com.example.cxjminfodemo.utils.IDCard;
 import com.example.cxjminfodemo.utils.PersonalUtil;
+import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,6 +37,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -67,6 +75,19 @@ public class InfoPersonalActivity extends Activity {
 	private Spinner edit_mz;
 	private Calendar calendar;
 
+	private String name="";
+
+	private String cardno="";
+
+	private String sex="";
+
+	private String folk="";
+
+	private String birthday="";
+
+	private String address="";
+
+	private String tag="InfoPersonal";
 	public static final int CAMERA = 1001;
 	PersonalDTO tempPersonal;
 	Gson gson = new Gson();
@@ -213,14 +234,19 @@ public class InfoPersonalActivity extends Activity {
 		case 1:
 			Intent intent = getIntent();
 			Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
-			String gmsfzh = bundle.getString("gmsfzh");
-			String hzxm = bundle.getString("hzxm");
 
-			edit_cbrxm.setText(hzxm);
-			edit_gmcfzh.setText(gmsfzh);
-			edit_xxjzdz.setText("河北省秦皇岛市经济技术开发区孟营二区29栋1单元1号");
-			edit_hjszd.setText("河北秦皇岛");
-
+			edit_cbrxm.setText(bundle.getString("name"));
+			edit_gmcfzh.setText(bundle.getString("cardno"));
+			edit_xxjzdz.setText(bundle.getString("address"));
+			edit_xb.setText(bundle.getString("sex"));
+			String temp_folk=bundle.getString("folk");
+			if(temp_folk.equals("汉"))
+				edit_mz.setSelection(0);
+			if(temp_folk.equals("满"))
+				edit_mz.setSelection(1);
+			if(temp_folk.equals("回"))
+				edit_mz.setSelection(2);
+			edit_csrq.setText(bundle.getString("birthday"));
 			break;
 		default:
 			break;
@@ -295,27 +321,57 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_camera)
 	public void toOCR() {
-		String imgPath = "/sdcard/test/img.jpg";
-		// 必须确保文件夹路径存在，否则拍照后无法完成回调
-		File vFile = new File(imgPath);
-		if (!vFile.exists()) {
-			File vDirPath = vFile.getParentFile(); // new//
-													// File(vFile.getParent());
-			vDirPath.mkdirs();
-		}
-		Uri uri = Uri.fromFile(vFile);
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//
+		Intent intent = new Intent(InfoPersonalActivity.this, ACameraActivity.class);
 		startActivityForResult(intent, CAMERA);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
-			edit_cbrxm.setText("张金辉");
-			edit_gmcfzh.setText("130629198303120036");
-			edit_xxjzdz.setText("河北省秦皇岛市海港区河北大街西段169号");
-			edit_hjszd.setText("河北秦皇岛");
+			String result = data.getStringExtra("result");
+			try {
+				// 解析xml
+				Document doc;
+				doc = DocumentHelper.parseText(result);
+				// Document doc = reader.read(ffile); //读取一个xml的文件
+				Element root = doc.getRootElement();
+				Iterator it = root.elementIterator("data");
+				// 遍历迭代器，获取根节点中的信息（书籍）
+				while (it.hasNext()) {
+					Element data1 = (Element) it.next();
+
+					Iterator itt = data1.elementIterator("item");
+					while (itt.hasNext()) {
+						Element item = (Element) itt.next();
+						System.out.println(item.getStringValue());
+						name = item.elementTextTrim("name");
+						cardno = item.elementTextTrim("cardno");
+						sex = item.elementTextTrim("sex");
+						folk = item.elementTextTrim("folk");
+						birthday = item.elementTextTrim("birthday");
+						address = item.elementTextTrim("address");
+						
+						Log.i(tag, cardno);
+					}
+				}
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			edit_cbrxm.setText(name);
+			edit_gmcfzh.setText(cardno);
+			edit_xxjzdz.setText(address);
+			edit_xb.setText(sex);
+			if(folk.equals("汉"))
+				edit_mz.setSelection(0);
+			if(folk.equals("满"))
+				edit_mz.setSelection(1);
+			if(folk.equals("回"))
+				edit_mz.setSelection(2);
+			edit_csrq.setText(birthday);
+			
+			break;
 		default:
 			break;
 		}

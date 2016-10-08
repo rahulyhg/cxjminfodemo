@@ -5,11 +5,18 @@
  */
 package com.example.cxjminfodemo.InfoActivity;
 
-import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.MyAdapter;
@@ -18,23 +25,21 @@ import com.example.cxjminfodemo.dto.FamilyDTO;
 import com.example.cxjminfodemo.dto.PersonalDTO;
 import com.example.cxjminfodemo.utils.FamilyUtil;
 import com.example.cxjminfodemo.utils.IDCard;
+import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
@@ -60,9 +65,14 @@ public class InfoMainActivity extends Activity {
 	 * (com.example.cxjminfodemo.NoScrollListView) findViewById(R.id.listView1);
 	 * Please visit http://www.ryangmattison.com for updates
 	 */
+	private static final String tag = "InfoMainActivity";
+
 	public static final int INFO_FAMILY = 101;
 	public static final int INFO＿PERSONAL = 102;
 	public static final int CAMERA = 1001;
+	private static byte[] bytes;
+	private static String extension;
+	public static final String action = "idcard.scan";
 
 	@Bind(R.id.image_left)
 	ImageView image_left;
@@ -89,6 +99,18 @@ public class InfoMainActivity extends Activity {
 	ListView lv;
 	MyAdapter adapter;
 	Gson gson = new Gson();
+
+	private String name="";
+
+	private String cardno="";
+
+	private String sex="";
+
+	private String folk="";
+
+	private String birthday="";
+
+	private String address="";
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -177,57 +199,15 @@ public class InfoMainActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("gmsfzh", text_id.getText().toString());
-			intent.putExtra("hzxm", text_name.getText().toString());
+			intent.putExtra("name", name);
+			intent.putExtra("cardno", cardno);
+			intent.putExtra("sex", sex);
+			intent.putExtra("folk", folk);
+			intent.putExtra("birthday", birthday);
+			intent.putExtra("address", address);
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 
-	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
-		case INFO＿PERSONAL:
-			// 回退按钮没有data
-			if (data != null) {
-				Bundle p = data.getExtras(); // data为B中回传的Intent
-				String str = p.getString("Personal");// str即为回传的值
-				System.out.println("Personal" + str);
-				ArrayList<PersonalDTO> listPersonal = gson.fromJson(str, new TypeToken<ArrayList<PersonalDTO>>() {
-				}.getType());
-				// 用于映射
-				list_family_personal.put(text_id.getText().toString(), listPersonal);
-
-				// 用于显示listview
-				for (PersonalDTO tempPersonal : listPersonal) {
-					HashMap<String, String> map = new HashMap<String, String>();
-					map.put("name", tempPersonal.getEdit_cbrxm());
-					map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
-					map.put("jf", tempPersonal.getEdit_jf());
-					listItem.add(map);
-				}
-				adapter.notifyDataSetChanged();
-			}
-			break;
-
-		case INFO_FAMILY:
-			Bundle f = data.getExtras(); // data为B中回传的Intent
-			String str2 = f.getString("Family");// str即为回传的值
-			FamilyDTO tempFamily = gson.fromJson(str2, FamilyDTO.class);
-			listFamily.add(tempFamily);
-
-			text_name.setText(tempFamily.getEdit_hzxm());
-			text_id.setText(tempFamily.getEdit_gmcfzh());
-			break;
-		case CAMERA:
-			edit_num.setText("130226197310280817");
-			thefamily = new FamilyDTO();
-			thefamily.setEdit_hzxm("刘奎");
-			thefamily.setEdit_gmcfzh("130226197310280817");
-			thefamily.setEdit_hkxxdz("河北省秦皇岛市经济技术开发区孟营二区29栋1单元1号");
-			thefamily.setEdit_yzbm("066000");
-		default:
-			break;
-		}
 	}
 
 	@OnClick(R.id.btn_search)
@@ -284,17 +264,82 @@ public class InfoMainActivity extends Activity {
 
 	@OnClick(R.id.btn_camera)
 	public void toOCR() {
-		String imgPath = "/sdcard/test/img.jpg";
-		// 必须确保文件夹路径存在，否则拍照后无法完成回调
-		File vFile = new File(imgPath);
-		if (!vFile.exists()) {
-			File vDirPath = vFile.getParentFile(); // new//
-													// File(vFile.getParent());
-			vDirPath.mkdirs();
-		}
-		Uri uri = Uri.fromFile(vFile);
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//
+		Intent intent = new Intent(InfoMainActivity.this, ACameraActivity.class);
 		startActivityForResult(intent, CAMERA);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
+		case INFO＿PERSONAL:
+			// 回退按钮没有data
+			if (data != null) {
+				Bundle p = data.getExtras(); // data为B中回传的Intent
+				String str = p.getString("Personal");// str即为回传的值
+				System.out.println("Personal" + str);
+				ArrayList<PersonalDTO> listPersonal = gson.fromJson(str, new TypeToken<ArrayList<PersonalDTO>>() {
+				}.getType());
+				// 用于映射
+				list_family_personal.put(text_id.getText().toString(), listPersonal);
+
+				// 用于显示listview
+				for (PersonalDTO tempPersonal : listPersonal) {
+					HashMap<String, String> map = new HashMap<String, String>();
+					map.put("name", tempPersonal.getEdit_cbrxm());
+					map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
+					map.put("jf", tempPersonal.getEdit_jf());
+					listItem.add(map);
+				}
+				adapter.notifyDataSetChanged();
+			}
+			break;
+
+		case INFO_FAMILY:
+			Bundle f = data.getExtras(); // data为B中回传的Intent
+			String str2 = f.getString("Family");// str即为回传的值
+			FamilyDTO tempFamily = gson.fromJson(str2, FamilyDTO.class);
+			listFamily.add(tempFamily);
+
+			text_name.setText(tempFamily.getEdit_hzxm());
+			text_id.setText(tempFamily.getEdit_gmcfzh());
+			break;
+		case CAMERA:
+			if (resultCode == Activity.RESULT_OK) {
+				String result = data.getStringExtra("result");
+				try {
+					// 解析xml
+					Document doc;
+					doc = DocumentHelper.parseText(result);
+					// Document doc = reader.read(ffile); //读取一个xml的文件
+					Element root = doc.getRootElement();
+					Iterator it = root.elementIterator("data");
+					// 遍历迭代器，获取根节点中的信息（书籍）
+					while (it.hasNext()) {
+						Element data1 = (Element) it.next();
+
+						Iterator itt = data1.elementIterator("item");
+						while (itt.hasNext()) {
+							Element item = (Element) itt.next();
+							name = item.elementTextTrim("name");
+							cardno = item.elementTextTrim("cardno");
+							sex = item.elementTextTrim("sex");
+							folk = item.elementTextTrim("folk");
+							birthday = item.elementTextTrim("birthday");
+							address = item.elementTextTrim("address");
+						}
+					}
+				} catch (DocumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				edit_num.setText(cardno);
+				thefamily = new FamilyDTO();
+				thefamily.setEdit_hzxm(name);
+				thefamily.setEdit_gmcfzh(cardno);
+				thefamily.setEdit_hkxxdz(address);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }
