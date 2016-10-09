@@ -7,7 +7,7 @@ package com.example.cxjminfodemo.InfoActivity.PersonalActivity;
 
 import com.example.cxjminfodemo.R;
 import com.example.cxjminfodemo.InfoActivity.InfoPersonalActivity;
-import com.example.cxjminfodemo.dto.PersonalDTO;
+import com.example.cxjminfodemo.dto.Personal;
 
 import android.app.Activity;
 import android.os.Bundle;

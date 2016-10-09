@@ -5,11 +5,17 @@
  */
 package com.example.cxjminfodemo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
+import com.example.cxjminfodemo.db.DBManager;
+import com.example.cxjminfodemo.dto.User;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +50,7 @@ public class LoginActivity extends Activity {
 											 * http://www.ryangmattison.com for
 											 * updates
 											 */
+	private DBManager mgr;
 
 	@Bind(R.id.image_left)
 	ImageView image_left;
@@ -61,6 +68,25 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		ButterKnife.bind(LoginActivity.this);
+		mgr = new DBManager(this);
+
+		ArrayList<User> users = new ArrayList<User>();
+
+		User user1 = new User("tengzhenjiu", "123456");
+
+		users.add(user1);
+
+		mgr.add(users);
+
+		List<User> persons = mgr.query();
+		Log.i("user", persons.get(0).username);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		// 应用的最后一个Activity关闭时应释放DB
+		mgr.closeDB();
 	}
 
 	@OnClick(R.id.image_left)

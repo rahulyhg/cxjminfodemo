@@ -12,7 +12,7 @@ import android.widget.EditText;
  * @author tengzj
  * @data 2016年8月24日 上午10:00:19
  */
-public class PersonalDTO {
+public class Personal {
 	private String edit_cbrxm;
 	private String edit_gmcfzh;
 	private String edit_mz;
@@ -22,7 +22,7 @@ public class PersonalDTO {
 	private String edit_cbrylb;
 	private String edit_jf;
 
-	 public PersonalDTO()
+	 public Personal()
 	 {
 		 //默认未交费
 		 this.edit_jf="0";

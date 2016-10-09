@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
-import com.example.cxjminfodemo.dto.FamilyDTO;
+import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.utils.FamilyUtil;
 import com.example.cxjminfodemo.utils.PersonalUtil;
 import com.google.gson.Gson;
@@ -49,10 +49,10 @@ public class InfoFamilyActivity extends Activity {
 	private EditText edit_hkxxdz;
 	private Calendar calendar;
 
-	private FamilyDTO defaultFamily = new FamilyDTO("11111", "XXX", "张三", "123456", "123456");
+	private Family defaultFamily = new Family("11111", "XXX", "张三", "123456", "123456");
 	Gson gson = new Gson();
 
-	private FamilyDTO tempFamily = new FamilyDTO();
+	private Family tempFamily = new Family();
 
 	@Bind(R.id.edit_djrq)
 	TextView edit_djrq;
@@ -88,7 +88,7 @@ public class InfoFamilyActivity extends Activity {
 		if(hasTemp.equals("1"))
 		{
 			String str = bundle.getString("Family");
-			FamilyDTO tempFamily = gson.fromJson(str, FamilyDTO.class);
+			Family tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());

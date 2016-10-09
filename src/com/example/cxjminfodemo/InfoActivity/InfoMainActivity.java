@@ -21,8 +21,8 @@ import org.dom4j.io.SAXReader;
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.MyAdapter;
 import com.example.cxjminfodemo.R;
-import com.example.cxjminfodemo.dto.FamilyDTO;
-import com.example.cxjminfodemo.dto.PersonalDTO;
+import com.example.cxjminfodemo.dto.Family;
+import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.utils.FamilyUtil;
 import com.example.cxjminfodemo.utils.IDCard;
 import com.example.idcardscandemo.ACameraActivity;
@@ -87,12 +87,12 @@ public class InfoMainActivity extends Activity {
 	TextView text_id;
 
 	String tempFamily;
-	FamilyDTO family = new FamilyDTO();// 传回的数据
-	FamilyDTO thefamily;// 传出的数据
-	static ArrayList<FamilyDTO> listFamily = new ArrayList<FamilyDTO>();
+	Family family = new Family();// 传回的数据
+	Family thefamily;// 传出的数据
+	static ArrayList<Family> listFamily = new ArrayList<Family>();
 
 	// 存户主与成员的映射
-	static HashMap<String, ArrayList<PersonalDTO>> list_family_personal = new HashMap<String, ArrayList<PersonalDTO>>();
+	static HashMap<String, ArrayList<Personal>> list_family_personal = new HashMap<String, ArrayList<Personal>>();
 	static CharSequence temp;// 监听前的文本
 	String res = null;// 查询身份证是否有效的返回信息
 	static ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
@@ -226,7 +226,7 @@ public class InfoMainActivity extends Activity {
 					listFamily.add(family);
 					System.out.println(listFamily.toString());
 
-					for (FamilyDTO tempFamily : listFamily) {
+					for (Family tempFamily : listFamily) {
 						if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
 							Toast.makeText(getApplicationContext(), "有匹配的身份证信息", Toast.LENGTH_LONG).show();
 							// 显示的信息 与 编辑框信息对比
@@ -276,13 +276,13 @@ public class InfoMainActivity extends Activity {
 				Bundle p = data.getExtras(); // data为B中回传的Intent
 				String str = p.getString("Personal");// str即为回传的值
 				System.out.println("Personal" + str);
-				ArrayList<PersonalDTO> listPersonal = gson.fromJson(str, new TypeToken<ArrayList<PersonalDTO>>() {
+				ArrayList<Personal> listPersonal = gson.fromJson(str, new TypeToken<ArrayList<Personal>>() {
 				}.getType());
 				// 用于映射
 				list_family_personal.put(text_id.getText().toString(), listPersonal);
 
 				// 用于显示listview
-				for (PersonalDTO tempPersonal : listPersonal) {
+				for (Personal tempPersonal : listPersonal) {
 					HashMap<String, String> map = new HashMap<String, String>();
 					map.put("name", tempPersonal.getEdit_cbrxm());
 					map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
@@ -296,7 +296,7 @@ public class InfoMainActivity extends Activity {
 		case INFO_FAMILY:
 			Bundle f = data.getExtras(); // data为B中回传的Intent
 			String str2 = f.getString("Family");// str即为回传的值
-			FamilyDTO tempFamily = gson.fromJson(str2, FamilyDTO.class);
+			Family tempFamily = gson.fromJson(str2, Family.class);
 			listFamily.add(tempFamily);
 
 			text_name.setText(tempFamily.getEdit_hzxm());
@@ -332,7 +332,7 @@ public class InfoMainActivity extends Activity {
 					e.printStackTrace();
 				}
 				edit_num.setText(cardno);
-				thefamily = new FamilyDTO();
+				thefamily = new Family();
 				thefamily.setEdit_hzxm(name);
 				thefamily.setEdit_gmcfzh(cardno);
 				thefamily.setEdit_hkxxdz(address);

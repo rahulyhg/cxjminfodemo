@@ -20,8 +20,8 @@ import org.dom4j.Element;
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
 import com.example.cxjminfodemo.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity;
-import com.example.cxjminfodemo.dto.FamilyDTO;
-import com.example.cxjminfodemo.dto.PersonalDTO;
+import com.example.cxjminfodemo.dto.Family;
+import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.utils.IDCard;
 import com.example.cxjminfodemo.utils.PersonalUtil;
 import com.example.idcardscandemo.ACameraActivity;
@@ -89,9 +89,9 @@ public class InfoPersonalActivity extends Activity {
 
 	private String tag="InfoPersonal";
 	public static final int CAMERA = 1001;
-	PersonalDTO tempPersonal;
+	Personal tempPersonal;
 	Gson gson = new Gson();
-	ArrayList<PersonalDTO> listPersonal = new ArrayList<PersonalDTO>();
+	ArrayList<Personal> listPersonal = new ArrayList<Personal>();
 
 	@Bind(R.id.edit_cbrq)
 	TextView edit_cbrq;
@@ -103,7 +103,7 @@ public class InfoPersonalActivity extends Activity {
 		setContentView(R.layout.info_personal);
 		ButterKnife.bind(InfoPersonalActivity.this);
 
-		tempPersonal = new PersonalDTO();
+		tempPersonal = new Personal();
 		initView();
 
 		fixID();
@@ -315,7 +315,7 @@ public class InfoPersonalActivity extends Activity {
 		edit_yhzgx.setSelection(0);
 		edit_xxjzdz.setText("");
 		edit_hjszd.setText("");
-		tempPersonal = new PersonalDTO();
+		tempPersonal = new Personal();
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
 	}
 

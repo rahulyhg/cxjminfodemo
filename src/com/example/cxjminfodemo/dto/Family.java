@@ -10,7 +10,7 @@ package com.example.cxjminfodemo.dto;
  * @author tengzj
  * @data 2016年8月24日 上午9:59:35
  */
-public class FamilyDTO {
+public class Family {
 
 	private String edit_gmcfzh;
 	private String edit_jgszcwh;
@@ -28,7 +28,7 @@ public class FamilyDTO {
 	 * @param string3
 	 * @param string4
 	 */
-	public FamilyDTO(String edit_gmcfzh, String edit_jgszcwh, String edit_hzxm, String edit_hjbh, String edit_lxdh) {
+	public Family(String edit_gmcfzh, String edit_jgszcwh, String edit_hzxm, String edit_hjbh, String edit_lxdh) {
 		// TODO Auto-generated constructor stub
 		this.edit_gmcfzh = edit_gmcfzh;
 		this.edit_jgszcwh = edit_jgszcwh;
@@ -40,7 +40,7 @@ public class FamilyDTO {
 	/**
 	 * 
 	 */
-	public FamilyDTO() {
+	public Family() {
 		// TODO Auto-generated constructor stub
 		this.edit_gmcfzh="";
 	}

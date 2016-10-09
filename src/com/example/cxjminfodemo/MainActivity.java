@@ -25,7 +25,6 @@ public class MainActivity extends Activity {
 
 	// image_sjsc
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
