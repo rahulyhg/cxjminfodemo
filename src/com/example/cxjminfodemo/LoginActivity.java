@@ -76,7 +76,7 @@ public class LoginActivity extends Activity {
 
 		users.add(user1);
 
-		mgr.add(users);
+		mgr.addUser(users);
 
 		List<User> persons = mgr.query();
 		Log.i("user", persons.get(0).username);

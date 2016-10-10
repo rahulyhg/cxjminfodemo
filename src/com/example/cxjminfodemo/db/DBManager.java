@@ -27,7 +27,33 @@ public class DBManager {
 	 * 
 	 * @param persons
 	 */
-	public void add(List<User> users) {
+	public void addUser(List<User> users) {
+		db.beginTransaction(); // 开始事务
+		try {
+			for (User user : users) {
+				db.execSQL("INSERT INTO user VALUES(null, ?, ?)",
+						new Object[] { user.username, user.password });
+			}
+			db.setTransactionSuccessful(); // 设置事务成功完成
+		} finally {
+			db.endTransaction(); // 结束事务
+		}
+	}
+	
+	public void addPersonal(List<User> users) {
+		db.beginTransaction(); // 开始事务
+		try {
+			for (User user : users) {
+				db.execSQL("INSERT INTO user VALUES(null, ?, ?)",
+						new Object[] { user.username, user.password });
+			}
+			db.setTransactionSuccessful(); // 设置事务成功完成
+		} finally {
+			db.endTransaction(); // 结束事务
+		}
+	}
+	
+	public void addFamily(List<User> users) {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (User user : users) {

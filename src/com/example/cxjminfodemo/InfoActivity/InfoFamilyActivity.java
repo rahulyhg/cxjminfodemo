@@ -85,8 +85,7 @@ public class InfoFamilyActivity extends Activity {
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		String hasTemp = bundle.getString("hasTemp");
-		if(hasTemp.equals("1"))
-		{
+		if (hasTemp.equals("1")) {
 			String str = bundle.getString("Family");
 			Family tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
@@ -100,8 +99,8 @@ public class InfoFamilyActivity extends Activity {
 	 */
 	private void initView() {
 		// TODO Auto-generated method stub
-		
-		//Spiner
+
+		// Spiner
 		edit_jgszcwh = (Spinner) findViewById(R.id.edit_jgszcwh);
 		ArrayList<String> data_list = new ArrayList<String>();
 		data_list.add("八里庄村");
@@ -152,22 +151,28 @@ public class InfoFamilyActivity extends Activity {
 
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
-		getDataFromEdit();
-		Handler mHandler = new Handler();
-		Runnable r = new Runnable() {
-			public void run() {
-				// do something
-				String str = gson.toJson(tempFamily);
-				FamilyUtil.saveValue(getApplicationContext(), str);
-				System.out.println("familyAct save" + gson.toJson(tempFamily));
+		if (edit_hzxm.getText().toString().isEmpty()) {
+			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
+		} else if (edit_hjbh.getText().toString().isEmpty()) {
+			Toast.makeText(getApplicationContext(), "户籍编号不能为空！", Toast.LENGTH_SHORT).show();
+		} else {
 
-				Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
-				intent.putExtra("Family", str);
-				setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
-				finish();
-			}
-		};
-		mHandler.post(r);
+			getDataFromEdit();
+			Handler mHandler = new Handler();
+			Runnable r = new Runnable() {
+				public void run() {
+					// do something
+					String str = gson.toJson(tempFamily);
+					FamilyUtil.saveValue(getApplicationContext(), str);
+					System.out.println("familyAct save" + gson.toJson(tempFamily));
+					Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
+					intent.putExtra("Family", str);
+					setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+					finish();
+				}
+			};
+			mHandler.post(r);
+		}
 	}
 
 	private void getDataFromEdit() {

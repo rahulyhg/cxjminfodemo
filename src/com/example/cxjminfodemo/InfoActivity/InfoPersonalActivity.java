@@ -75,19 +75,21 @@ public class InfoPersonalActivity extends Activity {
 	private Spinner edit_mz;
 	private Calendar calendar;
 
-	private String name="";
+	private String name = "";
 
-	private String cardno="";
+	private String cardno = "";
 
-	private String sex="";
+	private String sex = "";
 
-	private String folk="";
+	private String folk = "";
 
-	private String birthday="";
+	private String birthday = "";
 
-	private String address="";
+	private String address = "";
 
-	private String tag="InfoPersonal";
+	private String tag = "InfoPersonal";
+
+	String res = null;
 	public static final int CAMERA = 1001;
 	Personal tempPersonal;
 	Gson gson = new Gson();
@@ -138,7 +140,7 @@ public class InfoPersonalActivity extends Activity {
 				editStart = edit_gmcfzh.getSelectionStart();
 				editEnd = edit_gmcfzh.getSelectionEnd();
 				if (temp.length() == charMaxNum) {
-					String res = null;
+
 					try {
 						res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
 					} catch (ParseException e) {
@@ -239,12 +241,12 @@ public class InfoPersonalActivity extends Activity {
 			edit_gmcfzh.setText(bundle.getString("cardno"));
 			edit_xxjzdz.setText(bundle.getString("address"));
 			edit_xb.setText(bundle.getString("sex"));
-			String temp_folk=bundle.getString("folk");
-			if(temp_folk.equals("汉"))
+			String temp_folk = bundle.getString("folk");
+			if (temp_folk.equals("汉"))
 				edit_mz.setSelection(0);
-			if(temp_folk.equals("满"))
+			if (temp_folk.equals("满"))
 				edit_mz.setSelection(1);
-			if(temp_folk.equals("回"))
+			if (temp_folk.equals("回"))
 				edit_mz.setSelection(2);
 			edit_csrq.setText(bundle.getString("birthday"));
 			break;
@@ -303,7 +305,15 @@ public class InfoPersonalActivity extends Activity {
 				tempPersonal.setEdit_jf("0");
 			}
 		};
-		mHandler.post(r);
+
+		if (edit_cbrxm.getText().toString().isEmpty())
+			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
+		else if (edit_gmcfzh.getText().toString().isEmpty())
+			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
+		else if (res != "")
+			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+		else
+			mHandler.post(r);
 	}
 
 	@OnClick(R.id.btn_xyg)
@@ -350,7 +360,7 @@ public class InfoPersonalActivity extends Activity {
 						folk = item.elementTextTrim("folk");
 						birthday = item.elementTextTrim("birthday");
 						address = item.elementTextTrim("address");
-						
+
 						Log.i(tag, cardno);
 					}
 				}
@@ -363,14 +373,14 @@ public class InfoPersonalActivity extends Activity {
 			edit_gmcfzh.setText(cardno);
 			edit_xxjzdz.setText(address);
 			edit_xb.setText(sex);
-			if(folk.equals("汉"))
+			if (folk.equals("汉"))
 				edit_mz.setSelection(0);
-			if(folk.equals("满"))
+			if (folk.equals("满"))
 				edit_mz.setSelection(1);
-			if(folk.equals("回"))
+			if (folk.equals("回"))
 				edit_mz.setSelection(2);
 			edit_csrq.setText(birthday);
-			
+
 			break;
 		default:
 			break;

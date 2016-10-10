@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "user.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public DBHelper(Context context) {
 		// CursorFactory设置为null,使用默认值
@@ -34,6 +34,14 @@ public class DBHelper extends SQLiteOpenHelper {
 	// 如果DATABASE_VERSION值被改为2,系统发现现有数据库版本不同,即会调用onUpgrade
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("ALTER TABLE user ADD COLUMN other STRING");
+		db.execSQL("CREATE TABLE IF NOT EXISTS personal"
+				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, edit_cbrxm VARCHAR, edit_gmcfzh VARCHAR,"
+				+ " edit_mz VARCHAR, edit_xb VARCHAR, edit_csrq VARCHAR, edit_cbrq VARCHAR, "
+				+ "edit_cbrylb VARCHAR, edit_jf VARCHAR)");
+
+		db.execSQL("CREATE TABLE IF NOT EXISTS family"
+				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, edit_gmcfzh VARCHAR, edit_jgszcwh VARCHAR, "
+				+ "edit_hzxm VARCHAR, edit_hjbh VARCHAR, edit_lxdh VARCHAR, edit_dzyx VARCHAR, "
+				+ "edit_yzbm VARCHAR, edit_cjqtbxrs VARCHAR, edit_hkxxdz VARCHAR)");
 	}
 }
