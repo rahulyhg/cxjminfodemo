@@ -74,7 +74,17 @@ public class Family {
 	 */
 	public Family() {
 		// TODO Auto-generated constructor stub
+		this.edit_jhzzjlx="";
 		this.edit_gmcfzh="";
+		this.edit_jgszcwh="";
+		this.edit_hzxm="";
+		this.edit_hjbh="";
+		this.edit_lxdh="";
+		this.edit_dzyx="";
+		this.edit_yzbm="";
+		this.edit_cjqtbxrs="";
+		this.edit_hkxxdz="";
+		this.edit_djrq="";
 		this.isEdit=  "0";
 		this.isUpload=  "0";
 	}
