@@ -2,5 +2,8 @@
 <resources>
 
     <string name="app_name">城乡居民采集系统demo</string>
+       <!--保存信息按钮触发效果  -->
+    <drawable name="unchecked">#64d406</drawable>  
+    <drawable name="checked">#A7F50A</drawable>
 
 </resources>

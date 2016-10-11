@@ -38,7 +38,7 @@ import butterknife.OnClick;
 public class InfoFamilyActivity extends Activity {
 
 	/********** DECLARES *************/
-
+	private Spinner edit_jhzzjlx;
 	private Spinner edit_jgszcwh;
 	private EditText edit_hzxm;
 	private EditText edit_hjbh;
@@ -101,7 +101,9 @@ public class InfoFamilyActivity extends Activity {
 		// TODO Auto-generated method stub
 
 		// Spiner
+		
 		edit_jgszcwh = (Spinner) findViewById(R.id.edit_jgszcwh);
+		
 		ArrayList<String> data_list = new ArrayList<String>();
 		data_list.add("八里庄村");
 		data_list.add("古屯村");
@@ -112,7 +114,26 @@ public class InfoFamilyActivity extends Activity {
 		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// 加载适配器
 		edit_jgszcwh.setAdapter(arr_adapter);
+		
+		
+		/*户主证件类型spiner*/
+		edit_jhzzjlx = (Spinner) findViewById(R.id.edit_jhzzjlx);
+		ArrayList<String> data_list1 = new ArrayList<String>();
+		data_list1.add("居民身份证（户口簿）");
+		data_list1.add("中国人民解放军军官证");
+		data_list1.add("中国人民武装警察警官证");
+		data_list1.add("香港特区护照/身份证明");
+		data_list1.add("澳门特区护照/身份证明");
+		data_list1.add("台湾居民来往大陆通行证");
+		data_list1.add("外国人护照");
+		ArrayAdapter<String> arr_adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+				data_list1);
+		// 设置样式
+		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		edit_jhzzjlx.setAdapter(arr_adapter1);
+		
 
+		
 		edit_hzxm = (EditText) findViewById(R.id.edit_hzxm);
 		edit_hjbh = (EditText) findViewById(R.id.edit_hjbh);
 		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);

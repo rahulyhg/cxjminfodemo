@@ -61,14 +61,15 @@ public class InfoPersonalActivity extends Activity {
 	private EditText edit_jtbh;
 	private EditText edit_cbrxm;
 	private EditText edit_gmcfzh;
-	private TextView edit_xb;
 	private TextView edit_csrq;
 	private TextView edit_xxjzdz;
-	private TextView edit_hjszd;
+	private TextView edit_hzsfz;
 	private LinearLayout btn_save;
 	private LinearLayout btn_xjzf;
 	private LinearLayout btn_zxzf;
 	private LinearLayout btn_xyg;
+	private Spinner edit_zjlx;
+	private Spinner edit_xb;
 	private Spinner edit_yhzgx;
 	private Spinner edit_cbrylb;
 	private Spinner edit_hkxz;
@@ -88,6 +89,7 @@ public class InfoPersonalActivity extends Activity {
 	private String address = "";
 
 	private String tag = "InfoPersonal";
+	
 
 	String res = null;
 	public static final int CAMERA = 1001;
@@ -97,6 +99,7 @@ public class InfoPersonalActivity extends Activity {
 
 	@Bind(R.id.edit_cbrq)
 	TextView edit_cbrq;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +153,7 @@ public class InfoPersonalActivity extends Activity {
 
 					if (res == "") {
 						edit_csrq.setText(IDCard.printDate());
-						edit_xb.setText(IDCard.printSex());
+					/*	edit_xb.setText(IDCard.printSex());*/
 					} else
 						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
 				}
@@ -168,17 +171,20 @@ public class InfoPersonalActivity extends Activity {
 	/********** INITIALIZES *************/
 
 	public void initView() {
+		
 		edit_cbrxm = (EditText) findViewById(R.id.edit_cbrxm);
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
-		edit_xb = (TextView) findViewById(R.id.edit_xb);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
 		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
-		edit_hjszd = (TextView) findViewById(R.id.edit_hjszd);
+		edit_hzsfz = (TextView) findViewById(R.id.edit_hzsfz);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
 		ArrayList<String> data_list = new ArrayList<String>();
-		data_list.add("家属");
 		data_list.add("户主");
+		data_list.add("夫妻");
+		data_list.add("父母");
+		data_list.add("子女");
+		data_list.add("其他");
 		// 适配器
 		ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list);
@@ -188,7 +194,21 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner2
 		edit_cbrylb = (Spinner) findViewById(R.id.edit_cbrylb);
 		ArrayList<String> data_list2 = new ArrayList<String>();
+
 		data_list2.add("普通城乡居民");
+		data_list2.add("重残城乡居民");
+		data_list2.add("低保城乡居民");
+		data_list2.add("五保供养城乡居民");
+		data_list2.add("低收入家庭60岁以上老年人");
+		data_list2.add("五保供养大学生");
+		data_list2.add("重度残疾大学生");
+		data_list2.add("低保大学生");
+		data_list2.add("普通大学生");
+		data_list2.add("五保供养中小学生");
+		data_list2.add("重度残疾中小学生");
+		data_list2.add("低保中小学生");
+		data_list2.add("普通中小学生");
+		
 		ArrayAdapter<String> arr_adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list2);
 		arr_adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -197,8 +217,14 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner3
 		edit_hkxz = (Spinner) findViewById(R.id.edit_hkxz);
 		ArrayList<String> data_list3 = new ArrayList<String>();
-		data_list3.add("非农业户口（城镇）");
 		data_list3.add("农业户口（农村）");
+		data_list3.add("非农业户口（城镇）");
+		data_list3.add("本地非农业户口（本地城镇）");
+		data_list3.add("外地非农业户口（外地城镇）");
+		data_list3.add("本地农业户口（本地农村）");
+		data_list3.add("外地农业户口（外地农村）");
+		data_list3.add("港澳台");
+		data_list3.add("外籍");
 		ArrayAdapter<String> arr_adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list3);
 		arr_adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -215,6 +241,30 @@ public class InfoPersonalActivity extends Activity {
 				data_list4);
 		arr_adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		edit_mz.setAdapter(arr_adapter4);
+		// Spiner5
+		edit_xb = (Spinner) findViewById(R.id.edit_xb);
+		ArrayList<String> data_list5 = new ArrayList<String>();
+		data_list5.add("男");
+		data_list5.add("女");
+		data_list5.add("未说明性别");
+		ArrayAdapter<String> arr_adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+				data_list5);
+		arr_adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		edit_xb.setAdapter(arr_adapter5);
+		// Spiner6
+		edit_zjlx = (Spinner) findViewById(R.id.edit_zjlx);
+		ArrayList<String> data_list6 = new ArrayList<String>();
+		data_list6.add("居民身份证（户口簿）");
+		data_list6.add("中国人民解放军军官证");
+		data_list6.add("中国人民武装警察警官证");
+		data_list6.add("香港特区护照/身份证明");
+		data_list6.add("澳门特区护照/身份证明");
+		data_list6.add("台湾居民来往大陆通行证");
+		data_list6.add("外国人护照");
+		ArrayAdapter<String> arr_adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+				data_list6);
+		arr_adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		edit_zjlx.setAdapter(arr_adapter6);
 
 		// 日期
 		calendar = Calendar.getInstance();
@@ -240,7 +290,7 @@ public class InfoPersonalActivity extends Activity {
 			edit_cbrxm.setText(bundle.getString("name"));
 			edit_gmcfzh.setText(bundle.getString("cardno"));
 			edit_xxjzdz.setText(bundle.getString("address"));
-			edit_xb.setText(bundle.getString("sex"));
+			/*edit_xb.setText(bundle.getString("sex"));*/
 			String temp_folk = bundle.getString("folk");
 			if (temp_folk.equals("汉"))
 				edit_mz.setSelection(0);
@@ -320,11 +370,11 @@ public class InfoPersonalActivity extends Activity {
 	public void toNextActivity() {
 		edit_cbrxm.setText("");
 		edit_gmcfzh.setText("");
-		edit_xb.setText("");
+		/*edit_xb.setText("");*/
 		edit_csrq.setText("");
 		edit_yhzgx.setSelection(0);
 		edit_xxjzdz.setText("");
-		edit_hjszd.setText("");
+		edit_hzsfz.setText("");
 		tempPersonal = new Personal();
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
 	}
@@ -372,7 +422,7 @@ public class InfoPersonalActivity extends Activity {
 			edit_cbrxm.setText(name);
 			edit_gmcfzh.setText(cardno);
 			edit_xxjzdz.setText(address);
-			edit_xb.setText(sex);
+			/*edit_xb.setText(sex);*/
 			if (folk.equals("汉"))
 				edit_mz.setSelection(0);
 			if (folk.equals("满"))
@@ -391,7 +441,7 @@ public class InfoPersonalActivity extends Activity {
 		// TODO Auto-generated method stub
 		tempPersonal.setEdit_cbrxm(edit_cbrxm.getText().toString());
 		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
-		tempPersonal.setEdit_xb(edit_xb.getText().toString());
+		/*tempPersonal.setEdit_xb(edit_xb.getText().toString());*/
 		tempPersonal.setEdit_csrq(edit_csrq.getText().toString());
 		tempPersonal.setEdit_cbrq(edit_cbrq.getText().toString());
 		listPersonal.add(tempPersonal);
