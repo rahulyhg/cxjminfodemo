@@ -11,6 +11,7 @@ import java.util.List;
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
+import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.dto.User;
 
 import android.app.Activity;
@@ -77,29 +78,94 @@ public class LoginActivity extends Activity {
 		mgr.addUser(users);
 		List<User> persons = mgr.queryUser();
 		Log.i("user", persons.get(0).username);
-		
-		//130322199204061011
+
 		ArrayList<Family> familys = new ArrayList<Family>();
-		int i=0;
-		while(i<10)
-		{
-			Family family = new Family();
-			family.setEdit_gmcfzh("330702199402180816");
-			family.setEdit_cjqtbxrs("1");
-			family.setEdit_lxdh("1");
-			familys.add(family);
+		Family family = new Family();
+		family.setEdit_gmcfzh("330702199402180816");
+		family.setEdit_hzxm("滕真久");
+		family.setEdit_jhzzjlx("1");
+		family.setEdit_cjqtbxrs("1");
+		family.setEdit_lxdh("1");
+		family.setEdit_djrq("2016");
+		familys.add(family);
+
+		Family family1 = new Family();
+		family1.setEdit_gmcfzh("130322199204061011");
+		family1.setEdit_hzxm("吴林鸿");
+		family1.setEdit_jhzzjlx("1");
+		family1.setEdit_cjqtbxrs("1");
+		family1.setEdit_lxdh("1");
+		family1.setEdit_djrq("2016");
+		familys.add(family1);
+		mgr.addFamily(familys);
+
+		ArrayList<Personal> personals = new ArrayList<Personal>();
+		int i = 0;
+
+		// Integer.parseInt(a);
+		while (i < 10) {
+			Personal personal = new Personal();
+			personal.setEdit_cbrxm(String.valueOf(i));
+			personal.setEdit_gmcfzh(String.valueOf(i));
+			i++;
+
+			personal.setEdit_zjlx("1");
+			personal.setEdit_mz("1");
+			personal.setEdit_xb("男");
+			personal.setEdit_cbrq("2016");
+			personal.setEdit_cbrylb("1");
+			personal.setEdit_csrq("2016");
+			personal.setHZSFZ("330702199402180816");
+			personals.add(personal);
 		}
 		
-		mgr.addFamily(familys);
+
+		i = 0;
+		// Integer.parseInt(a);
+		while (i < 10) {
+			Personal personal1 = new Personal();
+			personal1.setEdit_cbrxm(String.valueOf(i));
+			personal1.setEdit_gmcfzh(String.valueOf(i));
+			i++;
+
+			personal1.setEdit_zjlx("1");
+			personal1.setEdit_mz("1");
+			personal1.setEdit_xb("男");
+			personal1.setEdit_cbrq("2016");
+			personal1.setEdit_cbrylb("1");
+			personal1.setEdit_csrq("2016");
+			personal1.setHZSFZ("130322199204061011");
+			personals.add(personal1);
+		}
+		mgr.addPersonal(personals);
 		
-		/*getEdit_hzxm	AAB400	户主姓名	Varchar2	50	√	
-					AAC058	户主证件类型	Varchar2	3	√	见代码表
-	getEdit_gmcfzh	AAE135	户主证件号码	Varchar2	20	√	
-					AAB401	户籍编号	Varchar2	20		
-	getEdit_cjqtbxrs	BAB041	参保人数	number	3		
-	getEdit_lxdh	AAE005	联系电话	Varchar2	50		
-	getEdit_hkxxdz	AAE006	住址	Varchar2	100		
-	getEdit_djrq	AAB050	登记日期	Varchar2	10	√	格式：yyyymmdd*/
+		Personal personal2 = new Personal();
+		personal2.setId(5);
+		personal2.setEdit_cbrxm(String.valueOf(100));
+		personal2.setEdit_gmcfzh(String.valueOf(100));
+		personal2.setEdit_zjlx("1");
+		personal2.setEdit_mz("1");
+		personal2.setEdit_xb("女");
+		personal2.setEdit_cbrq("2016");
+		personal2.setEdit_cbrylb("1");
+		personal2.setEdit_csrq("2016");
+		personal2.setHZSFZ("130322199204061011");
+		personals.add(personal2);
+		mgr.updatePersonal(personal2);
+		
+		Personal personal3 = new Personal();
+		personal3.setId(1);
+		personal3.setEdit_cbrxm(String.valueOf(1));
+		personal3.setEdit_gmcfzh(String.valueOf(1));
+		personal3.setEdit_zjlx("1");
+		personal3.setEdit_mz("1");
+		personal3.setEdit_xb("男");
+		personal3.setEdit_cbrq("2016");
+		personal3.setEdit_cbrylb("1");
+		personal3.setEdit_csrq("2016");
+		personal3.setHZSFZ("130322199204061011");
+		personals.add(personal3);
+		mgr.deletePersonal(personal3);
 	}
 
 	@Override

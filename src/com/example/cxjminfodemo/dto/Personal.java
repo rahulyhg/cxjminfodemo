@@ -28,14 +28,30 @@ public class Personal {
 	public String edit_xxjzdz;
 	public String edit_hkxz;
 	public String HZSFZ;
-	public String isEdit;//0未修改 1修改了
-	public String isUpload;//0w未上传 1已上传
+	public String isEdit;// 0未修改 1修改了
+	public String isUpload;// 0w未上传 1已上传
 
 	public Personal() {
+
+		this.edit_lxdh = "";
+		this.edit_zjlx = "";
+		this.edit_cbrxm = "";
+		this.edit_gmcfzh = "";
+		this.edit_mz = "";
+		this.edit_xb = "";
+		this.edit_csrq = "";
+		this.edit_cbrq = "";
+		this.edit_cbrylb = "";
+
+		this.edit_yhzgx = "";
+		this.edit_xxjzdz = "";
+		this.edit_hkxz = "";
+		this.HZSFZ = "";
 		// 默认未交费
+
 		this.edit_jf = "0";
-		this.isEdit=  "0";
-		this.isUpload=  "0";
+		this.isEdit = "0";
+		this.isUpload = "0";
 	}
 
 	/**
