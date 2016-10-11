@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
 序号	字段名称	描述	类型	长度	非空	备注
 				AAB999	家庭编号	Varchar2	16		为空代表新登记家庭
 getEdit_hzxm	AAB400	户主姓名	Varchar2	50	√	
-				AAC058	户主证件类型	Varchar2	3	√	见代码表
+getEdit_jhzzjlx	AAC058	户主证件类型	Varchar2	3	√	见代码表
 getEdit_gmcfzh	AAE135	户主证件号码	Varchar2	20	√	
 				AAB401	户籍编号	Varchar2	20		
 getEdit_cjqtbxrs	BAB041	参保人数	number	3		
@@ -30,7 +30,7 @@ getEdit_djrq	AAB050	登记日期	Varchar2	10	√	格式：yyyymmdd
 序号	字段名称	描述	类型	长度	非空	备注
 				AAC999	个人编号	Varchar2	16		为空代表新登记人员
 getEdit_cbrxm	AAC003	姓名	Varchar2	50	√	
-				AAC058	证件类型	Varchar2	3	√	见代码表
+getEdit_zjlx	AAC058	证件类型	Varchar2	3	√	见代码表
 getEdit_gmcfzh	AAE135	公民身份号码	Varchar2	20	√	
 getEdit_mz		AAC005	民族	Varchar2	3	√	见代码表
 	
@@ -40,7 +40,7 @@ getEdit_cbrylb	BAC067	参保人员类别	Varchar2	3	√	见代码表
 getEdit_cbrq	AAC030	登记日期	Varchar2	10	√	格式：yyyymmdd
 getEdit_yhzgx	AAC069	与户主关系	Varchar2	3		见代码表
 	
-				AAE005	联系电话	Varchar2	50		
+getEdit_lxdh	AAE005	联系电话	Varchar2	50		
 getEdit_xxjzdz	AAE006	住址	Varchar2	100		
 getEdit_hkxz	AAC009	户口性质	Varchar2	3		见代码表
 getHZSFZ		HZSFZ	户主身份号码	Varchar2	20	√	*/
@@ -81,9 +81,9 @@ public class DBManager {
 			for (Personal personal : personals) {
 				//14个字段
 				db.execSQL("INSERT INTO user VALUES(null, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?)",
-						new Object[] { null,personal.getEdit_cbrxm(), null,personal.getEdit_gmcfzh(),personal.getEdit_mz(),
+						new Object[] { null,personal.getEdit_cbrxm(), personal.getEdit_zjlx(),personal.getEdit_gmcfzh(),personal.getEdit_mz(),
 								personal.getEdit_xb(),personal.getEdit_csrq(),personal.getEdit_cbrylb(),personal.getEdit_cbrq(),personal.getEdit_yhzgx(),
-								null,personal.getEdit_xxjzdz(),personal.getEdit_hkxz(),personal.getHZSFZ()});
+								personal.getEdit_lxdh(),personal.getEdit_xxjzdz(),personal.getEdit_hkxz(),personal.getHZSFZ()});
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -97,7 +97,7 @@ public class DBManager {
 			//9个字段	
 			for (Family family : familys) {
 				db.execSQL("INSERT INTO user VALUES(null, ?,?,?,?,?   ,?,?,?,?)",
-						new Object[] { null,family.getEdit_hzxm(), null,family.getEdit_gmcfzh(),null,
+						new Object[] { null,family.getEdit_hzxm(), family.getEdit_jhzzjlx(),family.getEdit_gmcfzh(),null,
 								family.getEdit_cjqtbxrs(),family.getEdit_lxdh(),family.getEdit_hkxxdz(),family.getEdit_djrq()});
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
@@ -111,10 +111,13 @@ public class DBManager {
 	 * 
 	 * @param family
 	 */
+
+	
 	public void updateFamily(Family family) {
 		ContentValues cv = new ContentValues();
 		cv.put("AAB400", family.getEdit_hzxm());
 		cv.put("AAE135", family.getEdit_gmcfzh());
+		cv.put("AAC058", family.getEdit_jhzzjlx());
 		cv.put("BAB041", family.getEdit_cjqtbxrs());
 		cv.put("AAE005", family.getEdit_lxdh());
 		cv.put("AAE006", family.getEdit_hkxxdz());
@@ -145,6 +148,9 @@ public class DBManager {
 		cv.put("AAE006", personal.getEdit_xxjzdz());
 		cv.put("AAC009", personal.getEdit_hkxz());
 		cv.put("HZSFZ", personal.getHZSFZ());
+		
+		cv.put("AAC058", personal.getEdit_zjlx());
+		cv.put("AAE005", personal.getEdit_lxdh());
 		
 		cv.put("ISEDIT", personal.getIsEdit());
 		cv.put("ISUPLOAD", personal.getIsUpload());
@@ -229,6 +235,7 @@ public class DBManager {
 			family.id = c.getInt(c.getColumnIndex("_id"));
 			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
 			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
+			family.edit_jhzzjlx = c.getString(c.getColumnIndex("AAC058"));
 			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
 			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
 			family.edit_hkxxdz= c.getString(c.getColumnIndex("AAE006"));
@@ -257,7 +264,6 @@ public class DBManager {
 	getEdit_xxjzdz	AAE006	住址	Varchar2	100		
 	getEdit_hkxz	AAC009	户口性质	Varchar2	3		见代码表
 	getHZSFZ		HZSFZ	户主身份号码	Varchar2	20	√	*/
-	
 	public List<Personal> queryPersonal() {
 		ArrayList<Personal> personals = new ArrayList<Personal>();
 		Cursor c = queryTheCursor();
@@ -275,6 +281,9 @@ public class DBManager {
 			personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 			personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
 			personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
+			
+			personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
+			personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
 			personals.add(personal);
 		}
 		c.close();

@@ -216,10 +216,11 @@ public class Family {
 
 	@Override
 	public String toString() {
-		return "Family [id=" + id + ", edit_gmcfzh=" + edit_gmcfzh + ", edit_jgszcwh=" + edit_jgszcwh + ", edit_hzxm="
-				+ edit_hzxm + ", edit_hjbh=" + edit_hjbh + ", edit_lxdh=" + edit_lxdh + ", edit_dzyx=" + edit_dzyx
-				+ ", edit_yzbm=" + edit_yzbm + ", edit_cjqtbxrs=" + edit_cjqtbxrs + ", edit_hkxxdz=" + edit_hkxxdz
-				+ ", edit_djrq=" + edit_djrq + ", isEdit=" + isEdit + ", isUpload=" + isUpload + "]";
+		return "Family [id=" + id + ", edit_jhzzjlx=" + edit_jhzzjlx + ", edit_gmcfzh=" + edit_gmcfzh
+				+ ", edit_jgszcwh=" + edit_jgszcwh + ", edit_hzxm=" + edit_hzxm + ", edit_hjbh=" + edit_hjbh
+				+ ", edit_lxdh=" + edit_lxdh + ", edit_dzyx=" + edit_dzyx + ", edit_yzbm=" + edit_yzbm
+				+ ", edit_cjqtbxrs=" + edit_cjqtbxrs + ", edit_hkxxdz=" + edit_hkxxdz + ", edit_djrq=" + edit_djrq
+				+ ", isEdit=" + isEdit + ", isUpload=" + isUpload + "]";
 	}
 
 	public String getEdit_djrq() {
@@ -252,6 +253,14 @@ public class Family {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getEdit_jhzzjlx() {
+		return edit_jhzzjlx;
+	}
+
+	public void setEdit_jhzzjlx(String edit_jhzzjlx) {
+		this.edit_jhzzjlx = edit_jhzzjlx;
 	}
 
 }

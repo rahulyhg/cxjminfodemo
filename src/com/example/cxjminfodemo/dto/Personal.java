@@ -145,11 +145,12 @@ public class Personal {
 
 	@Override
 	public String toString() {
-		return "Personal [id=" + id + ", edit_cbrxm=" + edit_cbrxm + ", edit_gmcfzh=" + edit_gmcfzh + ", edit_mz="
-				+ edit_mz + ", edit_xb=" + edit_xb + ", edit_csrq=" + edit_csrq + ", edit_cbrq=" + edit_cbrq
-				+ ", edit_cbrylb=" + edit_cbrylb + ", edit_jf=" + edit_jf + ", edit_yhzgx=" + edit_yhzgx
-				+ ", edit_xxjzdz=" + edit_xxjzdz + ", edit_hkxz=" + edit_hkxz + ", HZSFZ=" + HZSFZ + ", isEdit="
-				+ isEdit + ", isUpload=" + isUpload + "]";
+		return "Personal [id=" + id + ", edit_lxdh=" + edit_lxdh + ", edit_zjlx=" + edit_zjlx + ", edit_cbrxm="
+				+ edit_cbrxm + ", edit_gmcfzh=" + edit_gmcfzh + ", edit_mz=" + edit_mz + ", edit_xb=" + edit_xb
+				+ ", edit_csrq=" + edit_csrq + ", edit_cbrq=" + edit_cbrq + ", edit_cbrylb=" + edit_cbrylb
+				+ ", edit_jf=" + edit_jf + ", edit_yhzgx=" + edit_yhzgx + ", edit_xxjzdz=" + edit_xxjzdz
+				+ ", edit_hkxz=" + edit_hkxz + ", HZSFZ=" + HZSFZ + ", isEdit=" + isEdit + ", isUpload=" + isUpload
+				+ "]";
 	}
 
 	/**
@@ -221,5 +222,21 @@ public class Personal {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getEdit_lxdh() {
+		return edit_lxdh;
+	}
+
+	public void setEdit_lxdh(String edit_lxdh) {
+		this.edit_lxdh = edit_lxdh;
+	}
+
+	public String getEdit_zjlx() {
+		return edit_zjlx;
+	}
+
+	public void setEdit_zjlx(String edit_zjlx) {
+		this.edit_zjlx = edit_zjlx;
 	}
 }
