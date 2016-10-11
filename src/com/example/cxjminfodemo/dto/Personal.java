@@ -13,22 +13,22 @@ import android.widget.EditText;
  * @data 2016年8月24日 上午10:00:19
  */
 public class Personal {
-	private Integer id;
+	public Integer id;
 	
-	private String edit_cbrxm;
-	private String edit_gmcfzh;
-	private String edit_mz;
-	private String edit_xb;
-	private String edit_csrq;
-	private String edit_cbrq;
-	private String edit_cbrylb;
-	private String edit_jf;
-	private String edit_yhzgx;
-	private String edit_xxjzdz;
-	private String edit_hkxz;
-	private String HZSFZ;
-	private String isEdit;//0未修改 1修改了
-	private String isUpload;//0w未上传 1已上传
+	public String edit_cbrxm;
+	public String edit_gmcfzh;
+	public String edit_mz;
+	public String edit_xb;
+	public String edit_csrq;
+	public String edit_cbrq;
+	public String edit_cbrylb;
+	public String edit_jf;
+	public String edit_yhzgx;
+	public String edit_xxjzdz;
+	public String edit_hkxz;
+	public String HZSFZ;
+	public String isEdit;//0未修改 1修改了
+	public String isUpload;//0w未上传 1已上传
 
 	public Personal() {
 		// 默认未交费

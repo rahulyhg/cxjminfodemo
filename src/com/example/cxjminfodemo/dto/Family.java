@@ -27,20 +27,20 @@ import android.R.integer;
 	AAB050	登记日期	Varchar2	10	√	格式：yyyymmdd*/
 
 public class Family {
-	private Integer id; 
+	public Integer id; 
 	
-	private String edit_gmcfzh;
-	private String edit_jgszcwh;
-	private String edit_hzxm;
-	private String edit_hjbh;
-	private String edit_lxdh;
-	private String edit_dzyx;
-	private String edit_yzbm;
-	private String edit_cjqtbxrs;
-	private String edit_hkxxdz;
-	private String edit_djrq;
-	private String isEdit; //0未修改 1修改了
-	private String isUpload;//0w未上传 1已上传
+	public String edit_gmcfzh;
+	public String edit_jgszcwh;
+	public String edit_hzxm;
+	public String edit_hjbh;
+	public String edit_lxdh;
+	public String edit_dzyx;
+	public String edit_yzbm;
+	public String edit_cjqtbxrs;
+	public String edit_hkxxdz;
+	public String edit_djrq;
+	public String isEdit; //0未修改 1修改了
+	public String isUpload;//0w未上传 1已上传
 
 	/**
 	 * @param string
