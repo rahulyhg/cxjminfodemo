@@ -13,6 +13,8 @@ import android.widget.EditText;
  * @data 2016年8月24日 上午10:00:19
  */
 public class Personal {
+	private Integer id;
+	
 	private String edit_cbrxm;
 	private String edit_gmcfzh;
 	private String edit_mz;
@@ -21,14 +23,20 @@ public class Personal {
 	private String edit_cbrq;
 	private String edit_cbrylb;
 	private String edit_jf;
+	private String edit_yhzgx;
+	private String edit_xxjzdz;
+	private String edit_hkxz;
+	private String HZSFZ;
+	private String isEdit;//0未修改 1修改了
+	private String isUpload;//0w未上传 1已上传
 
-	 public Personal()
-	 {
-		 //默认未交费
-		 this.edit_jf="0";
-	 }
-	
-	
+	public Personal() {
+		// 默认未交费
+		this.edit_jf = "0";
+		this.isEdit=  "0";
+		this.isUpload=  "0";
+	}
+
 	/**
 	 * @return the edit_cbrxm
 	 */
@@ -134,14 +142,13 @@ public class Personal {
 		this.edit_cbrylb = edit_cbrylb;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "PersonalDTO [edit_cbrxm=" + edit_cbrxm + ", edit_gmcfzh=" + edit_gmcfzh + ", edit_mz=" + edit_mz
-				+ ", edit_xb=" + edit_xb + ", edit_csrq=" + edit_csrq + ", edit_cbrq=" + edit_cbrq + ", edit_cbrylb="
-				+ edit_cbrylb + "]";
+		return "Personal [id=" + id + ", edit_cbrxm=" + edit_cbrxm + ", edit_gmcfzh=" + edit_gmcfzh + ", edit_mz="
+				+ edit_mz + ", edit_xb=" + edit_xb + ", edit_csrq=" + edit_csrq + ", edit_cbrq=" + edit_cbrq
+				+ ", edit_cbrylb=" + edit_cbrylb + ", edit_jf=" + edit_jf + ", edit_yhzgx=" + edit_yhzgx
+				+ ", edit_xxjzdz=" + edit_xxjzdz + ", edit_hkxz=" + edit_hkxz + ", HZSFZ=" + HZSFZ + ", isEdit="
+				+ isEdit + ", isUpload=" + isUpload + "]";
 	}
 
 	/**
@@ -152,9 +159,66 @@ public class Personal {
 	}
 
 	/**
-	 * @param edit_jf the edit_jf to set
+	 * @param edit_jf
+	 *            the edit_jf to set
 	 */
 	public void setEdit_jf(String edit_jf) {
 		this.edit_jf = edit_jf;
+	}
+
+	public String getEdit_yhzgx() {
+		return edit_yhzgx;
+	}
+
+	public void setEdit_yhzgx(String edit_yhzgx) {
+		this.edit_yhzgx = edit_yhzgx;
+	}
+
+	public String getEdit_xxjzdz() {
+		return edit_xxjzdz;
+	}
+
+	public void setEdit_xxjzdz(String edit_xxjzdz) {
+		this.edit_xxjzdz = edit_xxjzdz;
+	}
+
+	public String getEdit_hkxz() {
+		return edit_hkxz;
+	}
+
+	public void setEdit_hkxz(String edit_hkxz) {
+		this.edit_hkxz = edit_hkxz;
+	}
+
+	public String getHZSFZ() {
+		return HZSFZ;
+	}
+
+	public void setHZSFZ(String hZSFZ) {
+		HZSFZ = hZSFZ;
+	}
+
+	public String getIsEdit() {
+		return isEdit;
+	}
+
+	public void setIsEdit(String isEdit) {
+		this.isEdit = isEdit;
+	}
+
+	public String getIsUpload() {
+		return isUpload;
+	}
+
+	public void setIsUpload(String isUpload) {
+		this.isUpload = isUpload;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
