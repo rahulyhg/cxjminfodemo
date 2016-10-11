@@ -14,7 +14,8 @@ import android.widget.EditText;
  */
 public class Personal {
 	public Integer id;
-	
+	public String edit_lxdh;
+	public String edit_zjlx;
 	public String edit_cbrxm;
 	public String edit_gmcfzh;
 	public String edit_mz;

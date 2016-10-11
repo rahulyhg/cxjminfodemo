@@ -28,7 +28,7 @@ import android.R.integer;
 
 public class Family {
 	public Integer id; 
-	
+	public String edit_jhzzjlx;
 	public String edit_gmcfzh;
 	public String edit_jgszcwh;
 	public String edit_hzxm;
@@ -47,6 +47,18 @@ public class Family {
 	 * @param string2
 	 * @param string3
 	 * @param string4
+	 * 	/*
+	家庭信息
+	序号	字段名称	描述	类型	长度	非空	备注
+					AAB999	家庭编号	Varchar2	16		为空代表新登记家庭
+	getEdit_hzxm	AAB400	户主姓名	Varchar2	50	√	
+					AAC058	户主证件类型	Varchar2	3	√	见代码表
+	getEdit_gmcfzh	AAE135	户主证件号码	Varchar2	20	√	
+					AAB401	户籍编号	Varchar2	20		
+	getEdit_cjqtbxrs	BAB041	参保人数	number	3		
+	getEdit_lxdh	AAE005	联系电话	Varchar2	50		
+	getEdit_hkxxdz	AAE006	住址	Varchar2	100		
+	getEdit_djrq	AAB050	登记日期	Varchar2	10	√	格式：yyyymmdd
 	 */
 	public Family(String edit_gmcfzh, String edit_jgszcwh, String edit_hzxm, String edit_hjbh, String edit_lxdh) {
 		// TODO Auto-generated constructor stub
