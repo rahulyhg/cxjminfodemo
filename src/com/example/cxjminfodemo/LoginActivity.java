@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +58,10 @@ public class LoginActivity extends Activity {
 	@Bind(R.id.image_left)
 	ImageView image_left;
 
+	private EditText edit_user;
+
+	private EditText edit_pw;
+
 	/********** INITIALIZES *************/
 
 	/*
@@ -69,6 +74,9 @@ public class LoginActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		
+		initView();
+		initData();
 		ButterKnife.bind(LoginActivity.this);
 		mgr = new DBManager(this);
 
@@ -139,6 +147,7 @@ public class LoginActivity extends Activity {
 		}
 		mgr.addPersonal(personals);
 		
+		
 		Personal personal2 = new Personal();
 		personal2.setId(5);
 		personal2.setEdit_cbrxm(String.valueOf(100));
@@ -168,6 +177,17 @@ public class LoginActivity extends Activity {
 		mgr.deletePersonal(personal3);
 	}
 
+	private void initView() {
+		edit_user = (EditText) findViewById(R.id.edit_user);
+		edit_pw = (EditText) findViewById(R.id.edit_pw);
+	}
+
+	private void initData() {
+		
+		
+	}
+
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -183,7 +203,11 @@ public class LoginActivity extends Activity {
 
 	@OnClick(R.id.btn_login)
 	public void toInfoMainActivity() {
+		String userName = edit_user.getText().toString().trim();
+		String passWord = edit_pw.getText().toString().trim();
+		
 		Intent intent = new Intent(this, InfoMainActivity.class);
 		startActivity(intent);
+		
 	}
 }
