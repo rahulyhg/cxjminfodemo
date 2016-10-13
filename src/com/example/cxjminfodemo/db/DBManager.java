@@ -291,7 +291,6 @@ public class DBManager {
 		c.close();
 		return personals;
 	}
-
 	/**
 	 * query all persons, return cursor
 	 * 
@@ -308,5 +307,8 @@ public class DBManager {
 	public void closeDB() {
 		db.close();
 	}
+	 
+	
+	
 
 }

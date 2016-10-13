@@ -2,7 +2,7 @@ package com.example.cxjminfodemo.utils;
 
 import java.security.MessageDigest;
 
-public class MD5Utils {
+public class MD5Util {
 	public static String encode(String str){
 		try {
 			MessageDigest digest = MessageDigest.getInstance("md5");
