@@ -50,7 +50,7 @@ public class InfoFamilyActivity extends Activity {
 	private Calendar calendar;
 
 	private DBManager mgr;
-
+	String hasTemp;
 	private Family defaultFamily = new Family("11111", "XXX", "张三", "123456", "123456");
 	Gson gson = new Gson();
 
@@ -64,7 +64,7 @@ public class InfoFamilyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_family);
 		ButterKnife.bind(InfoFamilyActivity.this);
-
+		mgr = new DBManager(this);
 		calendar = Calendar.getInstance();
 
 		initView();
@@ -86,7 +86,7 @@ public class InfoFamilyActivity extends Activity {
 		// TODO Auto-generated method stub
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
-		String hasTemp = bundle.getString("hasTemp");
+		hasTemp = bundle.getString("hasTemp");
 		if (hasTemp.equals("1")) {
 			String str = bundle.getString("Family");
 			Family tempFamily = gson.fromJson(str, Family.class);
@@ -94,6 +94,48 @@ public class InfoFamilyActivity extends Activity {
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 		}
+		if (hasTemp.equals("2")) {
+			String str = bundle.getString("Family");
+			Family tempFamily = gson.fromJson(str, Family.class);
+			edit_hzxm.setText(tempFamily.getEdit_hzxm());
+			edit_yzbm.setText(tempFamily.getEdit_yzbm());
+			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
+
+			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
+			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
+			edit_lxdh.setText(tempFamily.edit_lxdh);
+			edit_djrq.setText(tempFamily.edit_djrq);
+			mgr.deleteFamily(tempFamily);
+		}
+	}
+
+	private int GetPos(String edit_jhzzjlx2) {
+		// TODO Auto-generated method stub
+		int i = 0;
+		switch (edit_jhzzjlx2) {
+		case "居民身份证（户口簿）":
+			i = 0;
+			break;
+		case "中国人民解放军军官证":
+			i = 1;
+			break;
+		case "中国人民武装警察警官证":
+			i = 2;
+			break;
+		case "香港特区护照/身份证明":
+			i = 3;
+			break;
+		case "澳门特区护照/身份证明":
+			i = 4;
+			break;
+		case "台湾居民来往大陆通行证":
+			i = 5;
+			break;
+		case "外国人护照":
+			i = 6;
+			break;
+		}
+		return i;
 	}
 
 	/**
@@ -178,8 +220,6 @@ public class InfoFamilyActivity extends Activity {
 			Handler mHandler = new Handler();
 			Runnable r = new Runnable() {
 				public void run() {
-					mgr = new DBManager(InfoFamilyActivity.this);
-
 					ArrayList<Family> familys = new ArrayList<Family>();
 					Family family = new Family();
 					family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
@@ -193,6 +233,7 @@ public class InfoFamilyActivity extends Activity {
 					mgr.addFamily(familys);
 
 					// do something
+					//通过OCR输出的家庭信息
 					String str = gson.toJson(tempFamily);
 					FamilyUtil.saveValue(getApplicationContext(), str);
 					System.out.println("familyAct save" + gson.toJson(tempFamily));

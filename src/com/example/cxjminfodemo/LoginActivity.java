@@ -102,7 +102,7 @@ public class LoginActivity extends Activity {
 		List<User> persons = mgr.queryUser();
 		Log.i("user", persons.get(0).username);*/
 
-		ArrayList<Family> familys = new ArrayList<Family>();
+	/*	ArrayList<Family> familys = new ArrayList<Family>();
 		Family family = new Family();
 		family.setEdit_gmcfzh("330702199402180816");
 		family.setEdit_hzxm("ëøÕæ¾Ã");
@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
 		family1.setEdit_djrq("2016");
 		familys.add(family1);
 		mgr.addFamily(familys);
-
+*/
 		ArrayList<Personal> personals = new ArrayList<Personal>();
 		int i = 0;
 

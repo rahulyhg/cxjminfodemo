@@ -101,25 +101,27 @@ public class InfoMainActivity extends Activity {
 	MyAdapter adapter;
 	Gson gson = new Gson();
 
-	private String name="";
+	private String name = "";
 
-	private String cardno="";
+	private String cardno = "";
 
-	private String sex="";
+	private String sex = "";
 
-	private String folk="";
+	private String folk = "";
 
-	private String birthday="";
+	private String birthday = "";
 
-	private String address="";
+	private String address = "";
 
 	private DBManager mgr;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		ButterKnife.bind(InfoMainActivity.this);
-		mgr=new DBManager(this);
+		mgr = new DBManager(this);
+
 		initView();
 
 		// /*为ListView设置Adapter来绑定数据*/
@@ -185,17 +187,27 @@ public class InfoMainActivity extends Activity {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
-	
+
 	@OnClick(R.id.text)
 	public void toInfoFamilyActivity2() {
+		thefamily = null;
 		Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
-		if (tempFamily != null) {
-			String str = gson.toJson(tempFamily);
+		listFamily = mgr.queryFamily();
+		for (Family tempFamily : listFamily) {
+			if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
+				thefamily = new Family();
+				thefamily = tempFamily;
+			}
+		}
+
+		if (thefamily != null) {
+			intent.putExtra("gmsfzh", temp.toString());
+			String str = gson.toJson(thefamily);
 			intent.putExtra("Family", str);
-			intent.putExtra("hasTemp", "1");
-		} else
-			intent.putExtra("hasTemp", "0");
-		startActivityForResult(intent, INFO_FAMILY);
+			intent.putExtra("hasTemp", "2");
+			startActivityForResult(intent, INFO_FAMILY);
+		}
+
 	}
 
 	@OnClick(R.id.btn_add)
@@ -228,8 +240,8 @@ public class InfoMainActivity extends Activity {
 			public void run() {
 				if (res == "") {
 					// 匹配身份证信息 并输出到户主信息栏
-					listFamily=mgr.queryFamily();
-					//System.out.println(listFamily.toString());
+					listFamily = mgr.queryFamily();
+					// System.out.println(listFamily.toString());
 
 					for (Family tempFamily : listFamily) {
 						if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
