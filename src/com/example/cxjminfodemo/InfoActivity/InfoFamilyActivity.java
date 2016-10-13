@@ -10,6 +10,7 @@ import java.util.Calendar;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
+import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.utils.FamilyUtil;
 import com.example.cxjminfodemo.utils.PersonalUtil;
@@ -41,13 +42,14 @@ public class InfoFamilyActivity extends Activity {
 	private Spinner edit_jhzzjlx;
 	private Spinner edit_jgszcwh;
 	private EditText edit_hzxm;
-	private EditText edit_hjbh;
 	private EditText edit_lxdh;
 	private EditText edit_dzyx;
 	private EditText edit_yzbm;
 	private EditText edit_cjqtbxrs;
 	private EditText edit_hkxxdz;
 	private Calendar calendar;
+
+	private DBManager mgr;
 
 	private Family defaultFamily = new Family("11111", "XXX", "张三", "123456", "123456");
 	Gson gson = new Gson();
@@ -101,9 +103,9 @@ public class InfoFamilyActivity extends Activity {
 		// TODO Auto-generated method stub
 
 		// Spiner
-		
+
 		edit_jgszcwh = (Spinner) findViewById(R.id.edit_jgszcwh);
-		
+
 		ArrayList<String> data_list = new ArrayList<String>();
 		data_list.add("八里庄村");
 		data_list.add("古屯村");
@@ -114,9 +116,8 @@ public class InfoFamilyActivity extends Activity {
 		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// 加载适配器
 		edit_jgszcwh.setAdapter(arr_adapter);
-		
-		
-		/*户主证件类型spiner*/
+
+		/* 户主证件类型spiner */
 		edit_jhzzjlx = (Spinner) findViewById(R.id.edit_jhzzjlx);
 		ArrayList<String> data_list1 = new ArrayList<String>();
 		data_list1.add("居民身份证（户口簿）");
@@ -131,11 +132,8 @@ public class InfoFamilyActivity extends Activity {
 		// 设置样式
 		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		edit_jhzzjlx.setAdapter(arr_adapter1);
-		
 
-		
 		edit_hzxm = (EditText) findViewById(R.id.edit_hzxm);
-		edit_hjbh = (EditText) findViewById(R.id.edit_hjbh);
 		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);
 		edit_dzyx = (EditText) findViewById(R.id.edit_dzyx);
 		edit_yzbm = (EditText) findViewById(R.id.edit_yzbm);
@@ -174,14 +172,26 @@ public class InfoFamilyActivity extends Activity {
 	public void toInfoMainActivity2() {
 		if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
-		} else if (edit_hjbh.getText().toString().isEmpty()) {
-			Toast.makeText(getApplicationContext(), "户籍编号不能为空！", Toast.LENGTH_SHORT).show();
 		} else {
-
 			getDataFromEdit();
+
 			Handler mHandler = new Handler();
 			Runnable r = new Runnable() {
 				public void run() {
+					mgr = new DBManager(InfoFamilyActivity.this);
+
+					ArrayList<Family> familys = new ArrayList<Family>();
+					Family family = new Family();
+					family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
+					family.setEdit_hzxm(tempFamily.edit_hzxm);
+					family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);
+					family.setEdit_cjqtbxrs(tempFamily.edit_cjqtbxrs);
+					family.setEdit_lxdh(tempFamily.edit_lxdh);
+					family.setEdit_djrq(tempFamily.edit_djrq);
+					family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
+					familys.add(family);
+					mgr.addFamily(familys);
+
 					// do something
 					String str = gson.toJson(tempFamily);
 					FamilyUtil.saveValue(getApplicationContext(), str);
@@ -201,11 +211,14 @@ public class InfoFamilyActivity extends Activity {
 		tempFamily.setEdit_gmcfzh(intent.getExtras().getString("gmsfzh"));
 		// tempFamily.setEdit_jgszcwh(edit_jgszcwh.getText().toString());
 		tempFamily.setEdit_hzxm(edit_hzxm.getText().toString());
-		tempFamily.setEdit_hjbh(edit_hjbh.getText().toString());
 		tempFamily.setEdit_lxdh(edit_lxdh.getText().toString());
 		tempFamily.setEdit_dzyx(edit_dzyx.getText().toString());
 		tempFamily.setEdit_yzbm(edit_yzbm.getText().toString());
 		tempFamily.setEdit_cjqtbxrs(edit_cjqtbxrs.getText().toString());
 		tempFamily.setEdit_hkxxdz(edit_hkxxdz.getText().toString());
+		// spinner
+		tempFamily.setEdit_jhzzjlx(edit_jhzzjlx.getSelectedItem().toString());
+
+		tempFamily.setEdit_djrq(edit_djrq.getText().toString());
 	}
 }

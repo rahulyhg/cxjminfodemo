@@ -80,12 +80,12 @@ public class LoginActivity extends Activity {
 		ButterKnife.bind(LoginActivity.this);
 		mgr = new DBManager(this);
 
-		ArrayList<User> users = new ArrayList<User>();
+		/*ArrayList<User> users = new ArrayList<User>();
 		User user1 = new User("tengzhenjiu", "123456");
 		users.add(user1);
 		mgr.addUser(users);
 		List<User> persons = mgr.queryUser();
-		Log.i("user", persons.get(0).username);
+		Log.i("user", persons.get(0).username);*/
 
 		ArrayList<Family> familys = new ArrayList<Family>();
 		Family family = new Family();

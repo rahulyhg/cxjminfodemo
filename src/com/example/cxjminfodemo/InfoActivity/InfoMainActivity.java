@@ -21,6 +21,7 @@ import org.dom4j.io.SAXReader;
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.MyAdapter;
 import com.example.cxjminfodemo.R;
+import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.utils.FamilyUtil;
@@ -112,11 +113,13 @@ public class InfoMainActivity extends Activity {
 
 	private String address="";
 
+	private DBManager mgr;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		ButterKnife.bind(InfoMainActivity.this);
+		mgr=new DBManager(this);
 		initView();
 
 		// /*为ListView设置Adapter来绑定数据*/
@@ -126,16 +129,6 @@ public class InfoMainActivity extends Activity {
 		adapter.notifyDataSetChanged();
 
 		/* 为动态数组添加数据 */
-
-		Handler mHandler = new Handler();
-		Runnable r = new Runnable() {
-			public void run() {
-				// do something
-				tempFamily = FamilyUtil.getValue(getApplicationContext());
-				System.out.println("getFamily" + tempFamily);
-			}
-		};
-		mHandler.post(r);
 	}
 
 	@Override
@@ -192,6 +185,18 @@ public class InfoMainActivity extends Activity {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
+	
+	@OnClick(R.id.text)
+	public void toInfoFamilyActivity2() {
+		Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
+		if (tempFamily != null) {
+			String str = gson.toJson(tempFamily);
+			intent.putExtra("Family", str);
+			intent.putExtra("hasTemp", "1");
+		} else
+			intent.putExtra("hasTemp", "0");
+		startActivityForResult(intent, INFO_FAMILY);
+	}
 
 	@OnClick(R.id.btn_add)
 	public void toInfoPersonalActivity() {
@@ -223,8 +228,8 @@ public class InfoMainActivity extends Activity {
 			public void run() {
 				if (res == "") {
 					// 匹配身份证信息 并输出到户主信息栏
-					listFamily.add(family);
-					System.out.println(listFamily.toString());
+					listFamily=mgr.queryFamily();
+					//System.out.println(listFamily.toString());
 
 					for (Family tempFamily : listFamily) {
 						if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
@@ -297,7 +302,6 @@ public class InfoMainActivity extends Activity {
 			Bundle f = data.getExtras(); // data为B中回传的Intent
 			String str2 = f.getString("Family");// str即为回传的值
 			Family tempFamily = gson.fromJson(str2, Family.class);
-			listFamily.add(tempFamily);
 
 			text_name.setText(tempFamily.getEdit_hzxm());
 			text_id.setText(tempFamily.getEdit_gmcfzh());

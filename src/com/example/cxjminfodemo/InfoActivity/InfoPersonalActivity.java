@@ -63,7 +63,6 @@ public class InfoPersonalActivity extends Activity {
 	private EditText edit_gmcfzh;
 	private TextView edit_csrq;
 	private TextView edit_xxjzdz;
-	private TextView edit_hzsfz;
 	private LinearLayout btn_save;
 	private LinearLayout btn_xjzf;
 	private LinearLayout btn_zxzf;
@@ -176,7 +175,6 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
 		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
-		edit_hzsfz = (TextView) findViewById(R.id.edit_hzsfz);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
 		ArrayList<String> data_list = new ArrayList<String>();
@@ -374,7 +372,6 @@ public class InfoPersonalActivity extends Activity {
 		edit_csrq.setText("");
 		edit_yhzgx.setSelection(0);
 		edit_xxjzdz.setText("");
-		edit_hzsfz.setText("");
 		tempPersonal = new Personal();
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
 	}

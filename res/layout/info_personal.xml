@@ -128,7 +128,8 @@
                 </EditText>
             </LinearLayout>
         </LinearLayout>
-         <LinearLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="10dp"
@@ -171,7 +172,6 @@
                 android:textSize="15sp" >
             </Spinner>
         </LinearLayout>
-        
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -564,51 +564,7 @@
             android:background="#e9f1ef"
             android:gravity="center" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:orientation="horizontal" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="户主身份证号："
-                    android:textSize="13sp" />
-
-                <EditText
-                    android:id="@+id/edit_hzsfz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="13sp" >
-                </EditText>
-            </LinearLayout>
-        </LinearLayout>
-           <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
@@ -648,112 +604,112 @@
             </LinearLayout>
         </LinearLayout>
 
-      <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="#e9f1ef"
             android:gravity="center" />
-   
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1.3"
-        android:background="#ffffff" >
 
         <LinearLayout
-            android:id="@+id/btn_save"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:gravity="center"
-            android:orientation="vertical" >
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.3"
+            android:background="#ffffff" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:src="@drawable/bc" />
+            <LinearLayout
+                android:id="@+id/btn_save"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:text="保存"
-                android:textSize="12sp" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:src="@drawable/bc" />
 
-        <LinearLayout
-            android:id="@+id/btn_xjzf"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:gravity="center"
-            android:orientation="vertical" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="保存"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:src="@drawable/xj" />
+            <LinearLayout
+                android:id="@+id/btn_xjzf"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:text="现金支付"
-                android:textSize="12sp" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:src="@drawable/xj" />
 
-        <LinearLayout
-            android:id="@+id/btn_zxzf"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:gravity="center"
-            android:orientation="vertical" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="现金支付"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:src="@drawable/zxzf" />
+            <LinearLayout
+                android:id="@+id/btn_zxzf"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:text="在线支付"
-                android:textSize="12sp" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:src="@drawable/zxzf" />
 
-        <LinearLayout
-            android:id="@+id/btn_xyg"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:gravity="center"
-            android:orientation="vertical" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="在线支付"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:src="@drawable/xyg" />
+            <LinearLayout
+                android:id="@+id/btn_xyg"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:text="下一个"
-                android:textSize="12sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:src="@drawable/xyg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="下一个"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
- </LinearLayout>
+
 </LinearLayout>

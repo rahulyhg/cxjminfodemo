@@ -28,6 +28,7 @@ import android.R.integer;
 
 public class Family {
 	public Integer id; 
+	public String edit_jtbh;
 	public String edit_jhzzjlx;
 	public String edit_gmcfzh;
 	public String edit_jgszcwh;
@@ -226,9 +227,9 @@ public class Family {
 
 	@Override
 	public String toString() {
-		return "Family [id=" + id + ", edit_jhzzjlx=" + edit_jhzzjlx + ", edit_gmcfzh=" + edit_gmcfzh
-				+ ", edit_jgszcwh=" + edit_jgszcwh + ", edit_hzxm=" + edit_hzxm + ", edit_hjbh=" + edit_hjbh
-				+ ", edit_lxdh=" + edit_lxdh + ", edit_dzyx=" + edit_dzyx + ", edit_yzbm=" + edit_yzbm
+		return "Family [id=" + id + ", edit_jtbh=" + edit_jtbh + ", edit_jhzzjlx=" + edit_jhzzjlx + ", edit_gmcfzh="
+				+ edit_gmcfzh + ", edit_jgszcwh=" + edit_jgszcwh + ", edit_hzxm=" + edit_hzxm + ", edit_hjbh="
+				+ edit_hjbh + ", edit_lxdh=" + edit_lxdh + ", edit_dzyx=" + edit_dzyx + ", edit_yzbm=" + edit_yzbm
 				+ ", edit_cjqtbxrs=" + edit_cjqtbxrs + ", edit_hkxxdz=" + edit_hkxxdz + ", edit_djrq=" + edit_djrq
 				+ ", isEdit=" + isEdit + ", isUpload=" + isUpload + "]";
 	}
@@ -271,6 +272,14 @@ public class Family {
 
 	public void setEdit_jhzzjlx(String edit_jhzzjlx) {
 		this.edit_jhzzjlx = edit_jhzzjlx;
+	}
+
+	public String getEdit_jtbh() {
+		return edit_jtbh;
+	}
+
+	public void setEdit_jtbh(String edit_jtbh) {
+		this.edit_jtbh = edit_jtbh;
 	}
 
 }
