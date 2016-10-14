@@ -89,7 +89,7 @@ public class InfoMainActivity extends Activity {
 
 	String tempFamily;
 	Family family = new Family();// 传回的数据
-	Family thefamily;// 传出的数据
+	static Family thefamily;// 传出的数据
 	static ArrayList<Family> listFamily = new ArrayList<Family>();
 
 	// 存户主与成员的映射
@@ -136,6 +136,10 @@ public class InfoMainActivity extends Activity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		if (thefamily != null) {
+			text_name.setText(thefamily.getEdit_hzxm());
+			text_id.setText(thefamily.getEdit_gmcfzh());
+		}
 	}
 
 	/**
@@ -222,6 +226,7 @@ public class InfoMainActivity extends Activity {
 			intent.putExtra("folk", folk);
 			intent.putExtra("birthday", birthday);
 			intent.putExtra("address", address);
+			intent.putExtra("HZSFZ", text_id.getText().toString());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 

@@ -89,14 +89,14 @@ public class InfoFamilyActivity extends Activity {
 		hasTemp = bundle.getString("hasTemp");
 		if (hasTemp.equals("1")) {
 			String str = bundle.getString("Family");
-			Family tempFamily = gson.fromJson(str, Family.class);
+			tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 		}
 		if (hasTemp.equals("2")) {
 			String str = bundle.getString("Family");
-			Family tempFamily = gson.fromJson(str, Family.class);
+			tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
@@ -105,7 +105,6 @@ public class InfoFamilyActivity extends Activity {
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
 			edit_djrq.setText(tempFamily.edit_djrq);
-			mgr.deleteFamily(tempFamily);
 		}
 	}
 
@@ -191,8 +190,13 @@ public class InfoFamilyActivity extends Activity {
 
 	@OnClick(R.id.image_left)
 	public void toInfoMainActivity() {
-		Intent intent = new Intent(this, InfoMainActivity.class);
-		startActivity(intent);
+		String str = gson.toJson(tempFamily);
+		FamilyUtil.saveValue(getApplicationContext(), str);
+		System.out.println("familyAct save" + gson.toJson(tempFamily));
+		Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
+		intent.putExtra("Family", str);
+		setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+		finish();
 	}
 
 	@OnClick(R.id.edit_djrq)
@@ -215,6 +219,9 @@ public class InfoFamilyActivity extends Activity {
 		if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else {
+			// 先删数据
+			if (hasTemp.equals("2"))
+				mgr.deleteFamily(tempFamily);
 			getDataFromEdit();
 
 			Handler mHandler = new Handler();
@@ -233,7 +240,7 @@ public class InfoFamilyActivity extends Activity {
 					mgr.addFamily(familys);
 
 					// do something
-					//通过OCR输出的家庭信息
+					// 通过OCR输出的家庭信息
 					String str = gson.toJson(tempFamily);
 					FamilyUtil.saveValue(getApplicationContext(), str);
 					System.out.println("familyAct save" + gson.toJson(tempFamily));

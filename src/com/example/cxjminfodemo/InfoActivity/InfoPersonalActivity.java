@@ -20,6 +20,7 @@ import org.dom4j.Element;
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
 import com.example.cxjminfodemo.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity;
+import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.utils.IDCard;
@@ -61,6 +62,7 @@ public class InfoPersonalActivity extends Activity {
 	private EditText edit_jtbh;
 	private EditText edit_cbrxm;
 	private EditText edit_gmcfzh;
+	private EditText edit_lxdh;
 	private TextView edit_csrq;
 	private TextView edit_xxjzdz;
 	private LinearLayout btn_save;
@@ -88,7 +90,9 @@ public class InfoPersonalActivity extends Activity {
 	private String address = "";
 
 	private String tag = "InfoPersonal";
+	private DBManager mgr;
 	
+	Bundle bundle;
 
 	String res = null;
 	public static final int CAMERA = 1001;
@@ -98,7 +102,6 @@ public class InfoPersonalActivity extends Activity {
 
 	@Bind(R.id.edit_cbrq)
 	TextView edit_cbrq;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +109,9 @@ public class InfoPersonalActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_personal);
 		ButterKnife.bind(InfoPersonalActivity.this);
-
+		mgr = new DBManager(this);
+		Intent intent = getIntent();
+		bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		tempPersonal = new Personal();
 		initView();
 
@@ -152,7 +157,7 @@ public class InfoPersonalActivity extends Activity {
 
 					if (res == "") {
 						edit_csrq.setText(IDCard.printDate());
-					/*	edit_xb.setText(IDCard.printSex());*/
+						/* edit_xb.setText(IDCard.printSex()); */
 					} else
 						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
 				}
@@ -170,11 +175,12 @@ public class InfoPersonalActivity extends Activity {
 	/********** INITIALIZES *************/
 
 	public void initView() {
-		
+
 		edit_cbrxm = (EditText) findViewById(R.id.edit_cbrxm);
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
 		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
+		edit_lxdh= (EditText) findViewById(R.id.edit_lxdh);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
 		ArrayList<String> data_list = new ArrayList<String>();
@@ -206,7 +212,7 @@ public class InfoPersonalActivity extends Activity {
 		data_list2.add("重度残疾中小学生");
 		data_list2.add("低保中小学生");
 		data_list2.add("普通中小学生");
-		
+
 		ArrayAdapter<String> arr_adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list2);
 		arr_adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -282,13 +288,12 @@ public class InfoPersonalActivity extends Activity {
 			break;
 		// 户主
 		case 1:
-			Intent intent = getIntent();
-			Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
+			
 
 			edit_cbrxm.setText(bundle.getString("name"));
 			edit_gmcfzh.setText(bundle.getString("cardno"));
 			edit_xxjzdz.setText(bundle.getString("address"));
-			/*edit_xb.setText(bundle.getString("sex"));*/
+			/* edit_xb.setText(bundle.getString("sex")); */
 			String temp_folk = bundle.getString("folk");
 			if (temp_folk.equals("汉"))
 				edit_mz.setSelection(0);
@@ -343,6 +348,29 @@ public class InfoPersonalActivity extends Activity {
 		Handler mHandler = new Handler();
 		Runnable r = new Runnable() {
 			public void run() {
+				ArrayList<Personal> personals = new ArrayList<Personal>();
+
+				Personal personal1 = new Personal();
+				personal1.setEdit_yhzgx(tempPersonal.edit_yhzgx);
+				personal1.setEdit_cbrxm(tempPersonal.edit_cbrxm);
+				personal1.setEdit_zjlx(tempPersonal.edit_zjlx);
+				personal1.setEdit_gmcfzh(tempPersonal.edit_gmcfzh);
+
+				personal1.setEdit_mz(tempPersonal.edit_mz);
+				personal1.setEdit_xb(tempPersonal.edit_xb);
+				personal1.setEdit_cbrq(tempPersonal.edit_cbrq);
+				personal1.setEdit_cbrylb(tempPersonal.edit_cbrylb);
+				personal1.setEdit_csrq(tempPersonal.edit_csrq);
+				
+				personal1.setEdit_hkxz(tempPersonal.edit_hkxz);
+				
+				personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
+				personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
+			
+				personal1.setHZSFZ(bundle.getString("HZSFZ"));
+				personals.add(personal1);
+				mgr.addPersonal(personals);
+
 				// do something
 				String str = gson.toJson(listPersonal);
 				PersonalUtil.saveValue(getApplicationContext(), str);
@@ -368,7 +396,7 @@ public class InfoPersonalActivity extends Activity {
 	public void toNextActivity() {
 		edit_cbrxm.setText("");
 		edit_gmcfzh.setText("");
-		/*edit_xb.setText("");*/
+		/* edit_xb.setText(""); */
 		edit_csrq.setText("");
 		edit_yhzgx.setSelection(0);
 		edit_xxjzdz.setText("");
@@ -419,7 +447,7 @@ public class InfoPersonalActivity extends Activity {
 			edit_cbrxm.setText(name);
 			edit_gmcfzh.setText(cardno);
 			edit_xxjzdz.setText(address);
-			/*edit_xb.setText(sex);*/
+			/* edit_xb.setText(sex); */
 			if (folk.equals("汉"))
 				edit_mz.setSelection(0);
 			if (folk.equals("满"))
@@ -436,11 +464,24 @@ public class InfoPersonalActivity extends Activity {
 
 	private void getDataFromEdit() {
 		// TODO Auto-generated method stub
+		tempPersonal.setEdit_yhzgx(edit_yhzgx.getSelectedItem().toString());
 		tempPersonal.setEdit_cbrxm(edit_cbrxm.getText().toString());
+		
+		tempPersonal.setEdit_zjlx(edit_zjlx.getSelectedItem().toString());
+		
 		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
-		/*tempPersonal.setEdit_xb(edit_xb.getText().toString());*/
+		/* tempPersonal.setEdit_xb(edit_xb.getText().toString()); */
+		tempPersonal.setEdit_mz(edit_mz.getSelectedItem().toString());
+		tempPersonal.setEdit_xb(edit_xb.getSelectedItem().toString());
+		
 		tempPersonal.setEdit_csrq(edit_csrq.getText().toString());
 		tempPersonal.setEdit_cbrq(edit_cbrq.getText().toString());
+		
+		tempPersonal.setEdit_cbrylb(edit_cbrylb.getSelectedItem().toString());
+		tempPersonal.setEdit_hkxz(edit_hkxz.getSelectedItem().toString());
+		
+		tempPersonal.setEdit_xxjzdz(edit_xxjzdz.getText().toString());
+		tempPersonal.setEdit_lxdh(edit_lxdh.getText().toString());
 		listPersonal.add(tempPersonal);
 	}
 }
