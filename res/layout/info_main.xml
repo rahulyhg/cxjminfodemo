@@ -224,13 +224,19 @@
 
                     <!-- 原： <ListView> -->
 
-                    <com.example.cxjminfodemo.NoScrollListView
+                    <com.roamer.slidelistview.SlideListView
+                        xmlns:slide="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/listView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/btn"
                         android:cacheColorHint="#FFF4F4F4"
                         android:dividerHeight="0.0dip"
-                        android:fadingEdge="none" />
+                        android:fadingEdge="none"
+                        slide:slideAnimationTime="200"
+                        slide:slideLeftAction="scroll"
+                        slide:slideMode="both"
+                        slide:slideRightAction="scroll" />
                 </ScrollView>
             </LinearLayout>
         </LinearLayout>

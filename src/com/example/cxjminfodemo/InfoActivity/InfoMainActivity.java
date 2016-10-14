@@ -29,6 +29,7 @@ import com.example.cxjminfodemo.utils.IDCard;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.roamer.slidelistview.SlideListView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -97,7 +98,7 @@ public class InfoMainActivity extends Activity {
 	static CharSequence temp;// 监听前的文本
 	String res = null;// 查询身份证是否有效的返回信息
 	static ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
-	ListView lv;
+	private SlideListView lv;
 	MyAdapter adapter;
 	Gson gson = new Gson();
 
@@ -148,7 +149,7 @@ public class InfoMainActivity extends Activity {
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		lv = (ListView) findViewById(R.id.listView);// 得到ListView对象的引用
+		lv = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
 
 		edit_num.setText(temp);
 		// 家庭登记的edit监听事件

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.roamer.slidelistview.SlideBaseAdapter;
+import com.roamer.slidelistview.SlideListView.SlideMode;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -17,14 +20,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @Title MyAdapter
  * @author tengzj
  * @data 2016年8月24日 下午2:42:15
  */
-public class MyAdapter extends BaseAdapter {
+public class MyAdapter extends SlideBaseAdapter {
 
 	ArrayList<HashMap<String, String>> listItem;
 
@@ -33,11 +38,14 @@ public class MyAdapter extends BaseAdapter {
 		public TextView gmsfzh;
 		public TextView name;
 		public TextView jf;
+		Button edit;
+		Button delete;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 
 	public MyAdapter(Context context, ArrayList<HashMap<String, String>> listItem) {
+		super(context);
 		this.mInflater = LayoutInflater.from(context);
 		this.listItem = listItem;
 	}
@@ -58,7 +66,28 @@ public class MyAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public SlideMode getSlideModeInPosition(int position) {
+		if (position == 1) {
+			return SlideMode.LEFT;
+		}
+		return super.getSlideModeInPosition(position);
+	}
+
+	@Override
+	public int getLeftBackViewId(int position) {
+		return R.layout.row_right_back_view;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (position % 2 == 0) {
+			return 0;
+		}
+		return 1;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		Log.v("BaseAdapterTest", "getView " + position + " " + convertView);
 
@@ -82,6 +111,38 @@ public class MyAdapter extends BaseAdapter {
 			holder.jf.setText("已缴费");
 			holder.jf.setTextColor(Color.BLACK);
 		}
+
+		if (holder.edit != null) {
+			holder.edit.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(mContext, "Click edit:" + position, Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
+
+		if (holder.delete != null) {
+			holder.delete.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					listItem.remove(position);
+					notifyDataSetChanged();
+					Toast.makeText(mContext, "Click delete:" + position, Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
 		return convertView;
+	}
+
+	@Override
+	public int getFrontViewId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRightBackViewId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
