@@ -9,27 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
-import com.example.cxjminfodemo.db.DBHelper;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.dto.User;
-import com.example.cxjminfodemo.utils.LoadingDialog;
 import com.example.cxjminfodemo.utils.MD5Util;
+import com.example.cxjminfodemo.utils.ToastUtil;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -39,42 +35,15 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends Activity {
 
-	/*	*//********** DECLARES *************/
-	/*
-	 * private ImageView image_left; private EditText edit_user; private
-	 * EditText edit_pw; private TextView btn_login; private ImageView
-	 * imageView1;
-	 *//********** INITIALIZES *************//*
-											 * image_left = (ImageView)
-											 * findViewById(R.id.image_left);
-											 * edit_user = (EditText)
-											 * findViewById(R.id.edit_user);
-											 * edit_pw = (EditText)
-											 * findViewById(R.id.edit_pw);
-											 * btn_login = (TextView)
-											 * findViewById(R.id.btn_login);
-											 * imageView1 = (ImageView)
-											 * findViewById(R.id.imageView1);
-											 * Please visit
-											 * http://www.ryangmattison.com for
-											 * updates
-											 */
 	private DBManager mgr;
-
-	@Bind(R.id.image_left)
-	ImageView image_left;
-
 	private EditText edit_user;
-
 	private EditText edit_pw;
-
 	private String userName;
-
 	private String passWord;
-
-	private SQLiteDatabase rdb;
-
-	private LoadingDialog dialog;
+	private ArrayList<User> users;
+	private String query_usern;
+	private ImageView image_left;
+	private TextView btn_login;
 
 	/********** INITIALIZES *************/
 
@@ -88,13 +57,15 @@ public class LoginActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-        dialog = new LoadingDialog(this);
-		ButterKnife.bind(LoginActivity.this);
 		mgr = new DBManager(this);
-
 		initView();
 		initData();
-		
+
+		users = new ArrayList<User>();
+		User user1 = new User("tttt", "123456");
+		users.add(user1);
+		mgr.addUser(users);
+
 	}
 
 	/*
@@ -105,14 +76,54 @@ public class LoginActivity extends Activity {
 	private void initView() {
 		edit_user = (EditText) findViewById(R.id.edit_user);
 		edit_pw = (EditText) findViewById(R.id.edit_pw);
-		userName = edit_user.getText().toString().trim();
-		passWord = edit_pw.getText().toString().trim();
+		image_left = (ImageView) findViewById(R.id.image_left);
+		btn_login = (TextView) findViewById(R.id.btn_login);
+
 	}
 
 	private void initData() {
-		DBHelper dbHelper = new DBHelper(this);
-		rdb = dbHelper.getReadableDatabase();
+		userName = edit_user.getText().toString();
+		passWord = edit_pw.getText().toString();
+		image_left.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				startActivity(intent);
+
+			}
+		});
+
+		btn_login.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 判断用户名是否为空
+				// if (!mgr.query_usern(getApplicationContext(),
+				// userName).isEmpty()) {
+				// 用MD5给密码加密并判断密码是否正确
+				if (MD5Util.encode(edit_pw.getText().toString()).equals(MD5Util.encode("111111"))) {
+					enterInfo();
+					ToastUtil.showShort(getApplicationContext(), "登陆成功！");
+				} else {
+					ToastUtil.showShort(getApplicationContext(), "密码错误！");
+				}
+				// } else {
+				// ToastUtil.showShort(getApplicationContext(), "用户名不存在！");
+				// }
+
+			}
+
+			// 判断用户名是否存在
+
+		});
+
+	}
+
+	protected void enterInfo() {
+		Intent intent = new Intent(this, InfoMainActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
@@ -122,37 +133,4 @@ public class LoginActivity extends Activity {
 
 	}
 
-	@OnClick(R.id.image_left)
-	public void ToMainActivity() {
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-	}
-
-	@OnClick(R.id.btn_login)
-	public void toInfoMainActivity() {
-		dialog.show();
-		
-		/* select * form user where username= */
-		/*
-		 * rdb.execSQL("select * form user where username=userName");
-		 * 
-		 * // 判断密码是否为空
-		 * 
-		 * if (!userName.equals("") && !passWord.equals("")) {
-		 * 
-		 * // 判断密码是否正确 if (MD5Util.encode(passWord).equals()) { enterInfo(); }
-		 * else { Toast.makeText(getApplicationContext(), "密码错误！", 0).show(); }
-		 * } else
-		 * 
-		 * { Toast.makeText(getApplicationContext(), "用户名或密码不能为空！", 0).show(); }
-		 */
-
-		enterInfo();
-	}
-
-	private void enterInfo() {
-		Intent intent = new Intent(this, InfoMainActivity.class);
-		startActivity(intent);
-
-	}
 }

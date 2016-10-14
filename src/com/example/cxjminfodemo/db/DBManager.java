@@ -1,8 +1,12 @@
 package com.example.cxjminfodemo.db;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.cxjminfodemo.R;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.dto.User;
@@ -61,6 +65,37 @@ public class DBManager {
 	 * 
 	 * @param persons
 	 */
+	/*public static SQLiteDatabase openDatabase(Context context) {
+		SQLiteDatabase database = null;
+		try {
+			String DATABASE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/cxjmdb"; // 将要存放于的文件夹
+			String DATABASE_FILENAME = "cxjm.db"; // 文件名
+			String databaseFilename = DATABASE_PATH + "/" + DATABASE_FILENAME;
+			File dir = new File(DATABASE_PATH);
+			// 如果/sdcard/cxjmdb目录不存在，创建这个目录
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+
+			if (!(new File(databaseFilename)).exists()) {
+				InputStream is = context.getResources().openRawResource(R.raw.cxdb);
+				FileOutputStream fos = new FileOutputStream(databaseFilename);
+				byte[] buffer = new byte[8192];
+				int count = 0;
+				// 开始复制文件
+				while ((count = is.read(buffer)) > 0) {
+					fos.write(buffer, 0, count);
+				}
+				fos.close();
+				is.close();
+			}
+
+			database = SQLiteDatabase.openOrCreateDatabase(databaseFilename, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return database;
+	}*/
 	public void addUser(List<User> users) {
 		db.beginTransaction(); // 开始事务
 		try {
@@ -283,6 +318,25 @@ public class DBManager {
 		c.close();
 		return personals;
 	}
+	//查询单个字段2016年10月13日17:36:11
+	public String query_usern(Context context,String biaoming){
+		String userName="";
+		String sql=" Select * from user where username='"+biaoming+"'";
+		
+		Cursor c = db.rawQuery(sql, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+			
+				userName=c.getString(c.getColumnIndex("username"));
+			}
+			c.close();
+		}
+		
+		return userName;
+		
+		
+	}
+	
 	/**
 	 * query all persons, return cursor
 	 * 
