@@ -2,6 +2,8 @@ package com.example.cxjminfodemo;
 
 import android.app.Activity;
 
+import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
@@ -34,7 +36,7 @@ public class MainActivity extends Activity {
 
 	@OnClick(R.id.image_cbdj)
 	public void toLoginActivity() {
-		Intent intent = new Intent(this, LoginActivity.class);
+		Intent intent = new Intent(this, InfoMainActivity.class);
 		startActivity(intent);
 	}
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/front"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:gravity="center"
@@ -9,8 +10,8 @@
         android:id="@+id/text_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"
         android:layout_marginLeft="10dp"
+        android:layout_weight="1.5"
         android:text="haha"
         android:textSize="14sp" />
 
@@ -18,19 +19,19 @@
         android:id="@+id/text_gmsfzh"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4"     
+        android:layout_weight="4"
         android:text="1111111111111111"
         android:textSize="14sp" />
-    
+
     <TextView
         android:id="@+id/text_jf"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"     
         android:layout_marginRight="10dp"
+        android:layout_weight="1.5"
+        android:gravity="right"
         android:text="待缴费"
         android:textColor="#b3b2b2"
-        android:gravity="right"
         android:textSize="14sp" />
 
-</LinearLayout>
+</RelativeLayout>

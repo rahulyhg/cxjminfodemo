@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class MyAdapter extends SlideBaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		return position;
+		return listItem.get(position);
 	}
 
 	@Override
@@ -73,10 +74,6 @@ public class MyAdapter extends SlideBaseAdapter {
 		return super.getSlideModeInPosition(position);
 	}
 
-	@Override
-	public int getLeftBackViewId(int position) {
-		return R.layout.row_right_back_view;
-	}
 
 	@Override
 	public int getItemViewType(int position) {
@@ -92,13 +89,13 @@ public class MyAdapter extends SlideBaseAdapter {
 		Log.v("BaseAdapterTest", "getView " + position + " " + convertView);
 
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.list_item, null);
+			// convertView = mInflater.inflate(R.layout.list_item, null);
+			convertView = createConvertView(position);
 			holder = new ViewHolder();
 			/* 得到各个控件的对象 */
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
 			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
-
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
 			holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
@@ -107,6 +104,22 @@ public class MyAdapter extends SlideBaseAdapter {
 		/* 设置TextView显示的内容，即我们存放在动态数组中的数据 */
 		holder.gmsfzh.setText(listItem.get(position).get("gmsfzh").toString());
 		holder.name.setText(listItem.get(position).get("name").toString());
+		
+		holder.gmsfzh.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(mContext, "Click title:" + position, Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		holder.name.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(mContext, "Click title:" + position, Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		
 		if (listItem.get(position).get("jf").toString().equals("1")) {
 			holder.jf.setText("已缴费");
 			holder.jf.setTextColor(Color.BLACK);
@@ -136,12 +149,16 @@ public class MyAdapter extends SlideBaseAdapter {
 
 	@Override
 	public int getFrontViewId(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		return R.layout.row_front_view;
 	}
 
 	@Override
 	public int getRightBackViewId(int position) {
+		return R.layout.row_right_back_view;
+	}
+
+	@Override
+	public int getLeftBackViewId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
