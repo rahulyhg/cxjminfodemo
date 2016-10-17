@@ -65,37 +65,24 @@ public class DBManager {
 	 * 
 	 * @param persons
 	 */
-	/*public static SQLiteDatabase openDatabase(Context context) {
-		SQLiteDatabase database = null;
-		try {
-			String DATABASE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/cxjmdb"; // 将要存放于的文件夹
-			String DATABASE_FILENAME = "cxjm.db"; // 文件名
-			String databaseFilename = DATABASE_PATH + "/" + DATABASE_FILENAME;
-			File dir = new File(DATABASE_PATH);
-			// 如果/sdcard/cxjmdb目录不存在，创建这个目录
-			if (!dir.exists()) {
-				dir.mkdir();
-			}
-
-			if (!(new File(databaseFilename)).exists()) {
-				InputStream is = context.getResources().openRawResource(R.raw.cxdb);
-				FileOutputStream fos = new FileOutputStream(databaseFilename);
-				byte[] buffer = new byte[8192];
-				int count = 0;
-				// 开始复制文件
-				while ((count = is.read(buffer)) > 0) {
-					fos.write(buffer, 0, count);
-				}
-				fos.close();
-				is.close();
-			}
-
-			database = SQLiteDatabase.openOrCreateDatabase(databaseFilename, null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return database;
-	}*/
+	/*
+	 * public static SQLiteDatabase openDatabase(Context context) {
+	 * SQLiteDatabase database = null; try { String DATABASE_PATH =
+	 * android.os.Environment.getExternalStorageDirectory().getAbsolutePath() +
+	 * "/cxjmdb"; // 将要存放于的文件夹 String DATABASE_FILENAME = "cxjm.db"; // 文件名
+	 * String databaseFilename = DATABASE_PATH + "/" + DATABASE_FILENAME; File
+	 * dir = new File(DATABASE_PATH); // 如果/sdcard/cxjmdb目录不存在，创建这个目录 if
+	 * (!dir.exists()) { dir.mkdir(); }
+	 * 
+	 * if (!(new File(databaseFilename)).exists()) { InputStream is =
+	 * context.getResources().openRawResource(R.raw.cxdb); FileOutputStream fos
+	 * = new FileOutputStream(databaseFilename); byte[] buffer = new byte[8192];
+	 * int count = 0; // 开始复制文件 while ((count = is.read(buffer)) > 0) {
+	 * fos.write(buffer, 0, count); } fos.close(); is.close(); }
+	 * 
+	 * database = SQLiteDatabase.openOrCreateDatabase(databaseFilename, null); }
+	 * catch (Exception e) { e.printStackTrace(); } return database; }
+	 */
 	public void addUser(List<User> users) {
 		db.beginTransaction(); // 开始事务
 		try {
@@ -292,51 +279,53 @@ public class DBManager {
 	 * getEdit_hkxz AAC009 户口性质 Varchar2 3 见代码表 getHZSFZ HZSFZ 户主身份号码 Varchar2
 	 * 20 √
 	 */
-	public List<Personal> queryPersonal() {
+	public ArrayList<Personal> queryPersonal(String HZSFZ) {
 		ArrayList<Personal> personals = new ArrayList<Personal>();
-		Cursor c = queryTheCursor("personal");
-		while (c.moveToNext()) {
-			Personal personal = new Personal();
-			personal.id = c.getInt(c.getColumnIndex("_id"));
-			personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
-			personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
-			personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
-			personal.edit_xb = c.getString(c.getColumnIndex("AAC004"));
-			personal.edit_csrq = c.getString(c.getColumnIndex("AAC006"));
-			personal.edit_cbrylb = c.getString(c.getColumnIndex("BAC067"));
-			personal.edit_cbrq = c.getString(c.getColumnIndex("AAC030"));
-			personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
-			personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
-			personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
-			personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
-
-			personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
-			personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
-			personals.add(personal);
-		}
-		
-		c.close();
-		return personals;
-	}
-	//查询单个字段2016年10月13日17:36:11
-	public String query_usern(Context context,String biaoming){
-		String userName="";
-		String sql=" Select * from user where username='"+biaoming+"'";
-		
+		String sql = " Select * from personal where HZSFZ='" + HZSFZ + "'";
 		Cursor c = db.rawQuery(sql, null);
 		if (c != null) {
 			while (c.moveToNext()) {
-			
-				userName=c.getString(c.getColumnIndex("username"));
+				Personal personal = new Personal();
+				personal.id = c.getInt(c.getColumnIndex("_id"));
+				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
+				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
+				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
+				personal.edit_xb = c.getString(c.getColumnIndex("AAC004"));
+				personal.edit_csrq = c.getString(c.getColumnIndex("AAC006"));
+				personal.edit_cbrylb = c.getString(c.getColumnIndex("BAC067"));
+				personal.edit_cbrq = c.getString(c.getColumnIndex("AAC030"));
+				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
+				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
+				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
+				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
+
+				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
+				personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+				personals.add(personal);
 			}
 			c.close();
 		}
-		
-		return userName;
-		
-		
+
+		return personals;
 	}
-	
+
+	// 查询单个字段2016年10月13日17:36:11
+	public String query_usern(Context context, String biaoming) {
+		String userName = "";
+		String sql = " Select * from user where username='" + biaoming + "'";
+
+		Cursor c = db.rawQuery(sql, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				userName = c.getString(c.getColumnIndex("username"));
+			}
+			c.close();
+		}
+
+		return userName;
+
+	}
+
 	/**
 	 * query all persons, return cursor
 	 * 
@@ -367,8 +356,5 @@ public class DBManager {
 	public void closeDB() {
 		db.close();
 	}
-	 
-	
-	
 
 }

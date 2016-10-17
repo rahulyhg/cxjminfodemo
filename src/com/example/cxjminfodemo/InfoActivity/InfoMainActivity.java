@@ -260,6 +260,9 @@ public class InfoMainActivity extends Activity {
 
 							text_name.setText(tempFamily.getEdit_hzxm());
 							text_id.setText(tempFamily.getEdit_gmcfzh());
+							
+							ArrayList<Personal> listPersonal=mgr.queryPersonal(text_id.getText().toString());
+							UpdateListView(listPersonal);
 						}
 					}
 					// 为空就是未匹配到信息
@@ -279,7 +282,6 @@ public class InfoMainActivity extends Activity {
 					}
 				} else
 					Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
-
 			}
 		};
 		mHandler2.post(r2);
@@ -305,14 +307,7 @@ public class InfoMainActivity extends Activity {
 				list_family_personal.put(text_id.getText().toString(), listPersonal);
 
 				// 用于显示listview
-				for (Personal tempPersonal : listPersonal) {
-					HashMap<String, String> map = new HashMap<String, String>();
-					map.put("name", tempPersonal.getEdit_cbrxm());
-					map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
-					map.put("jf", tempPersonal.getEdit_jf());
-					listItem.add(map);
-				}
-				adapter.notifyDataSetChanged();
+				UpdateListView(listPersonal);
 			}
 			break;
 
@@ -323,6 +318,10 @@ public class InfoMainActivity extends Activity {
 
 			text_name.setText(tempFamily.getEdit_hzxm());
 			text_id.setText(tempFamily.getEdit_gmcfzh());
+			
+			//刷新listview
+			ArrayList<Personal> listPersonal=mgr.queryPersonal(text_id.getText().toString());
+			UpdateListView(listPersonal);
 			break;
 		case CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
@@ -363,5 +362,17 @@ public class InfoMainActivity extends Activity {
 		default:
 			break;
 		}
+	}
+
+	private void UpdateListView(ArrayList<Personal> listPersonal) {
+		for (Personal tempPersonal : listPersonal) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("name", tempPersonal.getEdit_cbrxm());
+			map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
+			map.put("cbrq", tempPersonal.getEdit_cbrq());
+			map.put("jf", tempPersonal.getEdit_jf());
+			listItem.add(map);
+		}
+		adapter.notifyDataSetChanged();
 	}
 }

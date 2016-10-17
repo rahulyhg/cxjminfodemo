@@ -3,32 +3,49 @@
     android:id="@+id/front"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:gravity="center"
     android:minHeight="40dp" >
 
-    <TextView
-        android:id="@+id/text_name"
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1.5"
-        android:text="haha"
-        android:textSize="14sp" />
+        android:layout_centerVertical="true"
+        android:gravity="center" >
 
-    <TextView
-        android:id="@+id/text_gmsfzh"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:text="1111111111111111"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="haha"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_gmsfzh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/text_name"
+            android:text="1111111111111111"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_cbrq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_name"
+            android:layout_marginLeft="10dp"
+             android:textColor="#b3b2b2"
+            android:text="1900-1-1"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/text_jf"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1.5"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
         android:gravity="right"
         android:text="待缴费"
         android:textColor="#b3b2b2"
