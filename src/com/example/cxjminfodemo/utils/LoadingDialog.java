@@ -65,7 +65,7 @@ public class LoadingDialog {
 	}
 
 	/**
-	 * 判断是否显示
+	 * 判断progressbar是否显示
 	 * 
 	 * @return
 	 */
@@ -77,7 +77,7 @@ public class LoadingDialog {
 	}
 
 	/**
-	 * 显示
+	 * 调用此方法显示progressbar
 	 */
 	public void show() {
 		dismiss();
@@ -93,7 +93,7 @@ public class LoadingDialog {
 	}
 
 	/**
-	 * 隐藏
+	 * 调用此方法隐藏progressbar
 	 */
 	public void dismiss() {
 		if (popupDialog != null && popupDialog.isShowing()) {

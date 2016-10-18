@@ -18,6 +18,7 @@ import com.example.cxjminfodemo.utils.ToastUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,7 @@ public class LoginActivity extends Activity {
 	private String query_usern;
 	private ImageView image_left;
 	private TextView btn_login;
+	private SharedPreferences sp;
 
 	/********** INITIALIZES *************/
 
@@ -78,12 +80,28 @@ public class LoginActivity extends Activity {
 		edit_pw = (EditText) findViewById(R.id.edit_pw);
 		image_left = (ImageView) findViewById(R.id.image_left);
 		btn_login = (TextView) findViewById(R.id.btn_login);
+		/*********** 先判断当前是否已经登录，若已登录则执行注销操作 ***********/
+		SharedPreferences spIsLongin = getSharedPreferences("IsLongin", MODE_PRIVATE);
+		String strLoginFlag=spIsLongin.getString("IsLongin", "");
+		if (strLoginFlag.equals("1")) {
+			logOff();
+			spIsLongin.edit().putString("IsLongin", "0").commit();// 更改登录/注销标志位
+			return;
+		}
+		
 
+	}
+
+	private void logOff() {
+		
+		
 	}
 
 	private void initData() {
 		userName = edit_user.getText().toString();
 		passWord = edit_pw.getText().toString();
+		sp = getSharedPreferences("LoginFlag", MODE_PRIVATE);
+		/*mgr.query_usern(getApplicationContext(), edit_user.getText().toString());*/
 		image_left.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -91,35 +109,33 @@ public class LoginActivity extends Activity {
 
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(intent);
-
+                  finish();
 			}
 		});
-
+         /**登陆*/
 		btn_login.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// 判断用户名是否为空
-				// if (!mgr.query_usern(getApplicationContext(),
-				// userName).isEmpty()) {
+				// 判断用户名是否存在于数据库中
+				 if (!mgr.query_usern(getApplicationContext(), edit_user.getText().toString()).isEmpty()) {
 				// 用MD5给密码加密并判断密码是否正确
 				if (MD5Util.encode(edit_pw.getText().toString()).equals(MD5Util.encode("111111"))) {
 					enterInfo();
 					ToastUtil.showShort(getApplicationContext(), "登陆成功！");
+					sp.edit().putString("LoginFlag", "1").commit();
+				     
 				} else {
 					ToastUtil.showShort(getApplicationContext(), "密码错误！");
 				}
-				// } else {
-				// ToastUtil.showShort(getApplicationContext(), "用户名不存在！");
-				// }
-
+				} else {
+				 ToastUtil.showShort(getApplicationContext(), "用户名不存在！");
+				 }
+			      
 			}
-
-			// 判断用户名是否存在
-
 		});
-
 	}
+    
 
 	protected void enterInfo() {
 		Intent intent = new Intent(this, InfoMainActivity.class);
