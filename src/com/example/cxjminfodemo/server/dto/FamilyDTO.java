@@ -1,4 +1,4 @@
-package com.example.cxjminfodemo.server.DTO;
+package com.example.cxjminfodemo.server.dto;
 
 public class FamilyDTO {
 	String lsh;// Á÷Ë®ºÅ

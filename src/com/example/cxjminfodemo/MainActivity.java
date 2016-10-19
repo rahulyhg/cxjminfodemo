@@ -2,7 +2,11 @@ package com.example.cxjminfodemo;
 
 import android.app.Activity;
 
+import java.io.InputStream;
+import java.util.Map;
+
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
+import com.example.cxjminfodemo.utils.TextToMap;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -32,6 +36,12 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(MainActivity.this);
+		
+		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);  
+		Map<String, String> oldMap = new TextToMap().TextToMap(inputStream);
+		
+		InputStream inputStream1 = getResources().openRawResource(R.raw.nation);  
+		Map<String, String> oldMap1 = new TextToMap().TextToMap(inputStream1);
 	}
 
 	@OnClick(R.id.image_cbdj)

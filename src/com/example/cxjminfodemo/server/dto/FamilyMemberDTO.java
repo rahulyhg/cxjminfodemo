@@ -1,4 +1,4 @@
-package com.example.cxjminfodemo.server.DTO;
+package com.example.cxjminfodemo.server.dto;
 
 import java.util.List;
 

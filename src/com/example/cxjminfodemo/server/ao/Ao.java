@@ -21,9 +21,10 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 
 import com.example.cxjminfodemo.RcConstant;
-import com.example.cxjminfodemo.server.DTO.FamilyDTO;
-import com.example.cxjminfodemo.server.DTO.FamilyMemberDTO;
-import com.example.cxjminfodemo.server.DTO.MemberDTO;
+import com.example.cxjminfodemo.server.dto.FamilyDTO;
+import com.example.cxjminfodemo.server.dto.FamilyMemberDTO;
+import com.example.cxjminfodemo.server.dto.MemberDTO;
+import com.example.cxjminfodemo.server.dto.ResponseDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -62,10 +63,8 @@ public class Ao {
 	}
 
 	/**
-	 * maw@neuq 2016-9-7
+	 * tengzj@neuq 2016-10-18
 	 * 
-	 * @param cc22dto
-	 * @param code
 	 * @return
 	 * @throws IOException
 	 * @throws ClientProtocolException
@@ -74,17 +73,22 @@ public class Ao {
 	 *             xzqh String 行政区划 czr String 操作人 List<FamilyDTO> List 家庭信息
 	 *             List<MemberDTO> List 家庭成员信息
 	 */
-	public void sendMessage(String xzqh, String czr, List<FamilyDTO> family, List<MemberDTO> member)
+	public ResponseDTO sendMessage(String xzqh, String czr, List<FamilyDTO> family, List<MemberDTO> member)
 			throws ClientProtocolException, IOException {
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		// 创建httppost
 		HttpPost httppost = new HttpPost(RcConstant.httpPath + "sendMessage");
+		ResponseDTO res = null;
 		// 创建参数队列
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 		
 		Gson gson = new Gson();
-		formparams.add(new BasicNameValuePair("type", "house"));
+		formparams.add(new BasicNameValuePair("xzqh",xzqh));
+		formparams.add(new BasicNameValuePair("czr", czr));
+		formparams.add(new BasicNameValuePair("List<FamilyDTO>", gson.toJson(family)));
+		formparams.add(new BasicNameValuePair("List<MemberDTO>", gson.toJson(member)));
+
 		UrlEncodedFormEntity uefEntity;
 
 		uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
@@ -96,12 +100,16 @@ public class Ao {
 			System.out.println("--------------------------------------");
 			System.out.println("Response content: " + EntityUtils.toString(entity, "UTF-8"));
 			System.out.println("--------------------------------------");
+			
+			Type typeList = new TypeToken<ResponseDTO>() {
+			}.getType();
+			res = gson.fromJson(EntityUtils.toString(entity, "UTF-8"), typeList);
 		}
 		response.close();
 		// 关闭连接,释放资
 
 		httpclient.close();
-
+		return res;
 	}
 
 }

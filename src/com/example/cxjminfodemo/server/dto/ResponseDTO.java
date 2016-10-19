@@ -1,4 +1,4 @@
-package com.example.cxjminfodemo.server.DTO;
+package com.example.cxjminfodemo.server.dto;
 
 public class ResponseDTO {
 	String appcode;// 错误状态，0000表示正确
