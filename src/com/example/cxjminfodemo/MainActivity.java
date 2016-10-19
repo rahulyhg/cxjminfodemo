@@ -37,11 +37,11 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(MainActivity.this);
 		
-		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);  
+		/*InputStream inputStream = getResources().openRawResource(R.raw.countrycode);  
 		Map<String, String> oldMap = new TextToMap().TextToMap(inputStream);
 		
 		InputStream inputStream1 = getResources().openRawResource(R.raw.nation);  
-		Map<String, String> oldMap1 = new TextToMap().TextToMap(inputStream1);
+		Map<String, String> oldMap1 = new TextToMap().TextToMap(inputStream1);*/
 	}
 
 	@OnClick(R.id.image_cbdj)

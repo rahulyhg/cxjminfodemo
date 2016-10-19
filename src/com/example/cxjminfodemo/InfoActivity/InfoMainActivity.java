@@ -124,13 +124,14 @@ public class InfoMainActivity extends Activity {
 		mgr = new DBManager(this);
 
 		initView();
-
+		edit_num.setText("330702199402180816");
 		// /*为ListView设置Adapter来绑定数据*/
 		adapter = new MyAdapter(this, listItem);
 
 		lv.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 
+		
 		/* 为动态数组添加数据 */
 	}
 
