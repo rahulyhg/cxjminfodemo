@@ -2,8 +2,25 @@
 <resources>
 
     <string name="app_name">城乡居民采集系统demo</string>
-       <!--保存信息按钮触发效果  -->
-    <drawable name="unchecked">#64d406</drawable>  
+    <!-- 保存信息按钮触发效果 -->
+    <drawable name="unchecked">#64d406</drawable>
     <drawable name="checked">#A7F50A</drawable>
+
+    <string name="Upload">Upload</string>
+    <string name="Error">Error</string>
+    <string name="Complete">Complete</string>
+    <string name="IndeterminateProgressSample">Indeterminate Progress Sample</string>
+    <string name="IntegerProgressSample">Integer Progress Sample</string>
+    <string name="StateChangeSample">State Change Sample</string>
+    <string name="ProgressPaddingSample">Progress Padding Sample</string>
+    <string name="CustomSelectorSample">Custom Selector Sample</string>
+
+    <array name="sample_list">
+        <item>@string/IndeterminateProgressSample</item>
+        <item>@string/IntegerProgressSample</item>
+        <item>@string/StateChangeSample</item>
+        <item>@string/ProgressPaddingSample</item>
+        <item>@string/CustomSelectorSample</item>
+    </array>
 
 </resources>

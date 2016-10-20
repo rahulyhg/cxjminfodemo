@@ -23,7 +23,7 @@
             android:layout_centerInParent="true"
             android:text="家庭登记"
             android:textColor="#ffffff"
-            android:textSize="18sp" >
+            android:textSize="20sp" >
         </TextView>
     </RelativeLayout>
 

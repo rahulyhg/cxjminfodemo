@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:text="登 录"
             android:textColor="#ffffff"
-            android:textSize="17sp" >
+            android:textSize="20sp" >
         </TextView>
     </RelativeLayout>
 
