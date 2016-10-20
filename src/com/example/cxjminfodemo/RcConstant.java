@@ -11,5 +11,5 @@ public class RcConstant {
 	public static final String httpPath = "http://serverIP:serverPort/jmcj/services/";
 	public static final String serverPath = "http://10.19.92.60:8080/cxjmcj/";
 	public static final String loginPath="http://10.19.92.60:8080/cxjmcj/api/login";
-	public static final String usertasksPath="http://10.19.92.60:8080/cxjmcj/api/usertasks ";
+	public static final String usertasksPath="http://10.19.92.60:8080/cxjmcj/api/usertasks";
 }

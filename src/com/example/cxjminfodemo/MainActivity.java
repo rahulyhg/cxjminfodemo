@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 
 	@OnClick(R.id.image_cbdj)
 	public void toLoginActivity() {
-		Intent intent = new Intent(this, InfoMainActivity.class);
+		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 	}
 

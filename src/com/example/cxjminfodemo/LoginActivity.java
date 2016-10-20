@@ -6,25 +6,23 @@
 package com.example.cxjminfodemo;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.entity.StringEntity;
 
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.db.DBManager;
-import com.example.cxjminfodemo.dto.Family;
-import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.dto.User;
-import com.example.cxjminfodemo.server.ao.Ao;
-import com.example.cxjminfodemo.server.dto.CjTask;
 import com.example.cxjminfodemo.server.dto.CjUser;
-import com.example.cxjminfodemo.server.dto.FamilyDTO;
-import com.example.cxjminfodemo.server.dto.MemberDTO;
+import com.example.cxjminfodemo.server.dto.UserDetail;
 import com.example.cxjminfodemo.utils.MD5Util;
 import com.example.cxjminfodemo.utils.ToastUtil;
-import com.example.idcardscandemo.utils.HttpUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -36,7 +34,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,8 +53,6 @@ public class LoginActivity extends Activity {
 	private DBManager mgr;
 	private EditText edit_user;
 	private EditText edit_pw;
-	private String userName;
-	private String passWord;
 	private ArrayList<User> users;
 	private String query_usern;
 	private ImageView image_left;
@@ -65,6 +60,10 @@ public class LoginActivity extends Activity {
 	private SharedPreferences sp;
 	private Gson gson;
 	private HttpUtils utils;
+	private String userName;
+	private String passWord;
+
+	private SharedPreferences tokenSp;
 
 	/********** INITIALIZES *************/
 
@@ -81,13 +80,12 @@ public class LoginActivity extends Activity {
 		utils = new HttpUtils();
 		gson = new Gson();
 		mgr = new DBManager(this);
-		initView();
-		initData();
-
 		users = new ArrayList<User>();
 		User user1 = new User("tttt", "123456");
 		users.add(user1);
-		mgr.addUser(users);
+//		mgr.addUser(users);
+		initView();
+		initData();
 
 	}
 
@@ -118,8 +116,9 @@ public class LoginActivity extends Activity {
 	}
 
 	private void initData() {
-		userName = edit_user.getText().toString();
-		passWord = edit_pw.getText().toString();
+		userName = edit_user.getText().toString().trim();
+		passWord = edit_pw.getText().toString().trim();
+
 		sp = getSharedPreferences("LoginFlag", MODE_PRIVATE);
 
 		image_left.setOnClickListener(new OnClickListener() {
@@ -137,91 +136,106 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// 判断用户名是否存在于数据库中
-				if (!mgr.query_usern(getApplicationContext(), edit_user.getText().toString()).isEmpty()) {
-					// 用MD5给密码加密并判断密码是否正确
-					if (MD5Util.encode(edit_pw.getText().toString()).equals(MD5Util.encode("111111"))) {
 
+				/**
+				 * 用户登录POST请求服务器，验证用户名和密码是否正确 登陆成功返回token 时间：2016年10月20日09:45:42
+				 */
+				RequestParams params = new RequestParams();
+				params.addHeader("Content-Type", "application/json");
+				params.addHeader("Accept", "text/plain");
+				params.addHeader("client_id", "1");
+				CjUser userDTO = new CjUser();
+				userDTO.setName("1");
+				userDTO.setArea("1");
+				userDTO.setPwd("1");
+				userDTO.setAccount("1");
+
+				String jsonStr = gson.toJson(userDTO);
+
+				try {
+					params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
+				} catch (UnsupportedEncodingException e) {
+
+				}
+
+				utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException error, String msg) {
+						ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> responseInfo) {
+
+						/** 获取服务器返回的Token，并储存到SP中 */
+						String token = responseInfo.result;
+						tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
+						tokenSp.edit().putString("token", token).commit();
+						System.out.println("输出结果为" + token);
+						getUserData();
+						/** --------进入登记页面-------- */
 						enterInfo();
 						ToastUtil.showShort(getApplicationContext(), "登陆成功！");
-						sp.edit().putString("LoginFlag", "1").commit();
 
-					} else {
-						ToastUtil.showShort(getApplicationContext(), "密码错误！");
 					}
-				} else {
-					ToastUtil.showShort(getApplicationContext(), "用户名不存在！");
-				}
+				});
 
 			}
 		});
 
-		// getUserData();
-		postUserData();
-
 	}
 
-	// private void getUserData() {
-	//
-	// utils.send(HttpMethod.GET, RcConstant.usertasksPath, new
-	// RequestCallBack<String>() {
-	//
-	// @Override
-	// public void onFailure(HttpException error, String msg) {
-	// ToastUtil.showShort(getApplicationContext(), "请求失败");
-	//
-	// }
-	//
-	// @Override
-	// public void onSuccess(ResponseInfo<String> responseInfo) {
-	// CjTask cjtaskInfo = gson.fromJson(responseInfo.result, CjTask.class);
-	// ToastUtil.showShort(getApplicationContext(), "请求成功。。。");
-	// System.out.println("用戶信息——————————————————————————————" + cjtaskInfo);
-	//
-	//
-	// }
-	// });
-	//
-	// }
-
-	// 2016年10月19日14:36:23
-	private void postUserData() {
-
-		RequestParams params = new RequestParams();
-		params.addHeader("Content-Type", "application/json");
-		params.addHeader("Accept", "text/plain");
-		params.addHeader("client_id", "1");
-		CjUser userDTO = new CjUser();
-		userDTO.setName("1");
-		userDTO.setArea("1");
-		userDTO.setPwd("1");
-		userDTO.setAccount("1");
-
-		String jsonStr = gson.toJson(userDTO);
-
-		try {
-			params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-
-		}
-
-		utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
+	/**
+	 * 获取用户的详细个人信息 时间：2016年10月20日14:18:03
+	 *
+	 */
+	private void getUserData() {
+		String sToken = tokenSp.getString("token", "");
+		System.out.println("-----------------------" + sToken);
+		RequestParams params1 = new RequestParams();
+		params1.addHeader("token", sToken);
+		params1.addHeader("Content-Type", "application/json;charset=utf-8");
+		params1.addHeader("Accept", "*/*");
+		params1.addHeader("client_id", "1");
+        
+		utils.send(HttpMethod.GET, RcConstant.usertasksPath, params1, new RequestCallBack<String>() {
 
 			@Override
 			public void onFailure(HttpException error, String msg) {
-				ToastUtil.showShort(getApplicationContext(), "请求失败");
+				Log.e("AAA-msg", msg);
+				Log.e("AAA-error", error.getMessage());
+				System.out.println("===msg:" + msg);
 
 			}
-           
+            
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
-				String token = responseInfo.result;
-				System.out.println("输出结果为" + responseInfo.result);
-				ToastUtil.showShort(getApplicationContext(), "请求成功");
-                
+
+				List<UserDetail> list = new ArrayList<UserDetail>();
+				list = gson.fromJson(responseInfo.result, new TypeToken<List<UserDetail>>() {  
+				}.getType());
+				
+				
+
+				/**
+				 * @主要功能；把用户的详细信息取出，并储存到SharedPreferences中 ，共享信息； ：
+				 *                                         2016年10月20日14:35:15
+				 */
+				for (int i = 0; i < list.size(); i++) {
+					Log.e("SDDSDDSD", list.get(i).getTaskid());
+				    
+				     
+				}
+				ToastUtil.showShort(getApplicationContext(), "请求成功。。。");
+				System.out.println("用戶信息——————————————————————————————" );
+
 			}
 		});
+
 	}
+
+	// 2016年10月19日14:36:23
 
 	protected void enterInfo() {
 		Intent intent = new Intent(this, InfoMainActivity.class);
