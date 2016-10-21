@@ -40,9 +40,9 @@ public class MainActivity2 extends Activity {
 	// image_sjsc
 	public static final int CBDJ = 101;
 	MyAdapter adapter;
-	private Map<String, String> oldMap;
+	static Map<String, String> oldMap;
 	static int pos;
-	private TextView title_logout, text_user, title_local,title_num;
+	private TextView title_logout, text_user, title_local, title_num;
 	private List<UserDetail> list;
 
 	@Override
@@ -64,13 +64,6 @@ public class MainActivity2 extends Activity {
 		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
 		oldMap = new TextToMap().TextToMap(inputStream);
 
-		/*
-		 * InputStream inputStream1 =
-		 * getResources().openRawResource(R.raw.nation); Map<Strig, String>
-		 * oldMap1 = new TextToMap().TextToMap(inputStream1);
-		 */
-	
-		
 		/** --------注销返回到登陆界面-------------- */
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
@@ -210,20 +203,18 @@ public class MainActivity2 extends Activity {
 			/** --------设置标题栏的数据-------------- */
 			String city = list.get(0).getCity().toString();
 			title_local.setText(city);
-			title_num.setText("（共"+list.size()+"村）");
+			title_num.setText("（共" + list.size() + "村）");
 			String account = list.get(0).getAccount();
 			text_user.setText(account);
-			
+
 			/** 把乡镇代码转换形成乡镇 */
 			String cjarea = list.get(position).getCjarea();
+			for (String key : oldMap.keySet()) {
+				if (key.equals(cjarea))
+					holder.local.setText(oldMap.get(key));
 
-			Set<String> set = oldMap.keySet();
-			for (String str : set) {
-				System.out.println("_____________sdd__________" + oldMap.get(set) + "");
 			}
 
-			list.get(position).getCjarea();
-			holder.local.setText(list.get(position).getCjarea().toString());
 			// holder.num1.setText(listItem.get(position).get(1).toString());
 			// holder.num2.setText(listItem.get(position).get(2).toString());
 			// holder.num3.setText(listItem.get(position).get(3).toString());
