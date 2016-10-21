@@ -121,6 +121,7 @@ public class InfoMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		ButterKnife.bind(InfoMainActivity.this);
+		
 		mgr = new DBManager(this);
 
 		initView();

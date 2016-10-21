@@ -31,6 +31,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -83,7 +84,7 @@ public class LoginActivity extends Activity {
 		users = new ArrayList<User>();
 		User user1 = new User("tttt", "123456");
 		users.add(user1);
-//		mgr.addUser(users);
+		// mgr.addUser(users);
 		initView();
 		initData();
 
@@ -145,10 +146,10 @@ public class LoginActivity extends Activity {
 				params.addHeader("Accept", "text/plain");
 				params.addHeader("client_id", "1");
 				CjUser userDTO = new CjUser();
-				userDTO.setName("1");
+				userDTO.setAccount(edit_user.getText().toString().trim());
 				userDTO.setArea("1");
-				userDTO.setPwd("1");
-				userDTO.setAccount("1");
+				userDTO.setName("1");
+				userDTO.setPwd(edit_pw.getText().toString().trim());
 
 				String jsonStr = gson.toJson(userDTO);
 
@@ -159,12 +160,13 @@ public class LoginActivity extends Activity {
 				}
 
 				utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
-
+					// 请求失败调用次方法
 					@Override
 					public void onFailure(HttpException error, String msg) {
 						ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
 					}
 
+					// 请求成功调用此方法
 					@Override
 					public void onSuccess(ResponseInfo<String> responseInfo) {
 
@@ -173,8 +175,7 @@ public class LoginActivity extends Activity {
 						tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
 						tokenSp.edit().putString("token", token).commit();
 						System.out.println("输出结果为" + token);
-						getUserData();
-						/** --------进入登记页面-------- */
+						/** --------进入选择页面-------- */
 						enterInfo();
 						ToastUtil.showShort(getApplicationContext(), "登陆成功！");
 
@@ -190,55 +191,12 @@ public class LoginActivity extends Activity {
 	 * 获取用户的详细个人信息 时间：2016年10月20日14:18:03
 	 *
 	 */
-	private void getUserData() {
-		String sToken = tokenSp.getString("token", "");
-		System.out.println("-----------------------" + sToken);
-		RequestParams params1 = new RequestParams();
-		params1.addHeader("token", sToken);
-		params1.addHeader("Content-Type", "application/json;charset=utf-8");
-		params1.addHeader("Accept", "*/*");
-		params1.addHeader("client_id", "1");
-        
-		utils.send(HttpMethod.GET, RcConstant.usertasksPath, params1, new RequestCallBack<String>() {
-
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				Log.e("AAA-msg", msg);
-				Log.e("AAA-error", error.getMessage());
-				System.out.println("===msg:" + msg);
-
-			}
-            
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-
-				List<UserDetail> list = new ArrayList<UserDetail>();
-				list = gson.fromJson(responseInfo.result, new TypeToken<List<UserDetail>>() {  
-				}.getType());
-				
-				
-
-				/**
-				 * @主要功能；把用户的详细信息取出，并储存到SharedPreferences中 ，共享信息； ：
-				 *                                         2016年10月20日14:35:15
-				 */
-				for (int i = 0; i < list.size(); i++) {
-					Log.e("SDDSDDSD", list.get(i).getTaskid());
-				    
-				     
-				}
-				ToastUtil.showShort(getApplicationContext(), "请求成功。。。");
-				System.out.println("用戶信息——————————————————————————————" );
-
-			}
-		});
-
-	}
+	
 
 	// 2016年10月19日14:36:23
 
 	protected void enterInfo() {
-		Intent intent = new Intent(this, InfoMainActivity.class);
+		Intent intent = new Intent(this, MainActivity2.class);
 		startActivity(intent);
 	}
 
