@@ -17,12 +17,24 @@
             android:background="#0198cc" >
 
             <ImageView
-                android:id="@+id/image_left"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:id="@+id/image_user"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_centerVertical="true"
-                android:scaleType="center"
-                android:src="@drawable/left" />
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/gerenzhuye" />
+
+            <TextView
+                android:id="@+id/text_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/image_user"
+                android:text="某人"
+                android:textColor="#ffffff"
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

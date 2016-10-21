@@ -1,4 +1,4 @@
-package com.example.cxjminfodemo.server.ao;
+package com.example.cxjminfodemo.server;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

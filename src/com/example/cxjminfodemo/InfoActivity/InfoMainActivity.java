@@ -131,7 +131,6 @@ public class InfoMainActivity extends Activity {
 		lv.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 
-		
 		/* 为动态数组添加数据 */
 	}
 
@@ -190,8 +189,7 @@ public class InfoMainActivity extends Activity {
 
 	@OnClick(R.id.image_left)
 	public void toMainActivity() {
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
+		finish();
 	}
 
 	@OnClick(R.id.text)
@@ -261,8 +259,8 @@ public class InfoMainActivity extends Activity {
 
 							text_name.setText(tempFamily.getEdit_hzxm());
 							text_id.setText(tempFamily.getEdit_gmcfzh());
-							
-							ArrayList<Personal> listPersonal=mgr.queryPersonal(text_id.getText().toString());
+
+							ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
 							UpdateListView(listPersonal);
 						}
 					}
@@ -319,9 +317,9 @@ public class InfoMainActivity extends Activity {
 
 			text_name.setText(tempFamily.getEdit_hzxm());
 			text_id.setText(tempFamily.getEdit_gmcfzh());
-			
-			//刷新listview
-			ArrayList<Personal> listPersonal=mgr.queryPersonal(text_id.getText().toString());
+
+			// 刷新listview
+			ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
 			UpdateListView(listPersonal);
 			break;
 		case CAMERA:

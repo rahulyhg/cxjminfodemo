@@ -41,11 +41,12 @@ import android.os.Build;
 public class MainActivity2 extends Activity {
 	ListView listview;
 	// image_sjsc
-
+	public static final int CBDJ = 101;
 	MyAdapter adapter;
 	ArrayList<ArrayList<String>> listItem = new ArrayList<ArrayList<String>>();
 	ArrayList<String> item = new ArrayList<String>();
 	ArrayList<String> item2 = new ArrayList<String>();
+	static int pos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,41 +80,6 @@ public class MainActivity2 extends Activity {
 
 		listItem.add(item);
 
-		item.clear();
-
-		item.add("圣达菲村");
-		item.add("100");
-		item.add("1000");
-		item.add("500");
-
-		listItem.add(item);
-
-		item.clear();
-
-		item.add("圣达菲村");
-		item.add("100");
-		item.add("1000");
-		item.add("500");
-
-		listItem.add(item);
-
-		item.clear();
-
-		item.add("圣达菲村");
-		item.add("100");
-		item.add("1000");
-		item.add("500");
-
-		listItem.add(item);
-
-		item.clear();
-
-		item.add("圣达菲村");
-		item.add("100");
-		item.add("1000");
-		item.add("500");
-
-		listItem.add(item);
 
 		adapter = new MyAdapter(this, listItem);
 		listview.setAdapter(adapter);
@@ -131,6 +97,14 @@ public class MainActivity2 extends Activity {
 		 */
 	}
 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
+		case CBDJ:
+			adapter.getViewHolder(pos).upload.setVisibility(View.VISIBLE);
+			;
+		}
+	}
+
 	public class MyAdapter extends BaseAdapter {
 
 		ArrayList<ArrayList<String>> listItem;
@@ -143,6 +117,8 @@ public class MainActivity2 extends Activity {
 			public TextView local;
 			CircularProgressButton upload;
 			CircularProgressButton download;
+			private ImageView download2;
+			private ImageView upload2;
 		}
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
@@ -168,8 +144,18 @@ public class MainActivity2 extends Activity {
 			return position;
 		}
 
+		public ViewHolder getViewHolder(int position) {
+			ViewHolder holder;
+			int firstVisible = listview.getFirstVisiblePosition();
+			int index = position + listview.getHeaderViewsCount();
+			View temp = listview.getChildAt(index - firstVisible);
+			holder = (ViewHolder) temp.getTag();
+			return holder;
+
+		}
+
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
 
 			final ViewHolder holder;
@@ -186,6 +172,8 @@ public class MainActivity2 extends Activity {
 
 				holder.upload = (CircularProgressButton) convertView.findViewById(R.id.buttom_up);
 				holder.download = (CircularProgressButton) convertView.findViewById(R.id.buttom_down);
+				holder.download2 = (ImageView) convertView.findViewById(R.id.buttom_down2);
+				holder.upload2 = (ImageView) convertView.findViewById(R.id.buttom_up2);
 				holder.download.setIndeterminateProgressMode(true);
 				holder.upload.setIndeterminateProgressMode(true);
 				convertView.setTag(holder); // 绑定ViewHolder对象
@@ -197,19 +185,24 @@ public class MainActivity2 extends Activity {
 			holder.num2.setText(listItem.get(position).get(2).toString());
 			holder.num3.setText(listItem.get(position).get(3).toString());
 
+			holder.upload2.setVisibility(View.INVISIBLE);
+			holder.upload.setVisibility(View.INVISIBLE);
+
 			holder.download.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (holder.download.getProgress() == 0) {
 						holder.download.setProgress(50);
+						holder.download2.setVisibility(View.INVISIBLE);
 					} else if (holder.download.getProgress() == 100) {
-						//holder.download.setProgress(0);
+						// holder.download.setProgress(0);
 						Intent intent = new Intent(MainActivity2.this, InfoMainActivity.class);
-						startActivity(intent);
+						startActivityForResult(intent, CBDJ);
+						pos = position;
 					} else {
 						holder.download.setProgress(100);
 					}
-					
+
 				}
 			});
 
@@ -220,6 +213,9 @@ public class MainActivity2 extends Activity {
 						holder.upload.setProgress(50);
 					} else if (holder.upload.getProgress() == 100) {
 						holder.upload.setProgress(0);
+						holder.upload2.setVisibility(View.VISIBLE);
+						holder.download.setVisibility(View.INVISIBLE);
+						holder.upload.setVisibility(View.INVISIBLE);
 					} else {
 						holder.upload.setProgress(100);
 					}
@@ -237,6 +233,15 @@ public class MainActivity2 extends Activity {
 			 * @Override public void onClick(View v) { } });
 			 */
 			return convertView;
+		}
+
+		public void updateView(View view, int itemIndex) {
+			if (view == null) {
+				return;
+			}
+			// 从view中取得holder
+			ViewHolder holder = (ViewHolder) view.getTag();
+			holder.upload.setVisibility(View.VISIBLE);
 		}
 
 	}

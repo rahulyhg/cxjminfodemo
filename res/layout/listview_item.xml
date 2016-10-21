@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -73,21 +73,32 @@
                     app:cpb_textError="请重试"
                     app:cpb_textIdle="上传" />
 
-                <com.dd.CircularProgressButton
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/buttom_down"
-                    android:layout_width="62dp"
-                    android:layout_height="29dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:textColor="#0076ff"
-                    android:textSize="16sp"
-                    app:cpb_cornerRadius="3dp"
-                    app:cpb_selectorComplete="@drawable/complete_down_selector"
-                    app:cpb_selectorIdle="@drawable/idle_down_selector"
-                    app:cpb_textComplete="录入"
-                    app:cpb_textError="请重试"
-                    app:cpb_textIdle="下载"
-                    android:background="@drawable/ground" />
+                    android:gravity="center" >
+
+                    <com.dd.CircularProgressButton
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/buttom_down"
+                        android:layout_width="62dp"
+                        android:layout_height="29dp"
+                        android:textColor="#0076ff"
+                        android:textSize="16sp"
+                        app:cpb_cornerRadius="3dp"
+                        app:cpb_selectorComplete="@drawable/complete_down_selector"
+                        app:cpb_selectorIdle="@drawable/idle_down_selector"
+                        app:cpb_textComplete="录入"
+                        app:cpb_textError="请重试"
+                        app:cpb_textIdle="下载" />
+
+                    <ImageView
+                        android:id="@+id/buttom_down2"
+                        android:layout_width="63dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ground" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -182,4 +193,13 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/buttom_up2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/done" />
+
+</RelativeLayout>
