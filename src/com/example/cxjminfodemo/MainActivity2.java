@@ -1,17 +1,13 @@
 package com.example.cxjminfodemo;
 
-import android.app.Activity;
-
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.dd.CircularProgressButton;
-import com.example.cxjminfodemo.MyAdapter.ViewHolder;
+import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.server.dto.UserDetail;
 import com.example.cxjminfodemo.utils.TextToMap;
 import com.example.cxjminfodemo.utils.ToastUtil;
@@ -23,32 +19,21 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.roamer.slidelistview.SlideBaseAdapter;
-import com.roamer.slidelistview.SlideListView.SlideMode;
 
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import android.os.Build;
 
 public class MainActivity2 extends Activity {
 	ListView listview;
@@ -57,22 +42,46 @@ public class MainActivity2 extends Activity {
 	MyAdapter adapter;
 	private Map<String, String> oldMap;
 	static int pos;
+	private TextView title_logout, text_user, title_local,title_num;
+	private List<UserDetail> list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
 		ButterKnife.bind(MainActivity2.this);
-		/** ------向服务器请求数据-------------- */
+		/** ------向服务器请求数据---------------- */
 		getDataFromNet();
+		/** --------初始化布局----------------- */
+		title_logout = (TextView) findViewById(R.id.title_logout);
+		text_user = (TextView) findViewById(R.id.text_user);
+		title_local = (TextView) findViewById(R.id.title_local);
+		title_num = (TextView) findViewById(R.id.title_num);
 		listview = (ListView) findViewById(R.id.listView);
+
+		/** --------初始化数据----------------- */
+		list = new ArrayList<UserDetail>();
 		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
 		oldMap = new TextToMap().TextToMap(inputStream);
+
 		/*
 		 * InputStream inputStream1 =
-		 * getResources().openRawResource(R.raw.nation); Map<String, String>
+		 * getResources().openRawResource(R.raw.nation); Map<Strig, String>
 		 * oldMap1 = new TextToMap().TextToMap(inputStream1);
 		 */
+	
+		
+		/** --------注销返回到登陆界面-------------- */
+		title_logout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity2.this, LoginActivity.class);
+				startActivity(intent);
+				ToastUtil.showShort(getApplicationContext(), "注销成功！");
+				finish();
+			}
+		});
+
 	}
 
 	/**
@@ -108,7 +117,7 @@ public class MainActivity2 extends Activity {
 	/** 获取用户的详细信息并储存到list中--- */
 	protected void getInfoData(String result) {
 		Gson gson = new Gson();
-		List<UserDetail> list = new ArrayList<UserDetail>();
+
 		list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
 		}.getType());
 		adapter = new MyAdapter(list);
@@ -198,9 +207,14 @@ public class MainActivity2 extends Activity {
 			} else {
 				holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
 			}
-
+			/** --------设置标题栏的数据-------------- */
+			String city = list.get(0).getCity().toString();
+			title_local.setText(city);
+			title_num.setText("（共"+list.size()+"村）");
+			String account = list.get(0).getAccount();
+			text_user.setText(account);
+			
 			/** 把乡镇代码转换形成乡镇 */
-
 			String cjarea = list.get(position).getCjarea();
 
 			Set<String> set = oldMap.keySet();
