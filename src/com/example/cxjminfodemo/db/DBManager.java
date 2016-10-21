@@ -10,6 +10,7 @@ import com.example.cxjminfodemo.R;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.dto.User;
+import com.example.cxjminfodemo.server.dto.UserDetail;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -65,29 +66,16 @@ public class DBManager {
 	 * 
 	 * @param persons
 	 */
-	/*
-	 * public static SQLiteDatabase openDatabase(Context context) {
-	 * SQLiteDatabase database = null; try { String DATABASE_PATH =
-	 * android.os.Environment.getExternalStorageDirectory().getAbsolutePath() +
-	 * "/cxjmdb"; // 将要存放于的文件夹 String DATABASE_FILENAME = "cxjm.db"; // 文件名
-	 * String databaseFilename = DATABASE_PATH + "/" + DATABASE_FILENAME; File
-	 * dir = new File(DATABASE_PATH); // 如果/sdcard/cxjmdb目录不存在，创建这个目录 if
-	 * (!dir.exists()) { dir.mkdir(); }
-	 * 
-	 * if (!(new File(databaseFilename)).exists()) { InputStream is =
-	 * context.getResources().openRawResource(R.raw.cxdb); FileOutputStream fos
-	 * = new FileOutputStream(databaseFilename); byte[] buffer = new byte[8192];
-	 * int count = 0; // 开始复制文件 while ((count = is.read(buffer)) > 0) {
-	 * fos.write(buffer, 0, count); } fos.close(); is.close(); }
-	 * 
-	 * database = SQLiteDatabase.openOrCreateDatabase(databaseFilename, null); }
-	 * catch (Exception e) { e.printStackTrace(); } return database; }
-	 */
-	public void addUser(List<User> users) {
+     
+	public void addUser(List<UserDetail> list) {
 		db.beginTransaction(); // 开始事务
 		try {
-			for (User user : users) {
-				db.execSQL("INSERT INTO user VALUES(null, ?, ?)", new Object[] { user.username, user.password });
+			for (UserDetail userDetail : list) {
+				db.execSQL("INSERT INTO user VALUES(null, ?, ?,?, ?,?, ?,?, ?,?, ?)",
+						new Object[] { userDetail.account, userDetail.city,userDetail.cjarea,
+								       userDetail.downloadflag,userDetail.sfcl,userDetail.taskdesc,
+								       userDetail.taskid,userDetail.taskstatus,userDetail.uploadflag,
+								       userDetail.validcfcburl});
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {

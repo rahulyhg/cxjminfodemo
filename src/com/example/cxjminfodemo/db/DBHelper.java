@@ -60,7 +60,17 @@ public class DBHelper extends SQLiteOpenHelper {
 	void CreatTable(SQLiteDatabase db)
 	{
 		db.execSQL("CREATE TABLE IF NOT EXISTS user"
-				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR, password VARCHAR)");
+				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ " taskid VARCHAR,"
+				+ " cjarea VARCHAR,"
+				+ "account VARCHAR,"
+				+ "city VARCHAR,"
+				+ "validcfcburl VARCHAR,"
+				+ "sfcl VARCHAR,"
+				+ "taskdesc VARCHAR,"
+				+ "taskstatus VARCHAR,"
+				+ "downloadflag VARCHAR,"
+				+ "uploadflag VARCHAR)");
 
 		db.execSQL("CREATE TABLE IF NOT EXISTS family"
 				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "

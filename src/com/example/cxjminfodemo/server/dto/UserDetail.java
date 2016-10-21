@@ -1,17 +1,16 @@
 package com.example.cxjminfodemo.server.dto;
 
-public class CjTask {
+public class UserDetail {
 	public String taskid;
 	public String cjarea;
 	public String account;
 	public String city;
 	public String validcfcburl;
-	public String sfcl; 
+	public String sfcl;
 	public String taskdesc;
-	public String taskstatus ="0";
-	public String downloadflag ="0";
-	public String uploadflag = "0";
-	
+	public String taskstatus;
+	public String downloadflag;
+	public String uploadflag;
 	public String getTaskid() {
 		return taskid;
 	}
