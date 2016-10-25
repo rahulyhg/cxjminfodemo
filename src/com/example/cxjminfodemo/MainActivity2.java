@@ -9,6 +9,7 @@ import java.util.Set;
 import com.dd.CircularProgressButton;
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.server.dto.UserDetail;
+import com.example.cxjminfodemo.utils.HttpManager;
 import com.example.cxjminfodemo.utils.TextToMap;
 import com.example.cxjminfodemo.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -114,6 +115,7 @@ public class MainActivity2 extends Activity {
 		list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
 		}.getType());
 		adapter = new MyAdapter(list);
+		System.out.println("___________----------"+list.get(0).toString());
 		listview.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 		ToastUtil.showShort(getApplicationContext(), "数据已经加载");
@@ -139,6 +141,7 @@ public class MainActivity2 extends Activity {
 			CircularProgressButton download;
 			private ImageView download2;
 			private ImageView upload2;
+			public TextView text_num;
 		}
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
@@ -186,6 +189,7 @@ public class MainActivity2 extends Activity {
 				convertView = mInflater.inflate(R.layout.listview_item, null);
 				holder = new ViewHolder();
 				/* 得到各个控件的对象 */
+				holder.text_num = (TextView) convertView.findViewById(R.id.text_num);
 				holder.num1 = (TextView) convertView.findViewById(R.id.num1);
 				holder.num2 = (TextView) convertView.findViewById(R.id.num2);
 				holder.num3 = (TextView) convertView.findViewById(R.id.num3);
@@ -208,16 +212,14 @@ public class MainActivity2 extends Activity {
 			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 */
-			String cjarea = list.get(position).getCjarea();
+			final String cjarea = list.get(position).getCjarea();
 			for (String key : oldMap.keySet()) {
 				if (key.equals(cjarea))
 					holder.local.setText(oldMap.get(key));
 
 			}
-
-			// holder.num1.setText(listItem.get(position).get(1).toString());
-			// holder.num2.setText(listItem.get(position).get(2).toString());
-			// holder.num3.setText(listItem.get(position).get(3).toString());
+			int posi = position + 1;
+			holder.text_num.setText(posi + "");
 
 			holder.upload2.setVisibility(View.INVISIBLE);
 			holder.upload.setVisibility(View.INVISIBLE);
@@ -226,6 +228,8 @@ public class MainActivity2 extends Activity {
 				@Override
 				public void onClick(View v) {
 					if (holder.download.getProgress() == 0) {
+						HttpManager http=new HttpManager();
+						http.jbxx(cjarea);
 						holder.download.setProgress(50);
 						holder.download2.setVisibility(View.INVISIBLE);
 					} else if (holder.download.getProgress() == 100) {

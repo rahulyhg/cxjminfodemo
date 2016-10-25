@@ -42,25 +42,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="10" >
-                
+                android:layout_weight="1.5"
+                android:background="#c9c9ce" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="8" >
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#c9c9ce"
                     android:gravity="center" >
 
                     <ImageView
                         android:id="@+id/btn_camera"
-                        android:layout_width="40dp"
-                        android:layout_height="28dp"
+                        android:layout_width="34dp"
+                        android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/camera" />
+                        android:src="@drawable/xiangji" />
 
                     <EditText
                         android:id="@+id/edit_num"
-                        android:layout_width="230dp"
+                        android:layout_width="280dp"
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@id/btn_camera"
                         android:background="@drawable/input"
@@ -68,7 +76,7 @@
                         android:hint="请输入户主身份证号"
                         android:inputType="number"
                         android:paddingLeft="10dp"
-                        android:textSize="15sp" >
+                        android:textSize="14sp" >
                     </EditText>
 
                     <ImageView
@@ -84,10 +92,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
+                android:layout_weight="1.5"
+                android:background="#c9c9ce" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
                 android:layout_weight="2" >
             </LinearLayout>
-            
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
@@ -95,49 +109,56 @@
                 android:background="#ffffff"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="7"
-                    android:gravity="center"
-                    android:text="家庭登记"
-                    android:textColor="#000000"
-                    android:textSize="17sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="75"
+                    android:background="#ffffff" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="家庭登记"
+                        android:textColor="#6d6d72"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/btn_add"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/add" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
-                    android:layout_weight="3" />
-
-                
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="3" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#cfcfcf" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="8"
+                    android:layout_weight="100"
                     android:gravity="center" >
+                    
+                     <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/yezhu" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_weight="2.3"
                         android:singleLine="true"
-                        android:text=" 户主 ："
+                        android:text=" 户主:"
                         android:textColor="#000000"
                         android:textSize="14sp" />
 
@@ -167,18 +188,6 @@
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#cfcfcf" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="3" />
             </LinearLayout>
 
             <LinearLayout
@@ -197,33 +206,37 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="#ffffff" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="人员参保登记"
-                        android:textColor="#000000"
-                        android:textSize="17sp" />
+                        android:text="成员登记"
+                        android:textColor="#6d6d72"
+                        android:textSize="12sp" />
 
                     <ImageView
-                        android:id="@+id/btn_add"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/btn_add2"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/add" />
                 </RelativeLayout>
+                
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e9f1ef"
+                    android:gravity="center" />
 
                 <ScrollView
                     android:id="@+id/ScrollView"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
                     android:layout_weight="10"
                     android:gravity="center_horizontal"
                     android:scrollbars="vertical" >

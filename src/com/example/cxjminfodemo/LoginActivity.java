@@ -178,7 +178,6 @@ public class LoginActivity extends Activity {
 						/** --------进入选择页面-------- */
 						enterInfo();
 						ToastUtil.showShort(getApplicationContext(), "登陆成功！");
-
 					}
 				});
 

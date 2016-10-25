@@ -71,6 +71,12 @@ public class UserDetail {
 	public void setUploadflag(String uploadflag) {
 		this.uploadflag = uploadflag;
 	}
+	@Override
+	public String toString() {
+		return "UserDetail [taskid=" + taskid + ", cjarea=" + cjarea + ", account=" + account + ", city=" + city
+				+ ", validcfcburl=" + validcfcburl + ", sfcl=" + sfcl + ", taskdesc=" + taskdesc + ", taskstatus="
+				+ taskstatus + ", downloadflag=" + downloadflag + ", uploadflag=" + uploadflag + "]";
+	}
 	
 
 }

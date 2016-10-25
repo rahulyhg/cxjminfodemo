@@ -11,11 +11,22 @@
         android:layout_centerVertical="true"
         android:gravity="center" >
 
+        <ImageView
+            android:id="@+id/text_icon"
+            android:layout_width="20dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/yezhu" />
+
         <TextView
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/text_icon"
             android:text="haha"
             android:textSize="14sp" />
 
@@ -23,32 +34,48 @@
             android:id="@+id/text_gmsfzh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/text_name"
             android:text="1111111111111111"
             android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/text_cbrq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_name"
-            android:layout_marginLeft="10dp"
-             android:textColor="#b3b2b2"
-            android:text="1900-1-1"
-            android:textSize="14sp" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/text_jf"
+    <RelativeLayout
+        android:id="@+id/text_f"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
-        android:gravity="right"
-        android:text="待缴费"
-        android:textColor="#b3b2b2"
-        android:textSize="14sp" />
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/text_jf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="待缴费"
+            android:textColor="#b3b2b2"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_yjf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="已缴费"
+            android:textColor="#ef5306"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:layout_toLeftOf="@id/text_f"
+        android:src="@drawable/check"
+        android:visibility="invisible" />
 
 </RelativeLayout>

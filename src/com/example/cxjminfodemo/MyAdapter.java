@@ -39,7 +39,6 @@ public class MyAdapter extends SlideBaseAdapter {
 		public TextView gmsfzh;
 		public TextView name;
 		public TextView jf;
-		public TextView cbrq;
 		Button edit;
 		Button delete;
 	}
@@ -75,7 +74,6 @@ public class MyAdapter extends SlideBaseAdapter {
 		return super.getSlideModeInPosition(position);
 	}
 
-
 	@Override
 	public int getItemViewType(int position) {
 		if (position % 2 == 0) {
@@ -96,7 +94,6 @@ public class MyAdapter extends SlideBaseAdapter {
 			/* 得到各个控件的对象 */
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
-			holder.cbrq= (TextView) convertView.findViewById(R.id.text_cbrq);
 			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
@@ -106,7 +103,6 @@ public class MyAdapter extends SlideBaseAdapter {
 		/* 设置TextView显示的内容，即我们存放在动态数组中的数据 */
 		holder.gmsfzh.setText(listItem.get(position).get("gmsfzh").toString());
 		holder.name.setText(listItem.get(position).get("name").toString());
-		holder.cbrq.setText(listItem.get(position).get("cbrq").toString());
 		holder.gmsfzh.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -120,8 +116,7 @@ public class MyAdapter extends SlideBaseAdapter {
 				Toast.makeText(mContext, "Click title:" + position, Toast.LENGTH_SHORT).show();
 			}
 		});
-		
-		
+
 		if (listItem.get(position).get("jf").toString().equals("1")) {
 			holder.jf.setText("已缴费");
 			holder.jf.setTextColor(Color.BLACK);
