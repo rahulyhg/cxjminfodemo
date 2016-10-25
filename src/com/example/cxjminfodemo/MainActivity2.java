@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.dd.CircularProgressButton;
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
+import com.example.cxjminfodemo.server.dto.FamilyMemberDTO;
 import com.example.cxjminfodemo.server.dto.UserDetail;
 import com.example.cxjminfodemo.utils.HttpManager;
 import com.example.cxjminfodemo.utils.TextToMap;
@@ -22,9 +23,13 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +50,7 @@ public class MainActivity2 extends Activity {
 	static int pos;
 	private TextView title_logout, text_user, title_local, title_num;
 	private List<UserDetail> list;
+	Context activity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,7 @@ public class MainActivity2 extends Activity {
 				finish();
 			}
 		});
-
+		activity = this;
 	}
 
 	/**
@@ -115,7 +121,7 @@ public class MainActivity2 extends Activity {
 		list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
 		}.getType());
 		adapter = new MyAdapter(list);
-		System.out.println("___________----------"+list.get(0).toString());
+		System.out.println("___________----------" + list.get(0).toString());
 		listview.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 		ToastUtil.showShort(getApplicationContext(), "数据已经加载");
@@ -181,8 +187,8 @@ public class MainActivity2 extends Activity {
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-
 			final ViewHolder holder;
+			final HttpManager http = new HttpManager(activity);
 			Log.v("BaseAdapterTest", "getView " + position + " " + convertView);
 
 			if (convertView == null) {
@@ -221,16 +227,68 @@ public class MainActivity2 extends Activity {
 			int posi = position + 1;
 			holder.text_num.setText(posi + "");
 
-
 			holder.upload2.setVisibility(View.INVISIBLE);
 			holder.upload.setVisibility(View.INVISIBLE);
 
+			final Handler handler = new Handler() {
+				public void handleMessage(Message msg) {
+					if (msg.what == 0) {
+						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
+						((Activity) activity).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								holder.download.setProgress(-1);
+								holder.download.setTextColor(Color.rgb(255, 255, 255));
+								http.isAlive = true;
+							}
+						});
+					}
+					if (msg.what == 1) {
+						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
+						((Activity) activity).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								http.isAlive = true;
+								holder.download.setProgress(100);
+							}
+						});
+					}
+				};
+			};
+
+			final Runnable runnable = new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					while (http.isAlive) {
+					}
+					if (http.isError)
+						handler.sendEmptyMessage(0);
+					else if (holder.download.getProgress() == 50)
+						handler.sendEmptyMessage(1);
+					http.isAlive = true;
+				}
+			};
+
 			holder.download.setOnClickListener(new View.OnClickListener() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void onClick(View v) {
-					if (holder.download.getProgress() == 0) {
-						HttpManager http=new HttpManager();
-						http.jbxx(cjarea);
+
+					if (holder.download.getProgress() == 0 || holder.download.getProgress() == -1) {
+						http.getJbxx(cjarea);
+
+						new Thread(runnable).start();
+
+						holder.download.setProgress(0);
 						holder.download.setProgress(50);
 						holder.download2.setVisibility(View.INVISIBLE);
 					} else if (holder.download.getProgress() == 100) {
@@ -239,9 +297,9 @@ public class MainActivity2 extends Activity {
 						startActivityForResult(intent, CBDJ);
 						pos = position;
 					} else {
-						holder.download.setProgress(100);
+						holder.download.setProgress(-1);
+						holder.download.setTextColor(Color.rgb(255, 255, 255));
 					}
-
 				}
 			});
 
@@ -260,17 +318,6 @@ public class MainActivity2 extends Activity {
 					}
 				}
 			});
-			/*
-			 * holder.gmsfzh.setOnClickListener(new View.OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) {
-			 * 
-			 * } });
-			 * 
-			 * holder.name.setOnClickListener(new View.OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) { } });
-			 */
 			return convertView;
 		}
 

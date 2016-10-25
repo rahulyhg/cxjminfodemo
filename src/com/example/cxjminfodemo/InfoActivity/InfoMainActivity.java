@@ -121,12 +121,13 @@ public class InfoMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		ButterKnife.bind(InfoMainActivity.this);
-		
+
 		mgr = new DBManager(this);
 
 		initView();
 		edit_num.setText("330702199402180816");
 		// /*为ListView设置Adapter来绑定数据*/
+		listItem.clear();
 		adapter = new MyAdapter(this, listItem);
 
 		lv.setAdapter(adapter);
@@ -215,7 +216,7 @@ public class InfoMainActivity extends Activity {
 
 	}
 
-	@OnClick(R.id.btn_add)
+	@OnClick(R.id.btn_add2)
 	public void toInfoPersonalActivity() {
 		if (text_id.getText().toString().equals("")) {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
@@ -260,9 +261,7 @@ public class InfoMainActivity extends Activity {
 
 							text_name.setText(tempFamily.getEdit_hzxm());
 							text_id.setText(tempFamily.getEdit_gmcfzh());
-
-							ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
-							UpdateListView(listPersonal);
+							UpdateListView();
 						}
 					}
 					// 为空就是未匹配到信息
@@ -298,16 +297,18 @@ public class InfoMainActivity extends Activity {
 		case INFO＿PERSONAL:
 			// 回退按钮没有data
 			if (data != null) {
-				Bundle p = data.getExtras(); // data为B中回传的Intent
-				String str = p.getString("Personal");// str即为回传的值
-				System.out.println("Personal" + str);
-				ArrayList<Personal> listPersonal = gson.fromJson(str, new TypeToken<ArrayList<Personal>>() {
-				}.getType());
-				// 用于映射
-				list_family_personal.put(text_id.getText().toString(), listPersonal);
+				// Bundle p = data.getExtras(); // data为B中回传的Intent
+				// String str = p.getString("Personal");// str即为回传的值
+				// System.out.println("Personal" + str);
+				// ArrayList<Personal> listPersonal = gson.fromJson(str, new
+				// TypeToken<ArrayList<Personal>>() {
+				// }.getType());
+				// // 用于映射
+				// list_family_personal.put(text_id.getText().toString(),
+				// listPersonal);
 
 				// 用于显示listview
-				UpdateListView(listPersonal);
+				UpdateListView();
 			}
 			break;
 
@@ -320,8 +321,7 @@ public class InfoMainActivity extends Activity {
 			text_id.setText(tempFamily.getEdit_gmcfzh());
 
 			// 刷新listview
-			ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
-			UpdateListView(listPersonal);
+			UpdateListView();
 			break;
 		case CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
@@ -364,7 +364,9 @@ public class InfoMainActivity extends Activity {
 		}
 	}
 
-	private void UpdateListView(ArrayList<Personal> listPersonal) {
+	private void UpdateListView() {
+		listItem.clear();
+		ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
 		for (Personal tempPersonal : listPersonal) {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("name", tempPersonal.getEdit_cbrxm());

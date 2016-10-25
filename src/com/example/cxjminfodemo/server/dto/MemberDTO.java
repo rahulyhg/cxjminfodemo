@@ -1,24 +1,23 @@
 package com.example.cxjminfodemo.server.dto;
 
 public class MemberDTO {
-
-	String lsh;// 流水号
-	String AAC999;// 个人编号
-	String AAC003;// 姓名
-	String AAC058;// 证件类型
-	String AAE135;// 公民身份号码
-	String AAC005;// 民族
-	String AAC004;// 性别
-	String AAC006;// 出生日期
-	String BAC067;// 参保人员类别
-	String AAC030;// 登记日期
-	String AAC069;// 与户主关系
-	String AAE005;// 联系电话
-	String AAE006;// 住址
-	String AAC009;// 户口性质
-	String HZSFZ;// 户主身份号码
-	String JFBZ;// 缴费标志
-	String XGBZ;// 修改标志
+	private String lsh; // 流水号
+	private String aac999; // 个人编号
+	private String aac003; // 姓名
+	private String aac058; // 证件类型
+	private String aae135; // 公民身份
+	private String aac005; // 民族
+	private String aac004; // 性别
+	private String aac006; // 出生日期
+	private String bac067; // 参保人员
+	private String aac030; // 登记日期
+	private String aac069; // 与户主关
+	private String aae005; // 联系电话
+	private String aae006; // 住址
+	private String aac009; // 户口性质
+	private String hzsfz; // 户主身份证号
+	private String jfbz; // 缴费标志
+	private String xgbz; // 修改标志
 
 	public String getLsh() {
 		return lsh;
@@ -28,140 +27,140 @@ public class MemberDTO {
 		this.lsh = lsh;
 	}
 
-	public String getAAC999() {
-		return AAC999;
+	public String getAac999() {
+		return aac999;
 	}
 
-	public void setAAC999(String aAC999) {
-		AAC999 = aAC999;
+	public void setAac999(String aac999) {
+		this.aac999 = aac999;
 	}
 
-	public String getAAC003() {
-		return AAC003;
+	public String getAac003() {
+		return aac003;
 	}
 
-	public void setAAC003(String aAC003) {
-		AAC003 = aAC003;
+	public void setAac003(String aac003) {
+		this.aac003 = aac003;
 	}
 
-	public String getAAC058() {
-		return AAC058;
+	public String getAac058() {
+		return aac058;
 	}
 
-	public void setAAC058(String aAC058) {
-		AAC058 = aAC058;
+	public void setAac058(String aac058) {
+		this.aac058 = aac058;
 	}
 
-	public String getAAE135() {
-		return AAE135;
+	public String getAae135() {
+		return aae135;
 	}
 
-	public void setAAE135(String aAE135) {
-		AAE135 = aAE135;
+	public void setAae135(String aae135) {
+		this.aae135 = aae135;
 	}
 
-	public String getAAC005() {
-		return AAC005;
+	public String getAac005() {
+		return aac005;
 	}
 
-	public void setAAC005(String aAC005) {
-		AAC005 = aAC005;
+	public void setAac005(String aac005) {
+		this.aac005 = aac005;
 	}
 
-	public String getAAC004() {
-		return AAC004;
+	public String getAac004() {
+		return aac004;
 	}
 
-	public void setAAC004(String aAC004) {
-		AAC004 = aAC004;
+	public void setAac004(String aac004) {
+		this.aac004 = aac004;
 	}
 
-	public String getAAC006() {
-		return AAC006;
+	public String getAac006() {
+		return aac006;
 	}
 
-	public void setAAC006(String aAC006) {
-		AAC006 = aAC006;
+	public void setAac006(String aac006) {
+		this.aac006 = aac006;
 	}
 
-	public String getBAC067() {
-		return BAC067;
+	public String getBac067() {
+		return bac067;
 	}
 
-	public void setBAC067(String bAC067) {
-		BAC067 = bAC067;
+	public void setBac067(String bac067) {
+		this.bac067 = bac067;
 	}
 
-	public String getAAC030() {
-		return AAC030;
+	public String getAac030() {
+		return aac030;
 	}
 
-	public void setAAC030(String aAC030) {
-		AAC030 = aAC030;
+	public void setAac030(String aac030) {
+		this.aac030 = aac030;
 	}
 
-	public String getAAC069() {
-		return AAC069;
+	public String getAac069() {
+		return aac069;
 	}
 
-	public void setAAC069(String aAC069) {
-		AAC069 = aAC069;
+	public void setAac069(String aac069) {
+		this.aac069 = aac069;
 	}
 
-	public String getAAE005() {
-		return AAE005;
+	public String getAae005() {
+		return aae005;
 	}
 
-	public void setAAE005(String aAE005) {
-		AAE005 = aAE005;
+	public void setAae005(String aae005) {
+		this.aae005 = aae005;
 	}
 
-	public String getAAE006() {
-		return AAE006;
+	public String getAae006() {
+		return aae006;
 	}
 
-	public void setAAE006(String aAE006) {
-		AAE006 = aAE006;
+	public void setAae006(String aae006) {
+		this.aae006 = aae006;
 	}
 
-	public String getAAC009() {
-		return AAC009;
+	public String getAac009() {
+		return aac009;
 	}
 
-	public void setAAC009(String aAC009) {
-		AAC009 = aAC009;
+	public void setAac009(String aac009) {
+		this.aac009 = aac009;
 	}
 
-	public String getHZSFZ() {
-		return HZSFZ;
+	public String getHzsfz() {
+		return hzsfz;
 	}
 
-	public void setHZSFZ(String hZSFZ) {
-		HZSFZ = hZSFZ;
+	public void setHzsfz(String hzsfz) {
+		this.hzsfz = hzsfz;
 	}
 
-	public String getJFBZ() {
-		return JFBZ;
+	public String getJfbz() {
+		return jfbz;
 	}
 
-	public void setJFBZ(String jFBZ) {
-		JFBZ = jFBZ;
+	public void setJfbz(String jfbz) {
+		this.jfbz = jfbz;
 	}
 
-	public String getXGBZ() {
-		return XGBZ;
+	public String getXgbz() {
+		return xgbz;
 	}
 
-	public void setXGBZ(String xGBZ) {
-		XGBZ = xGBZ;
+	public void setXgbz(String xgbz) {
+		this.xgbz = xgbz;
 	}
 
 	@Override
 	public String toString() {
-		return "MemberDTO [lsh=" + lsh + ", AAC999=" + AAC999 + ", AAC003=" + AAC003 + ", AAC058=" + AAC058
-				+ ", AAE135=" + AAE135 + ", AAC005=" + AAC005 + ", AAC004=" + AAC004 + ", AAC006=" + AAC006
-				+ ", BAC067=" + BAC067 + ", AAC030=" + AAC030 + ", AAC069=" + AAC069 + ", AAE005=" + AAE005
-				+ ", AAE006=" + AAE006 + ", AAC009=" + AAC009 + ", HZSFZ=" + HZSFZ + ", JFBZ=" + JFBZ + ", XGBZ=" + XGBZ
+		return "MemberDTO [lsh=" + lsh + ", aac999=" + aac999 + ", aac003=" + aac003 + ", aac058=" + aac058
+				+ ", aae135=" + aae135 + ", aac005=" + aac005 + ", aac004=" + aac004 + ", aac006=" + aac006
+				+ ", bac067=" + bac067 + ", aac030=" + aac030 + ", aac069=" + aac069 + ", aae005=" + aae005
+				+ ", aae006=" + aae006 + ", aac009=" + aac009 + ", hzsfz=" + hzsfz + ", jfbz=" + jfbz + ", xgbz=" + xgbz
 				+ "]";
 	}
 }

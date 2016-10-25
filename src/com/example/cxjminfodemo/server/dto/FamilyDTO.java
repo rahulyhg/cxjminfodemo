@@ -1,102 +1,81 @@
 package com.example.cxjminfodemo.server.dto;
 
 public class FamilyDTO {
-	String lsh;// 流水号
-	String AAB999;// 家庭编号
-	String AAB400;// 户主姓名
-	String AAC058;// 户主证件类型
-	String AAE135;// 户主证件号码
-	String AAB401;// 户籍编号
-	String BAB041;// 参保人数
-	String AAE005;// 联系电话
-	String AAE006;// 住址
-	String AAB050;// 登记日期
-
+	private String lsh;  //流水号
+	private String aab999;  //家庭编号    
+	private String aab400;  //户主姓名    
+	private String aac058;  //户主证件类型
+	private String aae135;  //户主证件号码
+	private String aab401;  //户籍编号    
+	private String bab041;  //参保人数    
+	private String aae005;  //联系电话    
+	private String aae006;  //住址        
+	private String aab050;  //登记日期    
+	
 	public String getLsh() {
 		return lsh;
 	}
-
 	public void setLsh(String lsh) {
 		this.lsh = lsh;
 	}
-
-	public String getAAB999() {
-		return AAB999;
+	public String getAab999() {
+		return aab999;
 	}
-
-	public void setAAB999(String aAB999) {
-		AAB999 = aAB999;
+	public void setAab999(String aab999) {
+		this.aab999 = aab999;
 	}
-
-	public String getAAB400() {
-		return AAB400;
+	public String getAab400() {
+		return aab400;
 	}
-
-	public void setAAB400(String aAB400) {
-		AAB400 = aAB400;
+	public void setAab400(String aab400) {
+		this.aab400 = aab400;
 	}
-
-	public String getAAC058() {
-		return AAC058;
+	public String getAac058() {
+		return aac058;
 	}
-
-	public void setAAC058(String aAC058) {
-		AAC058 = aAC058;
+	public void setAac058(String aac058) {
+		this.aac058 = aac058;
 	}
-
-	public String getAAE135() {
-		return AAE135;
+	public String getAae135() {
+		return aae135;
 	}
-
-	public void setAAE135(String aAE135) {
-		AAE135 = aAE135;
+	public void setAae135(String aae135) {
+		this.aae135 = aae135;
 	}
-
-	public String getAAB401() {
-		return AAB401;
+	public String getAab401() {
+		return aab401;
 	}
-
-	public void setAAB401(String aAB401) {
-		AAB401 = aAB401;
+	public void setAab401(String aab401) {
+		this.aab401 = aab401;
 	}
-
-	public String getBAB041() {
-		return BAB041;
+	public String getBab041() {
+		return bab041;
 	}
-
-	public void setBAB041(String bAB041) {
-		BAB041 = bAB041;
+	public void setBab041(String bab041) {
+		this.bab041 = bab041;
 	}
-
-	public String getAAE005() {
-		return AAE005;
+	public String getAae005() {
+		return aae005;
 	}
-
-	public void setAAE005(String aAE005) {
-		AAE005 = aAE005;
+	public void setAae005(String aae005) {
+		this.aae005 = aae005;
 	}
-
-	public String getAAE006() {
-		return AAE006;
+	public String getAae006() {
+		return aae006;
 	}
-
-	public void setAAE006(String aAE006) {
-		AAE006 = aAE006;
+	public void setAae006(String aae006) {
+		this.aae006 = aae006;
 	}
-
-	public String getAAB050() {
-		return AAB050;
+	public String getAab050() {
+		return aab050;
 	}
-
-	public void setAAB050(String aAB050) {
-		AAB050 = aAB050;
+	public void setAab050(String aab050) {
+		this.aab050 = aab050;
 	}
-
 	@Override
 	public String toString() {
-		return "FamilyDTO [lsh=" + lsh + ", AAB999=" + AAB999 + ", AAB400=" + AAB400 + ", AAC058=" + AAC058
-				+ ", AAE135=" + AAE135 + ", AAB401=" + AAB401 + ", BAB041=" + BAB041 + ", AAE005=" + AAE005
-				+ ", AAE006=" + AAE006 + ", AAB050=" + AAB050 + "]";
-	}
-
+		return "FamilyDTO [lsh=" + lsh + ", aab999=" + aab999 + ", aab400=" + aab400 + ", aac058=" + aac058
+				+ ", aae135=" + aae135 + ", aab401=" + aab401 + ", bab041=" + bab041 + ", aae005=" + aae005
+				+ ", aae006=" + aae006 + ", aab050=" + aab050 + "]";
+	}	
 }

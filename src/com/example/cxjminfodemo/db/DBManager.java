@@ -66,16 +66,15 @@ public class DBManager {
 	 * 
 	 * @param persons
 	 */
-     
+
 	public void addUser(List<UserDetail> list) {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (UserDetail userDetail : list) {
 				db.execSQL("INSERT INTO user VALUES(null, ?, ?,?, ?,?, ?,?, ?,?, ?)",
-						new Object[] { userDetail.account, userDetail.city,userDetail.cjarea,
-								       userDetail.downloadflag,userDetail.sfcl,userDetail.taskdesc,
-								       userDetail.taskid,userDetail.taskstatus,userDetail.uploadflag,
-								       userDetail.validcfcburl});
+						new Object[] { userDetail.account, userDetail.city, userDetail.cjarea, userDetail.downloadflag,
+								userDetail.sfcl, userDetail.taskdesc, userDetail.taskid, userDetail.taskstatus,
+								userDetail.uploadflag, userDetail.validcfcburl });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -83,7 +82,7 @@ public class DBManager {
 		}
 	}
 
-	public void addPersonal(ArrayList<Personal> personals) {
+	public void addPersonal(List<Personal> personals) {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (Personal personal : personals) {
@@ -124,21 +123,20 @@ public class DBManager {
 	 * @param family
 	 */
 
-	public void updateFamily(Family family) {
-		ContentValues cv = new ContentValues();
-		cv.put("AAB400", family.getEdit_hzxm());
-		cv.put("AAE135", family.getEdit_gmcfzh());
-		cv.put("AAC058", family.getEdit_jhzzjlx());
-		cv.put("BAB041", family.getEdit_cjqtbxrs());
-		cv.put("AAE005", family.getEdit_lxdh());
-		cv.put("AAE006", family.getEdit_hkxxdz());
-		cv.put("AAB050", family.getEdit_djrq());
-
-		cv.put("ISEDIT", family.getIsEdit());
-		cv.put("ISUPLOAD", family.getIsUpload());
-
-		db.update("family", cv, "_id = ?", new String[] { String.valueOf(family.getId()) });
-	}
+	/*
+	 * public void updateFamily(Family family) { ContentValues cv = new
+	 * ContentValues(); cv.put("AAB400", family.getEdit_hzxm());
+	 * cv.put("AAE135", family.getEdit_gmcfzh()); cv.put("AAC058",
+	 * family.getEdit_jhzzjlx()); cv.put("BAB041", family.getEdit_cjqtbxrs());
+	 * cv.put("AAE005", family.getEdit_lxdh()); cv.put("AAE006",
+	 * family.getEdit_hkxxdz()); cv.put("AAB050", family.getEdit_djrq());
+	 * 
+	 * cv.put("ISEDIT", family.getIsEdit()); cv.put("ISUPLOAD",
+	 * family.getIsUpload());
+	 * 
+	 * db.update("family", cv, "_id = ?", new String[] {
+	 * String.valueOf(family.getId()) }); }
+	 */
 
 	/**
 	 * update personal
@@ -267,6 +265,35 @@ public class DBManager {
 	 * getEdit_hkxz AAC009 户口性质 Varchar2 3 见代码表 getHZSFZ HZSFZ 户主身份号码 Varchar2
 	 * 20 √
 	 */
+	public ArrayList<Personal> queryPersonal() {
+		ArrayList<Personal> personals = new ArrayList<Personal>();
+		Cursor c = queryTheCursor("personal");
+		if (c != null) {
+			while (c.moveToNext()) {
+				Personal personal = new Personal();
+				personal.id = c.getInt(c.getColumnIndex("_id"));
+				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
+				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
+				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
+				personal.edit_xb = c.getString(c.getColumnIndex("AAC004"));
+				personal.edit_csrq = c.getString(c.getColumnIndex("AAC006"));
+				personal.edit_cbrylb = c.getString(c.getColumnIndex("BAC067"));
+				personal.edit_cbrq = c.getString(c.getColumnIndex("AAC030"));
+				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
+				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
+				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
+				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
+
+				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
+				personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+				personals.add(personal);
+			}
+			c.close();
+		}
+
+		return personals;
+	}
+
 	public ArrayList<Personal> queryPersonal(String HZSFZ) {
 		ArrayList<Personal> personals = new ArrayList<Personal>();
 		String sql = " Select * from personal where HZSFZ='" + HZSFZ + "'";
