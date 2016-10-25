@@ -80,7 +80,6 @@ public class LoadingDialog {
 	 * 调用此方法显示progressbar
 	 */
 	public void show() {
-		dismiss();
 		initAnim();
 		layout = (RelativeLayout) layoutInflater.inflate(R.layout.view_loadingdialog, null);
 		circleView = (View) layout.findViewById(R.id.loading_dialog);

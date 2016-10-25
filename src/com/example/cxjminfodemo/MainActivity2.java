@@ -214,6 +214,7 @@ public class MainActivity2 extends Activity {
 					holder.local.setText(oldMap.get(key));
 
 			}
+		    
 
 			// holder.num1.setText(listItem.get(position).get(1).toString());
 			// holder.num2.setText(listItem.get(position).get(2).toString());

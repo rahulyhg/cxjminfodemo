@@ -52,6 +52,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:gravity="center" >
 
                 <TextView
@@ -64,19 +65,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="机构所在村委会:"
+                    android:text=" 所 在 村 ：　　"
                     android:textSize="15sp" />
 
                 <Spinner
+                    
                     android:id="@+id/edit_jgszcwh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:inputType="textPersonName"
-                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </Spinner>
@@ -113,18 +113,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="户主姓名:"
+                    android:text="户主姓名：    "
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_hzxm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="textPersonName"
-                    android:paddingLeft="50dp"
+                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -157,7 +156,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="户主证件类型："
+                android:text="证件类型："
                 android:textSize="15sp" />
 
             <Spinner
@@ -205,17 +204,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="登记日期:"
+                    android:text="登记日期：    "
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/edit_djrq"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:clickable="true"
-                    android:paddingLeft="50dp"
+                    android:paddingLeft="10dp"
                     android:textSize="15sp" >
                 </TextView>
             </LinearLayout>
@@ -229,45 +227,6 @@
             android:background="#e9f1ef"
             android:gravity="center" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="参加其他保险人数:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/edit_cjqtbxrs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:numeric="integer"
-                    android:paddingLeft="10dp"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="15sp" >
-                </EditText>
-            </LinearLayout>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -299,18 +258,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="联系电话:"
+                    android:text="联系电话：    "
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_lxdh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="number"
-                    android:paddingLeft="50dp"
+                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -347,18 +305,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="电子邮箱:"
+                    android:text="电子邮箱：    "
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_dzyx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="textEmailAddress"
-                    android:paddingLeft="50dp"
+                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -395,18 +352,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="邮政编码:"
+                    android:text="邮政编码：    "
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_yzbm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="number"
-                    android:paddingLeft="50dp"
+                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -443,17 +399,54 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="户口详细地址:"
+                    android:text="户口地址："
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_hkxxdz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:paddingLeft="10dp"
+                    android:textSize="15sp" >
+                </EditText>
+            </LinearLayout>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="*"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="参加其他保险人数："
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/edit_cjqtbxrs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:numeric="integer"
+                    android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
             </LinearLayout>
