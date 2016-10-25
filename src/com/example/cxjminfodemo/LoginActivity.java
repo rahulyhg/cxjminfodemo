@@ -19,6 +19,7 @@ import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.User;
 import com.example.cxjminfodemo.server.dto.CjUser;
 import com.example.cxjminfodemo.server.dto.UserDetail;
+import com.example.cxjminfodemo.utils.LoadingDialog;
 import com.example.cxjminfodemo.utils.MD5Util;
 import com.example.cxjminfodemo.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -78,7 +79,7 @@ public class LoginActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		utils = new HttpUtils();
+		utils = new HttpUtils(1000);
 		gson = new Gson();
 		mgr = new DBManager(this);
 		users = new ArrayList<User>();
@@ -161,9 +162,16 @@ public class LoginActivity extends Activity {
 
 				utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
 					// 请求失败调用次方法
+					
 					@Override
 					public void onFailure(HttpException error, String msg) {
-						ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
+						int exceptionCode = error.getExceptionCode();
+					      if (exceptionCode==0) {
+					    	  ToastUtil.showShort(getApplicationContext(), "请检查网络连接是否正常！");
+						}else if (exceptionCode==406) {
+							ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
+							
+						}
 					}
 
 					// 请求成功调用此方法
@@ -175,12 +183,14 @@ public class LoginActivity extends Activity {
 						tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
 						tokenSp.edit().putString("token", token).commit();
 						System.out.println("输出结果为" + token);
+						
 						/** --------进入选择页面-------- */
 						enterInfo();
 						ToastUtil.showShort(getApplicationContext(), "登陆成功！");
+						
 					}
 				});
-
+                
 			}
 		});
 
@@ -195,9 +205,11 @@ public class LoginActivity extends Activity {
 	// 2016年10月19日14:36:23
 
 	protected void enterInfo() {
+	
 		Intent intent = new Intent(this, MainActivity2.class);
 		startActivity(intent);
-	}
+		
+	} 
 
 	@Override
 	protected void onDestroy() {

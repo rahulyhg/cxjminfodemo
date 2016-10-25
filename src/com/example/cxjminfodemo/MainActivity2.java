@@ -221,6 +221,7 @@ public class MainActivity2 extends Activity {
 			int posi = position + 1;
 			holder.text_num.setText(posi + "");
 
+
 			holder.upload2.setVisibility(View.INVISIBLE);
 			holder.upload.setVisibility(View.INVISIBLE);
 
