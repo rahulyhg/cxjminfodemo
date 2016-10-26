@@ -124,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="21"
-                android:background="#64d406"
+                android:background="@drawable/button_login_selector"
                 android:gravity="center"
                 android:text="登  录"
                 android:textColor="#ffffff" 

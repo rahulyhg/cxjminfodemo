@@ -75,7 +75,6 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
                     android:textSize="13sp" >
                 </Spinner>
             </LinearLayout>
@@ -111,14 +110,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="参保人姓名：　"
+                    android:text="参保人姓名："
                     android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/edit_cbrxm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="textPersonName"
@@ -154,7 +153,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="证 件 类 型 ：　"
+                android:text="证 件 类 型 ："
                 android:textSize="13sp" />
 
             <Spinner
@@ -166,7 +165,6 @@
                 android:background="@null"
                 android:gravity="center"
                 android:inputType="textPersonName"
-                android:paddingLeft="10dp"
                 android:textColorHint="#b3b2b2"
                 android:textSize="13sp" >
             </Spinner>
@@ -202,14 +200,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="身 份 证 号 ：　"
+                    android:text="身 份 证 号 ："
                     android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/edit_gmcfzh"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="6.5"
                     android:background="@null"
                     android:inputType="textPersonName"
@@ -258,7 +256,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="民族：　　　"
+                    android:text="民           族 ："
                     android:textSize="13sp" />
 
                 <Spinner
@@ -269,7 +267,6 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
                     android:textSize="2sp" >
                 </Spinner>
             </LinearLayout>
@@ -305,7 +302,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="性别：　　　"
+                    android:text="性           别 ："
                     android:textSize="13sp" />
 
                 <Spinner
@@ -316,7 +313,6 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
                     android:textSize="2sp" >
                 </Spinner>
             </LinearLayout>
@@ -352,7 +348,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="出生日期：　"
+                    android:text="出 生 日 期 ："
                     android:textSize="13sp" />
 
                 <TextView
@@ -363,7 +359,6 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="textPersonName"
-                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="13sp" >
                 </TextView>
@@ -400,7 +395,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="参保日期：　"
+                    android:text="参 保 日 期 ："
                     android:textSize="13sp" />
 
                 <TextView
@@ -411,7 +406,6 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="textPersonName"
-                    android:paddingLeft="10dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="13sp" >
                 </TextView>
@@ -448,7 +442,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人员类别： 　"
+                    android:text="人 员 类 别 ："
                     android:textSize="13sp" />
 
                 <Spinner
@@ -459,7 +453,6 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
                     android:textSize="5sp" >
                 </Spinner>
             </LinearLayout>
@@ -495,18 +488,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="户口性质：　"
+                    android:text="户 口 性 质 ："
                     android:textSize="13sp" />
 
                 <Spinner
                     android:id="@+id/edit_hkxz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
                     android:textSize="5sp" >
                 </Spinner>
             </LinearLayout>
@@ -542,14 +534,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="联系电话：　"
+                    android:text="联 系 电 话 ："
                     android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/edit_lxdh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:inputType="textPersonName"
@@ -582,7 +574,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="*"
                     android:textColor="#ffffff" />
 
@@ -596,7 +588,7 @@
                     android:id="@+id/edit_xxjzdz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:textSize="13sp" >
