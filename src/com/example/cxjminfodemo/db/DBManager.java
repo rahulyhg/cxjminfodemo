@@ -87,13 +87,13 @@ public class DBManager {
 		try {
 			for (Personal personal : personals) {
 				// 14个字段
-				db.execSQL("INSERT INTO personal VALUES(null, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?)",
-						new Object[] { null, personal.getEdit_cbrxm(), personal.getEdit_zjlx(),
-								personal.getEdit_gmcfzh(), personal.getEdit_mz(), personal.getEdit_xb(),
-								personal.getEdit_csrq(), personal.getEdit_cbrylb(), personal.getEdit_cbrq(),
-								personal.getEdit_yhzgx(), personal.getEdit_lxdh(), personal.getEdit_xxjzdz(),
-								personal.getEdit_hkxz(), personal.getHZSFZ(), personal.getIsEdit(),
-								personal.getIsUpload() });
+				db.execSQL("REPLACE INTO personal VALUES(?, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?)",
+						new Object[] { personal.getEdit_gmcfzh(), null, personal.getEdit_cbrxm(),
+								personal.getEdit_zjlx(), personal.getEdit_gmcfzh(), personal.getEdit_mz(),
+								personal.getEdit_xb(), personal.getEdit_csrq(), personal.getEdit_cbrylb(),
+								personal.getEdit_cbrq(), personal.getEdit_yhzgx(), personal.getEdit_lxdh(),
+								personal.getEdit_xxjzdz(), personal.getEdit_hkxz(), personal.getHZSFZ(),
+								personal.getIsEdit(), personal.getIsUpload() });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -106,10 +106,10 @@ public class DBManager {
 		try {
 			// 9个字段
 			for (Family family : familys) {
-				db.execSQL("INSERT INTO family VALUES(null, ?,?,?,?,?   ,?,?,?,?,?,  ?)",
-						new Object[] { null, family.getEdit_hzxm(), family.getEdit_jhzzjlx(), family.getEdit_gmcfzh(),
-								null, family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),
-								family.getEdit_djrq(), family.getIsEdit(), family.getIsUpload() });
+				db.execSQL("REPLACE INTO family VALUES(?, ?,?,?,?,?   ,?,?,?,?,?,  ?)",
+						new Object[] { family.getEdit_gmcfzh(), null, family.getEdit_hzxm(), family.getEdit_jhzzjlx(),
+								family.getEdit_gmcfzh(), null, family.getEdit_cjqtbxrs(), family.getEdit_lxdh(),
+								family.getEdit_hkxxdz(), family.getEdit_djrq(), family.getIsEdit(), family.isUpload });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -173,7 +173,7 @@ public class DBManager {
 	 * @param family
 	 */
 	public void deleteFamily(Family family) {
-		db.delete("family", "_id = ?", new String[] { String.valueOf(family.id) });
+		db.delete("family", "_id = ?", new String[] { family.id });
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class DBManager {
 	 * @param personal
 	 */
 	public void deletePersonal(Personal personal) {
-		db.delete("personal", "_id = ?", new String[] { String.valueOf(personal.id) });
+		db.delete("personal", "_id = ?", new String[] { personal.id });
 	}
 
 	/*
@@ -231,7 +231,7 @@ public class DBManager {
 		Cursor c = queryTheCursor("family");
 		while (c.moveToNext()) {
 			Family family = new Family();
-			family.id = c.getInt(c.getColumnIndex("_id"));
+			family.id = c.getString(c.getColumnIndex("_id"));
 			family.edit_jtbh = c.getString(c.getColumnIndex("AAB999"));
 			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
 			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
@@ -271,7 +271,7 @@ public class DBManager {
 		if (c != null) {
 			while (c.moveToNext()) {
 				Personal personal = new Personal();
-				personal.id = c.getInt(c.getColumnIndex("_id"));
+				personal.id = c.getString(c.getColumnIndex("_id"));
 				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
 				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
 				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
@@ -301,7 +301,7 @@ public class DBManager {
 		if (c != null) {
 			while (c.moveToNext()) {
 				Personal personal = new Personal();
-				personal.id = c.getInt(c.getColumnIndex("_id"));
+				personal.id = c.getString(c.getColumnIndex("_id"));
 				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
 				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
 				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));

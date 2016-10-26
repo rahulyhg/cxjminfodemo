@@ -13,7 +13,7 @@ import android.widget.EditText;
  * @data 2016年8月24日 上午10:00:19
  */
 public class Personal {
-	public Integer id;
+	public String id;
 	public String edit_lxdh;
 	public String edit_zjlx;
 	public String edit_cbrxm;
@@ -232,11 +232,11 @@ public class Personal {
 		this.isUpload = isUpload;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

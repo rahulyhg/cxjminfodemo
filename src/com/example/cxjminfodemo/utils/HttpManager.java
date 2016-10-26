@@ -58,6 +58,7 @@ public class HttpManager extends HttpUtils {
 
 			family.isEdit = "0";
 			family.isUpload = "1";
+			family.id=d.getLsh();
 			familyList.add(family);
 		}
 		return familyList;
@@ -82,6 +83,7 @@ public class HttpManager extends HttpUtils {
 			personal.edit_zjlx = d.getAac058();
 			personal.edit_lxdh = d.getAae005();
 			personal.isUpload = "1";
+			personal.id=d.getLsh();
 			personalList.add(personal);
 		}
 		return personalList;

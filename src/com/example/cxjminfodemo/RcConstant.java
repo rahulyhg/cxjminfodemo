@@ -14,4 +14,6 @@ public class RcConstant {
 	public static final String testPath = "http://service.neuqsoft.com/jmcjyw";
 	public static final String getPath = testPath + "/services/jbxx/";
 	public static final String postPath = testPath + "/services/cjxx/";
+	//public static final String getPath = "http://10.19.95.68:8080/eapdomain/si/mobileInteraction.do?method=downloadData&eap_username=130302008&eap_password=123456&countycode=";
+	// http://10.19.95.68:8080/eapdomain/si/mobileInteraction.do?method=downloadData&eap_username=130302008&eap_password=123456&countycode=130302013188
 }

@@ -73,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "uploadflag VARCHAR)");
 
 		db.execSQL("CREATE TABLE IF NOT EXISTS family"
-				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ "(_id VARCHAR PRIMARY KEY, "
 				+ "AAB999 VARCHAR, "
 				+ "AAB400 VARCHAR  NOT NULL,"
 				+ "AAC058 VARCHAR  NOT NULL, "
@@ -87,7 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "ISUPLOAD VARCHAR NOT NULL)");
 
 		db.execSQL("CREATE TABLE IF NOT EXISTS personal"
-				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "(_id VARCHAR PRIMARY KEY,"
 				+ "AAC999 VARCHAR, "
 				+ "AAC003 VARCHAR  NOT NULL, "
 				+ "AAC058 VARCHAR  NOT NULL, "

@@ -14,20 +14,14 @@ import android.R.integer;
  */
 
 /*
-家庭信息
-序号	字段名称	描述	类型	长度	非空	备注
-	AAB999	家庭编号	Varchar2	16		为空代表新登记家庭
-	AAB400	户主姓名	Varchar2	50	√	
-	AAC058	户主证件类型	Varchar2	3	√	见代码表
-	AAE135	户主证件号码	Varchar2	20	√	
-	AAB401	户籍编号	Varchar2	20		
-	BAB041	参保人数	number	3		
-	AAE005	联系电话	Varchar2	50		
-	AAE006	住址	Varchar2	100		
-	AAB050	登记日期	Varchar2	10	√	格式：yyyymmdd*/
+ * 家庭信息 序号 字段名称 描述 类型 长度 非空 备注 AAB999 家庭编号 Varchar2 16 为空代表新登记家庭 AAB400 户主姓名
+ * Varchar2 50 √ AAC058 户主证件类型 Varchar2 3 √ 见代码表 AAE135 户主证件号码 Varchar2 20 √
+ * AAB401 户籍编号 Varchar2 20 BAB041 参保人数 number 3 AAE005 联系电话 Varchar2 50 AAE006
+ * 住址 Varchar2 100 AAB050 登记日期 Varchar2 10 √ 格式：yyyymmdd
+ */
 
 public class Family {
-	public Integer id; 
+	public String id;
 	public String edit_jtbh;
 	public String edit_jhzzjlx;
 	public String edit_gmcfzh;
@@ -41,26 +35,21 @@ public class Family {
 	public String edit_hkxxdz;
 	public String edit_djrq;
 	public String xzqh;
-	public String isEdit; //0未修改 1修改了
-	public String isUpload;//0w未上传 1已上传
+	public String isEdit; // 0未修改 1修改了
+	public String isUpload;// 0w未上传 1已上传
 
 	/**
 	 * @param string
 	 * @param string2
 	 * @param string3
 	 * @param string4
-	 * 	/*
-	家庭信息
-	序号	字段名称	描述	类型	长度	非空	备注
-					AAB999	家庭编号	Varchar2	16		为空代表新登记家庭
-	getEdit_hzxm	AAB400	户主姓名	Varchar2	50	√	
-					AAC058	户主证件类型	Varchar2	3	√	见代码表
-	getEdit_gmcfzh	AAE135	户主证件号码	Varchar2	20	√	
-					AAB401	户籍编号	Varchar2	20		
-	getEdit_cjqtbxrs	BAB041	参保人数	number	3		
-	getEdit_lxdh	AAE005	联系电话	Varchar2	50		
-	getEdit_hkxxdz	AAE006	住址	Varchar2	100		
-	getEdit_djrq	AAB050	登记日期	Varchar2	10	√	格式：yyyymmdd
+	 *            /* 家庭信息 序号 字段名称 描述 类型 长度 非空 备注 AAB999 家庭编号 Varchar2 16
+	 *            为空代表新登记家庭 getEdit_hzxm AAB400 户主姓名 Varchar2 50 √ AAC058 户主证件类型
+	 *            Varchar2 3 √ 见代码表 getEdit_gmcfzh AAE135 户主证件号码 Varchar2 20 √
+	 *            AAB401 户籍编号 Varchar2 20 getEdit_cjqtbxrs BAB041 参保人数 number 3
+	 *            getEdit_lxdh AAE005 联系电话 Varchar2 50 getEdit_hkxxdz AAE006 住址
+	 *            Varchar2 100 getEdit_djrq AAB050 登记日期 Varchar2 10 √
+	 *            格式：yyyymmdd
 	 */
 	public Family(String edit_gmcfzh, String edit_jgszcwh, String edit_hzxm, String edit_hjbh, String edit_lxdh) {
 		// TODO Auto-generated constructor stub
@@ -76,19 +65,19 @@ public class Family {
 	 */
 	public Family() {
 		// TODO Auto-generated constructor stub
-		this.edit_jhzzjlx="";
-		this.edit_gmcfzh="";
-		this.edit_jgszcwh="";
-		this.edit_hzxm="";
-		this.edit_hjbh="";
-		this.edit_lxdh="";
-		this.edit_dzyx="";
-		this.edit_yzbm="";
-		this.edit_cjqtbxrs="0";
-		this.edit_hkxxdz="";
-		this.edit_djrq="";
-		this.isEdit=  "0";
-		this.isUpload=  "0";
+		this.edit_jhzzjlx = "";
+		this.edit_gmcfzh = "";
+		this.edit_jgszcwh = "";
+		this.edit_hzxm = "";
+		this.edit_hjbh = "";
+		this.edit_lxdh = "";
+		this.edit_dzyx = "";
+		this.edit_yzbm = "";
+		this.edit_cjqtbxrs = "0";
+		this.edit_hkxxdz = "";
+		this.edit_djrq = "";
+		this.isEdit = "0";
+		this.isUpload = "0";
 	}
 
 	/**
@@ -259,11 +248,11 @@ public class Family {
 		this.isUpload = isUpload;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

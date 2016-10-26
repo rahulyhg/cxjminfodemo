@@ -1,6 +1,5 @@
 package com.example.cxjminfodemo.utils;
 
-
 import com.example.cxjminfodemo.R;
 
 import android.app.Activity;
@@ -81,6 +80,7 @@ public class LoadingDialog {
 	 */
 	public void show() {
 		initAnim();
+		dismiss();
 		layout = (RelativeLayout) layoutInflater.inflate(R.layout.view_loadingdialog, null);
 		circleView = (View) layout.findViewById(R.id.loading_dialog);
 		layout_bg = (RelativeLayout) layout.findViewById(R.id.bgLayout);

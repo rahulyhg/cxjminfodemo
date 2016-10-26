@@ -26,15 +26,19 @@ import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.utils.FamilyUtil;
 import com.example.cxjminfodemo.utils.IDCard;
+import com.example.cxjminfodemo.utils.LoadingDialog;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.roamer.slidelistview.SlideListView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -75,6 +79,7 @@ public class InfoMainActivity extends Activity {
 	private static byte[] bytes;
 	private static String extension;
 	public static final String action = "idcard.scan";
+	public Context context;
 
 	@Bind(R.id.image_left)
 	ImageView image_left;
@@ -116,12 +121,15 @@ public class InfoMainActivity extends Activity {
 
 	private DBManager mgr;
 
+	LoadingDialog loading;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		ButterKnife.bind(InfoMainActivity.this);
-
+		context = this;
+		loading = new LoadingDialog(context);
 		mgr = new DBManager(this);
 
 		initView();
@@ -237,19 +245,33 @@ public class InfoMainActivity extends Activity {
 	@OnClick(R.id.btn_search)
 	public void toInfoFamilyActivity() {
 		try {
+			loading.show();
 			res = IDCard.IDCardValidate(edit_num.getText().toString());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Handler mHandler2 = new Handler();
+		final Handler mHandler = new Handler() {
+			public void handleMessage(Message msg) {
+				if (msg.what == 0) {
+					/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
+					((Activity) context).runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							loading.dismiss();
+						}
+					});
+				}
+			}
+		};
 		Runnable r2 = new Runnable() {
 			public void run() {
 				if (res == "") {
 					// 匹配身份证信息 并输出到户主信息栏
 					listFamily = mgr.queryFamily();
-					// System.out.println(listFamily.toString());
 
+					// System.out.println(listFamily.toString());
 					for (Family tempFamily : listFamily) {
 						if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
 							Toast.makeText(getApplicationContext(), "有匹配的身份证信息", Toast.LENGTH_LONG).show();
@@ -262,6 +284,7 @@ public class InfoMainActivity extends Activity {
 							text_name.setText(tempFamily.getEdit_hzxm());
 							text_id.setText(tempFamily.getEdit_gmcfzh());
 							UpdateListView();
+
 						}
 					}
 					// 为空就是未匹配到信息
@@ -279,11 +302,13 @@ public class InfoMainActivity extends Activity {
 							intent.putExtra("hasTemp", "0");
 						startActivityForResult(intent, INFO_FAMILY);
 					}
+
 				} else
 					Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
+				mHandler.sendEmptyMessage(0);
 			}
 		};
-		mHandler2.post(r2);
+		mHandler.post(r2);
 	}
 
 	@OnClick(R.id.btn_camera)
@@ -375,15 +400,15 @@ public class InfoMainActivity extends Activity {
 			map.put("jf", tempPersonal.getEdit_jf());
 			listItem.add(map);
 		}
-		//更新家庭信息参保人数的数据
+		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
 		for (Family tempFamily : listFamily) {
 			if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
 				thefamily = new Family();
 				thefamily = tempFamily;
 				mgr.deleteFamily(thefamily);
-				thefamily.setEdit_cjqtbxrs(listPersonal.size()+"");
-				List<Family> the=new ArrayList<Family>();
+				thefamily.setEdit_cjqtbxrs(listPersonal.size() + "");
+				List<Family> the = new ArrayList<Family>();
 				the.add(thefamily);
 				mgr.addFamily(the);
 			}
