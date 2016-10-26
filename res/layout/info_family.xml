@@ -471,7 +471,6 @@
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_save_selector"
                 android:gravity="center"
                 android:orientation="vertical" >
 

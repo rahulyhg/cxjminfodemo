@@ -105,16 +105,50 @@ public class HttpManager extends HttpUtils {
 
 			personal.setAac058(d.edit_zjlx);
 			personal.setAae005(d.edit_lxdh);
+			personal.setLsh(MD5Util.encode(d.edit_gmcfzh));
 			personalList.add(personal);
 		}
 		return personalList;
 	}
 
-	List<FamilyMemberDTO> FMtoDTO() {
-		ArrayList<Family> listFamily = db.queryFamily();
-		List<FamilyMemberDTO> FM = new ArrayList<FamilyMemberDTO>();
+	FamilyDTO FMtoDTO(Family d) {
+		FamilyDTO family = new FamilyDTO();
+		family.setAab999(d.edit_jtbh);
+		family.setAab400(d.edit_hzxm);
+		family.setAae135(d.edit_gmcfzh);
+		family.setAac058(d.edit_jhzzjlx);
+		family.setAab401(d.edit_hjbh);
+		family.setBab041(d.edit_cjqtbxrs);
+		family.setAae005(d.edit_lxdh);
+		family.setAae006(d.edit_hkxxdz);
+		family.setAab050(d.edit_djrq);
+		family.setLsh(MD5Util.encode(d.edit_gmcfzh));
+		return family;
+	}
 
-		return null;
+	private FamilyMemberDTO getInfo(FamilyMemberDTO f) {
+		// TODO Auto-generated method stub
+		List<FamilyDTO> familyDTOList = new ArrayList<FamilyDTO>();
+		List<MemberDTO> memberdto = new ArrayList<MemberDTO>();
+
+		List<Family> familys = db.queryFamily();
+		for (Family family : familys) {
+			if (family.isUpload.equals("0")) {
+				familyDTOList.add(FMtoDTO(family));
+				// 获得人员信息
+				List<Personal> personal = db.queryPersonal(family.getEdit_gmcfzh());
+				memberdto.addAll((MtoDTO(personal)));
+
+				db.deleteFamily(family);
+				family.setIsUpload("1");
+				List<Family> temp = new ArrayList<Family>();
+				temp.add(family);
+				db.addFamily(temp);
+			}
+		}
+		f.setJt(familyDTOList);
+		f.setRy(memberdto);
+		return f;
 	}
 
 	/**
@@ -161,19 +195,20 @@ public class HttpManager extends HttpUtils {
 		});
 	}
 
-	public void getCjxx(String countryCode, String usertoken) {
-
+	public void getCjxx(String countryCode, String usertoken, String account) {
 		RequestParams params = new RequestParams();
 		String url = RcConstant.postPath + countryCode;
 		params.addHeader("Content-Type", "application/json");
+		params.addHeader("Accept", "application/json");
 		params.addHeader("usertoken", usertoken);
 		FamilyMemberDTO f = new FamilyMemberDTO();
-
+		f = getInfo(f);
+		f.setXzqh(countryCode);
+		f.setCzr(account);
 		String jsonStr = gson.toJson(f);
 		try {
 			params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
-
 		}
 
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
@@ -193,6 +228,7 @@ public class HttpManager extends HttpUtils {
 			public void onSuccess(ResponseInfo<String> arg0) {
 				// TODO Auto-generated method stub
 				isError = false;
+				System.out.println("上传成功");
 				System.out.println(arg0.result);
 				isAlive = false;
 			}

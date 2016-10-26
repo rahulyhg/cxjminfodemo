@@ -40,6 +40,7 @@ public class Family {
 	public String edit_cjqtbxrs;
 	public String edit_hkxxdz;
 	public String edit_djrq;
+	public String xzqh;
 	public String isEdit; //0未修改 1修改了
 	public String isUpload;//0w未上传 1已上传
 
@@ -83,7 +84,7 @@ public class Family {
 		this.edit_lxdh="";
 		this.edit_dzyx="";
 		this.edit_yzbm="";
-		this.edit_cjqtbxrs="";
+		this.edit_cjqtbxrs="0";
 		this.edit_hkxxdz="";
 		this.edit_djrq="";
 		this.isEdit=  "0";

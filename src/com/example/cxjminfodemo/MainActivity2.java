@@ -51,6 +51,7 @@ public class MainActivity2 extends Activity {
 	private TextView title_logout, text_user, title_local, title_num;
 	private List<UserDetail> list;
 	Context activity;
+	String sToken;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class MainActivity2 extends Activity {
 	private void getDataFromNet() {
 		HttpUtils httpUtils = new HttpUtils();
 		SharedPreferences tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
-		String sToken = tokenSp.getString("token", "");
+		sToken = tokenSp.getString("token", "");
 		System.out.println("-----------------------" + sToken);
 		RequestParams params1 = new RequestParams();
 		params1.addHeader("token", sToken);
@@ -214,7 +215,7 @@ public class MainActivity2 extends Activity {
 			String city = list.get(0).getCity().toString();
 			title_local.setText(city);
 			title_num.setText("（共" + list.size() + "村）");
-			String account = list.get(0).getAccount();
+			final String account = list.get(0).getAccount();
 			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 */
@@ -252,16 +253,45 @@ public class MainActivity2 extends Activity {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
 								holder.download.setProgress(100);
+								
+								
+								
+							}
+						});
+					}
+
+					if (msg.what == 2) {
+						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
+						((Activity) activity).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								holder.upload.setProgress(-1);
+								http.isAlive = true;
+							}
+						});
+					}
+					if (msg.what == 3) {
+						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
+						((Activity) activity).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								http.isAlive = true;
+								holder.upload2.setVisibility(View.VISIBLE);
+								holder.download.setVisibility(View.INVISIBLE);
+								holder.upload.setVisibility(View.INVISIBLE);
 							}
 						});
 					}
 				};
 			};
 
-			final Runnable runnable = new Runnable() {
+			final Runnable down_run = new Runnable() {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
+					http.getJbxx(cjarea);
 					try {
 						Thread.sleep(1500);
 					} catch (InterruptedException e) {
@@ -278,15 +308,35 @@ public class MainActivity2 extends Activity {
 				}
 			};
 
+			final Runnable up_run = new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					http.getCjxx(cjarea, sToken, account);
+
+					try {
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					while (http.isAlive) {
+					}
+					if (http.isError)
+						handler.sendEmptyMessage(2);
+					else if (holder.upload.getProgress() == 50)
+						handler.sendEmptyMessage(3);
+					http.isAlive = true;
+				}
+			};
+
 			holder.download.setOnClickListener(new View.OnClickListener() {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void onClick(View v) {
 
 					if (holder.download.getProgress() == 0 || holder.download.getProgress() == -1) {
-						http.getJbxx(cjarea);
-
-						new Thread(runnable).start();
+						new Thread(down_run).start();
 
 						holder.download.setProgress(0);
 						holder.download.setProgress(50);
@@ -307,14 +357,10 @@ public class MainActivity2 extends Activity {
 				@Override
 				public void onClick(View v) {
 					if (holder.upload.getProgress() == 0) {
+						new Thread(up_run).start();
 						holder.upload.setProgress(50);
-					} else if (holder.upload.getProgress() == 100) {
-						holder.upload.setProgress(0);
-						holder.upload2.setVisibility(View.VISIBLE);
-						holder.download.setVisibility(View.INVISIBLE);
-						holder.upload.setVisibility(View.INVISIBLE);
 					} else {
-						holder.upload.setProgress(100);
+						holder.upload.setProgress(-1);
 					}
 				}
 			});

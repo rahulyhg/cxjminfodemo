@@ -375,6 +375,19 @@ public class InfoMainActivity extends Activity {
 			map.put("jf", tempPersonal.getEdit_jf());
 			listItem.add(map);
 		}
+		//更新家庭信息参保人数的数据
+		listFamily = mgr.queryFamily();
+		for (Family tempFamily : listFamily) {
+			if (tempFamily.getEdit_gmcfzh().equals(temp.toString())) {
+				thefamily = new Family();
+				thefamily = tempFamily;
+				mgr.deleteFamily(thefamily);
+				thefamily.setEdit_cjqtbxrs(listPersonal.size()+"");
+				List<Family> the=new ArrayList<Family>();
+				the.add(thefamily);
+				mgr.addFamily(the);
+			}
+		}
 		adapter.notifyDataSetChanged();
 	}
 }
