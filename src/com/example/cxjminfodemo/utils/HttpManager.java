@@ -79,7 +79,7 @@ public class HttpManager extends HttpUtils {
 			personal.edit_xxjzdz = d.getAae006();
 			personal.edit_hkxz = d.getAac009();
 			personal.HZSFZ = d.getHzsfz();
-
+			personal.edit_jf = d.getJfbz();
 			personal.edit_zjlx = d.getAac058();
 			personal.edit_lxdh = d.getAae005();
 			personal.isUpload = "1";
@@ -104,7 +104,7 @@ public class HttpManager extends HttpUtils {
 			personal.setAae006(d.edit_xxjzdz);
 			personal.setAac009(d.edit_hkxz);
 			personal.setHzsfz(d.HZSFZ);
-
+			personal.setJfbz(d.edit_jf);
 			personal.setAac058(d.edit_zjlx);
 			personal.setAae005(d.edit_lxdh);
 			personal.setLsh(MD5Util.encode(d.edit_gmcfzh));

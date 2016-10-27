@@ -39,6 +39,7 @@ public class MyAdapter extends SlideBaseAdapter {
 		public TextView gmsfzh;
 		public TextView name;
 		public TextView jf;
+		public TextView yjf;
 		Button edit;
 		Button delete;
 	}
@@ -95,6 +96,7 @@ public class MyAdapter extends SlideBaseAdapter {
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
 			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
+			holder.yjf = (TextView) convertView.findViewById(R.id.text_yjf);
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
 			holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
@@ -117,9 +119,9 @@ public class MyAdapter extends SlideBaseAdapter {
 			}
 		});
 
-		if (listItem.get(position).get("jf").toString().equals("1")) {
-			holder.jf.setText("已缴费");
-			holder.jf.setTextColor(Color.BLACK);
+		if (listItem.get(position).get("jf").equals("1")) {
+			holder.jf.setVisibility(View.INVISIBLE);
+			holder.yjf.setVisibility(View.VISIBLE);
 		}
 
 		if (holder.edit != null) {

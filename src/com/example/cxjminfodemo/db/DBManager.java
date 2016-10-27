@@ -87,12 +87,12 @@ public class DBManager {
 		try {
 			for (Personal personal : personals) {
 				// 14个字段
-				db.execSQL("REPLACE INTO personal VALUES(?, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?)",
+				db.execSQL("REPLACE INTO personal VALUES(?, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?,?)",
 						new Object[] { personal.getEdit_gmcfzh(), null, personal.getEdit_cbrxm(),
 								personal.getEdit_zjlx(), personal.getEdit_gmcfzh(), personal.getEdit_mz(),
 								personal.getEdit_xb(), personal.getEdit_csrq(), personal.getEdit_cbrylb(),
 								personal.getEdit_cbrq(), personal.getEdit_yhzgx(), personal.getEdit_lxdh(),
-								personal.getEdit_xxjzdz(), personal.getEdit_hkxz(), personal.getHZSFZ(),
+								personal.getEdit_xxjzdz(), personal.getEdit_hkxz(), personal.getEdit_jf(),personal.getHZSFZ(),
 								personal.getIsEdit(), personal.getIsUpload() });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
@@ -160,6 +160,8 @@ public class DBManager {
 
 		cv.put("AAC058", personal.getEdit_zjlx());
 		cv.put("AAE005", personal.getEdit_lxdh());
+		
+		cv.put("JFBZ", personal.getEdit_jf());
 
 		cv.put("ISEDIT", personal.getIsEdit());
 		cv.put("ISUPLOAD", personal.getIsUpload());
@@ -282,6 +284,8 @@ public class DBManager {
 				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
 				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
+				personal.edit_jf=c.getString(c.getColumnIndex("JFBZ"));
+				
 				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
 
 				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
@@ -312,6 +316,8 @@ public class DBManager {
 				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
 				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
+				personal.edit_jf=c.getString(c.getColumnIndex("JFBZ"));
+				
 				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
 
 				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));

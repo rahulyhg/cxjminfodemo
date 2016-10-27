@@ -16,8 +16,8 @@ public class MemberDTO {
 	private String aae006; // 住址
 	private String aac009; // 户口性质
 	private String hzsfz; // 户主身份证号
-	private String jfbz; // 缴费标志
 	private String xgbz; // 修改标志
+	private String jfbz; // 缴费标志
 
 	public String getLsh() {
 		return lsh;

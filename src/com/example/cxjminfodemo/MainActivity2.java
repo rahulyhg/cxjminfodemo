@@ -58,11 +58,8 @@ public class MainActivity2 extends Activity {
 	Context activity;
 	String sToken;
 	DBManager db;
-	static ViewHolder holdering;
 	// 当前listview位置
 	static int itemIndex;
-	// 乡镇代码
-	static String cjarea;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +141,30 @@ public class MainActivity2 extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CBDJ:
-			adapter.getViewHolder(pos).upload.setVisibility(View.VISIBLE);
-			updateView();
+			final ViewHolder holder = adapter.getViewHolder(pos);
+			holder.upload.setVisibility(View.VISIBLE);
+			((Activity) activity).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					int memberSize = 0;
+					int memberJf = 0;
+					List<Family> familys = db.queryFamily();
+					holder.num1.setText(familys.size() + "");
+					for (Family family : familys) {
+						List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
+						memberSize = memberSize + personals.size();
+						for (Personal personal : personals) {
+							if (!personal.getEdit_jf().equals("0")) {
+								memberJf = memberJf + 1;
+							}
+						}
+					}
+					holder.num2.setText(memberSize + "");
+					holder.num3.setText(memberJf + "");
+				}
+
+			});
 		}
 	}
 
@@ -195,7 +214,6 @@ public class MainActivity2 extends Activity {
 			View temp = listview.getChildAt(index - firstVisible);
 			holder = (ViewHolder) temp.getTag();
 			return holder;
-
 		}
 
 		@Override
@@ -231,7 +249,7 @@ public class MainActivity2 extends Activity {
 			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 */
-			cjarea = list.get(position).getCjarea();
+			final String cjarea = list.get(position).getCjarea();
 			for (String key : oldMap.keySet()) {
 				if (key.equals(cjarea))
 					holder.local.setText(oldMap.get(key));
@@ -265,9 +283,6 @@ public class MainActivity2 extends Activity {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
 								holder.download.setProgress(100);
-								holdering = holder;
-								itemIndex = position;
-								updateView();
 							}
 						});
 					}
@@ -296,6 +311,32 @@ public class MainActivity2 extends Activity {
 							}
 						});
 					}
+					if (msg.what == 4) {
+						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
+						((Activity) activity).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								int memberSize = 0;
+								int memberJf = 0;
+								List<Family> familys = db.queryFamily();
+								holder.num1.setText(familys.size() + "");
+								for (Family family : familys) {
+									List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
+									memberSize = memberSize + personals.size();
+									for (Personal personal : personals) {
+										if (!personal.getEdit_jf().equals("0")) {
+											memberJf = memberJf + 1;
+										}
+									}
+								}
+								holder.num2.setText(memberSize + "");
+								holder.num3.setText(memberJf + "");
+							}
+
+						});
+					}
+
 				};
 			};
 
@@ -314,8 +355,10 @@ public class MainActivity2 extends Activity {
 					}
 					if (http.isError)
 						handler.sendEmptyMessage(0);
-					else if (holder.download.getProgress() == 50)
+					else if (holder.download.getProgress() == 50) {
 						handler.sendEmptyMessage(1);
+						handler.sendEmptyMessage(4);
+					}
 					http.isAlive = true;
 				}
 			};
@@ -336,8 +379,9 @@ public class MainActivity2 extends Activity {
 					}
 					if (http.isError)
 						handler.sendEmptyMessage(2);
-					else if (holder.upload.getProgress() == 50)
+					else if (holder.upload.getProgress() == 50) {
 						handler.sendEmptyMessage(3);
+					}
 					http.isAlive = true;
 				}
 			};
@@ -381,30 +425,4 @@ public class MainActivity2 extends Activity {
 		}
 
 	}
-
-	public void updateView() {
-		Runnable update = new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				int memberSize = 0;
-				int memberJf = 0;
-				List<Family> familys = db.queryFamily();
-				holdering.num1.setText(familys.size());
-				for (Family family : familys) {
-					List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
-					memberSize = memberSize + personals.size();
-					for (Personal personal : personals) {
-						if (!personal.getEdit_jf().equals("0")) {
-							memberJf = memberJf + 1;
-						}
-					}
-				}
-				holdering.num2.setText(memberSize + "");
-				holdering.num3.setText(memberJf + "");
-			}
-		};
-		new Thread(update).start();
-	}
-
 }

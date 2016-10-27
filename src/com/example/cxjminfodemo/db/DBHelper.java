@@ -101,6 +101,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "AAE005 VARCHAR,"
 				+ "AAE006 VARCHAR,"
 				+ "AAC009 VARCHAR,"
+				+ "JFBZ VARCHAR,"
 				+ "HZSFZ VARCHAR  NOT NULL,"
 				+ "ISEDIT VARCHAR NOT¡¡NULL,"
 				+ "ISUPLOAD VARCHAR NOT NULL)");
