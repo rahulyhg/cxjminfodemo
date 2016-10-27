@@ -190,13 +190,25 @@ public class InfoFamilyActivity extends Activity {
 
 	@OnClick(R.id.image_left)
 	public void toInfoMainActivity() {
+		intentMain();
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		intentMain();
+		super.onBackPressed();
+	}
+
+	// intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+	private void intentMain() {
 		String str = gson.toJson(tempFamily);
 		FamilyUtil.saveValue(getApplicationContext(), str);
 		System.out.println("familyAct save" + gson.toJson(tempFamily));
 		Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
 		intent.putExtra("Family", str);
-		setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
-		finish();
+		setResult(RESULT_OK, intent);
+
 	}
 
 	@OnClick(R.id.edit_djrq)
@@ -268,5 +280,7 @@ public class InfoFamilyActivity extends Activity {
 		tempFamily.setEdit_jhzzjlx(edit_jhzzjlx.getSelectedItem().toString());
 
 		tempFamily.setEdit_djrq(edit_djrq.getText().toString());
+
 	}
+
 }

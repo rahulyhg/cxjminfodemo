@@ -34,7 +34,7 @@
                 android:layout_toRightOf="@id/image_user"
                 android:text="某人"
                 android:textColor="#ffffff"
-                android:textSize="17sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

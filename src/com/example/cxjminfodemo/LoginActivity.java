@@ -101,21 +101,13 @@ public class LoginActivity extends Activity {
 		edit_pw = (EditText) findViewById(R.id.edit_pw);
 		image_left = (ImageView) findViewById(R.id.image_left);
 		btn_login = (TextView) findViewById(R.id.btn_login);
-		/*********** 先判断当前是否已经登录，若已登录则执行注销操作 ***********/
-		SharedPreferences spIsLongin = getSharedPreferences("IsLongin", MODE_PRIVATE);
-		String strLoginFlag = spIsLongin.getString("IsLongin", "");
-		// if (strLoginFlag.equals("1")) {
-		// logOff();
-		// spIsLongin.edit().putString("IsLongin", "0").commit();// 更改登录/注销标志位
-		// return;
-		// }
-		//
+
+		
+		
 
 	}
 
-	private void logOff() {
 
-	}
 
 	private void initData() {
 		userName = edit_user.getText().toString().trim();
@@ -148,8 +140,8 @@ public class LoginActivity extends Activity {
 				params.addHeader("client_id", "1");
 				CjUser userDTO = new CjUser();
 				userDTO.setAccount(edit_user.getText().toString().trim());
-				userDTO.setArea("1");
-				userDTO.setName("1");
+				userDTO.setName("");
+				userDTO.setArea("");
 				userDTO.setPwd(edit_pw.getText().toString().trim());
 
 				String jsonStr = gson.toJson(userDTO);

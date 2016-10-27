@@ -94,15 +94,19 @@ public class MainActivity2 extends Activity {
 		});
 
 	}
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+	}
 
 	/**
 	 * ----从SP中取出token值--- ---请求服务器 --
 	 */
 	private void getDataFromNet() {
 		HttpUtils httpUtils = new HttpUtils();
+		httpUtils.configCurrentHttpCacheExpiry(0);
 		SharedPreferences tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
 		sToken = tokenSp.getString("token", "");
-		System.out.println("-----------------------" + sToken);
 		RequestParams params1 = new RequestParams();
 		params1.addHeader("token", sToken);
 		params1.addHeader("Content-Type", "application/json;charset=utf-8");
@@ -194,6 +198,7 @@ public class MainActivity2 extends Activity {
 
 		@Override
 		public int getCount() {
+
 			return list.size();
 		}
 
@@ -425,4 +430,5 @@ public class MainActivity2 extends Activity {
 		}
 
 	}
+	
 }
