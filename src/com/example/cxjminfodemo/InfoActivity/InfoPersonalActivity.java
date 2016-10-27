@@ -91,7 +91,7 @@ public class InfoPersonalActivity extends Activity {
 
 	private String tag = "InfoPersonal";
 	private DBManager mgr;
-	
+
 	Bundle bundle;
 
 	String res = null;
@@ -180,7 +180,7 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
 		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
-		edit_lxdh= (EditText) findViewById(R.id.edit_lxdh);
+		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
 		ArrayList<String> data_list = new ArrayList<String>();
@@ -288,7 +288,6 @@ public class InfoPersonalActivity extends Activity {
 			break;
 		// 户主
 		case 1:
-			
 
 			edit_cbrxm.setText(bundle.getString("name"));
 			edit_gmcfzh.setText(bundle.getString("cardno"));
@@ -361,12 +360,12 @@ public class InfoPersonalActivity extends Activity {
 				personal1.setEdit_cbrq(tempPersonal.edit_cbrq);
 				personal1.setEdit_cbrylb(tempPersonal.edit_cbrylb);
 				personal1.setEdit_csrq(tempPersonal.edit_csrq);
-				
+
 				personal1.setEdit_hkxz(tempPersonal.edit_hkxz);
-				
+
 				personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
 				personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
-			
+				personal1.setEdit_jf(tempPersonal.edit_jf);
 				personal1.setHZSFZ(bundle.getString("HZSFZ"));
 				personals.add(personal1);
 				mgr.addPersonal(personals);
@@ -378,7 +377,6 @@ public class InfoPersonalActivity extends Activity {
 				intent.putExtra("Personal", str);
 				setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
 				Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
-				tempPersonal.setEdit_jf("0");
 			}
 		};
 
@@ -466,20 +464,20 @@ public class InfoPersonalActivity extends Activity {
 		// TODO Auto-generated method stub
 		tempPersonal.setEdit_yhzgx(edit_yhzgx.getSelectedItem().toString());
 		tempPersonal.setEdit_cbrxm(edit_cbrxm.getText().toString());
-		
+
 		tempPersonal.setEdit_zjlx(edit_zjlx.getSelectedItem().toString());
-		
+
 		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
 		/* tempPersonal.setEdit_xb(edit_xb.getText().toString()); */
 		tempPersonal.setEdit_mz(edit_mz.getSelectedItem().toString());
 		tempPersonal.setEdit_xb(edit_xb.getSelectedItem().toString());
-		
+
 		tempPersonal.setEdit_csrq(edit_csrq.getText().toString());
 		tempPersonal.setEdit_cbrq(edit_cbrq.getText().toString());
-		
+
 		tempPersonal.setEdit_cbrylb(edit_cbrylb.getSelectedItem().toString());
 		tempPersonal.setEdit_hkxz(edit_hkxz.getSelectedItem().toString());
-		
+
 		tempPersonal.setEdit_xxjzdz(edit_xxjzdz.getText().toString());
 		tempPersonal.setEdit_lxdh(edit_lxdh.getText().toString());
 		listPersonal.add(tempPersonal);

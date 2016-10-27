@@ -36,6 +36,7 @@ public class HttpManager extends HttpUtils {
 	public String errorMessage = "";
 	Context context;
 	DBManager db;
+	String country = "";
 
 	public HttpManager(Context context) {
 		this.context = context;
@@ -55,7 +56,7 @@ public class HttpManager extends HttpUtils {
 			family.edit_lxdh = d.getAae005();
 			family.edit_hkxxdz = d.getAae006();
 			family.edit_djrq = d.getAab050();
-
+			family.xzqh = country;
 			family.isEdit = "0";
 			family.isUpload = "1";
 			family.id = d.getLsh();
@@ -133,7 +134,7 @@ public class HttpManager extends HttpUtils {
 		List<FamilyDTO> familyDTOList = new ArrayList<FamilyDTO>();
 		List<MemberDTO> memberdto = new ArrayList<MemberDTO>();
 
-		List<Family> familys = db.queryFamily();
+		List<Family> familys = db.queryFamily(country);
 		for (Family family : familys) {
 			if (family.isUpload.equals("0")) {
 				familyDTOList.add(FMtoDTO(family));
@@ -162,7 +163,7 @@ public class HttpManager extends HttpUtils {
 	 * 
 	 */
 	public void getJbxx(String countryCode) {
-
+		country = countryCode;
 		RequestParams params = new RequestParams();
 
 		params.addHeader("Content-Type", "application/json");
@@ -198,6 +199,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	public void getCjxx(String countryCode, String usertoken, String account) {
+		country = countryCode;
 		RequestParams params = new RequestParams();
 		String url = RcConstant.postPath + countryCode;
 		params.addHeader("Content-Type", "application/json");

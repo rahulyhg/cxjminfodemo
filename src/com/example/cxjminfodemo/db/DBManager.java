@@ -92,8 +92,8 @@ public class DBManager {
 								personal.getEdit_zjlx(), personal.getEdit_gmcfzh(), personal.getEdit_mz(),
 								personal.getEdit_xb(), personal.getEdit_csrq(), personal.getEdit_cbrylb(),
 								personal.getEdit_cbrq(), personal.getEdit_yhzgx(), personal.getEdit_lxdh(),
-								personal.getEdit_xxjzdz(), personal.getEdit_hkxz(), personal.getEdit_jf(),personal.getHZSFZ(),
-								personal.getIsEdit(), personal.getIsUpload() });
+								personal.getEdit_xxjzdz(), personal.getEdit_hkxz(), personal.getEdit_jf(),
+								personal.getHZSFZ(), personal.getIsEdit(), personal.getIsUpload() });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -106,10 +106,11 @@ public class DBManager {
 		try {
 			// 9个字段
 			for (Family family : familys) {
-				db.execSQL("REPLACE INTO family VALUES(?, ?,?,?,?,?   ,?,?,?,?,?,  ?)",
+				db.execSQL("REPLACE INTO family VALUES(?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?)",
 						new Object[] { family.getEdit_gmcfzh(), null, family.getEdit_hzxm(), family.getEdit_jhzzjlx(),
 								family.getEdit_gmcfzh(), null, family.getEdit_cjqtbxrs(), family.getEdit_lxdh(),
-								family.getEdit_hkxxdz(), family.getEdit_djrq(), family.getIsEdit(), family.isUpload });
+								family.getEdit_hkxxdz(), family.getEdit_djrq(), family.getIsEdit(), family.isUpload,
+								family.xzqh });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -160,7 +161,7 @@ public class DBManager {
 
 		cv.put("AAC058", personal.getEdit_zjlx());
 		cv.put("AAE005", personal.getEdit_lxdh());
-		
+
 		cv.put("JFBZ", personal.getEdit_jf());
 
 		cv.put("ISEDIT", personal.getIsEdit());
@@ -243,7 +244,7 @@ public class DBManager {
 			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
 			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
 			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
-
+			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
 			family.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
 			family.isUpload = c.getString(c.getColumnIndex("ISUPLOAD"));
 			familys.add(family);
@@ -251,6 +252,33 @@ public class DBManager {
 		c.close();
 		return familys;
 	}
+	
+	public ArrayList<Family> queryFamily(String XZQH) {
+		ArrayList<Family> familys = new ArrayList<Family>();
+		String sql = " Select * from family where XZQH='" + XZQH + "'";
+		Cursor c = db.rawQuery(sql, null);
+		while (c.moveToNext()) {
+			Family family = new Family();
+			family.id = c.getString(c.getColumnIndex("_id"));
+			family.edit_jtbh = c.getString(c.getColumnIndex("AAB999"));
+			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
+			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
+			family.edit_jhzzjlx = c.getString(c.getColumnIndex("AAC058"));
+			family.edit_hjbh = c.getString(c.getColumnIndex("AAB401"));
+			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
+			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
+			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
+			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
+			family.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
+			family.isUpload = c.getString(c.getColumnIndex("ISUPLOAD"));
+			familys.add(family);
+		}
+		c.close();
+		return familys;
+	}
+	
+	
 
 	/*
 	 * 人员信息 序号 字段名称 描述 类型 长度 非空 备注 AAC999 个人编号 Varchar2 16 为空代表新登记人员
@@ -284,8 +312,8 @@ public class DBManager {
 				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
 				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
-				personal.edit_jf=c.getString(c.getColumnIndex("JFBZ"));
-				
+				personal.edit_jf = c.getString(c.getColumnIndex("JFBZ"));
+
 				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
 
 				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
@@ -316,8 +344,8 @@ public class DBManager {
 				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
 				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
-				personal.edit_jf=c.getString(c.getColumnIndex("JFBZ"));
-				
+				personal.edit_jf = c.getString(c.getColumnIndex("JFBZ"));
+
 				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
 
 				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));

@@ -84,7 +84,8 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "AAE006 VARCHAR,"
 				+ "AAB050 VARCHAR  NOT NULL,"
 				+ "ISEDIT VARCHAR NOT¡¡NULL,"
-				+ "ISUPLOAD VARCHAR NOT NULL)");
+				+ "ISUPLOAD VARCHAR NOT NULL,"
+				+ "XZQH VARCHAR¡¡NOT NULL)");
 
 		db.execSQL("CREATE TABLE IF NOT EXISTS personal"
 				+ "(_id VARCHAR PRIMARY KEY,"
