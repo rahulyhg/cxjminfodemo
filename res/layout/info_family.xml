@@ -72,7 +72,6 @@
                     android:id="@+id/edit_jgszcwh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:gravity="right"
@@ -113,17 +112,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="户主姓名：    "
+                    android:text="户主姓名："
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_hzxm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:inputType="textPersonName"
-                    android:paddingLeft="5dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -163,11 +161,9 @@
                 android:id="@+id/edit_jhzzjlx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:background="@null"
                 android:gravity="center"
                 android:inputType="textPersonName"
-                android:paddingLeft="10dp"
                 android:textColorHint="#b3b2b2"
                 android:textSize="15sp" >
             </Spinner>
@@ -203,16 +199,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="登记日期：    "
+                    android:text="登记日期："
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/edit_djrq"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true"
-                    android:paddingLeft="5dp"
                     android:textSize="15sp" >
                 </TextView>
             </LinearLayout>
@@ -248,17 +243,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="联系电话：    "
+                    android:text="联系电话："
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_lxdh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:inputType="number"
-                    android:paddingLeft="5dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -295,17 +289,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="电子邮箱：    "
+                    android:text="电子邮箱："
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_dzyx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:inputType="textEmailAddress"
-                    android:paddingLeft="5dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -342,17 +335,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="邮政编码：    "
+                    android:text="邮政编码："
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edit_yzbm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:inputType="number"
-                    android:paddingLeft="5dp"
                     android:textColorHint="#b3b2b2"
                     android:textSize="15sp" >
                 </EditText>
@@ -396,10 +388,9 @@
                     android:id="@+id/edit_hkxxdz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:paddingLeft="10dp"
                     android:textSize="15sp" >
                 </EditText>
             </LinearLayout>
@@ -442,7 +433,7 @@
                     android:id="@+id/edit_cjqtbxrs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:numeric="integer"
                     android:textColorHint="#b3b2b2"

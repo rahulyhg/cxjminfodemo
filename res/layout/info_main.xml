@@ -51,26 +51,27 @@
                 android:layout_height="0dip"
                 android:layout_weight="8" >
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#c9c9ce"
                     android:gravity="center" >
 
                     <ImageView
+                        android:layout_weight="1"
                         android:id="@+id/btn_camera"
-                        android:layout_width="34dp"
+                        android:layout_width="0dp"
                         android:layout_height="24dp"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/xiangji" />
 
                     <EditText
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="7"
                         android:id="@+id/edit_num"
-                        android:layout_width="280dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/btn_camera"
                         android:background="@drawable/input"
                         android:ems="18"
                         android:hint="请输入户主身份证号"
@@ -80,13 +81,14 @@
                     </EditText>
 
                     <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
                         android:id="@+id/btn_search"
-                        android:layout_width="50dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/edit_num"
                         android:scaleType="fitStart"
-                        android:src="@drawable/search" />
-                </RelativeLayout>
+                        android:src="@drawable/search1" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
