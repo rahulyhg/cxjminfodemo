@@ -7,8 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 import com.dd.CircularProgressButton;
+import com.example.cxjminfodemo.MainActivity2.MyAdapter.ViewHolder;
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
+import com.example.cxjminfodemo.db.DBManager;
+import com.example.cxjminfodemo.dto.Family;
+import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.server.dto.FamilyMemberDTO;
+import com.example.cxjminfodemo.server.dto.MemberDTO;
 import com.example.cxjminfodemo.server.dto.UserDetail;
 import com.example.cxjminfodemo.utils.HttpManager;
 import com.example.cxjminfodemo.utils.TextToMap;
@@ -52,11 +57,19 @@ public class MainActivity2 extends Activity {
 	private List<UserDetail> list;
 	Context activity;
 	String sToken;
+	DBManager db;
+	static ViewHolder holdering;
+	// 当前listview位置
+	static int itemIndex;
+	// 乡镇代码
+	static String cjarea;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
+		activity = this;
+		db = new DBManager(this);
 		ButterKnife.bind(MainActivity2.this);
 		/** ------向服务器请求数据---------------- */
 		getDataFromNet();
@@ -82,7 +95,7 @@ public class MainActivity2 extends Activity {
 				finish();
 			}
 		});
-		activity = this;
+
 	}
 
 	/**
@@ -132,7 +145,7 @@ public class MainActivity2 extends Activity {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CBDJ:
 			adapter.getViewHolder(pos).upload.setVisibility(View.VISIBLE);
-			;
+			updateView();
 		}
 	}
 
@@ -191,7 +204,6 @@ public class MainActivity2 extends Activity {
 			final ViewHolder holder;
 			final HttpManager http = new HttpManager(activity);
 			Log.v("BaseAdapterTest", "getView " + position + " " + convertView);
-
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.listview_item, null);
 				holder = new ViewHolder();
@@ -219,7 +231,7 @@ public class MainActivity2 extends Activity {
 			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 */
-			final String cjarea = list.get(position).getCjarea();
+			cjarea = list.get(position).getCjarea();
 			for (String key : oldMap.keySet()) {
 				if (key.equals(cjarea))
 					holder.local.setText(oldMap.get(key));
@@ -253,9 +265,9 @@ public class MainActivity2 extends Activity {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
 								holder.download.setProgress(100);
-								
-								
-								
+								holdering = holder;
+								itemIndex = position;
+								updateView();
 							}
 						});
 					}
@@ -336,6 +348,7 @@ public class MainActivity2 extends Activity {
 				public void onClick(View v) {
 
 					if (holder.download.getProgress() == 0 || holder.download.getProgress() == -1) {
+
 						new Thread(down_run).start();
 
 						holder.download.setProgress(0);
@@ -367,15 +380,31 @@ public class MainActivity2 extends Activity {
 			return convertView;
 		}
 
-		public void updateView(View view, int itemIndex) {
-			if (view == null) {
-				return;
-			}
-			// 从view中取得holder
-			ViewHolder holder = (ViewHolder) view.getTag();
-			holder.upload.setVisibility(View.VISIBLE);
-		}
+	}
 
+	public void updateView() {
+		Runnable update = new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				int memberSize = 0;
+				int memberJf = 0;
+				List<Family> familys = db.queryFamily();
+				holdering.num1.setText(familys.size());
+				for (Family family : familys) {
+					List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
+					memberSize = memberSize + personals.size();
+					for (Personal personal : personals) {
+						if (!personal.getEdit_jf().equals("0")) {
+							memberJf = memberJf + 1;
+						}
+					}
+				}
+				holdering.num2.setText(memberSize + "");
+				holdering.num3.setText(memberJf + "");
+			}
+		};
+		new Thread(update).start();
 	}
 
 }

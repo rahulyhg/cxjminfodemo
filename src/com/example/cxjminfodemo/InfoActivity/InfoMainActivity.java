@@ -79,7 +79,6 @@ public class InfoMainActivity extends Activity {
 	private static byte[] bytes;
 	private static String extension;
 	public static final String action = "idcard.scan";
-	public Context context;
 
 	@Bind(R.id.image_left)
 	ImageView image_left;
@@ -128,8 +127,7 @@ public class InfoMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		ButterKnife.bind(InfoMainActivity.this);
-		context = this;
-		loading = new LoadingDialog(context);
+		loading = new LoadingDialog(this);
 		mgr = new DBManager(this);
 
 		initView();
@@ -255,7 +253,7 @@ public class InfoMainActivity extends Activity {
 			public void handleMessage(Message msg) {
 				if (msg.what == 0) {
 					/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
-					((Activity) context).runOnUiThread(new Runnable() {
+					((Activity) InfoMainActivity.this).runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub

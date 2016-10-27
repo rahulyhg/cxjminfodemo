@@ -58,7 +58,7 @@ public class HttpManager extends HttpUtils {
 
 			family.isEdit = "0";
 			family.isUpload = "1";
-			family.id=d.getLsh();
+			family.id = d.getLsh();
 			familyList.add(family);
 		}
 		return familyList;
@@ -83,7 +83,7 @@ public class HttpManager extends HttpUtils {
 			personal.edit_zjlx = d.getAac058();
 			personal.edit_lxdh = d.getAae005();
 			personal.isUpload = "1";
-			personal.id=d.getLsh();
+			personal.id = d.getLsh();
 			personalList.add(personal);
 		}
 		return personalList;
@@ -221,6 +221,7 @@ public class HttpManager extends HttpUtils {
 				int exceptionCode = error.getExceptionCode();
 				if (exceptionCode == 0) {
 					errorMessage = "请检查网络连接是否正常！";
+					System.out.println(errorMessage);
 				}
 				isAlive = false;
 			}
