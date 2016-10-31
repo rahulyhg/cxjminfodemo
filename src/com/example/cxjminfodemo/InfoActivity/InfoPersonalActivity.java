@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -23,6 +24,7 @@ import com.example.cxjminfodemo.InfoActivity.PersonalActivity.InfoPersonalzxzfAc
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
+import com.example.cxjminfodemo.server.dto.UserDetail;
 import com.example.cxjminfodemo.utils.IDCard;
 import com.example.cxjminfodemo.utils.PersonalUtil;
 import com.example.idcardscandemo.ACameraActivity;
@@ -277,8 +279,122 @@ public class InfoPersonalActivity extends Activity {
 						: (calendar.get(Calendar.MONTH) + 1))
 				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
+
+		whenEdit();
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
+
+	private void whenEdit() {
+		//个人信息编辑状态下 更新表单数据
+		// TODO Auto-generated method stub
+		String per = bundle.getString("personal");
+		if(per!=null&&per!="")
+		{
+			Personal personal = new Gson().fromJson(per, new TypeToken<Personal>() {
+			}.getType());
+
+			String yhzgx=personal.edit_yhzgx;
+			if(yhzgx.equals("户主"))
+				edit_yhzgx.setSelection(0);
+			if(yhzgx.equals("夫妻"))
+				edit_yhzgx.setSelection(1);			
+			if(yhzgx.equals("父母"))
+				edit_yhzgx.setSelection(2);				
+			if(yhzgx.equals("子女"))
+				edit_yhzgx.setSelection(3);
+			if(yhzgx.equals("其他"))
+				edit_yhzgx.setSelection(4);
+				
+			String zjlx=personal.edit_zjlx;
+			if(zjlx.equals("居民身份证（户口簿）"))
+				edit_yhzgx.setSelection(0);
+			if(zjlx.equals("中国人民解放军军官证"))
+				edit_yhzgx.setSelection(1);			
+			if(zjlx.equals("中国人民武装警察警官证"))
+				edit_yhzgx.setSelection(2);				
+			if(zjlx.equals("香港特区护照/身份证明"))
+				edit_yhzgx.setSelection(3);
+			if(zjlx.equals("澳门特区护照/身份证明"))
+				edit_yhzgx.setSelection(4);
+			if(zjlx.equals("台湾居民来往大陆通行证"))
+				edit_yhzgx.setSelection(5);
+			if(zjlx.equals("外国人护照"))
+				edit_yhzgx.setSelection(6);
+			
+			String xb=personal.edit_xb;
+			if (xb.equals("男"))
+				edit_xb.setSelection(0);
+			if (xb.equals("女"))
+				edit_xb.setSelection(1);
+			if (xb.equals("未说明性别"))
+				edit_xb.setSelection(2);
+			
+			
+			edit_cbrxm.setText(personal.getEdit_cbrxm());
+			edit_gmcfzh.setText(personal.getEdit_gmcfzh());
+			edit_xxjzdz.setText(personal.getEdit_xxjzdz());
+			edit_lxdh.setText(personal.getEdit_lxdh());
+			String temp_folk = personal.getEdit_mz();
+			if (temp_folk.equals("汉"))
+				edit_mz.setSelection(0);
+			if (temp_folk.equals("满"))
+				edit_mz.setSelection(1);
+			if (temp_folk.equals("回"))
+				edit_mz.setSelection(2);
+			edit_csrq.setText(personal.edit_cbrq);
+			
+			String hkxz = personal.getEdit_hkxz();
+			if (hkxz.equals("农业户口（农村）"))
+				edit_hkxz.setSelection(0);
+			if (hkxz.equals("非农业户口（城镇）"))
+				edit_hkxz.setSelection(1);
+			if (hkxz.equals("本地非农业户口（本地城镇）"))
+				edit_hkxz.setSelection(2);
+			if (hkxz.equals("外地非农业户口（外地城镇）"))
+				edit_hkxz.setSelection(3);
+			if (hkxz.equals("本地农业户口（本地农村）"))
+				edit_hkxz.setSelection(4);
+			if (hkxz.equals("外地农业户口（外地农村）"))
+				edit_hkxz.setSelection(5);
+			if (hkxz.equals("港澳台"))
+				edit_hkxz.setSelection(6);
+			if (hkxz.equals("外籍"))
+				edit_hkxz.setSelection(7);
+			
+			String cbrylb = personal.getEdit_cbrylb();
+			if (cbrylb.equals("普通城乡居民"))
+				edit_cbrylb.setSelection(0);
+			if (cbrylb.equals("重残城乡居民"))
+				edit_cbrylb.setSelection(1);
+			if (cbrylb.equals("低保城乡居民"))
+				edit_cbrylb.setSelection(2);
+			if (cbrylb.equals("五保供养城乡居民"))
+				edit_cbrylb.setSelection(3);
+			if (cbrylb.equals("低收入家庭60岁以上老年人"))
+				edit_cbrylb.setSelection(4);
+			if (cbrylb.equals("五保供养大学生"))
+				edit_cbrylb.setSelection(5);
+			if (cbrylb.equals("重度残疾大学生"))
+				edit_cbrylb.setSelection(6);
+			if (cbrylb.equals("低保大学生"))
+				edit_cbrylb.setSelection(7);
+			
+			if (cbrylb.equals("普通大学生"))
+				edit_cbrylb.setSelection(8);
+			if (cbrylb.equals("五保供养中小学生"))
+				edit_cbrylb.setSelection(9);
+			if (cbrylb.equals("重度残疾中小学生"))
+				edit_cbrylb.setSelection(10);
+			
+			if (cbrylb.equals("低保中小学生"))
+				edit_cbrylb.setSelection(11);
+			if (cbrylb.equals("普通中小学生"))
+				edit_cbrylb.setSelection(12);
+			
+			
+		}
+		
+	}
 
 	@OnItemSelected(R.id.edit_yhzgx)
 	void onItemSelected(int position) {

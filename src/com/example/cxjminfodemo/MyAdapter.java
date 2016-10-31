@@ -10,10 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.cxjminfodemo.InfoActivity.InfoPersonalActivity;
+import com.example.cxjminfodemo.db.DBManager;
+import com.example.cxjminfodemo.dto.Personal;
+import com.google.gson.Gson;
 import com.roamer.slidelistview.SlideBaseAdapter;
 import com.roamer.slidelistview.SlideListView.SlideMode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +37,9 @@ import android.widget.Toast;
  */
 public class MyAdapter extends SlideBaseAdapter {
 
-	ArrayList<HashMap<String, String>> listItem;
+	ArrayList<Personal> listItem;
+	DBManager db;
+	Context context;
 
 	/* 存放控件 的ViewHolder */
 	public final class ViewHolder {
@@ -40,16 +47,18 @@ public class MyAdapter extends SlideBaseAdapter {
 		public TextView name;
 		public TextView jf;
 		public TextView yjf;
-		Button edit;
-		Button delete;
+		TextView edit;
+		TextView delete;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 
-	public MyAdapter(Context context, ArrayList<HashMap<String, String>> listItem) {
+	public MyAdapter(Context context, ArrayList<Personal> listItem) {
 		super(context);
+		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
 		this.listItem = listItem;
+		this.db = new DBManager(context);
 	}
 
 	@Override
@@ -69,9 +78,6 @@ public class MyAdapter extends SlideBaseAdapter {
 
 	@Override
 	public SlideMode getSlideModeInPosition(int position) {
-		if (position == 1) {
-			return SlideMode.LEFT;
-		}
 		return super.getSlideModeInPosition(position);
 	}
 
@@ -97,29 +103,18 @@ public class MyAdapter extends SlideBaseAdapter {
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
 			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
 			holder.yjf = (TextView) convertView.findViewById(R.id.text_yjf);
+			holder.edit = (TextView) convertView.findViewById(R.id.edit);
+			holder.delete = (TextView) convertView.findViewById(R.id.delete);
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
 			holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
 		}
 
 		/* 设置TextView显示的内容，即我们存放在动态数组中的数据 */
-		holder.gmsfzh.setText(listItem.get(position).get("gmsfzh").toString());
-		holder.name.setText(listItem.get(position).get("name").toString());
-		holder.gmsfzh.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(mContext, "Click title:" + position, Toast.LENGTH_SHORT).show();
-			}
-		});
+		holder.gmsfzh.setText(listItem.get(position).getEdit_gmcfzh());
+		holder.name.setText(listItem.get(position).getEdit_cbrxm());
 
-		holder.name.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(mContext, "Click title:" + position, Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		if (listItem.get(position).get("jf").equals("1")) {
+		if (listItem.get(position).getEdit_jf().equals("1")) {
 			holder.jf.setVisibility(View.INVISIBLE);
 			holder.yjf.setVisibility(View.VISIBLE);
 		}
@@ -129,6 +124,9 @@ public class MyAdapter extends SlideBaseAdapter {
 				@Override
 				public void onClick(View v) {
 					Toast.makeText(mContext, "Click edit:" + position, Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(context, InfoPersonalActivity.class);
+					intent.putExtra("personal", new Gson().toJson(listItem.get(position)));
+					context.startActivity(intent);
 				}
 			});
 		}
@@ -138,6 +136,7 @@ public class MyAdapter extends SlideBaseAdapter {
 				@Override
 				public void onClick(View v) {
 					listItem.remove(position);
+					db.deletePersonal(listItem.get(position));
 					notifyDataSetChanged();
 					Toast.makeText(mContext, "Click delete:" + position, Toast.LENGTH_SHORT).show();
 				}

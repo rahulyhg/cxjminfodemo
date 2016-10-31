@@ -101,7 +101,7 @@ public class InfoMainActivity extends Activity {
 	static HashMap<String, ArrayList<Personal>> list_family_personal = new HashMap<String, ArrayList<Personal>>();
 	static CharSequence temp;// 监听前的文本
 	String res = null;// 查询身份证是否有效的返回信息
-	static ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+	static ArrayList<Personal> listItem = new ArrayList<Personal>();
 	private SlideListView lv;
 	MyAdapter adapter;
 	Gson gson = new Gson();
@@ -390,14 +390,8 @@ public class InfoMainActivity extends Activity {
 	private void UpdateListView() {
 		listItem.clear();
 		ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
-		for (Personal tempPersonal : listPersonal) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("name", tempPersonal.getEdit_cbrxm());
-			map.put("gmsfzh", tempPersonal.getEdit_gmcfzh());
-			map.put("cbrq", tempPersonal.getEdit_cbrq());
-			map.put("jf", tempPersonal.getEdit_jf());
-			listItem.add(map);
-		}
+
+		listItem.addAll(listPersonal);
 		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
 		for (Family tempFamily : listFamily) {
