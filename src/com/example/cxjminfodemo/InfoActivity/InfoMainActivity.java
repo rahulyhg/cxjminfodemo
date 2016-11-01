@@ -21,6 +21,7 @@ import org.dom4j.io.SAXReader;
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.MyAdapter;
 import com.example.cxjminfodemo.R;
+import com.example.cxjminfodemo.base.BaseActivity;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
@@ -30,6 +31,7 @@ import com.example.cxjminfodemo.utils.LoadingDialog;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lapism.searchview.SearchView;
 import com.roamer.slidelistview.SlideListView;
 
 import android.app.Activity;
@@ -57,7 +59,7 @@ import butterknife.OnClick;
  * @author tengzj
  * @data 2016年8月23日 下午5:22:33
  */
-public class InfoMainActivity extends Activity {
+public class InfoMainActivity extends BaseActivity {
 
 	/********** DECLARES *************/
 	/*
@@ -140,6 +142,22 @@ public class InfoMainActivity extends Activity {
 		adapter.notifyDataSetChanged();
 
 		/* 为动态数组添加数据 */
+
+		setView();
+	}
+
+	private void setView() {
+		setSearchView();
+		mSearchView.setNavigationIconArrowHamburger();
+		mSearchView.setTextInput(R.string.search);
+		mSearchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
+			@Override
+			public void onMenuClick() {
+				finish();
+			}
+		});
+		customSearchView();
+		mSearchView.open(false);
 	}
 
 	@Override

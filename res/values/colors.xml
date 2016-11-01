@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="backgroundColor">#E8E8E0</color>
     <color name="backgroundColorPress">#DBDBD3</color>
     <color name="red">#FF3B00</color>
     <color name="red_press">#990000</color>
     <color name="dark_gray">#4C535B</color>
     <color name="dark_gray_press">#ff7e8a97</color>
+    <color name="colorPrimary">#689f38</color>
+    <color name="colorPrimaryDark">#558b2f</color>
+    <color name="colorAccentDark">#f06292</color>
+    <color name="colorAccentLight">#d81b60</color>
+    <color name="colorPrimary300">#aed581</color>
+    <color name="colorPrimary500">#8bc34a</color>
+    <color name="colorPrimary800">#558b2f</color>
+
 </resources>
