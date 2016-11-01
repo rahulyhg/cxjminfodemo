@@ -50,6 +50,7 @@ import butterknife.OnClick;
  * @author tengzj
  * @data 2016年8月23日 下午4:52:12
  */
+@SuppressWarnings({ "deprecation" })
 public class LoginActivity extends Activity {
 
 	private DBManager mgr;
@@ -146,11 +147,7 @@ public class LoginActivity extends Activity {
 
 				String jsonStr = gson.toJson(userDTO);
 
-				try {
-					params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-				} catch (UnsupportedEncodingException e) {
-
-				}
+				params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
 
 				utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
 					// 请求失败调用次方法

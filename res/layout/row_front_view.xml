@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/front"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:minHeight="40dp" >
+    android:layout_height="80dp"
+    android:minHeight="80dp" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -18,27 +18,37 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/yezhu" />
+            android:src="@drawable/yezhu" 
+            android:visibility="invisible"/>
+        
+        <ImageView
+            android:id="@+id/text_icon2"
+            android:layout_width="18dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/member" />
 
         <TextView
             android:id="@+id/text_name"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/text_icon"
-            android:text="haha"
-            android:textSize="14sp" />
+            android:text=""
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/text_gmsfzh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/text_name"
             android:text="1111111111111111"
-            android:textSize="14sp" />
+            android:textSize="17sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="10dp"
         android:gravity="center" >
 
         <TextView
@@ -56,8 +66,8 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:text="待缴费"
-            android:textColor="#b3b2b2"
-            android:textSize="14sp" />
+            android:textColor="#0076ff"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/text_yjf"
@@ -66,7 +76,7 @@
             android:gravity="right"
             android:text="已缴费"
             android:textColor="#ef5306"
-            android:textSize="14sp"
+            android:textSize="17sp"
             android:visibility="invisible" />
     </RelativeLayout>
 

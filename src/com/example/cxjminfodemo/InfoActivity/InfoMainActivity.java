@@ -240,7 +240,7 @@ public class InfoMainActivity extends Activity {
 
 	}
 
-	@OnClick(R.id.btn_search)
+	@OnClick(R.id.btn_add)
 	public void toInfoFamilyActivity() {
 		try {
 			loading.show();

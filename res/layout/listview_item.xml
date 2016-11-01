@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="620"
+            android:layout_weight="550"
             android:gravity="center_vertical" >
 
             <LinearLayout
@@ -110,7 +110,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="500" >
+            android:layout_weight="600" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -200,6 +200,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:src="@drawable/done" />
+        android:src="@drawable/group" />
 
 </RelativeLayout>

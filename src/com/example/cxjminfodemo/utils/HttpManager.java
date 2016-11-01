@@ -210,10 +210,7 @@ public class HttpManager extends HttpUtils {
 		f.setXzqh(countryCode);
 		f.setCzr(account);
 		String jsonStr = gson.toJson(f);
-		try {
-			params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-		}
+		params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
 
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 			// 请求失败调用次方法
