@@ -53,21 +53,7 @@
                         android:layout_height="match_parent"
                         android:background="#c9c9ce" >
 
-                        <EditText
-                            android:id="@+id/edit_num"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="10"
-                            android:background="@drawable/searchbar"
-                            android:ems="18"
-                            android:hint="请输入户主身份证号"
-                            android:inputType="number"
-                            android:paddingLeft="10dp"
-                            android:textSize="15sp"
-                            android:visibility="gone" >
-                        </EditText>
+                       
                     </LinearLayout>
                 </LinearLayout>
 

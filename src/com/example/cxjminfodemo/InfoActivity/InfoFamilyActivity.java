@@ -7,6 +7,12 @@ package com.example.cxjminfodemo.InfoActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
@@ -14,6 +20,7 @@ import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.utils.FamilyUtil;
 import com.example.cxjminfodemo.utils.PersonalUtil;
+import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -21,6 +28,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,11 +52,15 @@ public class InfoFamilyActivity extends Activity {
 	private EditText edit_hzxm;
 	private EditText edit_lxdh;
 	private EditText edit_dzyx;
+	private EditText edit_gmsfzh;
 	private EditText edit_yzbm;
 	private EditText edit_cjqtbxrs;
 	private EditText edit_hkxxdz;
 	private Calendar calendar;
-
+	public static final int CAMERA = 1001;
+	private String name = "";
+	private String cardno = "";
+	private String address = "";
 	private DBManager mgr;
 	String hasTemp;
 	private Family defaultFamily = new Family("11111", "XXX", "张三", "123456", "123456");
@@ -58,6 +70,9 @@ public class InfoFamilyActivity extends Activity {
 
 	@Bind(R.id.edit_djrq)
 	TextView edit_djrq;
+
+	@Bind(R.id.edit_gmcfzh)
+	EditText edit_gmcfzh;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -92,6 +107,7 @@ public class InfoFamilyActivity extends Activity {
 			tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
+			edit_gmsfzh.setText(tempFamily.getEdit_gmcfzh());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 		}
 		if (hasTemp.equals("2")) {
@@ -100,6 +116,7 @@ public class InfoFamilyActivity extends Activity {
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
+			edit_gmsfzh.setText(tempFamily.getEdit_gmcfzh());
 
 			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
@@ -202,13 +219,14 @@ public class InfoFamilyActivity extends Activity {
 
 	// intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
 	private void intentMain() {
-		String str = gson.toJson(tempFamily);
-		FamilyUtil.saveValue(getApplicationContext(), str);
-		System.out.println("familyAct save" + gson.toJson(tempFamily));
-		Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
-		intent.putExtra("Family", str);
-		setResult(RESULT_OK, intent);
-
+		if (!tempFamily.getEdit_gmcfzh().equals("")) {
+			String str = gson.toJson(tempFamily);
+			FamilyUtil.saveValue(getApplicationContext(), str);
+			System.out.println("familyAct save" + gson.toJson(tempFamily));
+			Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
+			intent.putExtra("Family", str);
+			setResult(RESULT_OK, intent);
+		}
 	}
 
 	@OnClick(R.id.edit_djrq)
@@ -224,6 +242,51 @@ public class InfoFamilyActivity extends Activity {
 						.append((day < 10) ? 0 + day : day));
 			}
 		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+	}
+
+	@OnClick(R.id.btn_camera)
+	public void toOCR() {
+		Intent intent = new Intent(InfoFamilyActivity.this, ACameraActivity.class);
+		startActivityForResult(intent, CAMERA);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
+		case CAMERA:
+			String result = data.getStringExtra("result");
+			try {
+				// 解析xml
+				Document doc;
+				doc = DocumentHelper.parseText(result);
+				// Document doc = reader.read(ffile); //读取一个xml的文件
+				Element root = doc.getRootElement();
+				Iterator it = root.elementIterator("data");
+				// 遍历迭代器，获取根节点中的信息（书籍）
+				while (it.hasNext()) {
+					Element data1 = (Element) it.next();
+
+					Iterator itt = data1.elementIterator("item");
+					while (itt.hasNext()) {
+						Element item = (Element) itt.next();
+						System.out.println(item.getStringValue());
+						name = item.elementTextTrim("name");
+						cardno = item.elementTextTrim("cardno");
+						address = item.elementTextTrim("address");
+					}
+				}
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			edit_hzxm.setText(name);
+			edit_gmcfzh.setText(cardno);
+			edit_hkxxdz.setText(address);
+
+			break;
+		default:
+			break;
+		}
 	}
 
 	@OnClick(R.id.btn_save)
@@ -278,7 +341,7 @@ public class InfoFamilyActivity extends Activity {
 		tempFamily.setEdit_hkxxdz(edit_hkxxdz.getText().toString());
 		// spinner
 		tempFamily.setEdit_jhzzjlx(edit_jhzzjlx.getSelectedItem().toString());
-
+		tempFamily.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
 		tempFamily.setEdit_djrq(edit_djrq.getText().toString());
 
 	}
