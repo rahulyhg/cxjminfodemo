@@ -37,7 +37,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "test.db";
-	private static final int DATABASE_VERSION = 11;
+	private static final int DATABASE_VERSION = 1;
 
 	public DBHelper(Context context) {
 		// CursorFactory设置为null,使用默认值
@@ -60,17 +60,16 @@ public class DBHelper extends SQLiteOpenHelper {
 	void CreatTable(SQLiteDatabase db)
 	{
 		db.execSQL("CREATE TABLE IF NOT EXISTS user"
-				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ " taskid VARCHAR,"
-				+ " cjarea VARCHAR,"
+				+ "(taskid VARCHAR PRIMARY KEY ,"
 				+ "account VARCHAR,"
 				+ "city VARCHAR,"
-				+ "validcfcburl VARCHAR,"
+				+ "cjarea VARCHAR,"
+				+ "downloadflag VARCHAR,"
 				+ "sfcl VARCHAR,"
 				+ "taskdesc VARCHAR,"
 				+ "taskstatus VARCHAR,"
-				+ "downloadflag VARCHAR,"
-				+ "uploadflag VARCHAR)");
+				+ "uploadflag VARCHAR,"
+				+ "validcfcburl VARCHAR)");
 
 		db.execSQL("CREATE TABLE IF NOT EXISTS family"
 				+ "(_id VARCHAR PRIMARY KEY, "

@@ -1,8 +1,3 @@
-/**
- *@filename InfoPersonalActivity.java
- *@Email tengzhenjiu@qq.com
- *
- */
 package com.example.cxjminfodemo.InfoActivity;
 
 import java.io.File;
@@ -25,6 +20,7 @@ import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.server.dto.UserDetail;
+import com.example.cxjminfodemo.utils.CustomDialog;
 import com.example.cxjminfodemo.utils.IDCard;
 import com.example.cxjminfodemo.utils.PersonalUtil;
 import com.example.idcardscandemo.ACameraActivity;
@@ -33,7 +29,11 @@ import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +41,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -104,6 +105,7 @@ public class InfoPersonalActivity extends Activity {
 
 	@Bind(R.id.edit_cbrq)
 	TextView edit_cbrq;
+	private TextView tv_xjzf;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +179,7 @@ public class InfoPersonalActivity extends Activity {
 	/********** INITIALIZES *************/
 
 	public void initView() {
-
+		tv_xjzf = (TextView) findViewById(R.id.tv_xjzf);
 		edit_cbrxm = (EditText) findViewById(R.id.edit_cbrxm);
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
@@ -199,6 +201,7 @@ public class InfoPersonalActivity extends Activity {
 
 		// Spiner2
 		edit_cbrylb = (Spinner) findViewById(R.id.edit_cbrylb);
+
 		ArrayList<String> data_list2 = new ArrayList<String>();
 
 		data_list2.add("普通城乡居民");
@@ -445,8 +448,31 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_xjzf)
 	public void xjzf() {
-		Toast.makeText(getApplicationContext(), "完成现金支付", Toast.LENGTH_SHORT).show();
-		tempPersonal.setEdit_jf("1");
+		CustomDialog.Builder builder = new CustomDialog.Builder(this);
+		builder.setMessage("确定完成现金支付了吗？");
+		builder.setTitle("提示");
+		builder.setPositiveButton("确定", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				Toast.makeText(getApplicationContext(), "完成现金支付", Toast.LENGTH_SHORT).show();
+				tempPersonal.setEdit_jf("1");
+				tv_xjzf.setText("支付完成");
+				tv_xjzf.setTextColor(Color.BLUE);;
+		       
+			}
+		});
+		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		
+		builder.create().show();
 	}
 
 	@OnClick(R.id.btn_zxzf)
@@ -514,6 +540,8 @@ public class InfoPersonalActivity extends Activity {
 		edit_csrq.setText("");
 		edit_yhzgx.setSelection(0);
 		edit_xxjzdz.setText("");
+		tv_xjzf.setText("现金支付");
+		tv_xjzf.setTextColor(Color.BLACK);
 		tempPersonal = new Personal();
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
 	}

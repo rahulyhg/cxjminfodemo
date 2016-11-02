@@ -1,6 +1,7 @@
 package com.example.cxjminfodemo;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
 import com.example.cxjminfodemo.dto.Personal;
+import com.example.cxjminfodemo.dto.User;
 import com.example.cxjminfodemo.server.dto.FamilyMemberDTO;
 import com.example.cxjminfodemo.server.dto.MemberDTO;
 import com.example.cxjminfodemo.server.dto.UserDetail;
@@ -31,6 +33,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +63,7 @@ public class MainActivity2 extends Activity {
 	DBManager db;
 	// 当前listview位置
 	static int itemIndex;
+	private List<UserDetail> queryUserDetail;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +72,9 @@ public class MainActivity2 extends Activity {
 		activity = this;
 		db = new DBManager(this);
 		ButterKnife.bind(MainActivity2.this);
-		/** ------向服务器请求数据---------------- */
-		getDataFromNet();
+		/** ------请求数据---------------- */
+		getData();
+
 		/** --------初始化布局----------------- */
 		title_logout = (TextView) findViewById(R.id.title_logout);
 		text_user = (TextView) findViewById(R.id.text_user);
@@ -78,6 +83,7 @@ public class MainActivity2 extends Activity {
 		listview = (ListView) findViewById(R.id.listView);
 
 		/** --------初始化数据----------------- */
+
 		list = new ArrayList<UserDetail>();
 		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
 		oldMap = new TextToMap().TextToMap(inputStream);
@@ -92,11 +98,16 @@ public class MainActivity2 extends Activity {
 				finish();
 			}
 		});
-
 	}
+
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
+		super.onBackPressed();
+	}
+
+	private void getData() {
+		getDataFromNet();
+		/** ------向服务器请求数据---------------- */
 	}
 
 	/**
@@ -124,22 +135,30 @@ public class MainActivity2 extends Activity {
 			public void onSuccess(ResponseInfo<String> responseInfo) {
 				String result = responseInfo.result;
 				getInfoData(result);
-
 			}
 		});
 	}
 
-	/** 获取用户的详细信息并储存到list中--- */
+	/** 获取用户的详细信息并添加到list中--- */
 	protected void getInfoData(String result) {
 		Gson gson = new Gson();
-
 		list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
 		}.getType());
+
+		// 把信息保存到数据库中
+		queryUserDetail = db.queryUserDetail();
+		if (queryUserDetail.isEmpty()) {
+		
+			db.addUserDetail(list);
+			
+		}
+
 		adapter = new MyAdapter(list);
 		System.out.println("___________----------" + list.get(0).toString());
 		listview.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 		ToastUtil.showShort(getApplicationContext(), "数据已经加载");
+
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -189,6 +208,7 @@ public class MainActivity2 extends Activity {
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 		private List<UserDetail> list;
+		private String cjarea2;
 
 		public MyAdapter(List<UserDetail> list) {
 			super();
@@ -253,19 +273,67 @@ public class MainActivity2 extends Activity {
 			final String account = list.get(0).getAccount();
 			text_user.setText(account);
 
-			/** 把乡镇代码转换形成乡镇 */
+			/** 把乡镇代码转换形成乡镇 名称 */
 			final String cjarea = list.get(position).getCjarea();
 			for (String key : oldMap.keySet()) {
 				if (key.equals(cjarea))
 					holder.local.setText(oldMap.get(key));
-
 			}
+
 			int posi = position + 1;
 			holder.text_num.setText(posi + "");
-
 			holder.upload2.setVisibility(View.INVISIBLE);
 			holder.upload.setVisibility(View.INVISIBLE);
 
+			// 判断数据是否下载过,
+			for (UserDetail userDetail : queryUserDetail) {
+				if (userDetail.downloadflag.equals("1")) {
+					cjarea2 = userDetail.getCjarea();
+					if (cjarea.equals(cjarea2)) {
+						holder.upload.setVisibility(View.VISIBLE);
+						holder.download.setVisibility(View.VISIBLE);
+						holder.download2.setVisibility(View.VISIBLE);
+						holder.download.setProgress(100);
+
+						// 显示数据
+						int memberSize = 0;
+						int memberJf = 0;
+						List<Family> familys = db.queryFamily();
+						holder.num1.setText(familys.size() + "");
+						for (Family family : familys) {
+							List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
+							memberSize = memberSize + personals.size();
+							for (Personal personal : personals) {
+								if (!personal.getEdit_jf().equals("0")) {
+									memberJf = memberJf + 1;
+								}
+							}
+						}
+						holder.num2.setText(memberSize + "");
+						holder.num3.setText(memberJf + "");
+					}
+				}
+				// 判断是否已经上传
+				if (userDetail.uploadflag.equals("1")) {
+					if (cjarea.equals(cjarea2)) {
+						holder.upload2.setVisibility(View.VISIBLE);
+						holder.upload.setVisibility(View.INVISIBLE);
+						holder.download.setVisibility(View.INVISIBLE);
+						holder.download2.setVisibility(View.INVISIBLE);
+					}
+				}
+			}
+
+			// String downloadflag = list.get(position).getDownloadflag();
+			// if (downloadflag.equals("1")) {
+			// System.out.println("程序已运行" + downloadflag);
+			// holder.download.setProgress(100);
+			// holder.upload.setProgress(0);
+			//
+			//
+			// }
+
+			// 50旋转 100录入 0上传
 			final Handler handler = new Handler() {
 				public void handleMessage(Message msg) {
 					if (msg.what == 0) {
@@ -313,6 +381,7 @@ public class MainActivity2 extends Activity {
 								holder.upload2.setVisibility(View.VISIBLE);
 								holder.download.setVisibility(View.INVISIBLE);
 								holder.upload.setVisibility(View.INVISIBLE);
+								holder.download2.setVisibility(View.INVISIBLE);
 							}
 						});
 					}
@@ -343,6 +412,7 @@ public class MainActivity2 extends Activity {
 					}
 
 				};
+
 			};
 
 			final Runnable down_run = new Runnable() {
@@ -372,7 +442,12 @@ public class MainActivity2 extends Activity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					http.getCjxx(cjarea, sToken, account);
+					try {
+						http.getCjxx(cjarea, sToken, account);
+					} catch (UnsupportedEncodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 					try {
 						Thread.sleep(1500);
@@ -430,5 +505,5 @@ public class MainActivity2 extends Activity {
 		}
 
 	}
-	
+
 }

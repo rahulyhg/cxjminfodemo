@@ -67,13 +67,13 @@ public class DBManager {
 	 * @param persons
 	 */
 
-	public void addUser(List<UserDetail> list) {
+	public void addUserDetail(List<UserDetail> list) {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (UserDetail userDetail : list) {
-				db.execSQL("INSERT INTO user VALUES(null, ?, ?,?, ?,?, ?,?, ?,?, ?)",
-						new Object[] { userDetail.account, userDetail.city, userDetail.cjarea, userDetail.downloadflag,
-								userDetail.sfcl, userDetail.taskdesc, userDetail.taskid, userDetail.taskstatus,
+				db.execSQL("INSERT INTO user  VALUES( ?, ?,?, ?,?, ?,?, ?,?, ?)",
+						new Object[] { userDetail.taskid, userDetail.account, userDetail.city, userDetail.cjarea,
+								userDetail.downloadflag, userDetail.sfcl, userDetail.taskdesc, userDetail.taskstatus,
 								userDetail.uploadflag, userDetail.validcfcburl });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
@@ -81,6 +81,7 @@ public class DBManager {
 			db.endTransaction(); // 结束事务
 		}
 	}
+	
 
 	public void addPersonal(List<Personal> personals) {
 		db.beginTransaction(); // 开始事务
@@ -229,6 +230,22 @@ public class DBManager {
 		return users;
 	}
 
+	public List<UserDetail> queryUserDetail() {
+		ArrayList<UserDetail> UserDetails = new ArrayList<UserDetail>();
+		Cursor c = queryTheCursor("user");
+		while (c.moveToNext()) {
+			UserDetail userDetail = new UserDetail();
+			userDetail.account = c.getString(c.getColumnIndex("account"));
+			userDetail.cjarea = c.getString(c.getColumnIndex("cjarea"));
+			userDetail.downloadflag = c.getString(c.getColumnIndex("downloadflag"));
+			userDetail.uploadflag = c.getString(c.getColumnIndex("uploadflag"));
+			UserDetails.add(userDetail);
+		}
+		c.close();
+		return UserDetails;
+
+	}
+
 	public ArrayList<Family> queryFamily() {
 		ArrayList<Family> familys = new ArrayList<Family>();
 		Cursor c = queryTheCursor("family");
@@ -252,7 +269,7 @@ public class DBManager {
 		c.close();
 		return familys;
 	}
-	
+
 	public ArrayList<Family> queryFamily(String XZQH) {
 		ArrayList<Family> familys = new ArrayList<Family>();
 		String sql = " Select * from family where XZQH='" + XZQH + "'";
@@ -277,8 +294,6 @@ public class DBManager {
 		c.close();
 		return familys;
 	}
-	
-	
 
 	/*
 	 * 人员信息 序号 字段名称 描述 类型 长度 非空 备注 AAC999 个人编号 Varchar2 16 为空代表新登记人员
@@ -374,6 +389,17 @@ public class DBManager {
 		return userName;
 
 	}
+	//下载标志位置1/上传标志位置1/2016年11月2日10:44:30
+	public void update_df(Context context,String Code,String flag){
+		String cjarea1="";
+		String sql="update user set '"+flag+"'=1 where cjarea='"+Code+"'";
+		Cursor c = db.rawQuery(sql, null);
+		while(c.moveToNext()){
+			cjarea1= c.getString(c.getColumnIndex("cjarea"));
+		}
+		c.close();
+	}
+	
 
 	/**
 	 * query all persons, return cursor
@@ -392,6 +418,7 @@ public class DBManager {
 		case "personal":
 			c = db.rawQuery("SELECT * FROM personal", null);
 			break;
+
 		default:
 			System.out.println("Cursor error");
 		}

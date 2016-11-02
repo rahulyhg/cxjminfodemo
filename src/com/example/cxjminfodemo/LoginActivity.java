@@ -1,8 +1,3 @@
-/**
- *@filename LoginActivity.java
- *@Email tengzhenjiu@qq.com
- *
- */
 package com.example.cxjminfodemo;
 
 import java.io.UnsupportedEncodingException;
@@ -103,12 +98,7 @@ public class LoginActivity extends Activity {
 		image_left = (ImageView) findViewById(R.id.image_left);
 		btn_login = (TextView) findViewById(R.id.btn_login);
 
-		
-		
-
 	}
-
-
 
 	private void initData() {
 		userName = edit_user.getText().toString().trim();
@@ -151,15 +141,15 @@ public class LoginActivity extends Activity {
 
 				utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
 					// 请求失败调用次方法
-					
+
 					@Override
 					public void onFailure(HttpException error, String msg) {
 						int exceptionCode = error.getExceptionCode();
-					      if (exceptionCode==0) {
-					    	  ToastUtil.showShort(getApplicationContext(), "请检查网络连接是否正常！");
-						}else if (exceptionCode==406) {
+						if (exceptionCode == 0) {
+							ToastUtil.showShort(getApplicationContext(), "请检查网络连接是否正常！");
+						} else if (exceptionCode == 406) {
 							ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
-							
+
 						}
 					}
 
@@ -172,14 +162,13 @@ public class LoginActivity extends Activity {
 						tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
 						tokenSp.edit().putString("token", token).commit();
 						System.out.println("输出结果为" + token);
-						
+
 						/** --------进入选择页面-------- */
 						enterInfo();
 						ToastUtil.showShort(getApplicationContext(), "登陆成功！");
-						
 					}
 				});
-                
+
 			}
 		});
 
@@ -189,16 +178,15 @@ public class LoginActivity extends Activity {
 	 * 获取用户的详细个人信息 时间：2016年10月20日14:18:03
 	 *
 	 */
-	
 
 	// 2016年10月19日14:36:23
 
 	protected void enterInfo() {
-	
+
 		Intent intent = new Intent(this, MainActivity2.class);
 		startActivity(intent);
-		
-	} 
+		finish();
+	}
 
 	@Override
 	protected void onDestroy() {

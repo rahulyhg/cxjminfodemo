@@ -1,6 +1,7 @@
 package com.example.cxjminfodemo.server.dto;
 
 public class UserDetail {
+	public String id;
 	public String taskid;
 	public String cjarea;
 	public String account;
@@ -76,6 +77,12 @@ public class UserDetail {
 		return "UserDetail [taskid=" + taskid + ", cjarea=" + cjarea + ", account=" + account + ", city=" + city
 				+ ", validcfcburl=" + validcfcburl + ", sfcl=" + sfcl + ", taskdesc=" + taskdesc + ", taskstatus="
 				+ taskstatus + ", downloadflag=" + downloadflag + ", uploadflag=" + uploadflag + "]";
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 

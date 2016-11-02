@@ -162,7 +162,7 @@ public class HttpManager extends HttpUtils {
 	 * @return
 	 * 
 	 */
-	public void getJbxx(String countryCode) {
+	public void getJbxx(final String countryCode) {
 		country = countryCode;
 		RequestParams params = new RequestParams();
 
@@ -193,17 +193,19 @@ public class HttpManager extends HttpUtils {
 				// 存入sql
 				db.addFamily(DTOtoF(dto.getJt()));
 				db.addPersonal(DTOtoM(dto.getRy()));
+				//下载成功user表的download置1
+				db.update_df(context,countryCode,"downloadflag");
 				isAlive = false;
 			}
 		});
 	}
 
-	public void getCjxx(String countryCode, String usertoken, String account) {
+	public void getCjxx(final String countryCode, String usertoken, String account) throws UnsupportedEncodingException {
 		country = countryCode;
 		RequestParams params = new RequestParams();
 		String url = RcConstant.postPath + countryCode;
 		params.addHeader("Content-Type", "application/json");
-		params.addHeader("Accept", "application/json");
+		params.addHeader("Accept", "application/json"); 
 		params.addHeader("usertoken", usertoken);
 		FamilyMemberDTO f = new FamilyMemberDTO();
 		f = getInfo(f);
@@ -232,6 +234,7 @@ public class HttpManager extends HttpUtils {
 				isError = false;
 				System.out.println("上传成功");
 				System.out.println(arg0.result);
+				db.update_df(context, countryCode, "uploadflag");
 				isAlive = false;
 			}
 		});
