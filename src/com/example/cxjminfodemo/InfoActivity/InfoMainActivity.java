@@ -148,16 +148,18 @@ public class InfoMainActivity extends BaseActivity {
 
 	private void setView() {
 		setSearchView();
+		mSearchView.setHint("身份证号码查询");
+		mSearchView.setTextSize(15);
 		mSearchView.setNavigationIconArrowHamburger();
-		mSearchView.setTextInput(R.string.search);
 		mSearchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
 			@Override
 			public void onMenuClick() {
-				finish();
+				Intent intent = new Intent(InfoMainActivity.this, ACameraActivity.class);
+				startActivityForResult(intent, CAMERA);
 			}
 		});
 		customSearchView();
-		mSearchView.open(false);
+		mSearchView.close(true);
 	}
 
 	@Override
@@ -327,12 +329,6 @@ public class InfoMainActivity extends BaseActivity {
 		mHandler.post(r2);
 	}
 
-	@OnClick(R.id.btn_camera)
-	public void toOCR() {
-		Intent intent = new Intent(InfoMainActivity.this, ACameraActivity.class);
-		startActivityForResult(intent, CAMERA);
-	}
-
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case INFO＿PERSONAL:
@@ -393,7 +389,7 @@ public class InfoMainActivity extends BaseActivity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				edit_num.setText(cardno);
+				mSearchView.setTextInput(cardno);
 				thefamily = new Family();
 				thefamily.setEdit_hzxm(name);
 				thefamily.setEdit_gmcfzh(cardno);

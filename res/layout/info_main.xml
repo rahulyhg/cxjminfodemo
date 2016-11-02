@@ -40,14 +40,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignBottom="@id/searchView"
                 android:background="#e9f1ef"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
-                    android:layout_weight="12" >
+                    android:layout_weight="15" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -70,6 +69,12 @@
                             android:visibility="gone" >
                         </EditText>
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="2" >
                 </LinearLayout>
 
                 <LinearLayout
@@ -156,15 +161,6 @@
                                 android:singleLine="true"
                                 android:text=""
                                 android:textSize="17sp" />
-
-                            <ImageView
-                                android:id="@+id/btn_camera"
-                                android:layout_width="0dp"
-                                android:layout_height="22dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="1"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/xiangji" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -241,7 +237,10 @@
             <com.lapism.searchview.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" >
+            </com.lapism.searchview.SearchView>
         </RelativeLayout>
     </LinearLayout>
 

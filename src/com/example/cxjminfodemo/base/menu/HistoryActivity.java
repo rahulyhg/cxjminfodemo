@@ -22,7 +22,6 @@ public class HistoryActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppThemeLight);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbar);
         setTitle(null); // ""
         setToolbar();
         setViewPager();
