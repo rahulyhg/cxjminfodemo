@@ -41,6 +41,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -128,6 +129,8 @@ public class InfoMainActivity extends BaseActivity {
 		loading = new LoadingDialog(this);
 		mgr = new DBManager(this);
 
+		((BaseActivity) (this.getParent()))._sonActivity.set(1, this);
+		
 		initView();
 		// /*为ListView设置Adapter来绑定数据*/
 		listItem.clear();
@@ -384,7 +387,7 @@ public class InfoMainActivity extends BaseActivity {
 		}
 	}
 
-	private void UpdateListView() {
+	public void UpdateListView() {
 		listItem.clear();
 		ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
 
@@ -402,6 +405,7 @@ public class InfoMainActivity extends BaseActivity {
 				mgr.addFamily(the);
 			}
 		}
+		text_name.setText(thefamily.getEdit_hzxm());
 		adapter.notifyDataSetChanged();
 	}
 }

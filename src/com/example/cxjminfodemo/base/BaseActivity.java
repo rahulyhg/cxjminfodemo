@@ -49,6 +49,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 	private static final String EXTRA_KEY_VERSION_MARGINS = "version_margins";
 	private static final String EXTRA_KEY_TEXT = "text";
 
+	public ArrayList<AppCompatActivity> _sonActivity= new ArrayList<AppCompatActivity>();
+
 	// TODO
 	protected SearchView mSearchView = null;
 	protected DrawerLayout mDrawerLayout = null;
@@ -66,6 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onPostCreate(@Nullable Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
+		
 		setFab();
 		setDrawer();
 		// setNavigationView();
@@ -180,7 +183,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 		}
 	}
 
-
 	protected void setSearchView() {
 		mHistoryDatabase = new SearchHistoryTable(this);
 
@@ -235,7 +237,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 						TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
 						String query = textView.getText().toString();
 						getData(query, position);
-						// mSearchView.close(false);
+						mSearchView.setTextInput(query);
+						mSearchView.close(false);
+						//((InfoMainActivity) _sonActivity).UpdateListView();
 					}
 				});
 				mSearchView.setAdapter(searchAdapter);
@@ -265,15 +269,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@CallSuper
 	protected void getData(String text, int position) {
 		mHistoryDatabase.addItem(new SearchItem(text));
-
-		Intent intent = new Intent(getApplicationContext(), InfoMainActivity.class);
-		intent.putExtra(EXTRA_KEY_VERSION, SearchView.VERSION_TOOLBAR);
-		intent.putExtra(EXTRA_KEY_VERSION_MARGINS, SearchView.VERSION_MARGINS_TOOLBAR_SMALL);
-		intent.putExtra(EXTRA_KEY_THEME, SearchView.THEME_LIGHT);
-		intent.putExtra(EXTRA_KEY_TEXT, text);
-		startActivity(intent);
-
-		Toast.makeText(getApplicationContext(), text + ", position: " + position, Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getApplicationContext(), text + ", position: " +
+		// position, Toast.LENGTH_SHORT).show();
 	}
 
 }
