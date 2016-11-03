@@ -296,9 +296,9 @@ public class MainActivity2 extends Activity {
 					cjarea2 = userDetail.getCjarea();
 					if (cjarea.equals(cjarea2)) {
 						holder.upload.setVisibility(View.VISIBLE);
+						holder.download.setProgress(100);
 						holder.download.setVisibility(View.VISIBLE);
 						holder.download2.setVisibility(View.VISIBLE);
-						holder.download.setProgress(100);
 
 						// ÏÔÊ¾Êý¾Ý
 						int memberSize = 0;

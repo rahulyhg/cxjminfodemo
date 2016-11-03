@@ -48,7 +48,6 @@ public class InfoFamilyActivity extends Activity {
 
 	/********** DECLARES *************/
 	private Spinner edit_jhzzjlx;
-	private Spinner edit_jgszcwh;
 	private EditText edit_hzxm;
 	private EditText edit_lxdh;
 	private EditText edit_dzyx;
@@ -162,8 +161,6 @@ public class InfoFamilyActivity extends Activity {
 
 		// Spiner
 
-		edit_jgszcwh = (Spinner) findViewById(R.id.edit_jgszcwh);
-
 		ArrayList<String> data_list = new ArrayList<String>();
 		data_list.add("八里庄村");
 		data_list.add("古屯村");
@@ -172,8 +169,6 @@ public class InfoFamilyActivity extends Activity {
 				data_list);
 		// 设置样式
 		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// 加载适配器
-		edit_jgszcwh.setAdapter(arr_adapter);
 
 		/* 户主证件类型spiner */
 		edit_jhzzjlx = (Spinner) findViewById(R.id.edit_jhzzjlx);

@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
-                    android:background="@null"
+                    android:background="@drawable/sanjiao1"
                     android:gravity="center"
                     android:textSize="13sp" >
                 </Spinner>
