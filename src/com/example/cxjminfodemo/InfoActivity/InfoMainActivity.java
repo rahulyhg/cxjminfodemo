@@ -102,7 +102,7 @@ public class InfoMainActivity extends BaseActivity {
 	String res = null;// 查询身份证是否有效的返回信息
 	static ArrayList<Personal> listItem = new ArrayList<Personal>();
 	private SlideListView lv;
-	MyAdapter adapter;
+	static MyAdapter adapter;
 	Gson gson = new Gson();
 
 	private String name = "";
@@ -125,6 +125,9 @@ public class InfoMainActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
+
+		((BaseActivity) (getParent()))._sonActivity = InfoMainActivity.this;
+		this._sonActivity = InfoMainActivity.this;
 		ButterKnife.bind(InfoMainActivity.this);
 		loading = new LoadingDialog(this);
 		mgr = new DBManager(this);
@@ -164,7 +167,7 @@ public class InfoMainActivity extends BaseActivity {
 		if (thefamily != null) {
 			text_name.setText(thefamily.getEdit_hzxm());
 			text_id.setText(thefamily.getEdit_gmcfzh());
-			UpdateListView();
+			UpdateListView(thefamily.getEdit_gmcfzh());
 		}
 	}
 
@@ -248,42 +251,38 @@ public class InfoMainActivity extends BaseActivity {
 		};
 		Runnable r2 = new Runnable() {
 			public void run() {
-				if (res == "") {
-					// 匹配身份证信息 并输出到户主信息栏
-					listFamily = mgr.queryFamily();
+				/*
+				 * if (res == "") { // 匹配身份证信息 并输出到户主信息栏 listFamily =
+				 * mgr.queryFamily();
+				 * 
+				 * // System.out.println(listFamily.toString()); for (Family
+				 * tempFamily : listFamily) { if
+				 * (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput(
+				 * ))) { Toast.makeText(getApplicationContext(), "有匹配的身份证信息",
+				 * Toast.LENGTH_LONG).show(); // 显示的信息 与 编辑框信息对比 if
+				 * (!text_id.getText().toString().equals(mSearchView.
+				 * getTextInput())) { listItem.clear();
+				 * adapter.notifyDataSetChanged(); }
+				 * text_name.setText(tempFamily.getEdit_hzxm());
+				 * text_id.setText(tempFamily.getEdit_gmcfzh());
+				 * UpdateListView(tempFamily.getEdit_gmcfzh());
+				 * 
+				 * } } // 为空就是未匹配到信息 System.out.println("text_id:" +
+				 * text_id.getText().toString());
+				 * 
+				 * }
+				 */
 
-					// System.out.println(listFamily.toString());
-					for (Family tempFamily : listFamily) {
-						if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-							Toast.makeText(getApplicationContext(), "有匹配的身份证信息", Toast.LENGTH_LONG).show();
-							// 显示的信息 与 编辑框信息对比
-							if (!text_id.getText().toString().equals(mSearchView.getTextInput())) {
-								listItem.clear();
-								adapter.notifyDataSetChanged();
-							}
-							text_name.setText(tempFamily.getEdit_hzxm());
-							text_id.setText(tempFamily.getEdit_gmcfzh());
-							UpdateListView();
-
-						}
-					}
-					// 为空就是未匹配到信息
-					System.out.println("text_id:" + text_id.getText().toString());
-
-				}
-				if (text_id.getText().toString().equals("")
-						|| text_id.getText().toString().equals(mSearchView.getTextInput()) != true) {
-					Toast.makeText(getApplicationContext(), "无匹配的身份证信息", Toast.LENGTH_LONG).show();
-					Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
-					/*
-					 * thefamily=null; if (thefamily != null) { String str =
-					 * gson.toJson(thefamily); intent.putExtra("Family", str);
-					 * intent.putExtra("hasTemp", "1"); } else
-					 */
-					intent.putExtra("hasTemp", "0");
-					intent.putExtra("gmsfzh", mSearchView.getTextInput());
-					startActivityForResult(intent, INFO_FAMILY);
-				}
+				Toast.makeText(getApplicationContext(), "无匹配的身份证信息", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
+				/*
+				 * thefamily=null; if (thefamily != null) { String str =
+				 * gson.toJson(thefamily); intent.putExtra("Family", str);
+				 * intent.putExtra("hasTemp", "1"); } else
+				 */
+				intent.putExtra("hasTemp", "0");
+				intent.putExtra("gmsfzh", mSearchView.getTextInput());
+				startActivityForResult(intent, INFO_FAMILY);
 				mHandler.sendEmptyMessage(0);
 			}
 		};
@@ -306,7 +305,7 @@ public class InfoMainActivity extends BaseActivity {
 				// listPersonal);
 
 				// 用于显示listview
-				UpdateListView();
+				UpdateListView(text_id.getText().toString());
 			}
 			break;
 
@@ -315,11 +314,11 @@ public class InfoMainActivity extends BaseActivity {
 				Bundle f = data.getExtras(); // data为B中回传的Intent
 				String str2 = f.getString("Family");// str即为回传的值
 				Family tempFamily = gson.fromJson(str2, Family.class);
-
+				thefamily = null;
 				text_name.setText(tempFamily.getEdit_hzxm());
 				text_id.setText(tempFamily.getEdit_gmcfzh());
 				// 刷新listview
-				UpdateListView();
+				UpdateListView(tempFamily.getEdit_gmcfzh());
 			}
 			break;
 		case CAMERA:
@@ -351,31 +350,23 @@ public class InfoMainActivity extends BaseActivity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
 				mSearchView.setTextInput(cardno);
 				thefamily = new Family();
 				thefamily.setEdit_hzxm(name);
 				thefamily.setEdit_gmcfzh(cardno);
 				thefamily.setEdit_hkxxdz(address);
 
-				Runnable r3 = new Runnable() {
-					public void run() {
-						if (res == "") {
-							// 匹配身份证信息 并输出到户主信息栏
-							listFamily = mgr.queryFamily();
-
-							// System.out.println(listFamily.toString());
-							for (Family tempFamily : listFamily) {
-								if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-									text_name.setText(tempFamily.getEdit_hzxm());
-									text_id.setText(tempFamily.getEdit_gmcfzh());
-									UpdateListView();
-								}
-							}
-						}
+				// 匹配身份证信息 并输出到户主信息栏
+				listFamily = mgr.queryFamily();
+				// System.out.println(listFamily.toString());
+				for (Family tempFamily : listFamily) {
+					if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
+						text_name.setText(tempFamily.getEdit_hzxm());
+						text_id.setText(tempFamily.getEdit_gmcfzh());
+						UpdateListView(tempFamily.getEdit_gmcfzh());
 					}
-				};
-				new Thread(r3).start();
+				}
+
 			}
 			break;
 		default:
@@ -383,15 +374,15 @@ public class InfoMainActivity extends BaseActivity {
 		}
 	}
 
-	public void UpdateListView() {
+	public void UpdateListView(String temp) {
 		listItem.clear();
-		ArrayList<Personal> listPersonal = mgr.queryPersonal(text_id.getText().toString());
+		ArrayList<Personal> listPersonal = mgr.queryPersonal(temp);
 
 		listItem.addAll(listPersonal);
 		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
 		for (Family tempFamily : listFamily) {
-			if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
+			if (tempFamily.getEdit_gmcfzh().equals(temp)) {
 				thefamily = new Family();
 				thefamily = tempFamily;
 				mgr.deleteFamily(thefamily);
@@ -402,6 +393,7 @@ public class InfoMainActivity extends BaseActivity {
 			}
 		}
 		text_name.setText(thefamily.getEdit_hzxm());
+		text_id.setText(thefamily.getEdit_gmcfzh());
 		adapter.notifyDataSetChanged();
 	}
 }

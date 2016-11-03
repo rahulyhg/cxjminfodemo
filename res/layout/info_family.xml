@@ -123,8 +123,9 @@
                 android:id="@+id/edit_jhzzjlx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
+                android:background="@drawable/sanjiao1"
                 android:gravity="center"
+                android:layout_marginRight="10dp"
                 android:inputType="textPersonName"
                 android:textColorHint="#b3b2b2"
                 android:textSize="15sp" >

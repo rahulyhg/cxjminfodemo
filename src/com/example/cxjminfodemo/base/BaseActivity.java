@@ -49,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	private static final String EXTRA_KEY_VERSION_MARGINS = "version_margins";
 	private static final String EXTRA_KEY_TEXT = "text";
 
-	public ArrayList<AppCompatActivity> _sonActivity= new ArrayList<AppCompatActivity>();
+	public static InfoMainActivity _sonActivity;
 
 	// TODO
 	protected SearchView mSearchView = null;
@@ -68,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onPostCreate(@Nullable Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		
+
 		setFab();
 		setDrawer();
 		// setNavigationView();
@@ -239,7 +239,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 						getData(query, position);
 						mSearchView.setTextInput(query);
 						mSearchView.close(false);
-						//((InfoMainActivity) _sonActivity).UpdateListView();
+						_sonActivity.UpdateListView(mSearchView.getTextInput());
 					}
 				});
 				mSearchView.setAdapter(searchAdapter);

@@ -3,5 +3,4 @@
     android:id="@+id/sanjiao1"
     android:gravity="right"
     android:src="@drawable/sanjiao" >
-
 </bitmap>
