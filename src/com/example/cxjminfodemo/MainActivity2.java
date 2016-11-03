@@ -29,12 +29,16 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -65,11 +69,13 @@ public class MainActivity2 extends Activity {
 	static int itemIndex;
 	private List<UserDetail> queryUserDetail;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
 		activity = this;
+
 		db = new DBManager(this);
 		ButterKnife.bind(MainActivity2.this);
 		/** ------请求数据---------------- */
@@ -81,7 +87,6 @@ public class MainActivity2 extends Activity {
 		title_local = (TextView) findViewById(R.id.title_local);
 		title_num = (TextView) findViewById(R.id.title_num);
 		listview = (ListView) findViewById(R.id.listView);
-
 		/** --------初始化数据----------------- */
 
 		list = new ArrayList<UserDetail>();
@@ -148,9 +153,9 @@ public class MainActivity2 extends Activity {
 		// 把信息保存到数据库中
 		queryUserDetail = db.queryUserDetail();
 		if (queryUserDetail.isEmpty()) {
-		
+
 			db.addUserDetail(list);
-			
+
 		}
 
 		adapter = new MyAdapter(list);

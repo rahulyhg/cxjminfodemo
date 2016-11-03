@@ -129,7 +129,6 @@ public class InfoMainActivity extends BaseActivity {
 		loading = new LoadingDialog(this);
 		mgr = new DBManager(this);
 
-		((BaseActivity) (this.getParent()))._sonActivity.set(1, this);
 		
 		initView();
 		// /*为ListView设置Adapter来绑定数据*/
@@ -370,7 +369,6 @@ public class InfoMainActivity extends BaseActivity {
 							// System.out.println(listFamily.toString());
 							for (Family tempFamily : listFamily) {
 								if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-									Toast.makeText(getApplicationContext(), "有匹配的身份证信息", Toast.LENGTH_LONG).show();
 									text_name.setText(tempFamily.getEdit_hzxm());
 									text_id.setText(tempFamily.getEdit_gmcfzh());
 									UpdateListView();
