@@ -129,7 +129,6 @@ public class InfoMainActivity extends BaseActivity {
 		loading = new LoadingDialog(this);
 		mgr = new DBManager(this);
 
-		
 		initView();
 		// /*为ListView设置Adapter来绑定数据*/
 		listItem.clear();
@@ -262,7 +261,6 @@ public class InfoMainActivity extends BaseActivity {
 								listItem.clear();
 								adapter.notifyDataSetChanged();
 							}
-
 							text_name.setText(tempFamily.getEdit_hzxm());
 							text_id.setText(tempFamily.getEdit_gmcfzh());
 							UpdateListView();
