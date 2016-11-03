@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.InfoActivity.InfoPersonalActivity;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Personal;
@@ -36,7 +37,7 @@ import android.widget.Toast;
  * @data 2016年8月24日 下午2:42:15
  */
 public class MyAdapter extends SlideBaseAdapter {
-
+	public static final int INFO＿PERSONAL = 102;
 	ArrayList<Personal> listItem;
 	DBManager db;
 	Context context;
@@ -118,15 +119,19 @@ public class MyAdapter extends SlideBaseAdapter {
 			holder.jf.setVisibility(View.INVISIBLE);
 			holder.yjf.setVisibility(View.VISIBLE);
 		}
+		else
+		{
+			holder.jf.setVisibility(View.VISIBLE);
+			holder.yjf.setVisibility(View.INVISIBLE);
+		}
 
 		if (holder.edit != null) {
 			holder.edit.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(mContext, "Click edit:" + position, Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(context, InfoPersonalActivity.class);
 					intent.putExtra("personal", new Gson().toJson(listItem.get(position)));
-					context.startActivity(intent);
+					((InfoMainActivity) context).startActivityForResult(intent, INFO＿PERSONAL);
 				}
 			});
 		}
@@ -134,9 +139,9 @@ public class MyAdapter extends SlideBaseAdapter {
 		if (holder.delete != null) {
 			holder.delete.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					listItem.remove(position);
+				public void onClick(View v) {				
 					db.deletePersonal(listItem.get(position));
+					listItem.remove(position);
 					notifyDataSetChanged();
 					Toast.makeText(mContext, "Click delete:" + position, Toast.LENGTH_SHORT).show();
 				}

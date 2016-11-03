@@ -71,7 +71,7 @@ public class InfoPersonalActivity extends Activity {
 	private LinearLayout btn_save;
 	private LinearLayout btn_xjzf;
 	private LinearLayout btn_zxzf;
-	private LinearLayout btn_xyg;
+
 	private Spinner edit_zjlx;
 	private Spinner edit_xb;
 	private Spinner edit_yhzgx;
@@ -100,12 +100,16 @@ public class InfoPersonalActivity extends Activity {
 	String res = null;
 	public static final int CAMERA = 1001;
 	Personal tempPersonal;
+	String HZSFZedit = "";
 	Gson gson = new Gson();
 	ArrayList<Personal> listPersonal = new ArrayList<Personal>();
 
 	@Bind(R.id.edit_cbrq)
 	TextView edit_cbrq;
 	private TextView tv_xjzf;
+
+	@Bind(R.id.btn_xyg)
+	LinearLayout btn_xyg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +122,7 @@ public class InfoPersonalActivity extends Activity {
 		bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		tempPersonal = new Personal();
 		initView();
-
+		whenEdit();
 		fixID();
 	}
 
@@ -129,6 +133,12 @@ public class InfoPersonalActivity extends Activity {
 	*/
 	private void fixID() {
 		// TODO Auto-generated method stub
+		if (HZSFZedit != "") {
+			Toast.makeText(getApplicationContext(), "编辑状态下身份证号码不可变", Toast.LENGTH_SHORT).show();
+			edit_gmcfzh.setFocusable(false);
+			edit_gmcfzh.setFocusableInTouchMode(false);
+			btn_xyg.setVisibility(View.GONE);
+		}
 		edit_gmcfzh.addTextChangedListener(new TextWatcher() {
 
 			CharSequence temp;// 监听前的文本
@@ -139,10 +149,12 @@ public class InfoPersonalActivity extends Activity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				temp = s;
+
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
 			}
 
 			@Override
@@ -198,6 +210,7 @@ public class InfoPersonalActivity extends Activity {
 				data_list);
 		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		edit_yhzgx.setAdapter(arr_adapter);
+		edit_yhzgx.setSelection(1, true);
 
 		// Spiner2
 		edit_cbrylb = (Spinner) findViewById(R.id.edit_cbrylb);
@@ -238,7 +251,7 @@ public class InfoPersonalActivity extends Activity {
 				data_list3);
 		arr_adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		edit_hkxz.setAdapter(arr_adapter3);
-		edit_hkxz.setSelection(1);
+		edit_hkxz.setSelection(1, true);
 
 		// Spiner4
 		edit_mz = (Spinner) findViewById(R.id.edit_mz);
@@ -283,145 +296,139 @@ public class InfoPersonalActivity extends Activity {
 				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
 
-		whenEdit();
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
 
 	private void whenEdit() {
-		//个人信息编辑状态下 更新表单数据
+		// 个人信息编辑状态下 更新表单数据
 		// TODO Auto-generated method stub
+		res = "";
 		String per = bundle.getString("personal");
-		if(per!=null&&per!="")
-		{
+		if (per != null && per != "") {
 			Personal personal = new Gson().fromJson(per, new TypeToken<Personal>() {
 			}.getType());
+			HZSFZedit = personal.HZSFZ;
+			String yhzgx = personal.edit_yhzgx;
+			if (yhzgx.equals("户主"))
+				edit_yhzgx.setSelection(0, true);
+			if (yhzgx.equals("夫妻"))
+				edit_yhzgx.setSelection(1, true);
+			if (yhzgx.equals("父母"))
+				edit_yhzgx.setSelection(2, true);
+			if (yhzgx.equals("子女"))
+				edit_yhzgx.setSelection(3, true);
+			if (yhzgx.equals("其他"))
+				edit_yhzgx.setSelection(4, true);
 
-			String yhzgx=personal.edit_yhzgx;
-			if(yhzgx.equals("户主"))
-				edit_yhzgx.setSelection(0);
-			if(yhzgx.equals("夫妻"))
-				edit_yhzgx.setSelection(1);			
-			if(yhzgx.equals("父母"))
-				edit_yhzgx.setSelection(2);				
-			if(yhzgx.equals("子女"))
-				edit_yhzgx.setSelection(3);
-			if(yhzgx.equals("其他"))
-				edit_yhzgx.setSelection(4);
-				
-			String zjlx=personal.edit_zjlx;
-			if(zjlx.equals("居民身份证（户口簿）"))
-				edit_yhzgx.setSelection(0);
-			if(zjlx.equals("中国人民解放军军官证"))
-				edit_yhzgx.setSelection(1);			
-			if(zjlx.equals("中国人民武装警察警官证"))
-				edit_yhzgx.setSelection(2);				
-			if(zjlx.equals("香港特区护照/身份证明"))
-				edit_yhzgx.setSelection(3);
-			if(zjlx.equals("澳门特区护照/身份证明"))
-				edit_yhzgx.setSelection(4);
-			if(zjlx.equals("台湾居民来往大陆通行证"))
-				edit_yhzgx.setSelection(5);
-			if(zjlx.equals("外国人护照"))
-				edit_yhzgx.setSelection(6);
-			
-			String xb=personal.edit_xb;
+			String zjlx = personal.edit_zjlx;
+			if (zjlx.equals("居民身份证（户口簿）"))
+				edit_zjlx.setSelection(0, true);
+			if (zjlx.equals("中国人民解放军军官证"))
+				edit_zjlx.setSelection(1, true);
+			if (zjlx.equals("中国人民武装警察警官证"))
+				edit_zjlx.setSelection(2, true);
+			if (zjlx.equals("香港特区护照/身份证明"))
+				edit_zjlx.setSelection(3, true);
+			if (zjlx.equals("澳门特区护照/身份证明"))
+				edit_zjlx.setSelection(4, true);
+			if (zjlx.equals("台湾居民来往大陆通行证"))
+				edit_zjlx.setSelection(5, true);
+			if (zjlx.equals("外国人护照"))
+				edit_zjlx.setSelection(6, true);
+
+			String xb = personal.edit_xb;
 			if (xb.equals("男"))
-				edit_xb.setSelection(0);
+				edit_xb.setSelection(0, true);
 			if (xb.equals("女"))
-				edit_xb.setSelection(1);
+				edit_xb.setSelection(1, true);
 			if (xb.equals("未说明性别"))
-				edit_xb.setSelection(2);
-			
-			
+				edit_xb.setSelection(2, true);
+
 			edit_cbrxm.setText(personal.getEdit_cbrxm());
 			edit_gmcfzh.setText(personal.getEdit_gmcfzh());
 			edit_xxjzdz.setText(personal.getEdit_xxjzdz());
 			edit_lxdh.setText(personal.getEdit_lxdh());
 			String temp_folk = personal.getEdit_mz();
 			if (temp_folk.equals("汉"))
-				edit_mz.setSelection(0);
+				edit_mz.setSelection(0, true);
 			if (temp_folk.equals("满"))
-				edit_mz.setSelection(1);
+				edit_mz.setSelection(1, true);
 			if (temp_folk.equals("回"))
-				edit_mz.setSelection(2);
+				edit_mz.setSelection(2, true);
 			edit_csrq.setText(personal.edit_cbrq);
-			
+
 			String hkxz = personal.getEdit_hkxz();
 			if (hkxz.equals("农业户口（农村）"))
-				edit_hkxz.setSelection(0);
+				edit_hkxz.setSelection(0, true);
 			if (hkxz.equals("非农业户口（城镇）"))
-				edit_hkxz.setSelection(1);
+				edit_hkxz.setSelection(1, true);
 			if (hkxz.equals("本地非农业户口（本地城镇）"))
-				edit_hkxz.setSelection(2);
+				edit_hkxz.setSelection(2, true);
 			if (hkxz.equals("外地非农业户口（外地城镇）"))
-				edit_hkxz.setSelection(3);
+				edit_hkxz.setSelection(3, true);
 			if (hkxz.equals("本地农业户口（本地农村）"))
-				edit_hkxz.setSelection(4);
+				edit_hkxz.setSelection(4, true);
 			if (hkxz.equals("外地农业户口（外地农村）"))
-				edit_hkxz.setSelection(5);
+				edit_hkxz.setSelection(5, true);
 			if (hkxz.equals("港澳台"))
-				edit_hkxz.setSelection(6);
+				edit_hkxz.setSelection(6, true);
 			if (hkxz.equals("外籍"))
-				edit_hkxz.setSelection(7);
-			
+				edit_hkxz.setSelection(7, true);
+
 			String cbrylb = personal.getEdit_cbrylb();
 			if (cbrylb.equals("普通城乡居民"))
-				edit_cbrylb.setSelection(0);
+				edit_cbrylb.setSelection(0, true);
 			if (cbrylb.equals("重残城乡居民"))
-				edit_cbrylb.setSelection(1);
+				edit_cbrylb.setSelection(1, true);
 			if (cbrylb.equals("低保城乡居民"))
-				edit_cbrylb.setSelection(2);
+				edit_cbrylb.setSelection(2, true);
 			if (cbrylb.equals("五保供养城乡居民"))
-				edit_cbrylb.setSelection(3);
+				edit_cbrylb.setSelection(3, true);
 			if (cbrylb.equals("低收入家庭60岁以上老年人"))
-				edit_cbrylb.setSelection(4);
+				edit_cbrylb.setSelection(4, true);
 			if (cbrylb.equals("五保供养大学生"))
-				edit_cbrylb.setSelection(5);
+				edit_cbrylb.setSelection(5, true);
 			if (cbrylb.equals("重度残疾大学生"))
-				edit_cbrylb.setSelection(6);
+				edit_cbrylb.setSelection(6, true);
 			if (cbrylb.equals("低保大学生"))
-				edit_cbrylb.setSelection(7);
-			
+				edit_cbrylb.setSelection(7, true);
+
 			if (cbrylb.equals("普通大学生"))
-				edit_cbrylb.setSelection(8);
+				edit_cbrylb.setSelection(8, true);
 			if (cbrylb.equals("五保供养中小学生"))
-				edit_cbrylb.setSelection(9);
+				edit_cbrylb.setSelection(9, true);
 			if (cbrylb.equals("重度残疾中小学生"))
-				edit_cbrylb.setSelection(10);
-			
+				edit_cbrylb.setSelection(10, true);
+
 			if (cbrylb.equals("低保中小学生"))
-				edit_cbrylb.setSelection(11);
+				edit_cbrylb.setSelection(11, true);
 			if (cbrylb.equals("普通中小学生"))
-				edit_cbrylb.setSelection(12);
-			
-			
+				edit_cbrylb.setSelection(12, true);
+
 		}
-		
+
 	}
 
 	@OnItemSelected(R.id.edit_yhzgx)
 	void onItemSelected(int position) {
 		switch (position) {
-		// 家属
 		case 0:
-			break;
-		// 户主
-		case 1:
-
-			edit_cbrxm.setText(bundle.getString("name"));
-			edit_gmcfzh.setText(bundle.getString("cardno"));
-			edit_xxjzdz.setText(bundle.getString("address"));
-			/* edit_xb.setText(bundle.getString("sex")); */
-			String temp_folk = bundle.getString("folk");
-			if (temp_folk.equals("汉"))
-				edit_mz.setSelection(0);
-			if (temp_folk.equals("满"))
-				edit_mz.setSelection(1);
-			if (temp_folk.equals("回"))
-				edit_mz.setSelection(2);
-			edit_csrq.setText(bundle.getString("birthday"));
+			for (Family family : mgr.queryFamily()) {
+				if (family.getEdit_gmcfzh().equals(bundle.getString("HZSFZ"))) {
+					edit_cbrxm.setText(family.getEdit_hzxm());
+					edit_gmcfzh.setText(family.getEdit_gmcfzh());
+					edit_xxjzdz.setText(family.getEdit_hkxxdz());
+					/* edit_xb.setText(bundle.getString("sex")); */
+				}
+			}
 			break;
 		default:
+			/*
+			 * edit_cbrxm.setText(""); edit_gmcfzh.setText("");
+			 * edit_xb.setText(""); edit_csrq.setText("");
+			 * edit_xxjzdz.setText(""); tv_xjzf.setText("现金支付");
+			 * tv_xjzf.setTextColor(Color.BLACK);
+			 */
 			break;
 		}
 	}
@@ -452,26 +459,35 @@ public class InfoPersonalActivity extends Activity {
 		builder.setMessage("确定完成现金支付了吗？");
 		builder.setTitle("提示");
 		builder.setPositiveButton("确定", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
+				Handler mHandler = new Handler();
 				dialog.dismiss();
 				Toast.makeText(getApplicationContext(), "完成现金支付", Toast.LENGTH_SHORT).show();
 				tempPersonal.setEdit_jf("1");
 				tv_xjzf.setText("支付完成");
-				tv_xjzf.setTextColor(Color.BLUE);;
-		       
+				tv_xjzf.setTextColor(Color.BLUE);
+
+				if (edit_cbrxm.getText().toString().isEmpty())
+					Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
+				else if (edit_gmcfzh.getText().toString().isEmpty())
+					Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
+				else if (res != "")
+					Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+				else
+					mHandler.post(r);
 			}
 		});
 		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 			}
 		});
-		
+
 		builder.create().show();
 	}
 
@@ -483,45 +499,58 @@ public class InfoPersonalActivity extends Activity {
 		startActivity(intent);
 	}
 
-	@OnClick(R.id.btn_save)
-	public void toInfoMainActivity2() {
-		getDataFromEdit();
-		Handler mHandler = new Handler();
-		Runnable r = new Runnable() {
-			public void run() {
-				ArrayList<Personal> personals = new ArrayList<Personal>();
+	Runnable r = new Runnable() {
+		public void run() {
+			ArrayList<Personal> personals = new ArrayList<Personal>();
+			getDataFromEdit();
+			Personal personal1 = new Personal();
+			personal1.setEdit_yhzgx(tempPersonal.edit_yhzgx);
+			personal1.setEdit_cbrxm(tempPersonal.edit_cbrxm);
+			personal1.setEdit_zjlx(tempPersonal.edit_zjlx);
+			personal1.setEdit_gmcfzh(tempPersonal.edit_gmcfzh);
 
-				Personal personal1 = new Personal();
-				personal1.setEdit_yhzgx(tempPersonal.edit_yhzgx);
-				personal1.setEdit_cbrxm(tempPersonal.edit_cbrxm);
-				personal1.setEdit_zjlx(tempPersonal.edit_zjlx);
-				personal1.setEdit_gmcfzh(tempPersonal.edit_gmcfzh);
+			personal1.setEdit_mz(tempPersonal.edit_mz);
+			personal1.setEdit_xb(tempPersonal.edit_xb);
+			personal1.setEdit_cbrq(tempPersonal.edit_cbrq);
+			personal1.setEdit_cbrylb(tempPersonal.edit_cbrylb);
+			personal1.setEdit_csrq(tempPersonal.edit_csrq);
 
-				personal1.setEdit_mz(tempPersonal.edit_mz);
-				personal1.setEdit_xb(tempPersonal.edit_xb);
-				personal1.setEdit_cbrq(tempPersonal.edit_cbrq);
-				personal1.setEdit_cbrylb(tempPersonal.edit_cbrylb);
-				personal1.setEdit_csrq(tempPersonal.edit_csrq);
+			personal1.setEdit_hkxz(tempPersonal.edit_hkxz);
 
-				personal1.setEdit_hkxz(tempPersonal.edit_hkxz);
-
-				personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
-				personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
-				personal1.setEdit_jf(tempPersonal.edit_jf);
+			personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
+			personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
+			personal1.setEdit_jf(tempPersonal.edit_jf);
+			if (bundle.getString("HZSFZ") != null && bundle.getString("HZSFZ") != "") {
+				// 新增状态
 				personal1.setHZSFZ(bundle.getString("HZSFZ"));
+				Boolean hasPersonal = false;
+				for (Personal tem : mgr.queryPersonal()) {
+					if (tem.getEdit_gmcfzh().equals(tempPersonal.edit_gmcfzh)) {
+						// 数据库已存在
+						Toast.makeText(getApplicationContext(), "该参保人已存在，请删除后添加", Toast.LENGTH_SHORT).show();
+						hasPersonal = true;
+						break;
+					}
+				}
+				if (!hasPersonal) {
+					// 不存在参保人
+					personals.add(personal1);
+					mgr.addPersonal(personals);
+					Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				// 编辑状态
+				personal1.setHZSFZ(tempPersonal.HZSFZ);
 				personals.add(personal1);
 				mgr.addPersonal(personals);
-
-				// do something
-				String str = gson.toJson(listPersonal);
-				PersonalUtil.saveValue(getApplicationContext(), str);
-				Intent intent = new Intent(InfoPersonalActivity.this, InfoMainActivity.class);
-				intent.putExtra("Personal", str);
-				setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
 				Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
 			}
-		};
+		}
+	};
 
+	@OnClick(R.id.btn_save)
+	public void toInfoMainActivity2() {
+		Handler mHandler = new Handler();
 		if (edit_cbrxm.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
 		else if (edit_gmcfzh.getText().toString().isEmpty())
@@ -538,11 +567,10 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh.setText("");
 		/* edit_xb.setText(""); */
 		edit_csrq.setText("");
-		edit_yhzgx.setSelection(0);
+		edit_yhzgx.setSelection(1, true);
 		edit_xxjzdz.setText("");
 		tv_xjzf.setText("现金支付");
 		tv_xjzf.setTextColor(Color.BLACK);
-		tempPersonal = new Personal();
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
 	}
 
@@ -621,7 +649,7 @@ public class InfoPersonalActivity extends Activity {
 
 		tempPersonal.setEdit_cbrylb(edit_cbrylb.getSelectedItem().toString());
 		tempPersonal.setEdit_hkxz(edit_hkxz.getSelectedItem().toString());
-
+		tempPersonal.setHZSFZ(HZSFZedit);
 		tempPersonal.setEdit_xxjzdz(edit_xxjzdz.getText().toString());
 		tempPersonal.setEdit_lxdh(edit_lxdh.getText().toString());
 		listPersonal.add(tempPersonal);

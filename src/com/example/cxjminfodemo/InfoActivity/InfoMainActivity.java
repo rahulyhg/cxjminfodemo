@@ -214,12 +214,6 @@ public class InfoMainActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("name", name);
-			intent.putExtra("cardno", cardno);
-			intent.putExtra("sex", sex);
-			intent.putExtra("folk", folk);
-			intent.putExtra("birthday", birthday);
-			intent.putExtra("address", address);
 			intent.putExtra("HZSFZ", text_id.getText().toString());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
@@ -293,20 +287,19 @@ public class InfoMainActivity extends BaseActivity {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case INFO＿PERSONAL:
 			// 回退按钮没有data
-			if (data != null) {
-				// Bundle p = data.getExtras(); // data为B中回传的Intent
-				// String str = p.getString("Personal");// str即为回传的值
-				// System.out.println("Personal" + str);
-				// ArrayList<Personal> listPersonal = gson.fromJson(str, new
-				// TypeToken<ArrayList<Personal>>() {
-				// }.getType());
-				// // 用于映射
-				// list_family_personal.put(text_id.getText().toString(),
-				// listPersonal);
 
-				// 用于显示listview
-				UpdateListView(text_id.getText().toString());
-			}
+			// Bundle p = data.getExtras(); // data为B中回传的Intent
+			// String str = p.getString("Personal");// str即为回传的值
+			// System.out.println("Personal" + str);
+			// ArrayList<Personal> listPersonal = gson.fromJson(str, new
+			// TypeToken<ArrayList<Personal>>() {
+			// }.getType());
+			// // 用于映射
+			// list_family_personal.put(text_id.getText().toString(),
+			// listPersonal);
+
+			// 用于显示listview
+			UpdateListView(text_id.getText().toString());
 			break;
 
 		case INFO_FAMILY:

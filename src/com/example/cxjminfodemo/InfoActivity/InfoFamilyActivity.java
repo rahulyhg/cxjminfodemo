@@ -157,17 +157,6 @@ public class InfoFamilyActivity extends Activity {
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		// Spiner
-
-		ArrayList<String> data_list = new ArrayList<String>();
-		data_list.add("八里庄村");
-		data_list.add("古屯村");
-		// 适配器
-		ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list);
-		// 设置样式
-		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
 		/* 户主证件类型spiner */
 		edit_jhzzjlx = (Spinner) findViewById(R.id.edit_jhzzjlx);
 		ArrayList<String> data_list1 = new ArrayList<String>();
@@ -181,7 +170,7 @@ public class InfoFamilyActivity extends Activity {
 		ArrayAdapter<String> arr_adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list1);
 		// 设置样式
-		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		arr_adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		edit_jhzzjlx.setAdapter(arr_adapter1);
 
 		edit_hzxm = (EditText) findViewById(R.id.edit_hzxm);
