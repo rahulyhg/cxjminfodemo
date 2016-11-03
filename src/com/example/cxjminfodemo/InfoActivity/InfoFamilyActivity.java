@@ -50,9 +50,7 @@ public class InfoFamilyActivity extends Activity {
 	private Spinner edit_jhzzjlx;
 	private EditText edit_hzxm;
 	private EditText edit_lxdh;
-	private EditText edit_dzyx;
-	private EditText edit_gmsfzh;
-	private EditText edit_yzbm;
+	private EditText edit_dzyx;	private EditText edit_yzbm;
 	private EditText edit_cjqtbxrs;
 	private EditText edit_hkxxdz;
 	private Calendar calendar;
@@ -106,7 +104,7 @@ public class InfoFamilyActivity extends Activity {
 			tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
-			edit_gmsfzh.setText(tempFamily.getEdit_gmcfzh());
+			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 		}
 		if (hasTemp.equals("2")) {
@@ -115,7 +113,7 @@ public class InfoFamilyActivity extends Activity {
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
-			edit_gmsfzh.setText(tempFamily.getEdit_gmcfzh());
+			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
 
 			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
@@ -326,7 +324,7 @@ public class InfoFamilyActivity extends Activity {
 
 	private void getDataFromEdit() {
 		Intent intent = getIntent();
-		tempFamily.setEdit_gmcfzh(intent.getExtras().getString("gmsfzh"));
+		tempFamily.setEdit_gmcfzh(intent.getExtras().getString("gmcfzh"));
 		// tempFamily.setEdit_jgszcwh(edit_jgszcwh.getText().toString());
 		tempFamily.setEdit_hzxm(edit_hzxm.getText().toString());
 		tempFamily.setEdit_lxdh(edit_lxdh.getText().toString());
