@@ -374,19 +374,19 @@ public class DBManager {
 	}
 
 	// 查询单个字段2016年10月13日17:36:11
-	public String query_usern(Context context, String biaoming) {
-		String userName = "";
-		String sql = " Select * from user where username='" + biaoming + "'";
+	public String query_usern(Context context, String variable) {
+		String account1 = "";
+		String sql = " Select * from user where account='" + variable + "'";
 
 		Cursor c = db.rawQuery(sql, null);
 		if (c != null) {
 			while (c.moveToNext()) {
-				userName = c.getString(c.getColumnIndex("username"));
+				account1 = c.getString(c.getColumnIndex("account"));
 			}
 			c.close();
 		}
 
-		return userName;
+		return account1;
 
 	}
 	//下载标志位置1/上传标志位置1/2016年11月2日10:44:30

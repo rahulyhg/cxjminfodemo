@@ -150,14 +150,16 @@ public class MainActivity2 extends Activity {
 		list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
 		}.getType());
 
-		// 把信息保存到数据库中
+		/**
+		 * 判断user表中是否有此条数据 没有就添加进去
+		 */
 		queryUserDetail = db.queryUserDetail();
-		if (queryUserDetail.isEmpty()) {
-
+		String account = list.get(1).getAccount();
+		String query_usern = db.query_usern(this, account);
+		if (query_usern.isEmpty()) {
 			db.addUserDetail(list);
-
 		}
-
+		/**设置适配器*/
 		adapter = new MyAdapter(list);
 		System.out.println("___________----------" + list.get(0).toString());
 		listview.setAdapter(adapter);
@@ -312,7 +314,7 @@ public class MainActivity2 extends Activity {
 								if (!personal.getEdit_jf().equals("0")) {
 									memberJf = memberJf + 1;
 								}
-							}
+							} 
 						}
 						holder.num2.setText(memberSize + "");
 						holder.num3.setText(memberJf + "");
