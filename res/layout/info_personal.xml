@@ -54,39 +54,22 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ff0000" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="与户主关系："
                     android:textSize="13sp" />
-                
+
                 <Spinner
                     android:id="@+id/edit_yhzgx"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/sanjiao1"
-                    android:gravity="center"
-                    android:textSize="13sp" >
+                    style="@style/spinner" >
                 </Spinner>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,12 +83,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ff0000" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -115,25 +93,13 @@
 
                 <EditText
                     android:id="@+id/edit_cbrxm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="13sp" >
+                    style="@style/et_text"
+                    android:inputType="textPersonName" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,12 +109,7 @@
             android:gravity="center"
             android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="*"
-                android:textColor="#ff0000" />
+            <TextView style="@style/star" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,25 +119,13 @@
 
             <Spinner
                 android:id="@+id/edit_zjlx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/sanjiao1"
-                android:gravity="center"
+                style="@style/spinner"
                 android:inputType="textPersonName"
-                android:textColorHint="#b3b2b2"
-                android:textSize="13sp" >
+                android:textColorHint="#b3b2b2" >
             </Spinner>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -190,12 +139,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ff0000" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -212,7 +156,7 @@
                     android:background="@null"
                     android:inputType="textPersonName"
                     android:textColorHint="#b3b2b2"
-                    android:textSize="13sp" >
+                    android:textSize="16sp" >
                 </EditText>
 
                 <ImageView
@@ -226,13 +170,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -246,12 +184,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ff0000" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -261,24 +194,12 @@
 
                 <Spinner
                     android:id="@+id/edit_mz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/sanjiao1"
-                    android:gravity="center"
-                    android:textSize="2sp" >
+                    style="@style/spinner" >
                 </Spinner>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -292,12 +213,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ff0000" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -307,24 +223,12 @@
 
                 <Spinner
                     android:id="@+id/edit_xb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/sanjiao1"
-                    android:gravity="center"
-                    android:textSize="2sp" >
+                    style="@style/spinner" >
                 </Spinner>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -353,25 +257,13 @@
 
                 <TextView
                     android:id="@+id/edit_csrq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="13sp" >
+                    style="@style/et_text"
+                    android:inputType="textPersonName" >
                 </TextView>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -400,25 +292,13 @@
 
                 <TextView
                     android:id="@+id/edit_cbrq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="13sp" >
+                    style="@style/et_text"
+                    android:inputType="textPersonName" >
                 </TextView>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -447,24 +327,12 @@
 
                 <Spinner
                     android:id="@+id/edit_cbrylb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/sanjiao1"
-                    android:gravity="center"
-                    android:textSize="5sp" >
+                    style="@style/spinner" >
                 </Spinner>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -493,24 +361,12 @@
 
                 <Spinner
                     android:id="@+id/edit_hkxz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/sanjiao1"
-                    android:gravity="center"
-                    android:textSize="5sp" >
+                    style="@style/spinner" >
                 </Spinner>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -539,25 +395,13 @@
 
                 <EditText
                     android:id="@+id/edit_lxdh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="13sp" >
+                    style="@style/et_text"
+                    android:inputType="textPersonName" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -586,23 +430,14 @@
 
                 <EditText
                     android:id="@+id/edit_xxjzdz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:textSize="13sp" >
+                    style="@style/et_text" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+            style="@style/line"
+            android:layout_height="5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

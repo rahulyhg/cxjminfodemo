@@ -42,16 +42,6 @@
             android:background="#e9f1ef"
             android:gravity="center" />
 
-        
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
@@ -64,12 +54,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ff0000" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,24 +64,12 @@
 
                 <EditText
                     android:id="@+id/edit_hzxm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="15sp" >
+                    style="@style/et_text" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,12 +79,7 @@
             android:gravity="center"
             android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="*"
-                android:textColor="#ff0000" />
+            <TextView style="@style/star" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,24 +89,13 @@
 
             <Spinner
                 android:id="@+id/edit_jhzzjlx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sanjiao1"
-                android:gravity="center"
-                android:layout_marginRight="10dp"
+                style="@style/spinner"
                 android:inputType="textPersonName"
-                android:textColorHint="#b3b2b2"
-                android:textSize="15sp" >
+                android:textColorHint="#b3b2b2" >
             </Spinner>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,17 +105,12 @@
             android:gravity="center"
             android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="*"
-                android:textColor="#ff0000" />
+            <TextView style="@style/star" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="身份证号 :"
+                android:text="身份证号 ："
                 android:textSize="15sp" />
 
             <EditText
@@ -170,7 +122,7 @@
                 android:background="@null"
                 android:inputType="textPersonName"
                 android:textColorHint="#b3b2b2"
-                android:textSize="15sp" >
+                android:textSize="16sp" >
             </EditText>
 
             <ImageView
@@ -183,13 +135,7 @@
                 android:src="@drawable/xiangji" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -222,18 +168,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:clickable="true"
-                    android:textSize="15sp" >
+                    android:textSize="16sp" >
                 </TextView>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -262,24 +202,12 @@
 
                 <EditText
                     android:id="@+id/edit_lxdh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:inputType="number"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="15sp" >
+                    style="@style/et_text" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -308,24 +236,13 @@
 
                 <EditText
                     android:id="@+id/edit_dzyx"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:inputType="textEmailAddress"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="15sp" >
+                    style="@style/et_text"
+                    android:inputType="textEmailAddress" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -354,24 +271,12 @@
 
                 <EditText
                     android:id="@+id/edit_yzbm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:inputType="number"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="15sp" >
+                    style="@style/et_text" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -400,23 +305,12 @@
 
                 <EditText
                     android:id="@+id/edit_hkxxdz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@null"
-                    android:textSize="15sp" >
+                    style="@style/et_text" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#e9f1ef"
-            android:gravity="center" />
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -445,13 +339,8 @@
 
                 <EditText
                     android:id="@+id/edit_cjqtbxrs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:numeric="integer"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="15sp" >
+                    style="@style/et_text"
+                    android:numeric="integer" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>
