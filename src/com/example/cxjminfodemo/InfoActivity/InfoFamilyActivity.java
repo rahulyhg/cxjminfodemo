@@ -5,6 +5,7 @@
  */
 package com.example.cxjminfodemo.InfoActivity;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -18,7 +19,9 @@ import com.example.cxjminfodemo.MainActivity;
 import com.example.cxjminfodemo.R;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.Family;
+import com.example.cxjminfodemo.dto.Personal;
 import com.example.cxjminfodemo.utils.FamilyUtil;
+import com.example.cxjminfodemo.utils.IDCard;
 import com.example.cxjminfodemo.utils.PersonalUtil;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
@@ -28,7 +31,10 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -50,7 +56,8 @@ public class InfoFamilyActivity extends Activity {
 	private Spinner edit_jhzzjlx;
 	private EditText edit_hzxm;
 	private EditText edit_lxdh;
-	private EditText edit_dzyx;	private EditText edit_yzbm;
+	private EditText edit_dzyx;
+	private EditText edit_yzbm;
 	private EditText edit_cjqtbxrs;
 	private EditText edit_hkxxdz;
 	private Calendar calendar;
@@ -64,7 +71,7 @@ public class InfoFamilyActivity extends Activity {
 	Gson gson = new Gson();
 
 	private Family tempFamily = new Family();
-
+	String res = null;
 	@Bind(R.id.edit_djrq)
 	TextView edit_djrq;
 
@@ -88,6 +95,57 @@ public class InfoFamilyActivity extends Activity {
 		 * gson.toJson(defaultFamily)); } }; mHandler.post(r);
 		 */
 		setSampleFamily();
+		fixID();
+
+	}
+
+	private void fixID() {
+		// TODO Auto-generated method stub
+		edit_gmcfzh.addTextChangedListener(new TextWatcher() {
+
+			CharSequence temp;// 监听前的文本
+			int editStart;// 光标开始位置
+			int editEnd;// 光标结束位置
+			final int charMaxNum = 18;
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				temp = s;
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+				editStart = edit_gmcfzh.getSelectionStart();
+				editEnd = edit_gmcfzh.getSelectionEnd();
+				if (temp.length() == charMaxNum) {
+					try {
+						res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					if (res!= "") {
+						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
+					}
+				}
+
+				if (temp.length() > charMaxNum) {
+					s.delete(editStart - 1, editEnd);
+					int tempSelection = editStart;
+					edit_gmcfzh.setText(s);
+					edit_gmcfzh.setSelection(tempSelection);
+				}
+
+			}
+		});
 
 	}
 
@@ -235,35 +293,38 @@ public class InfoFamilyActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
-			String result = data.getStringExtra("result");
-			try {
-				// 解析xml
-				Document doc;
-				doc = DocumentHelper.parseText(result);
-				// Document doc = reader.read(ffile); //读取一个xml的文件
-				Element root = doc.getRootElement();
-				Iterator it = root.elementIterator("data");
-				// 遍历迭代器，获取根节点中的信息（书籍）
-				while (it.hasNext()) {
-					Element data1 = (Element) it.next();
+			if (resultCode == Activity.RESULT_OK) {
+				String result = data.getStringExtra("result");
+				try {
+					// 解析xml
+					Document doc;
+					doc = DocumentHelper.parseText(result);
+					// Document doc = reader.read(ffile); //读取一个xml的文件
+					Element root = doc.getRootElement();
+					Iterator it = root.elementIterator("data");
+					// 遍历迭代器，获取根节点中的信息（书籍）
+					while (it.hasNext()) {
+						Element data1 = (Element) it.next();
 
-					Iterator itt = data1.elementIterator("item");
-					while (itt.hasNext()) {
-						Element item = (Element) itt.next();
-						System.out.println(item.getStringValue());
-						name = item.elementTextTrim("name");
-						cardno = item.elementTextTrim("cardno");
-						address = item.elementTextTrim("address");
+						Iterator itt = data1.elementIterator("item");
+						while (itt.hasNext()) {
+							Element item = (Element) itt.next();
+							System.out.println(item.getStringValue());
+							name = item.elementTextTrim("name");
+							cardno = item.elementTextTrim("cardno");
+							address = item.elementTextTrim("address");
+						}
 					}
+				} catch (DocumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-			edit_hzxm.setText(name);
-			edit_gmcfzh.setText(cardno);
-			edit_hkxxdz.setText(address);
+				edit_hzxm.setText(name);
+				edit_gmcfzh.setText(cardno);
+				edit_hkxxdz.setText(address);
+
+			}
 
 			break;
 		default:
@@ -271,44 +332,48 @@ public class InfoFamilyActivity extends Activity {
 		}
 	}
 
-	@OnClick(R.id.btn_save)
-	public void toInfoMainActivity2() {
-		if (edit_hzxm.getText().toString().isEmpty()) {
-			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
-		} else {
+	Runnable r = new Runnable() {
+		public void run() {
 			// 先删数据
 			if (hasTemp.equals("2"))
 				mgr.deleteFamily(tempFamily);
 			getDataFromEdit();
+			ArrayList<Family> familys = new ArrayList<Family>();
+			Family family = new Family();
+			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
+			family.setEdit_hzxm(tempFamily.edit_hzxm);
+			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);
+			family.setEdit_cjqtbxrs(tempFamily.edit_cjqtbxrs);
+			family.setEdit_lxdh(tempFamily.edit_lxdh);
+			family.setEdit_djrq(tempFamily.edit_djrq);
+			family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
+			familys.add(family);
+			mgr.addFamily(familys);
 
-			Handler mHandler = new Handler();
-			Runnable r = new Runnable() {
-				public void run() {
-					ArrayList<Family> familys = new ArrayList<Family>();
-					Family family = new Family();
-					family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
-					family.setEdit_hzxm(tempFamily.edit_hzxm);
-					family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);
-					family.setEdit_cjqtbxrs(tempFamily.edit_cjqtbxrs);
-					family.setEdit_lxdh(tempFamily.edit_lxdh);
-					family.setEdit_djrq(tempFamily.edit_djrq);
-					family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
-					familys.add(family);
-					mgr.addFamily(familys);
-
-					// do something
-					// 通过OCR输出的家庭信息
-					String str = gson.toJson(tempFamily);
-					FamilyUtil.saveValue(getApplicationContext(), str);
-					System.out.println("familyAct save" + gson.toJson(tempFamily));
-					Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
-					intent.putExtra("Family", str);
-					setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
-					finish();
-				}
-			};
-			mHandler.post(r);
+			// do something
+			// 通过OCR输出的家庭信息
+			String str = gson.toJson(tempFamily);
+			FamilyUtil.saveValue(getApplicationContext(), str);
+			System.out.println("familyAct save" + gson.toJson(tempFamily));
+			Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
+			intent.putExtra("Family", str);
+			setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+			finish();
 		}
+	};
+
+	@OnClick(R.id.btn_save)
+	public void toInfoMainActivity2() {
+		Handler mHandler = new Handler();
+		if (edit_hzxm.getText().toString().isEmpty()) {
+			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
+		} else if (edit_gmcfzh.getText().toString().isEmpty())
+			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
+		else if (res != "")
+			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+		else
+			mHandler.post(r);
+
 	}
 
 	private void getDataFromEdit() {

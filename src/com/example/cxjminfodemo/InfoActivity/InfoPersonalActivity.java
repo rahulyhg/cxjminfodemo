@@ -171,9 +171,27 @@ public class InfoPersonalActivity extends Activity {
 						e.printStackTrace();
 					}
 
-					if (res == "") {
-						edit_csrq.setText(IDCard.printDate());
-						/* edit_xb.setText(IDCard.printSex()); */
+					if (res == "" && HZSFZedit.equals("")) {
+						Boolean hasPersonal = false;
+						for (Personal tem : mgr.queryPersonal()) {
+							if (tem.getEdit_gmcfzh().equals(temp.toString())) {
+								// 数据库已存在
+								Toast.makeText(getApplicationContext(), "该参保人已存在", Toast.LENGTH_SHORT).show();
+								hasPersonal = true;
+								edit_gmcfzh.setText("");
+								break;
+							}
+						}
+						if (!hasPersonal) {
+							edit_csrq.setText(IDCard.printDate());
+							String xb = IDCard.printSex();
+							if (xb.equals("男"))
+								edit_xb.setSelection(0, true);
+							if (xb.equals("女"))
+								edit_xb.setSelection(1, true);
+							if (xb.equals("未说明性别"))
+								edit_xb.setSelection(2, true);
+						}
 					} else
 						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
 				}
@@ -184,6 +202,7 @@ public class InfoPersonalActivity extends Activity {
 					edit_gmcfzh.setText(s);
 					edit_gmcfzh.setSelection(tempSelection);
 				}
+
 			}
 		});
 	}
@@ -355,7 +374,7 @@ public class InfoPersonalActivity extends Activity {
 				edit_mz.setSelection(1, true);
 			if (temp_folk.equals("回"))
 				edit_mz.setSelection(2, true);
-			edit_csrq.setText(personal.edit_cbrq);
+			edit_csrq.setText(personal.edit_csrq);
 
 			String hkxz = personal.getEdit_hkxz();
 			if (hkxz.equals("农业户口（农村）"))
@@ -435,7 +454,6 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.image_left)
 	public void toinfoMainActivity() {
-		Toast.makeText(getApplicationContext(), "未保存的数据将不会显示", Toast.LENGTH_LONG).show();
 		finish();
 	}
 
@@ -523,21 +541,10 @@ public class InfoPersonalActivity extends Activity {
 			if (bundle.getString("HZSFZ") != null && bundle.getString("HZSFZ") != "") {
 				// 新增状态
 				personal1.setHZSFZ(bundle.getString("HZSFZ"));
-				Boolean hasPersonal = false;
-				for (Personal tem : mgr.queryPersonal()) {
-					if (tem.getEdit_gmcfzh().equals(tempPersonal.edit_gmcfzh)) {
-						// 数据库已存在
-						Toast.makeText(getApplicationContext(), "该参保人已存在，请删除后添加", Toast.LENGTH_SHORT).show();
-						hasPersonal = true;
-						break;
-					}
-				}
-				if (!hasPersonal) {
-					// 不存在参保人
-					personals.add(personal1);
-					mgr.addPersonal(personals);
-					Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
-				}
+				personals.add(personal1);
+				mgr.addPersonal(personals);
+				Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
+
 			} else {
 				// 编辑状态
 				personal1.setHZSFZ(tempPersonal.HZSFZ);
@@ -583,49 +590,50 @@ public class InfoPersonalActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
-			String result = data.getStringExtra("result");
-			try {
-				// 解析xml
-				Document doc;
-				doc = DocumentHelper.parseText(result);
-				// Document doc = reader.read(ffile); //读取一个xml的文件
-				Element root = doc.getRootElement();
-				Iterator it = root.elementIterator("data");
-				// 遍历迭代器，获取根节点中的信息（书籍）
-				while (it.hasNext()) {
-					Element data1 = (Element) it.next();
+			if (resultCode == Activity.RESULT_OK) {
+				String result = data.getStringExtra("result");
+				try {
+					// 解析xml
+					Document doc;
+					doc = DocumentHelper.parseText(result);
+					// Document doc = reader.read(ffile); //读取一个xml的文件
+					Element root = doc.getRootElement();
+					Iterator it = root.elementIterator("data");
+					// 遍历迭代器，获取根节点中的信息（书籍）
+					while (it.hasNext()) {
+						Element data1 = (Element) it.next();
 
-					Iterator itt = data1.elementIterator("item");
-					while (itt.hasNext()) {
-						Element item = (Element) itt.next();
-						System.out.println(item.getStringValue());
-						name = item.elementTextTrim("name");
-						cardno = item.elementTextTrim("cardno");
-						sex = item.elementTextTrim("sex");
-						folk = item.elementTextTrim("folk");
-						birthday = item.elementTextTrim("birthday");
-						address = item.elementTextTrim("address");
+						Iterator itt = data1.elementIterator("item");
+						while (itt.hasNext()) {
+							Element item = (Element) itt.next();
+							System.out.println(item.getStringValue());
+							name = item.elementTextTrim("name");
+							cardno = item.elementTextTrim("cardno");
+							sex = item.elementTextTrim("sex");
+							folk = item.elementTextTrim("folk");
+							birthday = item.elementTextTrim("birthday");
+							address = item.elementTextTrim("address");
 
-						Log.i(tag, cardno);
+							Log.i(tag, cardno);
+						}
 					}
+				} catch (DocumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				edit_cbrxm.setText(name);
+				edit_gmcfzh.setText(cardno);
+				edit_xxjzdz.setText(address);
+				/* edit_xb.setText(sex); */
+				if (folk.equals("汉"))
+					edit_mz.setSelection(0);
+				if (folk.equals("满"))
+					edit_mz.setSelection(1);
+				if (folk.equals("回"))
+					edit_mz.setSelection(2);
+				edit_csrq.setText(birthday);
 			}
-
-			edit_cbrxm.setText(name);
-			edit_gmcfzh.setText(cardno);
-			edit_xxjzdz.setText(address);
-			/* edit_xb.setText(sex); */
-			if (folk.equals("汉"))
-				edit_mz.setSelection(0);
-			if (folk.equals("满"))
-				edit_mz.setSelection(1);
-			if (folk.equals("回"))
-				edit_mz.setSelection(2);
-			edit_csrq.setText(birthday);
-
 			break;
 		default:
 			break;
