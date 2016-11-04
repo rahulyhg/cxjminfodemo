@@ -19,7 +19,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		ButterKnife.bind(MainActivity.this);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			// Í¸Ã÷×´Ì¬À¸
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -27,7 +26,7 @@ public class MainActivity extends Activity {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
 
-		handler.sendEmptyMessageDelayed(0, 5000);
+		handler.sendEmptyMessageDelayed(0, 3000);
 	}
 
 	private Handler handler = new Handler() {
@@ -43,20 +42,5 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
-
-	/*
-	 * InputStream inputStream =
-	 * getResources().openRawResource(R.raw.countrycode); Map<String, String>
-	 * oldMap = new TextToMap().TextToMap(inputStream);
-	 * 
-	 * InputStream inputStream1 = getResources().openRawResource(R.raw.nation);
-	 * Map<String, String> oldMap1 = new TextToMap().TextToMap(inputStream1);
-	 */
+	
 }
-
-// @OnClick(R.id.editText1)
-// public void toLoginActivity() {
-// Intent intent = new Intent(this, LoginActivity.class);
-// startActivity(intent);
-// finish();
-// }
