@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.http.entity.StringEntity;
 
+import com.dou361.dialogui.DialogUIUtils;
 import com.example.cxjminfodemo.InfoActivity.InfoMainActivity;
 import com.example.cxjminfodemo.db.DBManager;
 import com.example.cxjminfodemo.dto.User;
@@ -65,6 +66,8 @@ public class LoginActivity extends Activity {
 	private String userName;
 	private String passWord;
 
+	Context context;
+
 	private SharedPreferences tokenSp;
 
 	/********** INITIALIZES *************/
@@ -79,8 +82,10 @@ public class LoginActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		
 		setContentView(R.layout.activity_login);
+
+		context = getApplication();
+		DialogUIUtils.init(context);
 		utils = new HttpUtils(1000);
 		gson = new Gson();
 		mgr = new DBManager(this);
@@ -127,7 +132,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
+				DialogUIUtils.showMdLoadingHorizontal(context, "加载中...").show();
 				/**
 				 * 用户登录POST请求服务器，验证用户名和密码是否正确 登陆成功返回token 时间：2016年10月20日09:45:42
 				 */
