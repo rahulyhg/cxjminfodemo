@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#f2f5f7"
+            android:background="@drawable/background"
             android:orientation="vertical" >
 
             <ScrollView
@@ -86,27 +86,33 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal"
-                android:scrollbars="vertical" >
+                android:scrollbars="none" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
+                    android:layout_height="fill_parent" >
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="10dip" />
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
                     <!-- 原： <ListView> -->
 
-                    <com.example.cxjminfodemo.NoScrollListView
+                    <com.example.cxjmcj.NoScrollListView
                         android:id="@+id/listView"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="fill_parent"
+                        android:layout_weight="14"
                         android:cacheColorHint="#FFF4F4F4"
-                        android:divider="#f2f5f7"
-                        android:dividerHeight="10dp"
+                        android:divider="@drawable/bottom"
+                        android:dividerHeight="40dp"
                         android:fadingEdge="none" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

@@ -1,62 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cxjminfodemo"
-    android:versionCode="1"
-    android:versionName="1.0" >
+	package="com.example.cxjmcj" android:versionCode="1"
+	android:versionName="1.0">
 
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="22" />
+	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application android:allowBackup="true" android:icon="@drawable/icon"
+		android:label="@string/app_name" android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+		<activity android:name=".MainActivity" android:label="@string/app_name"
+			android:theme="@style/AppTheme">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.example.cxjminfodemo.LoginActivity" />
-        <activity
-            android:name="com.example.cxjminfodemo.InfoActivity.InfoPersonalActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name="com.example.cxjminfodemo.InfoActivity.InfoMainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name="com.example.cxjminfodemo.InfoActivity.InfoFamilyActivity" />
-        <activity android:name="com.example.cxjminfodemo.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity" />
-        <activity android:name="com.example.idcardscandemo.MainActivity" />
-        <activity
-            android:name="com.example.idcardscandemo.ACameraActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name="com.example.cxjminfodemo.MainActivity2" />
-        <activity
-            android:name=".base.menu.MenuItemActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".base.menu.HistoryActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".base.menu.FiltersActivity"
-            android:label="@string/app_name" />
-    </application>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name="com.example.cxjmcj.LoginActivity" />
+		<activity android:name="com.example.cxjmcj.InfoActivity.InfoPersonalActivity"
+			android:windowSoftInputMode="adjustPan|stateHidden" />
+		<activity android:name="com.example.cxjmcj.InfoActivity.InfoMainActivity"
+			android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+			android:windowSoftInputMode="adjustPan|stateHidden" />
+		<activity android:name="com.example.cxjmcj.InfoActivity.InfoFamilyActivity" />
+
+		<activity
+			android:name="com.example.cxjminfodemocom.example.cxjmcj.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity" />
+		<activity android:name="com.example.idcardscandemo.MainActivity" />
+		<activity android:name="com.example.idcardscandemo.ACameraActivity"
+			android:screenOrientation="landscape"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+		<activity android:name="com.example.cxjmcj.MainActivity2" />
+		<activity android:name="com.example.cxjmcj.MainActivity3" />
+		<activity android:name=".base.menu.MenuItemActivity"
+			android:label="@string/app_name" />
+		<activity android:name=".base.menu.HistoryActivity"
+			android:label="@string/app_name" />
+		<activity android:name=".base.menu.FiltersActivity"
+			android:label="@string/app_name" />
+	</application>
 
 </manifest>
