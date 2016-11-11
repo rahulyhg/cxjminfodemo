@@ -40,7 +40,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#e9f1ef"
+                android:background="@drawable/background"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -58,21 +58,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
-                    android:layout_weight="2" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dip"
                     android:layout_weight="30"
-                    android:background="#ffffff"
+                    android:background="#00000000"
                     android:orientation="vertical" >
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
-                        android:layout_weight="80"
-                        android:background="#ffffff" >
+                        android:layout_weight="70"
+                        android:background="#00000000" >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -80,8 +74,8 @@
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
                             android:text="家庭登记"
-                            android:textColor="#6d6d72"
-                            android:textSize="13sp" />
+                            android:textColor="#000000"
+                            android:textSize="17sp" />
 
                         <ImageView
                             android:id="@+id/btn_add"
@@ -95,31 +89,24 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#e9f1ef"
+                        android:background="#c6cfcd"
                         android:gravity="center" />
 
                     <LinearLayout
+                        android:id="@+id/huzhucontent"
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="100"
+                        android:background="#ffffff"
                         android:gravity="center" >
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="24dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
                             android:scaleType="centerInside"
                             android:src="@drawable/yezhu" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="2dp"
-                            android:singleLine="true"
-                            android:text="户主:"
-                            android:textColor="#000000"
-                            android:textSize="17sp" />
 
                         <LinearLayout
                             android:id="@+id/text"
@@ -151,31 +138,31 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="4" >
+                    android:layout_height="1dp"
+                    android:background="#c6cfcd" >
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
                     android:layout_weight="100"
-                    android:background="#ffffff"
+                    android:background="#00000000"
                     android:orientation="vertical" >
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1.5"
-                        android:background="#ffffff" >
+                        android:background="#00000000" >
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
-                            android:text="成员登记"
-                            android:textColor="#6d6d72"
-                            android:textSize="13sp" />
+                            android:text="人员参保登记"
+                            android:textColor="#000000"
+                            android:textSize="17sp" />
 
                         <ImageView
                             android:id="@+id/btn_add2"
@@ -189,7 +176,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#e9f1ef"
+                        android:background="#c6cfcd"
                         android:gravity="center" />
 
                     <ScrollView
