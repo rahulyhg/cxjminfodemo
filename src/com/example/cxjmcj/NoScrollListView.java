@@ -34,8 +34,7 @@ public class NoScrollListView extends ExpandableLayoutListView {
 
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST + 50);
-		super.onMeasure(widthMeasureSpec, expandSpec + 50);
+		int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+		super.onMeasure(widthMeasureSpec, expandSpec);
 	}
-
 }

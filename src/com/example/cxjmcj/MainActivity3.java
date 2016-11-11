@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
-import com.dd.CircularProgressButton;
 import com.example.cxjmcj.InfoActivity.InfoMainActivity;
 import com.example.cxjmcj.MainActivity3.MyAdapter.ViewHolder;
 import com.example.cxjmcj.db.DBManager;
@@ -53,6 +52,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
+import info.hoang8f.widget.FButton;
 
 public class MainActivity3 extends Activity {
 	ExpandableLayoutListView listview;
@@ -207,8 +207,8 @@ public class MainActivity3 extends Activity {
 			public TextView num2;
 			public TextView num3;
 			public TextView local;
-			CircularProgressButton upload;
-			CircularProgressButton download;
+			FButton upload;
+			FButton download;
 			private ImageView upload2;
 			public TextView text_num;
 		}
@@ -264,11 +264,9 @@ public class MainActivity3 extends Activity {
 				holder.num3 = (TextView) convertView.findViewById(R.id.num3);
 				holder.local = (TextView) convertView.findViewById(R.id.local);
 
-				holder.upload = (CircularProgressButton) convertView.findViewById(R.id.buttom_up);
-				holder.download = (CircularProgressButton) convertView.findViewById(R.id.buttom_down);
+				holder.upload = (FButton) convertView.findViewById(R.id.buttom_up);
+				holder.download = (FButton) convertView.findViewById(R.id.buttom_down);
 				holder.upload2 = (ImageView) convertView.findViewById(R.id.buttom_up2);
-				holder.download.setIndeterminateProgressMode(true);
-				holder.upload.setIndeterminateProgressMode(true);
 
 				convertView.setTag(holder); // 绑定ViewHolder对象
 			} else {
@@ -299,7 +297,6 @@ public class MainActivity3 extends Activity {
 				if (userDetail.downloadflag.equals("1")) {
 					cjarea2 = userDetail.getCjarea();
 					if (cjarea.equals(cjarea2)) {
-						holder.download.setProgress(100);
 						holder.upload.setVisibility(View.VISIBLE);
 
 						// 显示数据
@@ -318,6 +315,7 @@ public class MainActivity3 extends Activity {
 						}
 						holder.num2.setText(memberSize + "");
 						holder.num3.setText(memberJf + "");
+						holder.download.setVisibility(View.VISIBLE);
 					}
 				}
 				// 判断是否已经上传
@@ -329,7 +327,7 @@ public class MainActivity3 extends Activity {
 					}
 				}
 			}
-			holder.download.setVisibility(View.VISIBLE);
+			
 
 			// String downloadflag = list.get(position).getDownloadflag();
 			// if (downloadflag.equals("1")) {
@@ -348,8 +346,6 @@ public class MainActivity3 extends Activity {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
-								holder.download.setProgress(-1);
-								holder.download.setTextColor(Color.rgb(255, 255, 255));
 								http.isAlive = true;
 							}
 						});
@@ -360,7 +356,6 @@ public class MainActivity3 extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
-								holder.download.setProgress(100);
 							}
 						});
 					}
@@ -370,7 +365,6 @@ public class MainActivity3 extends Activity {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
-								holder.upload.setProgress(-1);
 								http.isAlive = true;
 							}
 						});
@@ -433,10 +427,6 @@ public class MainActivity3 extends Activity {
 					}
 					if (http.isError)
 						handler.sendEmptyMessage(0);
-					else if (holder.download.getProgress() == 50) {
-						handler.sendEmptyMessage(1);
-						handler.sendEmptyMessage(4);
-					}
 					http.isAlive = true;
 				}
 			};
@@ -462,9 +452,6 @@ public class MainActivity3 extends Activity {
 					}
 					if (http.isError)
 						handler.sendEmptyMessage(2);
-					else if (holder.upload.getProgress() == 50) {
-						handler.sendEmptyMessage(3);
-					}
 					http.isAlive = true;
 				}
 			};
@@ -474,33 +461,12 @@ public class MainActivity3 extends Activity {
 				@Override
 				public void onClick(View v) {
 
-					if (holder.download.getProgress() == 0 || holder.download.getProgress() == -1) {
-
-						new Thread(down_run).start();
-
-						holder.download.setProgress(0);
-						holder.download.setProgress(50);
-					} else if (holder.download.getProgress() == 100) {
-						// holder.download.setProgress(0);
-						Intent intent = new Intent(MainActivity3.this, InfoMainActivity.class);
-						startActivityForResult(intent, CBDJ);
-						pos = position;
-					} else {
-						holder.download.setProgress(-1);
-						holder.download.setTextColor(Color.rgb(255, 255, 255));
-					}
 				}
 			});
 
 			holder.upload.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (holder.upload.getProgress() == 0) {
-						new Thread(up_run).start();
-						holder.upload.setProgress(50);
-					} else {
-						holder.upload.setProgress(-1);
-					}
 				}
 			});
 			return convertView;

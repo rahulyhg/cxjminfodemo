@@ -3,6 +3,7 @@
     android:id="@+id/front"
     android:layout_width="match_parent"
     android:layout_height="80dp"
+    android:background="#ffffff"
     android:minHeight="80dp" >
 
     <RelativeLayout
@@ -23,8 +24,8 @@
         
         <ImageView
             android:id="@+id/text_icon2"
-            android:layout_width="18dp"
-            android:layout_height="24dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"

@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="160dp"
         android:background="@drawable/center"
         android:orientation="vertical" >
 
@@ -109,21 +109,15 @@
                 android:layout_weight="35"
                 android:gravity="center" >
 
-                <com.dd.CircularProgressButton
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <info.hoang8f.widget.FButton
+                    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/buttom_up"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:textColor="@color/cpb_white"
-                    android:textSize="16sp"
-                    app:cpb_cornerRadius="100dp"
-                    app:cpb_selectorComplete="@drawable/complete_state_selector"
-                    app:cpb_selectorIdle="@drawable/idle_state_selector"
-                    app:cpb_textComplete="√"
-                    app:cpb_textError="请重试"
-                    app:cpb_textIdle="上传" />
+                    fbutton:buttonColor="#2ba589"
+                    fbutton:cornerRadius="100dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="5dp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -131,19 +125,18 @@
                     android:layout_marginLeft="10dp"
                     android:gravity="center" >
 
-                    <com.dd.CircularProgressButton
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <info.hoang8f.widget.FButton
+                        xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/buttom_down"
-                        android:layout_width="120dp"
+                        android:layout_width="150dp"
                         android:layout_height="40dp"
-                        android:textColor="@color/cpb_white"
-                        android:textSize="16sp"
-                        app:cpb_cornerRadius="100dp"
-                        app:cpb_selectorComplete="@drawable/complete_down_selector"
-                        app:cpb_selectorIdle="@drawable/idle_down_selector"
-                        app:cpb_textComplete="录入"
-                        app:cpb_textError="请重试"
-                        app:cpb_textIdle="下载" />
+                        fbutton:buttonColor="#2ba589"
+                        android:text="下 载"
+                        android:textSize="18sp"
+                        android:textColor="#ffffff"
+                        fbutton:cornerRadius="80dp"
+                        fbutton:shadowEnabled="true"
+                        fbutton:shadowHeight="3dp" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
