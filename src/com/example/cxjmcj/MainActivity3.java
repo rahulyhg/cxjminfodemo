@@ -327,7 +327,6 @@ public class MainActivity3 extends Activity {
 					}
 				}
 			}
-			
 
 			// String downloadflag = list.get(position).getDownloadflag();
 			// if (downloadflag.equals("1")) {
@@ -341,6 +340,7 @@ public class MainActivity3 extends Activity {
 			// 50旋转 100录入 0上传
 			final Handler handler = new Handler() {
 				public void handleMessage(Message msg) {
+					// 下载失败
 					if (msg.what == 0) {
 						((Activity) activity).runOnUiThread(new Runnable() {
 							@Override
@@ -369,6 +369,7 @@ public class MainActivity3 extends Activity {
 							}
 						});
 					}
+
 					if (msg.what == 3) {
 						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
 						((Activity) activity).runOnUiThread(new Runnable() {
@@ -382,6 +383,7 @@ public class MainActivity3 extends Activity {
 							}
 						});
 					}
+					// 下载成功 并更新
 					if (msg.what == 4) {
 						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
 						((Activity) activity).runOnUiThread(new Runnable() {
@@ -403,6 +405,9 @@ public class MainActivity3 extends Activity {
 								}
 								holder.num2.setText(memberSize + "");
 								holder.num3.setText(memberJf + "");
+								holder.upload.setVisibility(View.VISIBLE);
+								holder.download.setText("录 入");
+								holder.download.setButtonColor(Color.rgb(237, 152, 17));
 							}
 
 						});
@@ -428,6 +433,7 @@ public class MainActivity3 extends Activity {
 					if (http.isError)
 						handler.sendEmptyMessage(0);
 					http.isAlive = true;
+					handler.sendEmptyMessage(4);
 				}
 			};
 
@@ -460,13 +466,20 @@ public class MainActivity3 extends Activity {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void onClick(View v) {
-
+					if (holder.download.getText().toString().equals("下 载")) {
+						// 下载
+						new Thread(down_run).start();
+					} else {
+						// 录入
+						start
+					}
 				}
 			});
 
 			holder.upload.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					new Thread(up_run).start();
 				}
 			});
 			return convertView;
