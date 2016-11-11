@@ -49,6 +49,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -211,6 +212,11 @@ public class MainActivity3 extends Activity {
 			FButton download;
 			private ImageView upload2;
 			public TextView text_num;
+			
+			LinearLayout top1;
+			LinearLayout top;
+			LinearLayout center;
+			LinearLayout bottom;
 		}
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
