@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.example.cxjmcj" android:versionCode="1"
+	package="com.neuqsoft.cxjmcj" android:versionCode="1"
 	android:versionName="1.0">
 
 	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22" />
@@ -16,21 +16,24 @@
 
 	<application android:allowBackup="true" android:icon="@drawable/icon"
 		android:label="@string/app_name" android:theme="@android:style/Theme.Holo.Light.NoActionBar">
-		<activity android:name=".MainActivity" android:label="@string/app_name"
-			android:theme="@style/AppTheme">
+		<activity android:name="com.neuqsoft.cxjmcj.MainActivity"
+			android:label="@string/app_name" android:theme="@style/AppTheme">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="com.example.cxjmcj.LoginActivity" />
-		<activity android:name="com.example.cxjmcj.InfoActivity.InfoPersonalActivity"
+		<activity android:name="com.neuqsoft.cxjmcj.LoginActivity" />
+		<activity
+			android:name="com.neuqsoft.cxjmcj.InfoActivity.InfoPersonalActivityInfoPersonalActivity"
 			android:windowSoftInputMode="adjustPan|stateHidden" />
-		<activity android:name="com.example.cxjmcj.InfoActivity.InfoMainActivity"
+		<activity
+			android:name="com.neuqsoft.cxjmcj.InfoActivity.InfoMainActivityity.InfoMainActivity"
 			android:theme="@style/Theme.AppCompat.Light.NoActionBar"
 			android:windowSoftInputMode="adjustPan|stateHidden" />
-		<activity android:name="com.example.cxjmcj.InfoActivity.InfoFamilyActivity" />
+		<activity
+			android:name="com.neuqsoft.cxjmcj.InfoActivity.InfoFamilyActivityy.InfoFamilyActivity" />
 
 		<activity
 			android:name="com.example.cxjminfodemocom.example.cxjmcj.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity" />
@@ -38,13 +41,16 @@
 		<activity android:name="com.example.idcardscandemo.ACameraActivity"
 			android:screenOrientation="landscape"
 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-		<activity android:name="com.example.cxjmcj.MainActivity2" />
-		<activity android:name="com.example.cxjmcj.MainActivity3" />
-		<activity android:name=".base.menu.MenuItemActivity"
+		<activity android:name="com.neuqsoft.cxjmcj.MainActivity2" />
+		<activity android:name="com.neuqsoft.cxjmcj.MainActivity3" />
+		<activity
+			android:name="com.neuqsoft.cxjmcj.base.menu.MenuItemActivityase.menu.MenuItemActivity"
 			android:label="@string/app_name" />
-		<activity android:name=".base.menu.HistoryActivity"
+		<activity
+			android:name="com.neuqsoft.cxjmcj.base.menu.HistoryActivitybase.menu.HistoryActivity"
 			android:label="@string/app_name" />
-		<activity android:name=".base.menu.FiltersActivity"
+		<activity
+			android:name="com.neuqsoft.cxjmcj.base.menu.FiltersActivitybase.menu.FiltersActivity"
 			android:label="@string/app_name" />
 	</application>
 

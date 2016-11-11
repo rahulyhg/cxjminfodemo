@@ -104,7 +104,7 @@
 
                         <!-- 原： <ListView> -->
 
-                        <com.example.cxjmcj.NoScrollListView
+                        <com.neuqsoft.cxjmcj.NoScrollListView
                             android:id="@+id/listView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
