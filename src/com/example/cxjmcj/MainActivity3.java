@@ -349,7 +349,7 @@ public class MainActivity3 extends Activity {
 							}
 						});
 					}
-
+					// 上传失败
 					if (msg.what == 2) {
 						((Activity) activity).runOnUiThread(new Runnable() {
 							@Override
@@ -359,7 +359,7 @@ public class MainActivity3 extends Activity {
 							}
 						});
 					}
-
+					// 上传成功
 					if (msg.what == 3) {
 						/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
 						((Activity) activity).runOnUiThread(new Runnable() {
@@ -368,8 +368,11 @@ public class MainActivity3 extends Activity {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
 								holder.upload2.setVisibility(View.VISIBLE);
-								holder.download.setVisibility(View.GONE);
-								holder.upload.setVisibility(View.GONE);
+								holder.download.setButtonColor(Color.rgb(204, 204, 204));
+								holder.upload.setButtonColor(Color.rgb(204, 204, 204));
+
+								holder.download.setShadowEnabled(false);
+								holder.upload.setShadowEnabled(false);
 							}
 						});
 					}
@@ -422,8 +425,9 @@ public class MainActivity3 extends Activity {
 					}
 					if (http.isError)
 						handler.sendEmptyMessage(0);
-					http.isAlive = true;
-					handler.sendEmptyMessage(4);
+					else
+						handler.sendEmptyMessage(4);
+
 				}
 			};
 
@@ -448,7 +452,8 @@ public class MainActivity3 extends Activity {
 					}
 					if (http.isError)
 						handler.sendEmptyMessage(2);
-					http.isAlive = true;
+					else
+						handler.sendEmptyMessage(3);
 				}
 			};
 
