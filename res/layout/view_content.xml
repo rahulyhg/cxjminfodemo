@@ -4,9 +4,10 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/center"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@drawable/center"
+        android:layout_height="170dp"
+        android:background="@drawable/center1"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -25,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/list" />
+                android:src="@drawable/list1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -112,12 +113,13 @@
                 <info.hoang8f.widget.FButton
                     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/buttom_up"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    fbutton:buttonColor="#149de9"
-                    fbutton:cornerRadius="80dp"
+                    android:layout_width="130dp"
+                    android:layout_height="38dp"
+                    android:layout_marginRight="10dp"
                     android:text="上 传"
                     android:textColor="#ffffff"
+                    fbutton:buttonColor="#149de9"
+                    fbutton:cornerRadius="80dp"
                     fbutton:shadowEnabled="true"
                     fbutton:shadowHeight="3dp" />
 
@@ -130,12 +132,12 @@
                     <info.hoang8f.widget.FButton
                         xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/buttom_down"
-                        android:layout_width="150dp"
-                        android:layout_height="40dp"
-                        fbutton:buttonColor="#2ba589"
+                        android:layout_width="130dp"
+                        android:layout_height="38dp"
                         android:text="下 载"
-                        android:textSize="18sp"
                         android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        fbutton:buttonColor="#2ba589"
                         fbutton:cornerRadius="80dp"
                         fbutton:shadowEnabled="true"
                         fbutton:shadowHeight="3dp" />

@@ -12,7 +12,9 @@
             android:id="@+id/image_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/welcome1" />
+            android:scaleType="fitXY"
+            android:src="@drawable/welcome" >
+        </ImageView>
     </LinearLayout>
 
 </LinearLayout>

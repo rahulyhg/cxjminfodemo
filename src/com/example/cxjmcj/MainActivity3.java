@@ -290,7 +290,6 @@ public class MainActivity3 extends Activity {
 			holder.text_num.setText(posi + "");
 			holder.upload2.setVisibility(View.GONE);
 			holder.upload.setVisibility(View.GONE);
-			holder.download.setVisibility(View.GONE);
 
 			// 判断数据是否下载过,
 			for (UserDetail userDetail : queryUserDetail) {
@@ -298,7 +297,8 @@ public class MainActivity3 extends Activity {
 					cjarea2 = userDetail.getCjarea();
 					if (cjarea.equals(cjarea2)) {
 						holder.upload.setVisibility(View.VISIBLE);
-
+						holder.download.setText("录 入");
+						holder.download.setButtonColor(Color.rgb(237, 152, 17));
 						// 显示数据
 						int memberSize = 0;
 						int memberJf = 0;
@@ -315,7 +315,6 @@ public class MainActivity3 extends Activity {
 						}
 						holder.num2.setText(memberSize + "");
 						holder.num3.setText(memberJf + "");
-						holder.download.setVisibility(View.VISIBLE);
 					}
 				}
 				// 判断是否已经上传
@@ -327,15 +326,6 @@ public class MainActivity3 extends Activity {
 					}
 				}
 			}
-
-			// String downloadflag = list.get(position).getDownloadflag();
-			// if (downloadflag.equals("1")) {
-			// System.out.println("程序已运行" + downloadflag);
-			// holder.download.setProgress(100);
-			// holder.upload.setProgress(0);
-			//
-			//
-			// }
 
 			// 50旋转 100录入 0上传
 			final Handler handler = new Handler() {
@@ -471,7 +461,9 @@ public class MainActivity3 extends Activity {
 						new Thread(down_run).start();
 					} else {
 						// 录入
-						start
+						Intent intent = new Intent(MainActivity3.this, InfoMainActivity.class);
+						startActivityForResult(intent, CBDJ);
+						pos = position;
 					}
 				}
 			});
