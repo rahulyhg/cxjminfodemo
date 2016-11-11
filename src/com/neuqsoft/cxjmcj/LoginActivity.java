@@ -1,50 +1,32 @@
 package com.neuqsoft.cxjmcj;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.entity.StringEntity;
 
-import com.dou361.dialogui.DialogUIUtils;
-import com.neuqsoft.cxjmcj.R;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.neuqsoft.cxjmcj.InfoActivity.InfoMainActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.User;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
-import com.neuqsoft.cxjmcj.server.dto.UserDetail;
-import com.neuqsoft.cxjmcj.utils.LoadingDialog;
-import com.neuqsoft.cxjmcj.utils.MD5Util;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import butterknife.OnClick;
 
 /**
  * @Title LoginActivity
@@ -67,9 +49,8 @@ public class LoginActivity extends Activity {
 	private String userName;
 	private String passWord;
 
-	Context context;
-
 	private SharedPreferences tokenSp;
+	Context activity;
 
 	/********** INITIALIZES *************/
 
@@ -82,17 +63,12 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_login);
-
-		context = getApplication();
-		DialogUIUtils.init(context);
+		activity = this;
 		utils = new HttpUtils(1000);
 		gson = new Gson();
 		mgr = new DBManager(this);
-		users = new ArrayList<User>();
-		User user1 = new User("tttt", "123456");
-		users.add(user1);
+
 		// mgr.addUser(users);
 		initView();
 		initData();
@@ -113,8 +89,6 @@ public class LoginActivity extends Activity {
 	}
 
 	private void initData() {
-		userName = edit_user.getText().toString().trim();
-		passWord = edit_pw.getText().toString().trim();
 
 		sp = getSharedPreferences("LoginFlag", MODE_PRIVATE);
 
@@ -133,57 +107,93 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				DialogUIUtils.showMdLoadingHorizontal(context, "加载中...").show();
-				/**
-				 * 用户登录POST请求服务器，验证用户名和密码是否正确 登陆成功返回token 时间：2016年10月20日09:45:42
-				 */
-				RequestParams params = new RequestParams();
-				params.addHeader("Content-Type", "application/json");
-				params.addHeader("Accept", "text/plain");
-				params.addHeader("client_id", "1");
-				CjUser userDTO = new CjUser();
-				userDTO.setAccount(edit_user.getText().toString().trim());
-				userDTO.setName("");
-				userDTO.setArea("");
-				userDTO.setPwd(edit_pw.getText().toString().trim());
+				userName = edit_user.getText().toString().trim();
+				passWord = edit_pw.getText().toString().trim();
 
-				String jsonStr = gson.toJson(userDTO);
-
-				params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-
-				utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
-					// 请求失败调用次方法
-
-					@Override
-					public void onFailure(HttpException error, String msg) {
-						int exceptionCode = error.getExceptionCode();
-						if (exceptionCode == 0) {
-							ToastUtil.showShort(getApplicationContext(), "请检查网络连接是否正常！");
-						} else if (exceptionCode == 406) {
-							ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
-
-						}
-					}
-
-					// 请求成功调用此方法
-					@Override
-					public void onSuccess(ResponseInfo<String> responseInfo) {
-
-						/** 获取服务器返回的Token，并储存到SP中 */
-						String token = responseInfo.result;
-						tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
-						tokenSp.edit().putString("token", token).commit();
-						System.out.println("输出结果为" + token);
-
-						/** --------进入选择页面-------- */
-						enterInfo();
-						ToastUtil.showShort(getApplicationContext(), "登陆成功！");
-					}
-				});
+				/** 网络登陆 */
+				loginfromnet();
 
 			}
 		});
 
+	}
+
+	protected void loginfromnet() {
+		// TODO Auto-generated method stub
+		/**
+		 * 用户登录POST请求服务器，验证用户名和密码是否正确 登陆成功返回token 时间：2016年10月20日09:45:42
+		 */
+		RequestParams params = new RequestParams();
+		params.addHeader("Content-Type", "application/json");
+		params.addHeader("Accept", "text/plain");
+		params.addHeader("client_id", "1");
+		CjUser userDTO = new CjUser();
+		userDTO.setAccount(userName);
+		userDTO.setName("");
+		userDTO.setArea("");
+		userDTO.setPwd(passWord);
+
+		String jsonStr = gson.toJson(userDTO);
+
+		params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
+
+		utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
+			// 请求失败调用次方法
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				int exceptionCode = error.getExceptionCode();
+				if (exceptionCode == 0) {
+
+					loginfromlocal();
+				} else if (exceptionCode == 406) {
+					ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
+
+				}
+			}
+
+			// 请求成功调用此方法
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+
+				/** 获取服务器返回的Token，并储存到SP中 */
+				String token = responseInfo.result;
+				tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
+				tokenSp.edit().putString("token", token).commit();
+				System.out.println("输出结果为" + token);
+
+				/** --------进入选择页面-------- */
+				enterInfo();
+				ToastUtil.showShort(getApplicationContext(), "有网络连接，在线登陆！");
+				insertUser();
+			}
+
+		});
+
+	}
+
+	/**
+	 * 本地登录 时间：2016年11月8日16:27:45
+	 */
+	protected void loginfromlocal() {
+		List<User> queryUser = mgr.queryUser();
+		for (User user : queryUser) {
+			if (user.username.equals(userName) && user.password.equals(passWord)) {
+				enterInfo();
+				ToastUtil.showShort(this, "无网络连接，离线登陆！");
+				// } else if (!user.username.equals(userName) ||
+				// !user.password.equals(passWord)) {
+				// ToastUtil.showShort(this, "用户名或密码错误！");
+			}
+		}
+	}
+
+	/** 把登陆信息存到数据库 */
+	private void insertUser() {
+		users = new ArrayList<User>();
+		User user1 = new User(userName, passWord);
+		users.add(user1);
+		mgr.addUser(users);
 	}
 
 	/**
@@ -194,7 +204,8 @@ public class LoginActivity extends Activity {
 	// 2016年10月19日14:36:23
 
 	protected void enterInfo() {
-
+//		LoadingDialog ld = new LoadingDialog(this);
+//		ld.show();
 		Intent intent = new Intent(this, MainActivity3.class);
 		startActivity(intent);
 		finish();

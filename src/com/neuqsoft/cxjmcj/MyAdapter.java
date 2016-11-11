@@ -6,11 +6,7 @@
 package com.neuqsoft.cxjmcj;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import com.neuqsoft.cxjmcj.R;
 import com.google.gson.Gson;
 import com.neuqsoft.cxjmcj.InfoActivity.InfoMainActivity;
 import com.neuqsoft.cxjmcj.InfoActivity.InfoPersonalActivity;
@@ -21,14 +17,11 @@ import com.roamer.slidelistview.SlideListView.SlideMode;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,11 +42,14 @@ public class MyAdapter extends SlideBaseAdapter {
 		public TextView name;
 		public TextView jf;
 		public TextView yjf;
+		private ImageView icon;
+		private ImageView icon2;
 		TextView edit;
 		TextView delete;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
+	
 
 	public MyAdapter(Context context, ArrayList<Personal> listItem) {
 		super(context);
@@ -100,7 +96,8 @@ public class MyAdapter extends SlideBaseAdapter {
 			// convertView = mInflater.inflate(R.layout.list_item, null);
 			convertView = createConvertView(position);
 			holder = new ViewHolder();
-			/* 得到各个控件的对象 */
+			holder.icon2 = (ImageView) convertView.findViewById(R.id.text_icon2);
+			holder.icon = (ImageView) convertView.findViewById(R.id.text_icon);
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
 			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
@@ -119,9 +116,18 @@ public class MyAdapter extends SlideBaseAdapter {
 		if (listItem.get(position).getEdit_jf().equals("1")) {
 			holder.jf.setVisibility(View.INVISIBLE);
 			holder.yjf.setVisibility(View.VISIBLE);
-		} else {
+		}
+		else
+		{
 			holder.jf.setVisibility(View.VISIBLE);
 			holder.yjf.setVisibility(View.INVISIBLE);
+		}
+		if (listItem.get(position).getEdit_gmcfzh().equals(listItem.get(position).getHZSFZ())) {
+			holder.icon.setVisibility(View.VISIBLE);
+			holder.icon2.setVisibility(View.INVISIBLE);
+		}else {
+			holder.icon.setVisibility(View.INVISIBLE);
+			holder.icon2.setVisibility(View.VISIBLE);
 		}
 
 		if (holder.edit != null) {
@@ -138,7 +144,7 @@ public class MyAdapter extends SlideBaseAdapter {
 		if (holder.delete != null) {
 			holder.delete.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v) {				
 					db.deletePersonal(listItem.get(position));
 					listItem.remove(position);
 					notifyDataSetChanged();

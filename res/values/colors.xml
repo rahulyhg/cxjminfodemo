@@ -14,5 +14,6 @@
     <color name="colorPrimary300">#aed581</color>
     <color name="colorPrimary500">#8bc34a</color>
     <color name="colorPrimary800">#558b2f</color>
+    <color name="transparent">#99F1F1F1</color>
 
 </resources>

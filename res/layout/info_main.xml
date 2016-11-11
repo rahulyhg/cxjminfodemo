@@ -51,7 +51,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#00000000" >
+                        android:background="#c9c9ce" >
                     </LinearLayout>
                 </LinearLayout>
 
@@ -75,7 +75,7 @@
                             android:gravity="center"
                             android:text="家庭登记"
                             android:textColor="#000000"
-                            android:textSize="17sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:id="@+id/btn_add"
@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="100"
-                        android:background="#ffffff"
+                        android:background="#99F1F1F1"
                         android:gravity="center" >
 
                         <ImageView
@@ -112,25 +112,26 @@
                             android:id="@+id/text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:layout_weight="10"
-                            android:gravity="center" >
+                            android:orientation="vertical" >
 
                             <TextView
                                 android:id="@+id/text_name"
                                 android:layout_width="55dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="2dp"
                                 android:singleLine="true"
                                 android:text=""
+                                android:textColor="#000000"
                                 android:textSize="17sp" />
 
                             <TextView
                                 android:id="@+id/text_id"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="5"
                                 android:singleLine="true"
                                 android:text=""
+                                android:textColor="#000000"
                                 android:textSize="17sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -162,7 +163,7 @@
                             android:gravity="center"
                             android:text="人员参保登记"
                             android:textColor="#000000"
-                            android:textSize="17sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:id="@+id/btn_add2"
@@ -204,7 +205,6 @@
                     </ScrollView>
                 </LinearLayout>
             </LinearLayout>
-
             <com.lapism.searchview.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"

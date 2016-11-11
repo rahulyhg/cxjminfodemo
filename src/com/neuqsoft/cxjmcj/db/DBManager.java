@@ -66,12 +66,24 @@ public class DBManager {
 	 * 
 	 * @param persons
 	 */
+	public void addUser(List<User> list) {
+		db.beginTransaction(); // 开始事务
+		try {
+			for (User user : list) {
+				db.execSQL("REPLACE INTO user  VALUES( null, ?,?)",
+						new Object[] {user.username, user.password  });
+			}
+			db.setTransactionSuccessful(); // 设置事务成功完成
+		} finally {
+			db.endTransaction(); // 结束事务
+		}
+	}
 
 	public void addUserDetail(List<UserDetail> list) {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (UserDetail userDetail : list) {
-				db.execSQL("INSERT INTO user  VALUES( ?, ?,?, ?,?, ?,?, ?,?, ?)",
+				db.execSQL("INSERT INTO userdetail  VALUES( ?, ?,?, ?,?, ?,?, ?,?, ?)",
 						new Object[] { userDetail.taskid, userDetail.account, userDetail.city, userDetail.cjarea,
 								userDetail.downloadflag, userDetail.sfcl, userDetail.taskdesc, userDetail.taskstatus,
 								userDetail.uploadflag, userDetail.validcfcburl });
@@ -229,21 +241,25 @@ public class DBManager {
 		c.close();
 		return users;
 	}
-
 	public List<UserDetail> queryUserDetail() {
 		ArrayList<UserDetail> UserDetails = new ArrayList<UserDetail>();
-		Cursor c = queryTheCursor("user");
+		Cursor c = queryTheCursor("userdetail");
 		while (c.moveToNext()) {
 			UserDetail userDetail = new UserDetail();
+			userDetail.taskid = c.getString(c.getColumnIndex("taskid"));
 			userDetail.account = c.getString(c.getColumnIndex("account"));
+			userDetail.city=c.getString(c.getColumnIndex("city"));
 			userDetail.cjarea = c.getString(c.getColumnIndex("cjarea"));
 			userDetail.downloadflag = c.getString(c.getColumnIndex("downloadflag"));
+			userDetail.sfcl = c.getString(c.getColumnIndex("sfcl"));
+			userDetail.taskdesc = c.getString(c.getColumnIndex("taskdesc"));
+			userDetail.taskstatus = c.getString(c.getColumnIndex("taskstatus"));
 			userDetail.uploadflag = c.getString(c.getColumnIndex("uploadflag"));
+			userDetail.validcfcburl = c.getString(c.getColumnIndex("validcfcburl"));
 			UserDetails.add(userDetail);
 		}
 		c.close();
 		return UserDetails;
-
 	}
 
 	public ArrayList<Family> queryFamily() {
@@ -376,7 +392,7 @@ public class DBManager {
 	// 查询单个字段2016年10月13日17:36:11
 	public String query_usern(Context context, String variable) {
 		String account1 = "";
-		String sql = " Select * from user where account='" + variable + "'";
+		String sql = " Select * from userdetail where account='" + variable + "'";
 
 		Cursor c = db.rawQuery(sql, null);
 		if (c != null) {
@@ -392,7 +408,7 @@ public class DBManager {
 	//下载标志位置1/上传标志位置1/2016年11月2日10:44:30
 	public void update_df(Context context,String Code,String flag){
 		String cjarea1="";
-		String sql="update user set '"+flag+"'=1 where cjarea='"+Code+"'";
+		String sql="update userdetail set '"+flag+"'=1 where cjarea='"+Code+"'";
 		Cursor c = db.rawQuery(sql, null);
 		while(c.moveToNext()){
 			cjarea1= c.getString(c.getColumnIndex("cjarea"));
@@ -411,6 +427,9 @@ public class DBManager {
 		switch (name) {
 		case "user":
 			c = db.rawQuery("SELECT * FROM user", null);
+			break;
+		case "userdetail":
+			c = db.rawQuery("SELECT * FROM userdetail", null);
 			break;
 		case "family":
 			c = db.rawQuery("SELECT * FROM family", null);

@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/front"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="#ffffff"
-    android:minHeight="80dp" >
+    android:layout_height="55dp"
+    android:background="#99F1F1F1"
+    android:minHeight="55dp" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -14,14 +14,14 @@
 
         <ImageView
             android:id="@+id/text_icon"
-            android:layout_width="20dp"
-            android:layout_height="24dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/yezhu" 
-            android:visibility="invisible"/>
-        
+            android:src="@drawable/yezhu"
+            android:visibility="invisible" />
+
         <ImageView
             android:id="@+id/text_icon2"
             android:layout_width="35dp"
@@ -31,25 +31,29 @@
             android:scaleType="centerInside"
             android:src="@drawable/member" />
 
-        <TextView
-            android:id="@+id/text_name"
-            android:layout_width="55dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/text_icon"
-            android:text=""
-            android:textSize="17sp" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/text_gmsfzh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="3dp"
-            android:layout_toRightOf="@id/text_name"
-            android:text="1111111111111111"
-            android:textSize="17sp" />
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="55555"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/text_gmsfzh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="1111111111111111"
+                android:textSize="17sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -67,7 +71,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:text="待缴费"
-            android:textColor="#0076ff"
+            android:textColor="#000000"
             android:textSize="17sp" />
 
         <TextView

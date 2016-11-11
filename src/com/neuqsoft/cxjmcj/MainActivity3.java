@@ -82,7 +82,7 @@ public class MainActivity3 extends Activity {
 		db = new DBManager(this);
 		ButterKnife.bind(MainActivity3.this);
 		/** ------请求数据---------------- */
-		getData();
+		getDataFromNet();
 
 		/** --------初始化布局----------------- */
 		title_logout = (TextView) findViewById(R.id.title_logout);
@@ -92,10 +92,11 @@ public class MainActivity3 extends Activity {
 		listview = (ExpandableLayoutListView) findViewById(R.id.listView);
 		/** --------初始化数据----------------- */
 
-		list = new ArrayList<UserDetail>();
+		
 		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
 		oldMap = new TextToMap().TextToMap(inputStream);
-
+		/** ------从本地请求数据---------------- */
+		getDataFromlocal();
 		/** --------注销返回到登陆界面-------------- */
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
@@ -113,9 +114,14 @@ public class MainActivity3 extends Activity {
 		super.onBackPressed();
 	}
 
-	private void getData() {
-		getDataFromNet();
-		/** ------向服务器请求数据---------------- */
+	private void getDataFromlocal() {
+		queryUserDetail = db.queryUserDetail();
+		/** 设置适配器 */
+		adapter = new MyAdapter(queryUserDetail);
+		listview.setAdapter(adapter);
+		adapter.notifyDataSetChanged();
+		ToastUtil.showShort(getApplicationContext(), "数据已经加载");
+
 	}
 
 	/**
@@ -156,18 +162,14 @@ public class MainActivity3 extends Activity {
 		/**
 		 * 判断user表中是否有此条数据 没有就添加进去
 		 */
-		queryUserDetail = db.queryUserDetail();
 		String account = list.get(1).getAccount();
 		String query_usern = db.query_usern(this, account);
 		if (query_usern.isEmpty()) {
 			db.addUserDetail(list);
 		}
-		/** 设置适配器 */
-		adapter = new MyAdapter(list);
-		System.out.println("___________----------" + list.get(0).toString());
-		listview.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
-		ToastUtil.showShort(getApplicationContext(), "数据已经加载");
+		/** ------从本地请求数据---------------- */
+		getDataFromlocal();
+
 
 	}
 
@@ -221,24 +223,24 @@ public class MainActivity3 extends Activity {
 		}
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
-		private List<UserDetail> list;
+		private List<UserDetail> queryUserDetail;
 		private String cjarea2;
 
-		public MyAdapter(List<UserDetail> list) {
+		public MyAdapter(List<UserDetail> queryUserDetail) {
 			super();
 			this.mInflater = LayoutInflater.from(getBaseContext());
-			this.list = list;
+			this.queryUserDetail = queryUserDetail;
 		}
 
 		@Override
 		public int getCount() {
 
-			return list.size();
+			return queryUserDetail.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return list.get(position);
+			return queryUserDetail.get(position);
 		}
 
 		@Override
@@ -280,14 +282,14 @@ public class MainActivity3 extends Activity {
 				holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
 			}
 			/** --------设置标题栏的数据-------------- */
-			String city = list.get(0).getCity().toString();
+			String city = queryUserDetail.get(0).getCity().toString();
 			title_local.setText(city);
-			title_num.setText("（共" + list.size() + "村）");
-			final String account = list.get(0).getAccount();
+			title_num.setText("（共" + queryUserDetail.size() + "村）");
+			final String account = queryUserDetail.get(0).getAccount();
 			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 名称 */
-			final String cjarea = list.get(position).getCjarea();
+			final String cjarea = queryUserDetail.get(position).getCjarea();
 			for (String key : oldMap.keySet()) {
 				if (key.equals(cjarea))
 					holder.local.setText(oldMap.get(key));

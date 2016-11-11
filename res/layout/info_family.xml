@@ -30,23 +30,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e9f1ef"
+        android:background="@drawable/background1"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_weight="0.3"
-            android:background="#e9f1ef"
             android:gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -75,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:gravity="center"
             android:orientation="horizontal" >
 
@@ -101,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:gravity="center"
             android:orientation="horizontal" >
 
@@ -141,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -179,7 +176,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -213,7 +210,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -248,7 +245,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -281,8 +278,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="1.2"
-            android:background="#ffffff"
+            android:layout_weight="1"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -316,7 +313,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -345,20 +342,21 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout style="@style/line" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            
             android:layout_weight="1.3"
-            android:background="#e9f1ef"
+          
             android:gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1.3"
-            android:background="#ffffff" >
+            android:background="@color/transparent" >
 
             <LinearLayout
                 android:id="@+id/btn_save"
