@@ -95,7 +95,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="5" >
+        android:layout_weight="8" >
     </LinearLayout>
 
     <LinearLayout
@@ -115,14 +115,13 @@
             android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_weight="21"
+            android:layout_weight="20"
             android:gravity="center"
             android:text="登  录"
             android:textColor="#ffffff"
-            android:textSize="15sp"
+            android:textSize="17sp"
             fbutton:buttonColor="#64d406"
-            fbutton:cornerRadius="3dp"
+            fbutton:cornerRadius="4dp"
             fbutton:shadowEnabled="false" />
 
         <LinearLayout
@@ -134,7 +133,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="40" >
+        android:layout_weight="45" >
     </LinearLayout>
-
 </LinearLayout>
