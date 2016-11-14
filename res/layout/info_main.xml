@@ -46,12 +46,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
-                    android:layout_weight="16" >
+                    android:layout_weight="13" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#c9c9ce" >
+                        android:background="#cccccc" >
                     </LinearLayout>
                 </LinearLayout>
 
@@ -75,7 +75,7 @@
                             android:gravity="center"
                             android:text="家庭登记"
                             android:textColor="#000000"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:id="@+id/btn_add"
@@ -92,7 +92,7 @@
                         android:background="#c6cfcd"
                         android:gravity="center" />
 
-                    <LinearLayout
+                    <!-- <LinearLayout
                         android:id="@+id/huzhucontent"
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
@@ -101,8 +101,8 @@
                         android:gravity="center" >
 
                         <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
                             android:scaleType="centerInside"
@@ -134,7 +134,30 @@
                                 android:textColor="#000000"
                                 android:textSize="17sp" />
                         </LinearLayout>
-                    </LinearLayout>
+                    </LinearLayout> -->
+                    <ScrollView
+                        android:id="@+id/ScrollView2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="100"
+                        android:gravity="center_horizontal"
+                        android:scrollbars="none" >
+
+                        <!-- 原： <ListView> -->
+
+                        <com.roamer.slidelistview.SlideListView
+                            xmlns:slide="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/listView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:cacheColorHint="#FFF4F4F4"
+                            android:dividerHeight="0.0dip"
+                            android:fadingEdge="none"
+                            slide:slideAnimationTime="200"
+                            slide:slideLeftAction="scroll"
+                            slide:slideMode="both"
+                            slide:slideRightAction="scroll" />
+                    </ScrollView>       
                 </LinearLayout>
 
                 <LinearLayout
@@ -163,7 +186,7 @@
                             android:gravity="center"
                             android:text="人员参保登记"
                             android:textColor="#000000"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:id="@+id/btn_add2"

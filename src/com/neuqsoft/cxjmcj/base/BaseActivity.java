@@ -226,9 +226,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 			if (mSearchView.getAdapter() == null) {
 				List<SearchItem> suggestionsList = new ArrayList<>();
-				suggestionsList.add(new SearchItem("search1"));
-				suggestionsList.add(new SearchItem("search2"));
-				suggestionsList.add(new SearchItem("search3"));
 
 				SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
 				searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {

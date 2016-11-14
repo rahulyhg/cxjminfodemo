@@ -244,7 +244,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -279,7 +279,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="@color/transparent" />
 
                 <TextView
@@ -314,7 +314,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -348,7 +348,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -382,7 +382,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -417,7 +417,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -440,13 +440,14 @@
             android:layout_height="0dip"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
             android:layout_weight="1.6" >
 
             <info.hoang8f.widget.FButton
                 xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="38dp"
                 android:layout_weight="200"
                 android:text="保 存"
                 android:textColor="#ffffff"
@@ -464,11 +465,11 @@
                 xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/btn_xjzf"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="38dp"
                 android:layout_weight="230"
                 android:text="现金支付"
                 android:textColor="#ffffff"
-                fbutton:buttonColor="#149de9"
+                fbutton:buttonColor="#d77944"
                 fbutton:cornerRadius="80dp"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="3dp" />
@@ -482,11 +483,11 @@
                 xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/btn_xyg"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="38dp"
                 android:layout_weight="230"
                 android:text="重置"
                 android:textColor="#ffffff"
-                fbutton:buttonColor="#149de9"
+                fbutton:buttonColor="#2ba589"
                 fbutton:cornerRadius="80dp"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="3dp" />

@@ -19,12 +19,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.neuqsoft.cxjmcj.R;
+import com.neuqsoft.cxjmcj.adapter.MyAdapter;
+import com.neuqsoft.cxjmcj.adapter.MyAdapter2;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lapism.searchview.SearchView;
 import com.neuqsoft.cxjmcj.MainActivity;
-import com.neuqsoft.cxjmcj.MyAdapter;
 import com.neuqsoft.cxjmcj.base.BaseActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;
@@ -86,12 +87,6 @@ public class InfoMainActivity extends BaseActivity {
 	@Bind(R.id.image_left)
 	ImageView image_left;
 
-	@Bind(R.id.text_name)
-	TextView text_name;
-
-	@Bind(R.id.text_id)
-	TextView text_id;
-
 	String tempFamily;
 	Family family = new Family();// 传回的数据
 	static Family thefamily;// 传出的数据
@@ -101,8 +96,11 @@ public class InfoMainActivity extends BaseActivity {
 	static HashMap<String, ArrayList<Personal>> list_family_personal = new HashMap<String, ArrayList<Personal>>();
 	String res = null;// 查询身份证是否有效的返回信息
 	static ArrayList<Personal> listItem = new ArrayList<Personal>();
+	static ArrayList<Family> listItem2 = new ArrayList<Family>();
 	private SlideListView lv;
+	private SlideListView lv2;
 	static MyAdapter adapter;
+	static MyAdapter2 adapter2;
 	Gson gson = new Gson();
 
 	private String name = "";
@@ -117,7 +115,7 @@ public class InfoMainActivity extends BaseActivity {
 
 	private String address = "";
 
-	private DBManager mgr;
+	public DBManager mgr;
 
 	LoadingDialog loading;
 
@@ -134,11 +132,15 @@ public class InfoMainActivity extends BaseActivity {
 
 		initView();
 		// /*为ListView设置Adapter来绑定数据*/
+		// lv为户主列表
 		listItem.clear();
+		listItem2.clear();
 		adapter = new MyAdapter(this, listItem);
-
+		adapter2 = new MyAdapter2(this, listItem2);
 		lv.setAdapter(adapter);
+		lv2.setAdapter(adapter2);
 		adapter.notifyDataSetChanged();
+		adapter2.notifyDataSetChanged();
 
 		/* 为动态数组添加数据 */
 
@@ -164,10 +166,8 @@ public class InfoMainActivity extends BaseActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (thefamily != null) {
-			text_name.setText(thefamily.getEdit_hzxm());
-			text_id.setText(thefamily.getEdit_gmcfzh());
-			UpdateListView(thefamily.getEdit_gmcfzh());
+		if (listItem2.size() != 0) {
+			UpdateListView(listItem2.get(0).getEdit_gmcfzh());
 		}
 	}
 
@@ -178,6 +178,7 @@ public class InfoMainActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 		lv = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
+		lv2 = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
 
 	}
 
@@ -186,35 +187,13 @@ public class InfoMainActivity extends BaseActivity {
 		finish();
 	}
 
-	@OnClick(R.id.text)
-	public void toInfoFamilyActivity2() {
-		thefamily = null;
-		Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
-		listFamily = mgr.queryFamily();
-		for (Family tempFamily : listFamily) {
-			if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-				thefamily = new Family();
-				thefamily = tempFamily;
-			}
-		}
-
-		if (thefamily != null) {
-			intent.putExtra("gmsfzh", mSearchView.getTextInput());
-			String str = gson.toJson(thefamily);
-			intent.putExtra("Family", str);
-			intent.putExtra("hasTemp", "2");
-			startActivityForResult(intent, INFO_FAMILY);
-		}
-
-	}
-
 	@OnClick(R.id.btn_add2)
 	public void toInfoPersonalActivity() {
-		if (text_id.getText().toString().equals("")) {
+		if (thefamily == null) {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", text_id.getText().toString());
+			intent.putExtra("HZSFZ", thefamily.getEdit_gmcfzh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 
@@ -286,20 +265,7 @@ public class InfoMainActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case INFO＿PERSONAL:
-			// 回退按钮没有data
-
-			// Bundle p = data.getExtras(); // data为B中回传的Intent
-			// String str = p.getString("Personal");// str即为回传的值
-			// System.out.println("Personal" + str);
-			// ArrayList<Personal> listPersonal = gson.fromJson(str, new
-			// TypeToken<ArrayList<Personal>>() {
-			// }.getType());
-			// // 用于映射
-			// list_family_personal.put(text_id.getText().toString(),
-			// listPersonal);
-
-			// 用于显示listview
-			UpdateListView(text_id.getText().toString());
+			UpdateListView(listItem2.get(0).getEdit_gmcfzh());
 			break;
 
 		case INFO_FAMILY:
@@ -308,8 +274,6 @@ public class InfoMainActivity extends BaseActivity {
 				String str2 = f.getString("Family");// str即为回传的值
 				Family tempFamily = gson.fromJson(str2, Family.class);
 				thefamily = null;
-				text_name.setText(tempFamily.getEdit_hzxm());
-				text_id.setText(tempFamily.getEdit_gmcfzh());
 				// 刷新listview
 				UpdateListView(tempFamily.getEdit_gmcfzh());
 			}
@@ -354,8 +318,6 @@ public class InfoMainActivity extends BaseActivity {
 				// System.out.println(listFamily.toString());
 				for (Family tempFamily : listFamily) {
 					if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-						text_name.setText(tempFamily.getEdit_hzxm());
-						text_id.setText(tempFamily.getEdit_gmcfzh());
 						UpdateListView(tempFamily.getEdit_gmcfzh());
 					}
 				}
@@ -370,7 +332,6 @@ public class InfoMainActivity extends BaseActivity {
 	public void UpdateListView(String temp) {
 		listItem.clear();
 		ArrayList<Personal> listPersonal = mgr.queryPersonal(temp);
-
 		listItem.addAll(listPersonal);
 		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
@@ -378,15 +339,19 @@ public class InfoMainActivity extends BaseActivity {
 			if (tempFamily.getEdit_gmcfzh().equals(temp)) {
 				thefamily = new Family();
 				thefamily = tempFamily;
-				mgr.deleteFamily(thefamily);
+				mgr.updateFamily(thefamily);
 				thefamily.setEdit_cjqtbxrs(listPersonal.size() + "");
 				List<Family> the = new ArrayList<Family>();
 				the.add(thefamily);
 				mgr.addFamily(the);
 			}
 		}
-		text_name.setText(thefamily.getEdit_hzxm());
-		text_id.setText(thefamily.getEdit_gmcfzh());
+
+		if (thefamily != null) {
+			listItem2.clear();
+			listItem2.add(thefamily);
+			adapter2.notifyDataSetChanged();
+		}
 		adapter.notifyDataSetChanged();
 	}
 }

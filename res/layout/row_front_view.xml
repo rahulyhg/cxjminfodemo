@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/text_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
@@ -24,8 +24,8 @@
 
         <ImageView
             android:id="@+id/text_icon2"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"

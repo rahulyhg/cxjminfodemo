@@ -196,7 +196,6 @@ public class MainActivity3 extends Activity {
 					holder.num2.setText(memberSize + "");
 					holder.num3.setText(memberJf + "");
 				}
-
 			});
 		}
 	}

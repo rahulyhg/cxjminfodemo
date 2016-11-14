@@ -46,9 +46,6 @@ public class FiltersActivity extends BaseActivity {
 		customSearchView();
 
 		List<SearchFilter> filters = new ArrayList<>();
-		filters.add(new SearchFilter("Filter1", true));
-		filters.add(new SearchFilter("Filter2", false));
-		filters.add(new SearchFilter("Filter3", true));
 
 		mSearchView.setFilters(filters);
 	}

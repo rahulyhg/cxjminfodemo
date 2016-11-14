@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -188,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -222,7 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -257,8 +257,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#ffffff" />
+                    android:text="  "
+                    android:textColor="@color/transparent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -291,7 +291,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -325,7 +325,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="*"
+                    android:text="  "
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -354,8 +354,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:clickable="false"
             android:layout_weight="2" >
 
             <info.hoang8f.widget.FButton
@@ -363,7 +364,7 @@
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
-                android:layout_weight="45"
+                android:layout_weight="40"
                 android:text="保 存"
                 android:textColor="#ffffff"
                 fbutton:buttonColor="#149de9"
@@ -374,11 +375,11 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5" />
+                android:layout_weight="3" />
 
             <info.hoang8f.widget.FButton
                 xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/ben_revert"
+                android:id="@+id/btn_revert"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_weight="23"

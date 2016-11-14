@@ -3,13 +3,16 @@
  *@Email tengzhenjiu@qq.com
  *
  */
-package com.neuqsoft.cxjmcj;
+package com.neuqsoft.cxjmcj.adapter;
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.neuqsoft.cxjmcj.R;
 import com.neuqsoft.cxjmcj.InfoActivity.InfoMainActivity;
 import com.neuqsoft.cxjmcj.InfoActivity.InfoPersonalActivity;
+import com.neuqsoft.cxjmcj.R.id;
+import com.neuqsoft.cxjmcj.R.layout;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.roamer.slidelistview.SlideBaseAdapter;

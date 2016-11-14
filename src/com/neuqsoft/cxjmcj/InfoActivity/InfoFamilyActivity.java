@@ -375,6 +375,19 @@ public class InfoFamilyActivity extends Activity {
 			mHandler.post(r);
 
 	}
+	
+	@OnClick(R.id.btn_revert)
+	public void revert(){
+		edit_hzxm.setText("");
+		edit_lxdh.setText("");
+		edit_dzyx.setText("");
+		edit_yzbm.setText("");
+		edit_cjqtbxrs.setText("");
+		edit_hkxxdz.setText("");
+		// spinner
+		edit_jhzzjlx.setSelection(0,true);
+		edit_gmcfzh.setText("");
+	}
 
 	private void getDataFromEdit() {
 		Intent intent = getIntent();

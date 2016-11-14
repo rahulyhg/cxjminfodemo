@@ -70,8 +70,7 @@ public class DBManager {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (User user : list) {
-				db.execSQL("REPLACE INTO user  VALUES( null, ?,?)",
-						new Object[] {user.username, user.password  });
+				db.execSQL("REPLACE INTO user  VALUES( null, ?,?)", new Object[] { user.username, user.password });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -93,7 +92,6 @@ public class DBManager {
 			db.endTransaction(); // 结束事务
 		}
 	}
-	
 
 	public void addPersonal(List<Personal> personals) {
 		db.beginTransaction(); // 开始事务
@@ -183,6 +181,10 @@ public class DBManager {
 		db.update("personal", cv, "_id = ?", new String[] { String.valueOf(personal.getId()) });
 	}
 
+	public void updateFamily(Family family) {
+		db.delete("family", "_id = ?", new String[] { family.id });
+	}
+
 	/**
 	 * delete old family
 	 * 
@@ -190,6 +192,9 @@ public class DBManager {
 	 */
 	public void deleteFamily(Family family) {
 		db.delete("family", "_id = ?", new String[] { family.id });
+		for (Personal personal : queryPersonal(family.getEdit_gmcfzh())) {
+			deletePersonal(personal);
+		}
 	}
 
 	/**
@@ -241,6 +246,7 @@ public class DBManager {
 		c.close();
 		return users;
 	}
+
 	public List<UserDetail> queryUserDetail() {
 		ArrayList<UserDetail> UserDetails = new ArrayList<UserDetail>();
 		Cursor c = queryTheCursor("userdetail");
@@ -248,7 +254,7 @@ public class DBManager {
 			UserDetail userDetail = new UserDetail();
 			userDetail.taskid = c.getString(c.getColumnIndex("taskid"));
 			userDetail.account = c.getString(c.getColumnIndex("account"));
-			userDetail.city=c.getString(c.getColumnIndex("city"));
+			userDetail.city = c.getString(c.getColumnIndex("city"));
 			userDetail.cjarea = c.getString(c.getColumnIndex("cjarea"));
 			userDetail.downloadflag = c.getString(c.getColumnIndex("downloadflag"));
 			userDetail.sfcl = c.getString(c.getColumnIndex("sfcl"));
@@ -405,17 +411,17 @@ public class DBManager {
 		return account1;
 
 	}
-	//下载标志位置1/上传标志位置1/2016年11月2日10:44:30
-	public void update_df(Context context,String Code,String flag){
-		String cjarea1="";
-		String sql="update userdetail set '"+flag+"'=1 where cjarea='"+Code+"'";
+
+	// 下载标志位置1/上传标志位置1/2016年11月2日10:44:30
+	public void update_df(Context context, String Code, String flag) {
+		String cjarea1 = "";
+		String sql = "update userdetail set '" + flag + "'=1 where cjarea='" + Code + "'";
 		Cursor c = db.rawQuery(sql, null);
-		while(c.moveToNext()){
-			cjarea1= c.getString(c.getColumnIndex("cjarea"));
+		while (c.moveToNext()) {
+			cjarea1 = c.getString(c.getColumnIndex("cjarea"));
 		}
 		c.close();
 	}
-	
 
 	/**
 	 * query all persons, return cursor
