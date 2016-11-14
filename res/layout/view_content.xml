@@ -120,9 +120,9 @@
                     android:text="上 传"
                     android:textColor="#ffffff"
                     fbutton:buttonColor="#149de9"
-                    fbutton:cornerRadius="80dp"
+                    fbutton:cornerRadius="3dp"
                     fbutton:shadowEnabled="true"
-                    fbutton:shadowHeight="3dp" />
+                    fbutton:shadowHeight="2dp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -139,9 +139,9 @@
                         android:textColor="#ffffff"
                         android:textSize="18sp"
                         fbutton:buttonColor="#2ba589"
-                        fbutton:cornerRadius="80dp"
+                        fbutton:cornerRadius="3dp"
                         fbutton:shadowEnabled="true"
-                        fbutton:shadowHeight="3dp" />
+                        fbutton:shadowHeight="2dp" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

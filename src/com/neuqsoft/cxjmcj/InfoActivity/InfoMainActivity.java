@@ -25,7 +25,7 @@ import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lapism.searchview.SearchView;
-import com.neuqsoft.cxjmcj.MainActivity;
+import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.base.BaseActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;

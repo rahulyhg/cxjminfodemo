@@ -41,7 +41,6 @@ public class LoginActivity extends Activity {
 	private EditText edit_pw;
 	private ArrayList<User> users;
 	private String query_usern;
-	private ImageView image_left;
 	private TextView btn_login;
 	private SharedPreferences sp;
 	private Gson gson;
@@ -83,25 +82,12 @@ public class LoginActivity extends Activity {
 	private void initView() {
 		edit_user = (EditText) findViewById(R.id.edit_user);
 		edit_pw = (EditText) findViewById(R.id.edit_pw);
-		image_left = (ImageView) findViewById(R.id.image_left);
 		btn_login = (TextView) findViewById(R.id.btn_login);
 
 	}
 
 	private void initData() {
-
 		sp = getSharedPreferences("LoginFlag", MODE_PRIVATE);
-
-		image_left.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-				startActivity(intent);
-				finish();
-			}
-		});
 		/** µÇÂ½ */
 		btn_login.setOnClickListener(new OnClickListener() {
 
@@ -204,9 +190,9 @@ public class LoginActivity extends Activity {
 	// 2016Äê10ÔÂ19ÈÕ14:36:23
 
 	protected void enterInfo() {
-//		LoadingDialog ld = new LoadingDialog(this);
-//		ld.show();
-		Intent intent = new Intent(this, MainActivity3.class);
+		// LoadingDialog ld = new LoadingDialog(this);
+		// ld.show();
+		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
 	}
