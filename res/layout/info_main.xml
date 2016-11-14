@@ -86,55 +86,8 @@
                             android:src="@drawable/add" />
                     </RelativeLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#c6cfcd"
-                        android:gravity="center" />
+                    <LinearLayout style="@style/line" />
 
-                    <!-- <LinearLayout
-                        android:id="@+id/huzhucontent"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dip"
-                        android:layout_weight="100"
-                        android:background="#99F1F1F1"
-                        android:gravity="center" >
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/yezhu" />
-
-                        <LinearLayout
-                            android:id="@+id/text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="10"
-                            android:orientation="vertical" >
-
-                            <TextView
-                                android:id="@+id/text_name"
-                                android:layout_width="55dp"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text=""
-                                android:textColor="#000000"
-                                android:textSize="17sp" />
-
-                            <TextView
-                                android:id="@+id/text_id"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text=""
-                                android:textColor="#000000"
-                                android:textSize="17sp" />
-                        </LinearLayout>
-                    </LinearLayout> -->
                     <ScrollView
                         android:id="@+id/ScrollView2"
                         android:layout_width="fill_parent"
@@ -157,14 +110,10 @@
                             slide:slideLeftAction="scroll"
                             slide:slideMode="both"
                             slide:slideRightAction="scroll" />
-                    </ScrollView>       
+                    </ScrollView>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#c6cfcd" >
-                </LinearLayout>
+                <LinearLayout style="@style/line" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -177,7 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1.5"
-                        android:background="#00000000" >  
+                        android:background="#00000000" >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -198,10 +147,9 @@
                     </RelativeLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#c6cfcd"
-                        android:gravity="center" />
+                        android:id="@+id/line"
+                        style="@style/line"
+                        android:visibility="gone" />
 
                     <ScrollView
                         android:id="@+id/ScrollView"
@@ -209,22 +157,30 @@
                         android:layout_height="0dp"
                         android:layout_weight="10"
                         android:gravity="center_horizontal"
-                        android:scrollbars="vertical" >
+                        android:scrollbars="none" >
 
                         <!-- 原： <ListView> -->
 
-                        <com.roamer.slidelistview.SlideListView
-                            xmlns:slide="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/listView"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:cacheColorHint="#FFF4F4F4"
-                            android:dividerHeight="0.0dip"
-                            android:fadingEdge="none"
-                            slide:slideAnimationTime="200"
-                            slide:slideLeftAction="scroll"
-                            slide:slideMode="both"
-                            slide:slideRightAction="scroll" />
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical" >
+
+                            <com.roamer.slidelistview.SlideListView
+                                xmlns:slide="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/listView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:cacheColorHint="#FFF4F4F4"
+                                android:fadingEdge="none"
+                                slide:slideAnimationTime="200"
+                                slide:slideLeftAction="scroll"
+                                slide:slideMode="both"
+                                slide:slideRightAction="scroll" />
+
+                            <LinearLayout style="@style/line" />
+                        </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
             </LinearLayout>
@@ -235,7 +191,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" >
-            </com.lapism.searchview.SearchView> 
+            </com.lapism.searchview.SearchView>
         </RelativeLayout>
     </LinearLayout>
 

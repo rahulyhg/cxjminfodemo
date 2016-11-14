@@ -71,14 +71,16 @@ public class MainActivity extends Activity {
 	// 当前listview位置
 	static int itemIndex;
 	private List<UserDetail> queryUserDetail;
-
+	private String userName;
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		activity = this;
-
+		//取值
+		Intent intent = getIntent();
+		userName = intent.getStringExtra("userName");
 		db = new DBManager(this);
 		ButterKnife.bind(MainActivity.this);
 		/** ------请求数据---------------- */
@@ -114,7 +116,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void getDataFromlocal() {
-		queryUserDetail = db.queryUserDetail();
+		queryUserDetail = db.queryUserDetail(userName);
 		/** 设置适配器 */
 		adapter = new MyAdapter(queryUserDetail);
 		listview.setAdapter(adapter);

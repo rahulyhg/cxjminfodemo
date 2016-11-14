@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- #f2f5f7 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="#0198cc" >
+
+            <ImageView
+                android:id="@+id/image_user"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/gerenzhuye" />
+
+            <TextView
+                android:id="@+id/text_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/image_user"
+                android:text="某人"
+                android:textColor="#ffffff"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" >
+
+                <TextView
+                    android:id="@+id/title_local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="某镇"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/title_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="(共某村)"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" >
+                </TextView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:text="注销"
+                android:textColor="#ffffff"
+                android:textSize="17sp" >
+            </TextView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background"
+            android:orientation="vertical" >
+
+            <ScrollView
+                android:id="@+id/ScrollView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_horizontal"
+                android:scrollbars="none" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <!-- 原： <ListView> -->
+
+                        <com.example.cxjmcj.NoScrollListView
+                            android:id="@+id/listView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="14"
+                            android:cacheColorHint="#FFF4F4F4"
+                            android:divider="#00000000"
+                            android:dividerHeight="10dp"
+                            android:fadingEdge="none" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="#00000000" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

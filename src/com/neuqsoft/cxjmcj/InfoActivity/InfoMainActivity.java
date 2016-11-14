@@ -46,6 +46,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -117,6 +118,9 @@ public class InfoMainActivity extends BaseActivity {
 	public DBManager mgr;
 
 	LoadingDialog loading;
+
+	@Bind(R.id.line)
+	LinearLayout line;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -219,35 +223,9 @@ public class InfoMainActivity extends BaseActivity {
 		};
 		Runnable r2 = new Runnable() {
 			public void run() {
-				/*
-				 * if (res == "") { // 匹配身份证信息 并输出到户主信息栏 listFamily =
-				 * mgr.queryFamily();
-				 * 
-				 * // System.out.println(listFamily.toString()); for (Family
-				 * tempFamily : listFamily) { if
-				 * (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput(
-				 * ))) { Toast.makeText(getApplicationContext(), "有匹配的身份证信息",
-				 * Toast.LENGTH_LONG).show(); // 显示的信息 与 编辑框信息对比 if
-				 * (!text_id.getText().toString().equals(mSearchView.
-				 * getTextInput())) { listItem.clear();
-				 * adapter.notifyDataSetChanged(); }
-				 * text_name.setText(tempFamily.getEdit_hzxm());
-				 * text_id.setText(tempFamily.getEdit_gmcfzh());
-				 * UpdateListView(tempFamily.getEdit_gmcfzh());
-				 * 
-				 * } } // 为空就是未匹配到信息 System.out.println("text_id:" +
-				 * text_id.getText().toString());
-				 * 
-				 * }
-				 */
 
 				Toast.makeText(getApplicationContext(), "无匹配的身份证信息", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
-				/*
-				 * thefamily=null; if (thefamily != null) { String str =
-				 * gson.toJson(thefamily); intent.putExtra("Family", str);
-				 * intent.putExtra("hasTemp", "1"); } else
-				 */
 				intent.putExtra("hasTemp", "0");
 				intent.putExtra("gmsfzh", mSearchView.getTextInput());
 				startActivityForResult(intent, INFO_FAMILY);
@@ -313,7 +291,7 @@ public class InfoMainActivity extends BaseActivity {
 					}
 				}
 				if (!hasTemp) {
-					//拍照后不存在用户信息
+					// 拍照后不存在用户信息
 					UpdateListView(mSearchView.getTextInput());
 				}
 			}
@@ -342,6 +320,11 @@ public class InfoMainActivity extends BaseActivity {
 				listItem2.add(thefamily);
 			}
 		}
+		//头部的横线
+		if(listItem.size()!=0)
+			line.setVisibility(View.VISIBLE);
+		else
+			line.setVisibility(View.GONE);
 		adapter2.notifyDataSetChanged();
 		adapter.notifyDataSetChanged();
 	}

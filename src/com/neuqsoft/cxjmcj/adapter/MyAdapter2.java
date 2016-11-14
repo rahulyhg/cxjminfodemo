@@ -48,7 +48,6 @@ public class MyAdapter2 extends SlideBaseAdapter {
 		public TextView name;
 		public TextView jf;
 		public TextView yjf;
-		private ImageView icon;
 		private ImageView icon2;
 		TextView edit;
 		TextView delete;
@@ -101,7 +100,7 @@ public class MyAdapter2 extends SlideBaseAdapter {
 			// convertView = mInflater.inflate(R.layout.list_item, null);
 			convertView = createConvertView(position);
 			holder = new ViewHolder();
-			holder.icon = (ImageView) convertView.findViewById(R.id.text_icon);
+			holder.icon2 = (ImageView) convertView.findViewById(R.id.text_icon2);
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
 			holder.jf = (TextView) convertView.findViewById(R.id.text_jf);
@@ -118,7 +117,7 @@ public class MyAdapter2 extends SlideBaseAdapter {
 		holder.name.setText(listItem.get(position).getEdit_hzxm());
 		holder.jf.setVisibility(View.INVISIBLE);
 		holder.yjf.setVisibility(View.INVISIBLE);
-		holder.icon.setVisibility(View.VISIBLE);
+		holder.icon2.setVisibility(View.VISIBLE);
 
 		if (holder.edit != null) {
 			holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +140,7 @@ public class MyAdapter2 extends SlideBaseAdapter {
 					db.deleteFamily(listItem.get(position));
 					listItem.remove(position);
 					notifyDataSetChanged();
-					
+
 				}
 			});
 		}

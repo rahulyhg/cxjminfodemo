@@ -247,9 +247,9 @@ public class DBManager {
 		return users;
 	}
 
-	public List<UserDetail> queryUserDetail() {
+	public List<UserDetail> queryUserDetail(String variable) {
 		ArrayList<UserDetail> UserDetails = new ArrayList<UserDetail>();
-		Cursor c = queryTheCursor("userdetail");
+		Cursor c = db.rawQuery("SELECT * FROM userdetail where account='" + variable + "'", null);
 		while (c.moveToNext()) {
 			UserDetail userDetail = new UserDetail();
 			userDetail.taskid = c.getString(c.getColumnIndex("taskid"));
@@ -411,6 +411,24 @@ public class DBManager {
 		return account1;
 
 	}
+	
+	public String query_user(Context context, String variable) {
+		String userName = "";
+		String sql = " Select * from user where username='" + variable + "'";
+
+		Cursor c = db.rawQuery(sql, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				userName = c.getString(c.getColumnIndex("username"));
+			}
+			c.close();
+		}
+
+		return userName;
+
+	}
+	
+	
 
 	// 下载标志位置1/上传标志位置1/2016年11月2日10:44:30
 	public void update_df(Context context, String Code, String flag) {
@@ -433,9 +451,6 @@ public class DBManager {
 		switch (name) {
 		case "user":
 			c = db.rawQuery("SELECT * FROM user", null);
-			break;
-		case "userdetail":
-			c = db.rawQuery("SELECT * FROM userdetail", null);
 			break;
 		case "family":
 			c = db.rawQuery("SELECT * FROM family", null);

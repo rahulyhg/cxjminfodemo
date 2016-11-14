@@ -368,8 +368,8 @@
                 android:text="保 存"
                 android:textColor="#ffffff"
                 fbutton:buttonColor="#149de9"
-                fbutton:cornerRadius="10dp"
-                fbutton:shadowEnabled="true"
+                fbutton:cornerRadius="4dp"
+                fbutton:shadowEnabled="false"
                 fbutton:shadowHeight="3dp" />
 
             <LinearLayout
@@ -387,8 +387,8 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 fbutton:buttonColor="#2ba589"
-                fbutton:cornerRadius="10dp"
-                fbutton:shadowEnabled="true"
+                fbutton:cornerRadius="4dp"
+                fbutton:shadowEnabled="false"
                 fbutton:shadowHeight="3dp" />
         </LinearLayout>
     </LinearLayout>

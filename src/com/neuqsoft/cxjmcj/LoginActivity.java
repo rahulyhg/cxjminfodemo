@@ -15,6 +15,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.User;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
+import com.neuqsoft.cxjmcj.utils.LoadingDialog;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 
 import android.app.Activity;
@@ -62,7 +63,7 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.activity_login1);
 		activity = this;
 		utils = new HttpUtils(1000);
 		gson = new Gson();
@@ -179,7 +180,11 @@ public class LoginActivity extends Activity {
 		users = new ArrayList<User>();
 		User user1 = new User(userName, passWord);
 		users.add(user1);
-		mgr.addUser(users);
+		String query_user = mgr.query_user(getApplicationContext(), userName);
+		if (query_user.isEmpty()) {
+			mgr.addUser(users);
+		}
+
 	}
 
 	/**
@@ -193,6 +198,7 @@ public class LoginActivity extends Activity {
 		// LoadingDialog ld = new LoadingDialog(this);
 		// ld.show();
 		Intent intent = new Intent(this, MainActivity.class);
+	    intent.putExtra("userName", userName);
 		startActivity(intent);
 		finish();
 	}

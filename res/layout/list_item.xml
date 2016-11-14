@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textIsSelectable="true" />
-
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
