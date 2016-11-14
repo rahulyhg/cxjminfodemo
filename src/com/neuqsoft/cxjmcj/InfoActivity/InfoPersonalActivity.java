@@ -18,7 +18,7 @@ import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.neuqsoft.cxjmcj.MainActivity;
-import com.neuqsoft.cxjmcj.InfoActivity.PersonalActivity.InfoPersonalzxzfActivity;
+
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
@@ -106,7 +106,6 @@ public class InfoPersonalActivity extends Activity {
 
 	@Bind(R.id.edit_cbrq)
 	TextView edit_cbrq;
-	private TextView tv_xjzf;
 
 	@Bind(R.id.btn_xyg)
 	LinearLayout btn_xyg;
@@ -210,7 +209,6 @@ public class InfoPersonalActivity extends Activity {
 	/********** INITIALIZES *************/
 
 	public void initView() {
-		tv_xjzf = (TextView) findViewById(R.id.tv_xjzf);
 		edit_cbrxm = (EditText) findViewById(R.id.edit_cbrxm);
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
@@ -485,8 +483,6 @@ public class InfoPersonalActivity extends Activity {
 				dialog.dismiss();
 				Toast.makeText(getApplicationContext(), "完成现金支付", Toast.LENGTH_SHORT).show();
 				tempPersonal.setEdit_jf("1");
-				tv_xjzf.setText("支付完成");
-				tv_xjzf.setTextColor(Color.BLUE);
 
 				if (edit_cbrxm.getText().toString().isEmpty())
 					Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
@@ -507,14 +503,6 @@ public class InfoPersonalActivity extends Activity {
 		});
 
 		builder.create().show();
-	}
-
-	@OnClick(R.id.btn_zxzf)
-	public void zxzf() {
-		Toast.makeText(getApplicationContext(), "完成在线支付", Toast.LENGTH_SHORT).show();
-		tempPersonal.setEdit_jf("1");
-		Intent intent = new Intent(this, InfoPersonalzxzfActivity.class);
-		startActivity(intent);
 	}
 
 	Runnable r = new Runnable() {
@@ -576,8 +564,6 @@ public class InfoPersonalActivity extends Activity {
 		edit_csrq.setText("");
 		edit_yhzgx.setSelection(1, true);
 		edit_xxjzdz.setText("");
-		tv_xjzf.setText("现金支付");
-		tv_xjzf.setTextColor(Color.BLACK);
 		Toast.makeText(getApplicationContext(), "已经跳转到下一个", Toast.LENGTH_LONG).show();
 	}
 

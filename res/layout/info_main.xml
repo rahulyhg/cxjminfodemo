@@ -75,11 +75,11 @@
                             android:gravity="center"
                             android:text="家庭登记"
                             android:textColor="#000000"
-                            android:textSize="13sp" />
+                            android:textSize="17sp" />
 
                         <ImageView
                             android:id="@+id/btn_add"
-                            android:layout_width="23dp"
+                            android:layout_width="27dp"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="10dp"
@@ -154,7 +154,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1.5"
-                        android:background="#00000000" >
+                        android:background="#00000000" >  
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -163,11 +163,11 @@
                             android:gravity="center"
                             android:text="人员参保登记"
                             android:textColor="#000000"
-                            android:textSize="13sp" />
+                            android:textSize="17sp" />
 
                         <ImageView
                             android:id="@+id/btn_add2"
-                            android:layout_width="23dp"
+                            android:layout_width="27dp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="10dp"
@@ -205,13 +205,14 @@
                     </ScrollView>
                 </LinearLayout>
             </LinearLayout>
+
             <com.lapism.searchview.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" >
-            </com.lapism.searchview.SearchView>
+            </com.lapism.searchview.SearchView> 
         </RelativeLayout>
     </LinearLayout>
 

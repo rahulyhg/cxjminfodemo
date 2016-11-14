@@ -92,7 +92,6 @@ public class MainActivity3 extends Activity {
 		listview = (ExpandableLayoutListView) findViewById(R.id.listView);
 		/** --------初始化数据----------------- */
 
-		
 		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
 		oldMap = new TextToMap().TextToMap(inputStream);
 		/** ------从本地请求数据---------------- */
@@ -170,7 +169,6 @@ public class MainActivity3 extends Activity {
 		/** ------从本地请求数据---------------- */
 		getDataFromlocal();
 
-
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,11 +213,13 @@ public class MainActivity3 extends Activity {
 			FButton download;
 			private ImageView upload2;
 			public TextView text_num;
-			
+
+			private ImageView list;
+
 			LinearLayout top1;
 			LinearLayout top;
 			LinearLayout center;
-			LinearLayout bottom;
+			ImageView bottom;
 		}
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
@@ -277,6 +277,13 @@ public class MainActivity3 extends Activity {
 				holder.download = (FButton) convertView.findViewById(R.id.buttom_down);
 				holder.upload2 = (ImageView) convertView.findViewById(R.id.buttom_up2);
 
+				holder.top1 = (LinearLayout) convertView.findViewById(R.id.top1);
+				holder.top = (LinearLayout) convertView.findViewById(R.id.top);
+				holder.list = (ImageView) convertView.findViewById(R.id.list);
+
+				holder.center = (LinearLayout) convertView.findViewById(R.id.center);
+				holder.bottom = (ImageView) convertView.findViewById(R.id.bottom);
+
 				convertView.setTag(holder); // 绑定ViewHolder对象
 			} else {
 				holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
@@ -295,48 +302,6 @@ public class MainActivity3 extends Activity {
 					holder.local.setText(oldMap.get(key));
 			}
 
-			int posi = position + 1;
-			holder.text_num.setText(posi + "");
-			holder.upload2.setVisibility(View.GONE);
-			holder.upload.setVisibility(View.GONE);
-
-			// 判断数据是否下载过,
-			for (UserDetail userDetail : queryUserDetail) {
-				if (userDetail.downloadflag.equals("1")) {
-					cjarea2 = userDetail.getCjarea();
-					if (cjarea.equals(cjarea2)) {
-						holder.upload.setVisibility(View.VISIBLE);
-						holder.download.setText("录 入");
-						holder.download.setButtonColor(Color.rgb(237, 152, 17));
-						// 显示数据
-						int memberSize = 0;
-						int memberJf = 0;
-						List<Family> familys = db.queryFamily();
-						holder.num1.setText(familys.size() + "");
-						for (Family family : familys) {
-							List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
-							memberSize = memberSize + personals.size();
-							for (Personal personal : personals) {
-								if (!personal.getEdit_jf().equals("0")) {
-									memberJf = memberJf + 1;
-								}
-							}
-						}
-						holder.num2.setText(memberSize + "");
-						holder.num3.setText(memberJf + "");
-					}
-				}
-				// 判断是否已经上传
-				if (userDetail.uploadflag.equals("1")) {
-					if (cjarea.equals(cjarea2)) {
-						holder.upload2.setVisibility(View.VISIBLE);
-						holder.upload.setVisibility(View.GONE);
-						holder.download.setVisibility(View.GONE);
-					}
-				}
-			}
-
-			// 50旋转 100录入 0上传
 			final Handler handler = new Handler() {
 				public void handleMessage(Message msg) {
 					// 下载失败
@@ -382,6 +347,16 @@ public class MainActivity3 extends Activity {
 
 								holder.download.setShadowEnabled(false);
 								holder.upload.setShadowEnabled(false);
+
+								holder.download.setClickable(false);
+								holder.upload.setClickable(false);
+
+								holder.top1.setBackgroundResource(R.drawable.top31);
+								holder.top.setBackgroundResource(R.drawable.top3);
+								holder.list.setImageResource(R.drawable.list3);
+
+								holder.center.setBackgroundResource(R.drawable.center3);
+								holder.bottom.setImageResource(R.drawable.bottom3);
 							}
 						});
 					}
@@ -410,14 +385,61 @@ public class MainActivity3 extends Activity {
 								holder.upload.setVisibility(View.VISIBLE);
 								holder.download.setText("录 入");
 								holder.download.setButtonColor(Color.rgb(237, 152, 17));
-							}
 
+								holder.top1.setBackgroundResource(R.drawable.top21);
+								holder.top.setBackgroundResource(R.drawable.top2);
+								holder.list.setImageResource(R.drawable.list2);
+
+								holder.center.setBackgroundResource(R.drawable.center2);
+								holder.bottom.setImageResource(R.drawable.bottom2);
+							}
 						});
 					}
 
 				};
 
 			};
+
+			int posi = position + 1;
+			holder.text_num.setText(posi + "");
+			holder.upload2.setVisibility(View.GONE);
+			holder.upload.setVisibility(View.GONE);
+
+			// 判断数据是否下载过,
+			for (UserDetail userDetail : queryUserDetail) {
+				if (userDetail.downloadflag.equals("1")) {
+					cjarea2 = userDetail.getCjarea();
+					if (cjarea.equals(cjarea2)) {
+						holder.upload.setVisibility(View.VISIBLE);
+						holder.download.setText("录 入");
+						holder.download.setButtonColor(Color.rgb(237, 152, 17));
+						// 显示数据
+						int memberSize = 0;
+						int memberJf = 0;
+						List<Family> familys = db.queryFamily();
+						holder.num1.setText(familys.size() + "");
+						for (Family family : familys) {
+							List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
+							memberSize = memberSize + personals.size();
+							for (Personal personal : personals) {
+								if (!personal.getEdit_jf().equals("0")) {
+									memberJf = memberJf + 1;
+								}
+							}
+						}
+						holder.num2.setText(memberSize + "");
+						holder.num3.setText(memberJf + "");
+					}
+				}
+				// 判断是否已经上传
+				if (userDetail.uploadflag.equals("1")) {
+					if (cjarea.equals(cjarea2)) {
+						handler.sendEmptyMessage(3);
+					}
+				}
+			}
+
+			// 50旋转 100录入 0上传
 
 			final Runnable down_run = new Runnable() {
 				@Override

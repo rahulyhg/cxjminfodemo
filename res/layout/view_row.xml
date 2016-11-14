@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         expandable:el_contentLayout="@layout/view_content"
         expandable:el_headerLayout="@layout/view_header" 
+        expandable:el_bottomLayout="@layout/view_bottom"
         />
 
 </RelativeLayout>
