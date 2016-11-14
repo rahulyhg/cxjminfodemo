@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/front"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="70dp"
     android:background="#99F1F1F1"
-    android:minHeight="55dp" >
+    android:minHeight="70dp" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
