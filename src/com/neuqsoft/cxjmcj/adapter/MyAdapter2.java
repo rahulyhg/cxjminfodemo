@@ -141,7 +141,7 @@ public class MyAdapter2 extends SlideBaseAdapter {
 					db.deleteFamily(listItem.get(position));
 					listItem.remove(position);
 					notifyDataSetChanged();
-					Toast.makeText(mContext, "Click delete:" + position, Toast.LENGTH_SHORT).show();
+					
 				}
 			});
 		}

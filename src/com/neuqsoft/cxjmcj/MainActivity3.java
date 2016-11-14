@@ -406,9 +406,10 @@ public class MainActivity3 extends Activity {
 
 			// 判断数据是否下载过,
 			for (UserDetail userDetail : queryUserDetail) {
-				if (userDetail.downloadflag.equals("1")) {
-					cjarea2 = userDetail.getCjarea();
-					if (cjarea.equals(cjarea2)) {
+				cjarea2 = userDetail.getCjarea();
+				if (cjarea.equals(cjarea2)) {
+					//是否已下載
+					if (userDetail.downloadflag.equals("1")) {
 						holder.upload.setVisibility(View.VISIBLE);
 						holder.download.setText("录 入");
 						holder.download.setButtonColor(Color.rgb(237, 152, 17));
@@ -428,14 +429,13 @@ public class MainActivity3 extends Activity {
 						}
 						holder.num2.setText(memberSize + "");
 						holder.num3.setText(memberJf + "");
+						handler.sendEmptyMessage(4);
 					}
-				}
-				// 判断是否已经上传
-				if (userDetail.uploadflag.equals("1")) {
-					if (cjarea.equals(cjarea2)) {
+					// 判断已经上传
+					if (userDetail.uploadflag.equals("1")) {
 						handler.sendEmptyMessage(3);
 					}
-				}
+				}		
 			}
 
 			// 50旋转 100录入 0上传

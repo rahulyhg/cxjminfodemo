@@ -89,7 +89,6 @@ public class InfoMainActivity extends BaseActivity {
 
 	String tempFamily;
 	Family family = new Family();// 传回的数据
-	static Family thefamily;// 传出的数据
 	static ArrayList<Family> listFamily = new ArrayList<Family>();
 
 	// 存户主与成员的映射
@@ -99,8 +98,8 @@ public class InfoMainActivity extends BaseActivity {
 	static ArrayList<Family> listItem2 = new ArrayList<Family>();
 	private SlideListView lv;
 	private SlideListView lv2;
-	static MyAdapter adapter;
-	static MyAdapter2 adapter2;
+	public static MyAdapter adapter;
+	public static MyAdapter2 adapter2;
 	Gson gson = new Gson();
 
 	private String name = "";
@@ -141,9 +140,7 @@ public class InfoMainActivity extends BaseActivity {
 		lv2.setAdapter(adapter2);
 		adapter.notifyDataSetChanged();
 		adapter2.notifyDataSetChanged();
-
 		/* 为动态数组添加数据 */
-
 		setView();
 	}
 
@@ -176,10 +173,8 @@ public class InfoMainActivity extends BaseActivity {
 	 */
 	private void initView() {
 		// TODO Auto-generated method stub
-
 		lv = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
 		lv2 = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
-
 	}
 
 	@OnClick(R.id.image_left)
@@ -189,11 +184,11 @@ public class InfoMainActivity extends BaseActivity {
 
 	@OnClick(R.id.btn_add2)
 	public void toInfoPersonalActivity() {
-		if (thefamily == null) {
+		if (listItem2.size() == 0) {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", thefamily.getEdit_gmcfzh());
+			intent.putExtra("HZSFZ", listItem2.get(0).getEdit_gmcfzh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 
@@ -273,7 +268,6 @@ public class InfoMainActivity extends BaseActivity {
 				Bundle f = data.getExtras(); // data为B中回传的Intent
 				String str2 = f.getString("Family");// str即为回传的值
 				Family tempFamily = gson.fromJson(str2, Family.class);
-				thefamily = null;
 				// 刷新listview
 				UpdateListView(tempFamily.getEdit_gmcfzh());
 			}
@@ -308,20 +302,20 @@ public class InfoMainActivity extends BaseActivity {
 					e.printStackTrace();
 				}
 				mSearchView.setTextInput(cardno);
-				thefamily = new Family();
-				thefamily.setEdit_hzxm(name);
-				thefamily.setEdit_gmcfzh(cardno);
-				thefamily.setEdit_hkxxdz(address);
-
 				// 匹配身份证信息 并输出到户主信息栏
 				listFamily = mgr.queryFamily();
 				// System.out.println(listFamily.toString());
+				Boolean hasTemp = false;
 				for (Family tempFamily : listFamily) {
 					if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
 						UpdateListView(tempFamily.getEdit_gmcfzh());
+						hasTemp = true;
 					}
 				}
-
+				if (!hasTemp) {
+					//拍照后不存在用户信息
+					UpdateListView(mSearchView.getTextInput());
+				}
 			}
 			break;
 		default:
@@ -331,27 +325,24 @@ public class InfoMainActivity extends BaseActivity {
 
 	public void UpdateListView(String temp) {
 		listItem.clear();
+		listItem2.clear();
 		ArrayList<Personal> listPersonal = mgr.queryPersonal(temp);
 		listItem.addAll(listPersonal);
 		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
 		for (Family tempFamily : listFamily) {
 			if (tempFamily.getEdit_gmcfzh().equals(temp)) {
-				thefamily = new Family();
+				Family thefamily = new Family();
 				thefamily = tempFamily;
 				mgr.updateFamily(thefamily);
 				thefamily.setEdit_cjqtbxrs(listPersonal.size() + "");
 				List<Family> the = new ArrayList<Family>();
 				the.add(thefamily);
 				mgr.addFamily(the);
+				listItem2.add(thefamily);
 			}
 		}
-
-		if (thefamily != null) {
-			listItem2.clear();
-			listItem2.add(thefamily);
-			adapter2.notifyDataSetChanged();
-		}
+		adapter2.notifyDataSetChanged();
 		adapter.notifyDataSetChanged();
 	}
 }
