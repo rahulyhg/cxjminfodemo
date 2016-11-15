@@ -143,7 +143,7 @@ public class MyAdapterFamily extends SlideBaseAdapter {
 				public void onClick(View v) {
 					new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除家庭及其成员")
 							.setContentText(
-									holder.name.getText().toString() + "   " + holder.gmsfzh.getText().toString())
+									holder.name.getText().toString() + "\n" + holder.gmsfzh.getText().toString())
 							.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
 							.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 								@Override

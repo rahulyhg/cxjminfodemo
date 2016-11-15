@@ -139,9 +139,16 @@ public class InfoPersonalActivity extends Activity {
 	private void fixID() {
 		// TODO Auto-generated method stub
 		if (HZSFZedit != "") {
-			Toast.makeText(getApplicationContext(), "编辑状态下身份证号码不可变", Toast.LENGTH_SHORT).show();
 			edit_gmcfzh.setFocusable(false);
 			edit_gmcfzh.setFocusableInTouchMode(false);
+			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("编辑状态下身份证不可变")
+							.setConfirmText("我知道了").show();
+				}
+			});
 		}
 		edit_gmcfzh.addTextChangedListener(new TextWatcher() {
 
@@ -178,7 +185,7 @@ public class InfoPersonalActivity extends Activity {
 					if (res == "") {
 						Boolean hasPersonal = false;
 						// 新增狀態
-						if (HZSFZedit.equals("0")) {
+						if (HZSFZedit.equals("")) {
 							for (Personal tem : mgr.queryPersonal()) {
 								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
 									// 数据库已存在
@@ -484,39 +491,23 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_xjzf)
 	public void xjzf() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this);
-		builder.setMessage("确定完成现金支付了吗？");
-		builder.setTitle("提示");
-		builder.setPositiveButton("确定", new OnClickListener() {
-
+		new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("现金支付选项")
+		.setConfirmText("已支付").showCancelButton(true).setCancelText("未支付")
+		.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				Handler mHandler = new Handler();
-				dialog.dismiss();
-				Toast.makeText(getApplicationContext(), "完成现金支付", Toast.LENGTH_SHORT).show();
+			public void onClick(SweetAlertDialog sDialog) {
 				tempPersonal.setEdit_jf("1");
-
-				if (edit_cbrxm.getText().toString().isEmpty())
-					Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
-				else if (edit_gmcfzh.getText().toString().isEmpty())
-					Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
-				else if (res != "")
-					Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-				else
-					mHandler.post(r);
+				sDialog.dismissWithAnimation();
+				save();
 			}
-		});
-		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
-
+		}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
+			public void onClick(SweetAlertDialog sDialog) {
+				tempPersonal.setEdit_jf("0");
+				sDialog.cancel();
+				save();
 			}
-		});
-
-		builder.create().show();
-
+		}).show();
 	}
 
 	Runnable r = new Runnable() {
@@ -545,20 +536,17 @@ public class InfoPersonalActivity extends Activity {
 				personal1.setHZSFZ(bundle.getString("HZSFZ"));
 				personals.add(personal1);
 				mgr.addPersonal(personals);
-				Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
-
 			} else {
 				// 编辑状态
 				personal1.setHZSFZ(tempPersonal.HZSFZ);
 				personals.add(personal1);
 				mgr.addPersonal(personals);
-				Toast.makeText(getApplicationContext(), "已保存", Toast.LENGTH_SHORT).show();
 			}
 		}
 	};
 
 	@OnClick(R.id.btn_save)
-	public void toInfoMainActivity2() {
+	public void save() {
 		Handler mHandler = new Handler();
 		if (edit_cbrxm.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
@@ -566,8 +554,31 @@ public class InfoPersonalActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
 		else if (res != "")
 			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-		else
+		else {
+			final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
+					.setTitleText("保存成功");
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					dialog.show();
+				}
+			});
 			mHandler.post(r);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					dialog.dismiss();
+				}
+			}).start();
+		}
 	}
 
 	@OnClick(R.id.btn_xyg)

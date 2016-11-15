@@ -105,6 +105,19 @@ public class InfoFamilyActivity extends Activity {
 
 	private void fixID() {
 		// TODO Auto-generated method stub
+		if (hasTemp.equals("1")) {
+			// 編輯狀態下不可編輯
+			edit_gmcfzh.setFocusable(false);
+			edit_gmcfzh.setFocusableInTouchMode(false);
+			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("编辑状态下身份证不可变")
+							.setConfirmText("我知道了").show();
+				}
+			});
+		}
 		edit_gmcfzh.addTextChangedListener(new TextWatcher() {
 
 			CharSequence temp;// 监听前的文本
@@ -120,7 +133,6 @@ public class InfoFamilyActivity extends Activity {
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
 			}
 
 			@Override
