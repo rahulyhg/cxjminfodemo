@@ -32,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @Title LoginActivity
@@ -71,15 +72,14 @@ public class LoginActivity extends Activity {
 		context = getApplication();
 		setContentView(R.layout.activity_login);
 		DialogUIUtils.init(context);
-		DialogUIUtils.showToastTie(activity, "µ«¬º ß∞‹£¨«Î÷ÿ ‘").show();
-		
-	/*	activity = this;
+
+		activity = this;
 		utils = new HttpUtils(3000);
 		gson = new Gson();
 		mgr = new DBManager(this);
 		// mgr.addUser(users);
 		initView();
-		initData();*/
+		initData();
 	}
 
 	/*
@@ -103,34 +103,45 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				userName = edit_user.getText().toString().trim();
 				passWord = edit_pw.getText().toString().trim();
-				DialogUIUtils.showToastLong("µ«¬º ß∞‹£¨«Î÷ÿ ‘");
+				// œ‘ æº”‘ÿøÚ
 				activity.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-
+						build = DialogUIUtils.showLoadingHorizontal(activity, "µ«¬Ω÷–...");
+						build.show();
 					}
+
 				});
 
 				/** Õ¯¬Áµ«¬Ω */
 				loginfromnet();
-				/*
-				 * final Handler handler = new Handler() { public void
-				 * handleMessage(Message msg) { // œ¬‘ÿ ß∞‹ if (msg.what == 0) {
-				 * build = DialogUIUtils.showToastTie(activity, "µ«¬º ß∞‹£¨«Î÷ÿ ‘");
-				 * build.show(); } } };
-				 * 
-				 * new Thread(new Runnable() {
-				 * 
-				 * @Override public void run() { // TODO Auto-generated method
-				 * stub try { Thread.sleep(4000); } catch (InterruptedException
-				 * e) { // TODO Auto-generated catch block e.printStackTrace();
-				 * } build.dialog.dismiss(); handler.sendEmptyMessage(0); }
-				 * 
-				 * }).start();
-				 */
-			}
+				//4S∫Ûµ«¬º ß∞‹
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						// µ«¬ºµ»¥˝4S
+						try {
+							Thread.sleep(4000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						build.dialog.dismiss();
+						//±ÿ–Îº”‘⁄UIœﬂ≥Ã÷– ≤ª»ª±®¥Ì
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								Toast.makeText(getApplicationContext(), "µ«¬º ß∞‹£¨«Î÷ÿ ‘", Toast.LENGTH_SHORT).show();
+							}
 
+						});			
+					}
+
+				}).start();
+			}
 		});
 
 	}
