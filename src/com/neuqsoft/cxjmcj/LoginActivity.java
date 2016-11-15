@@ -233,6 +233,7 @@ public class LoginActivity extends Activity {
 	protected void enterInfo(String info) {
 		// LoadingDialog ld = new LoadingDialog(this);
 		// ld.show();
+		build.dialog.dismiss();
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("userName", userName);
 		intent.putExtra("info", info);
