@@ -116,7 +116,7 @@ public class LoginActivity extends Activity {
 
 				/** 网络登陆 */
 				loginfromnet();
-				//4S后登录失败
+				// 4S后登录失败
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -129,15 +129,17 @@ public class LoginActivity extends Activity {
 							e.printStackTrace();
 						}
 						build.dialog.dismiss();
-						//必须加在UI线程中 不然报错
+						// 必须加在UI线程中 不然报错
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
-								Toast.makeText(getApplicationContext(), "登录失败，请重试", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(getApplicationContext(),
+								// "登录失败，请重试", Toast.LENGTH_SHORT).show();
+								
 							}
 
-						});			
+						});
 					}
 
 				}).start();
@@ -173,7 +175,10 @@ public class LoginActivity extends Activity {
 				if (exceptionCode == 0) {
 					loginfromlocal();
 				} else if (exceptionCode == 406) {
-					ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
+					// ToastUtil.showShort(getApplicationContext(),
+					// "用户名或密码错误！");
+					DialogUIUtils.init(activity);
+					DialogUIUtils.showLoadingHorizontal(activity, "登录失败，请重试！...", true).show();
 				}
 			}
 

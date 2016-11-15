@@ -29,13 +29,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @Title MyAdapter
  * @author tengzj
  * @data 2016年8月24日 下午2:42:15
  */
-public class MyAdapter2 extends SlideBaseAdapter {
+public class MyAdapterFamily extends SlideBaseAdapter {
 	public static final int INFO＿PERSONAL = 102;
 	public static final int INFO_FAMILY = 101;
 	ArrayList<Family> listItem;
@@ -49,13 +50,14 @@ public class MyAdapter2 extends SlideBaseAdapter {
 		public TextView jf;
 		public TextView yjf;
 		private ImageView icon2;
+		private ImageView icon;
 		TextView edit;
 		TextView delete;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 
-	public MyAdapter2(Context context, ArrayList<Family> listItem) {
+	public MyAdapterFamily(Context context, ArrayList<Family> listItem) {
 		super(context);
 		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
@@ -93,13 +95,14 @@ public class MyAdapter2 extends SlideBaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+		final ViewHolder holder;
 		Log.v("BaseAdapterTest", "getView " + position + " " + convertView);
 
 		if (convertView == null) {
 			// convertView = mInflater.inflate(R.layout.list_item, null);
 			convertView = createConvertView(position);
 			holder = new ViewHolder();
+			holder.icon = (ImageView) convertView.findViewById(R.id.text_icon);
 			holder.icon2 = (ImageView) convertView.findViewById(R.id.text_icon2);
 			holder.gmsfzh = (TextView) convertView.findViewById(R.id.text_gmsfzh);
 			holder.name = (TextView) convertView.findViewById(R.id.text_name);
@@ -117,8 +120,8 @@ public class MyAdapter2 extends SlideBaseAdapter {
 		holder.name.setText(listItem.get(position).getEdit_hzxm());
 		holder.jf.setVisibility(View.INVISIBLE);
 		holder.yjf.setVisibility(View.INVISIBLE);
-		holder.icon2.setVisibility(View.VISIBLE);
-
+		holder.icon2.setVisibility(View.INVISIBLE);
+		holder.icon.setVisibility(View.VISIBLE);
 		if (holder.edit != null) {
 			holder.edit.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -127,7 +130,8 @@ public class MyAdapter2 extends SlideBaseAdapter {
 					intent.putExtra("gmsfzh", listItem.get(position).getEdit_gmcfzh());
 					String str = new Gson().toJson(listItem.get(position));
 					intent.putExtra("Family", str);
-					intent.putExtra("hasTemp", "2");
+					//編輯狀態
+					intent.putExtra("hasTemp", "1");
 					((InfoMainActivity) context).startActivityForResult(intent, INFO_FAMILY);
 				}
 			});
@@ -137,10 +141,24 @@ public class MyAdapter2 extends SlideBaseAdapter {
 			holder.delete.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					db.deleteFamily(listItem.get(position));
-					listItem.remove(position);
-					notifyDataSetChanged();
-
+					new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除家庭及其成员")
+							.setContentText(
+									holder.name.getText().toString() + "   " + holder.gmsfzh.getText().toString())
+							.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
+							.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+								@Override
+								public void onClick(SweetAlertDialog sDialog) {
+									db.deleteFamily(listItem.get(position));
+									listItem.remove(position);
+									notifyDataSetChanged();
+									sDialog.dismissWithAnimation();
+								}
+							}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+								@Override
+								public void onClick(SweetAlertDialog sDialog) {
+									sDialog.cancel();
+								}
+							}).show();
 				}
 			});
 		}

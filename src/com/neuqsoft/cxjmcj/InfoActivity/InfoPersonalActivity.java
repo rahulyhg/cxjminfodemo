@@ -54,6 +54,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import info.hoang8f.widget.FButton;
 
 /**
@@ -112,11 +113,14 @@ public class InfoPersonalActivity extends Activity {
 	@Bind(R.id.btn_xyg)
 	FButton btn_xyg;
 
+	Activity activity;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_personal);
+		activity = this;
 		ButterKnife.bind(InfoPersonalActivity.this);
 		mgr = new DBManager(this);
 		Intent intent = getIntent();
@@ -171,15 +175,21 @@ public class InfoPersonalActivity extends Activity {
 						e.printStackTrace();
 					}
 
-					if (res == "" && HZSFZedit.equals("")) {
+					if (res == "") {
 						Boolean hasPersonal = false;
-						for (Personal tem : mgr.queryPersonal()) {
-							if (tem.getEdit_gmcfzh().equals(temp.toString())) {
-								// 数据库已存在
-								Toast.makeText(getApplicationContext(), "该参保人已存在", Toast.LENGTH_SHORT).show();
-								hasPersonal = true;
-								edit_gmcfzh.setText("");
-								break;
+						// 新增狀態
+						if (HZSFZedit.equals("0")) {
+							for (Personal tem : mgr.queryPersonal()) {
+								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
+									// 数据库已存在
+									new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("已存在该人员")
+											.setContentText(tem.edit_cbrxm + "\n" + tem.edit_gmcfzh + "\n" + "户主身份证号码："
+													+ tem.HZSFZ + "\n" + "登记日期：" + tem.edit_cbrq)
+											.setConfirmText("我知道了").show();
+									hasPersonal = true;
+									revert();
+									break;
+								}
 							}
 						}
 						if (!hasPersonal) {
@@ -506,6 +516,7 @@ public class InfoPersonalActivity extends Activity {
 		});
 
 		builder.create().show();
+
 	}
 
 	Runnable r = new Runnable() {
@@ -560,7 +571,7 @@ public class InfoPersonalActivity extends Activity {
 	}
 
 	@OnClick(R.id.btn_xyg)
-	public void toNextActivity() {
+	public void revert() {
 		if (HZSFZedit != "") {
 			setContent(editPersonal);
 		} else {

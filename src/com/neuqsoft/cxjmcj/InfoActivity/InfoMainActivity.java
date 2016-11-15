@@ -19,8 +19,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.neuqsoft.cxjmcj.R;
-import com.neuqsoft.cxjmcj.adapter.MyAdapter;
-import com.neuqsoft.cxjmcj.adapter.MyAdapter2;
+import com.neuqsoft.cxjmcj.adapter.MyAdapterMember;
+import com.neuqsoft.cxjmcj.adapter.MyAdapterFamily;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -99,8 +99,8 @@ public class InfoMainActivity extends BaseActivity {
 	static ArrayList<Family> listItem2 = new ArrayList<Family>();
 	private SlideListView lv;
 	private SlideListView lv2;
-	public static MyAdapter adapter;
-	public static MyAdapter2 adapter2;
+	public static MyAdapterMember adapter;
+	public static MyAdapterFamily adapter2;
 	Gson gson = new Gson();
 
 	private String name = "";
@@ -138,8 +138,8 @@ public class InfoMainActivity extends BaseActivity {
 		// lv为户主列表
 		listItem.clear();
 		listItem2.clear();
-		adapter = new MyAdapter(this, listItem);
-		adapter2 = new MyAdapter2(this, listItem2);
+		adapter = new MyAdapterMember(this, listItem);
+		adapter2 = new MyAdapterFamily(this, listItem2);
 		lv.setAdapter(adapter);
 		lv2.setAdapter(adapter2);
 		adapter.notifyDataSetChanged();
@@ -223,9 +223,8 @@ public class InfoMainActivity extends BaseActivity {
 		};
 		Runnable r2 = new Runnable() {
 			public void run() {
-
-				Toast.makeText(getApplicationContext(), "无匹配的身份证信息", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
+				//新增状态 非编辑
 				intent.putExtra("hasTemp", "0");
 				intent.putExtra("gmsfzh", mSearchView.getTextInput());
 				startActivityForResult(intent, INFO_FAMILY);

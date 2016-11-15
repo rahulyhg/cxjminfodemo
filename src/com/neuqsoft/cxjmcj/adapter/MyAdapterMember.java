@@ -27,13 +27,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @Title MyAdapter
  * @author tengzj
  * @data 2016年8月24日 下午2:42:15
  */
-public class MyAdapter extends SlideBaseAdapter {
+public class MyAdapterMember extends SlideBaseAdapter {
 	public static final int INFO＿PERSONAL = 102;
 	ArrayList<Personal> listItem;
 	DBManager db;
@@ -52,9 +53,8 @@ public class MyAdapter extends SlideBaseAdapter {
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
-	
 
-	public MyAdapter(Context context, ArrayList<Personal> listItem) {
+	public MyAdapterMember(Context context, ArrayList<Personal> listItem) {
 		super(context);
 		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
@@ -92,7 +92,7 @@ public class MyAdapter extends SlideBaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+		final ViewHolder holder;
 		Log.v("BaseAdapterTest", "getView " + position + " " + convertView);
 
 		if (convertView == null) {
@@ -119,16 +119,14 @@ public class MyAdapter extends SlideBaseAdapter {
 		if (listItem.get(position).getEdit_jf().equals("1")) {
 			holder.jf.setVisibility(View.INVISIBLE);
 			holder.yjf.setVisibility(View.VISIBLE);
-		}
-		else
-		{
+		} else {
 			holder.jf.setVisibility(View.VISIBLE);
 			holder.yjf.setVisibility(View.INVISIBLE);
 		}
 		if (listItem.get(position).getEdit_gmcfzh().equals(listItem.get(position).getHZSFZ())) {
 			holder.icon.setVisibility(View.VISIBLE);
 			holder.icon2.setVisibility(View.INVISIBLE);
-		}else {
+		} else {
 			holder.icon.setVisibility(View.INVISIBLE);
 			holder.icon2.setVisibility(View.VISIBLE);
 		}
@@ -147,11 +145,25 @@ public class MyAdapter extends SlideBaseAdapter {
 		if (holder.delete != null) {
 			holder.delete.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {				
-					db.deletePersonal(listItem.get(position));
-					listItem.remove(position);
-					notifyDataSetChanged();
-					Toast.makeText(mContext, "Click delete:" + position, Toast.LENGTH_SHORT).show();
+				public void onClick(View v) {
+					new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除人员")
+							.setContentText(
+									holder.name.getText().toString() + "   " + holder.gmsfzh.getText().toString())
+							.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
+							.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+								@Override
+								public void onClick(SweetAlertDialog sDialog) {
+									db.deletePersonal(listItem.get(position));
+									listItem.remove(position);
+									notifyDataSetChanged();
+									sDialog.dismissWithAnimation();
+								}
+							}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+								@Override
+								public void onClick(SweetAlertDialog sDialog) {
+									sDialog.cancel();
+								}
+							}).show();
 				}
 			});
 		}

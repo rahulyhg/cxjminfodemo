@@ -16,6 +16,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import com.neuqsoft.cxjmcj.R;
+import com.dou361.dialogui.DialogUIUtils;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
@@ -28,6 +29,7 @@ import com.neuqsoft.cxjmcj.utils.PersonalUtil;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +46,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @Title InfoFamilyActivity
@@ -77,6 +80,7 @@ public class InfoFamilyActivity extends Activity {
 
 	@Bind(R.id.edit_gmcfzh)
 	EditText edit_gmcfzh;
+	Activity activity;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -85,7 +89,7 @@ public class InfoFamilyActivity extends Activity {
 		ButterKnife.bind(InfoFamilyActivity.this);
 		mgr = new DBManager(this);
 		calendar = Calendar.getInstance();
-
+		activity = this;
 		initView();
 		/*
 		 * Handler mHandler = new Handler(); Runnable r = new Runnable() {
@@ -131,12 +135,27 @@ public class InfoFamilyActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-					if (res!= "") {
+					if (res == "") {
+						// 新增狀態
+						if (hasTemp.equals("0")) {
+							Boolean hasFamily = false;
+							for (Family tem : mgr.queryFamily()) {
+								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
+									// 数据库已存在
+									new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+											.setTitleText("已存在该家庭").setContentText(tem.getEdit_hzxm() + "\n"
+													+ tem.edit_gmcfzh + "\n" + "登记日期：" + tem.edit_djrq)
+											.setConfirmText("我知道了").show();
+									hasFamily = true;
+									revert();
+									break;
+								}
+							}
+						}
+					} else
 						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
-					}
-				}
 
+				}
 				if (temp.length() > charMaxNum) {
 					s.delete(editStart - 1, editEnd);
 					int tempSelection = editStart;
@@ -158,14 +177,6 @@ public class InfoFamilyActivity extends Activity {
 		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		hasTemp = bundle.getString("hasTemp");
 		if (hasTemp.equals("1")) {
-			String str = bundle.getString("Family");
-			tempFamily = gson.fromJson(str, Family.class);
-			edit_hzxm.setText(tempFamily.getEdit_hzxm());
-			edit_yzbm.setText(tempFamily.getEdit_yzbm());
-			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
-			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
-		}
-		if (hasTemp.equals("2")) {
 			String str = bundle.getString("Family");
 			tempFamily = gson.fromJson(str, Family.class);
 			edit_hzxm.setText(tempFamily.getEdit_hzxm());
@@ -293,7 +304,9 @@ public class InfoFamilyActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
-			if (resultCode == Activity.RESULT_OK) {
+			if (data == null)
+				return;
+			else if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
 				try {
 					// 解析xml
@@ -319,14 +332,10 @@ public class InfoFamilyActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				edit_hzxm.setText(name);
 				edit_gmcfzh.setText(cardno);
 				edit_hkxxdz.setText(address);
-
 			}
-
-			break;
 		default:
 			break;
 		}
@@ -334,9 +343,9 @@ public class InfoFamilyActivity extends Activity {
 
 	Runnable r = new Runnable() {
 		public void run() {
-			// 先删数据
-			if (hasTemp.equals("2"))
-				mgr.deleteFamily(tempFamily);
+			// 更新数据
+			if (hasTemp.equals("1"))
+				mgr.updateFamily(tempFamily);
 			getDataFromEdit();
 			ArrayList<Family> familys = new ArrayList<Family>();
 			Family family = new Family();
@@ -358,7 +367,13 @@ public class InfoFamilyActivity extends Activity {
 			Intent intent = new Intent(InfoFamilyActivity.this, InfoMainActivity.class);
 			intent.putExtra("Family", str);
 			setResult(RESULT_OK, intent); // intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
-			finish();
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE).setTitleText("保存成功").show();
+				}
+			});
 		}
 	};
 
@@ -369,15 +384,28 @@ public class InfoFamilyActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
-		else if (res != "")
+		else if (!res.equals(""))
 			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-		else
+		else {
 			mHandler.post(r);
-
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					finish();
+				}
+			}).start();
+		}
 	}
-	
+
 	@OnClick(R.id.btn_revert)
-	public void revert(){
+	public void revert() {
 		edit_hzxm.setText("");
 		edit_lxdh.setText("");
 		edit_dzyx.setText("");
@@ -385,7 +413,7 @@ public class InfoFamilyActivity extends Activity {
 		edit_cjqtbxrs.setText("");
 		edit_hkxxdz.setText("");
 		// spinner
-		edit_jhzzjlx.setSelection(0,true);
+		edit_jhzzjlx.setSelection(0, true);
 		edit_gmcfzh.setText("");
 	}
 
