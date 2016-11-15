@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.http.entity.StringEntity;
 
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.config.BuildBean;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -17,12 +19,14 @@ import com.neuqsoft.cxjmcj.dto.User;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
 import com.neuqsoft.cxjmcj.utils.LoadingDialog;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -34,7 +38,6 @@ import android.widget.TextView;
  * @author tengzj
  * @data 2016年8月23日 下午4:52:12
  */
-@SuppressWarnings({ "deprecation" })
 public class LoginActivity extends Activity {
 
 	private DBManager mgr;
@@ -50,7 +53,9 @@ public class LoginActivity extends Activity {
 	private String passWord;
 
 	private SharedPreferences tokenSp;
-	Context activity;
+	Activity activity;
+	Context context;
+	BuildBean build;
 
 	/********** INITIALIZES *************/
 
@@ -63,16 +68,18 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		context = getApplication();
 		setContentView(R.layout.activity_login);
-		activity = this;
-		utils = new HttpUtils(1000);
+		DialogUIUtils.init(context);
+		DialogUIUtils.showToastTie(activity, "登录失败，请重试").show();
+		
+	/*	activity = this;
+		utils = new HttpUtils(3000);
 		gson = new Gson();
 		mgr = new DBManager(this);
-
 		// mgr.addUser(users);
 		initView();
-		initData();
-
+		initData();*/
 	}
 
 	/*
@@ -96,11 +103,34 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				userName = edit_user.getText().toString().trim();
 				passWord = edit_pw.getText().toString().trim();
+				DialogUIUtils.showToastLong("登录失败，请重试");
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+
+					}
+				});
 
 				/** 网络登陆 */
 				loginfromnet();
-
+				/*
+				 * final Handler handler = new Handler() { public void
+				 * handleMessage(Message msg) { // 下载失败 if (msg.what == 0) {
+				 * build = DialogUIUtils.showToastTie(activity, "登录失败，请重试");
+				 * build.show(); } } };
+				 * 
+				 * new Thread(new Runnable() {
+				 * 
+				 * @Override public void run() { // TODO Auto-generated method
+				 * stub try { Thread.sleep(4000); } catch (InterruptedException
+				 * e) { // TODO Auto-generated catch block e.printStackTrace();
+				 * } build.dialog.dismiss(); handler.sendEmptyMessage(0); }
+				 * 
+				 * }).start();
+				 */
 			}
+
 		});
 
 	}
@@ -123,7 +153,6 @@ public class LoginActivity extends Activity {
 		String jsonStr = gson.toJson(userDTO);
 
 		params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-
 		utils.send(HttpMethod.POST, RcConstant.loginPath, params, new RequestCallBack<String>() {
 			// 请求失败调用次方法
 
@@ -131,11 +160,9 @@ public class LoginActivity extends Activity {
 			public void onFailure(HttpException error, String msg) {
 				int exceptionCode = error.getExceptionCode();
 				if (exceptionCode == 0) {
-
 					loginfromlocal();
 				} else if (exceptionCode == 406) {
 					ToastUtil.showShort(getApplicationContext(), "用户名或密码错误！");
-
 				}
 			}
 
@@ -150,8 +177,7 @@ public class LoginActivity extends Activity {
 				System.out.println("输出结果为" + token);
 
 				/** --------进入选择页面-------- */
-				enterInfo();
-				ToastUtil.showShort(getApplicationContext(), "有网络连接，在线登陆！");
+				enterInfo("在线登陆");
 				insertUser();
 			}
 
@@ -166,8 +192,7 @@ public class LoginActivity extends Activity {
 		List<User> queryUser = mgr.queryUser();
 		for (User user : queryUser) {
 			if (user.username.equals(userName) && user.password.equals(passWord)) {
-				enterInfo();
-				ToastUtil.showShort(this, "无网络连接，离线登陆！");
+				enterInfo("离线登陆");
 				// } else if (!user.username.equals(userName) ||
 				// !user.password.equals(passWord)) {
 				// ToastUtil.showShort(this, "用户名或密码错误！");
@@ -194,11 +219,12 @@ public class LoginActivity extends Activity {
 
 	// 2016年10月19日14:36:23
 
-	protected void enterInfo() {
+	protected void enterInfo(String info) {
 		// LoadingDialog ld = new LoadingDialog(this);
 		// ld.show();
 		Intent intent = new Intent(this, MainActivity.class);
-	    intent.putExtra("userName", userName);
+		intent.putExtra("userName", userName);
+		intent.putExtra("info", info);
 		startActivity(intent);
 		finish();
 	}

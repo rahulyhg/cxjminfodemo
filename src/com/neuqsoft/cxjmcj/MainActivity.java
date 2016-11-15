@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.config.BuildBean;
+import com.dou361.dialogui.listener.DialogUIListener;
 import com.neuqsoft.cxjmcj.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,8 +46,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -56,6 +61,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import info.hoang8f.widget.FButton;
 
+@SuppressLint("HandlerLeak")
 public class MainActivity extends Activity {
 	ExpandableLayoutListView listview;
 	// image_sjsc
@@ -72,15 +78,40 @@ public class MainActivity extends Activity {
 	static int itemIndex;
 	private List<UserDetail> queryUserDetail;
 	private String userName;
+	BuildBean build;
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		activity = this;
-		//取值
+		// 取值
 		Intent intent = getIntent();
 		userName = intent.getStringExtra("userName");
+		String info = intent.getStringExtra("info");
+		if (info.equals("在线登录")) {
+			this.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登陆成功，加载中...");
+					build.show();
+				}
+			});
+		} else {
+			this.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登陆成功，加载中...");
+					build.show();
+				}
+			});
+		}
+
 		db = new DBManager(this);
 		ButterKnife.bind(MainActivity.this);
 		/** ------请求数据---------------- */
@@ -98,6 +129,20 @@ public class MainActivity extends Activity {
 		oldMap = new TextToMap().TextToMap(inputStream);
 		/** ------从本地请求数据---------------- */
 		getDataFromlocal();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+			}
+		}).start();
 		/** --------注销返回到登陆界面-------------- */
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
@@ -108,6 +153,17 @@ public class MainActivity extends Activity {
 				finish();
 			}
 		});
+	}
+
+	private void setSimulateClick(View view, float x, float y) {
+		long downTime = SystemClock.uptimeMillis();
+		final MotionEvent downEvent = MotionEvent.obtain(downTime, downTime, MotionEvent.ACTION_DOWN, x, y, 0);
+		downTime += 1000;
+		final MotionEvent upEvent = MotionEvent.obtain(downTime, downTime, MotionEvent.ACTION_UP, x, y, 0);
+		view.onTouchEvent(downEvent);
+		view.onTouchEvent(upEvent);
+		downEvent.recycle();
+		upEvent.recycle();
 	}
 
 	@Override
@@ -121,8 +177,7 @@ public class MainActivity extends Activity {
 		adapter = new MyAdapter(queryUserDetail);
 		listview.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
-		ToastUtil.showShort(getApplicationContext(), "数据已经加载");
-
+		// 加载完后隐藏加载框
 	}
 
 	/**
@@ -312,6 +367,8 @@ public class MainActivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
+								DialogUIUtils.init(activity);
+								DialogUIUtils.showToastTie(activity, "下载失败...").show();
 							}
 						});
 					}
@@ -331,6 +388,8 @@ public class MainActivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
+								DialogUIUtils.init(activity);
+								DialogUIUtils.showToastTie(activity, "上传失败...").show();
 							}
 						});
 					}
@@ -410,7 +469,7 @@ public class MainActivity extends Activity {
 			for (UserDetail userDetail : queryUserDetail) {
 				cjarea2 = userDetail.getCjarea();
 				if (cjarea.equals(cjarea2)) {
-					//是否已下載
+					// 是否已下載
 					if (userDetail.downloadflag.equals("1")) {
 						holder.upload.setVisibility(View.VISIBLE);
 						holder.download.setText("录 入");
@@ -437,7 +496,7 @@ public class MainActivity extends Activity {
 					if (userDetail.uploadflag.equals("1")) {
 						handler.sendEmptyMessage(3);
 					}
-				}		
+				}
 			}
 
 			// 50旋转 100录入 0上传
@@ -455,11 +514,11 @@ public class MainActivity extends Activity {
 					}
 					while (http.isAlive) {
 					}
-					if (http.isError)
+					if (http.isError) {
 						handler.sendEmptyMessage(0);
-					else
+					} else
 						handler.sendEmptyMessage(4);
-
+					build.dialog.dismiss();
 				}
 			};
 
@@ -482,10 +541,11 @@ public class MainActivity extends Activity {
 					}
 					while (http.isAlive) {
 					}
-					if (http.isError)
+					if (http.isError) {
 						handler.sendEmptyMessage(2);
-					else
+					} else
 						handler.sendEmptyMessage(3);
+					build.dialog.dismiss();
 				}
 			};
 
@@ -493,8 +553,20 @@ public class MainActivity extends Activity {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void onClick(View v) {
+
 					if (holder.download.getText().toString().equals("下 载")) {
-						// 下载
+						// 加载框
+						((MainActivity) activity).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								DialogUIUtils.init(activity);
+								build = DialogUIUtils.showLoadingHorizontal(activity, "正在下载...");
+								build.show();
+							}
+						});
+
+						// 下载线程
 						new Thread(down_run).start();
 					} else {
 						// 录入
@@ -508,7 +580,23 @@ public class MainActivity extends Activity {
 			holder.upload.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					new Thread(up_run).start();
+					DialogUIUtils.init(activity);
+					DialogUIUtils.showAlertHorizontal(activity, "警告", "每个乡镇只能上传一次，上传结束后不可再录入/n是否上传？",
+							new DialogUIListener() {
+								@Override
+								public void onPositive() {
+									DialogUIUtils.init(activity);
+									build = DialogUIUtils.showLoadingHorizontal(activity, "正在上传...");
+									build.show();
+									new Thread(up_run).start();
+								}
+
+								@Override
+								public void onNegative() {
+
+								}
+
+							}).show();
 				}
 			});
 			return convertView;
