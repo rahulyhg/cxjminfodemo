@@ -71,8 +71,6 @@ public class InfoPersonalActivity extends Activity {
 	private TextView edit_csrq;
 	private TextView edit_xxjzdz;
 	private LinearLayout btn_save;
-	private LinearLayout btn_xjzf;
-	private LinearLayout btn_zxzf;
 
 	private Spinner edit_zjlx;
 	private Spinner edit_xb;
@@ -113,7 +111,13 @@ public class InfoPersonalActivity extends Activity {
 	@Bind(R.id.btn_xyg)
 	FButton btn_xyg;
 
+	@Bind(R.id.img_xjzf)
+	ImageView img_xjzf;
+	@Bind(R.id.btn_xjzf)
+	FButton btn_xjzf;
 	Activity activity;
+
+	Boolean tip_xjzf = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -330,7 +334,6 @@ public class InfoPersonalActivity extends Activity {
 						: (calendar.get(Calendar.MONTH) + 1))
 				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
-
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
 
@@ -444,6 +447,14 @@ public class InfoPersonalActivity extends Activity {
 			edit_cbrylb.setSelection(11, true);
 		if (cbrylb.equals("普通中小学生"))
 			edit_cbrylb.setSelection(12, true);
+
+		if (personal.getEdit_jf().equals("1")) {
+			btn_xjzf.setText("取消支付");
+			img_xjzf.setVisibility(View.VISIBLE);
+		} else {
+			btn_xjzf.setText("现金支付");
+			img_xjzf.setVisibility(View.GONE);
+		}
 	}
 
 	@OnItemSelected(R.id.edit_yhzgx)
@@ -491,23 +502,32 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_xjzf)
 	public void xjzf() {
-		new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("现金支付选项").setConfirmText("已支付")
-				.showCancelButton(true).setCancelText("未支付")
-				.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-					@Override
-					public void onClick(SweetAlertDialog sDialog) {
-						tempPersonal.setEdit_jf("1");
-						sDialog.dismissWithAnimation();
-						save();
-					}
-				}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-					@Override
-					public void onClick(SweetAlertDialog sDialog) {
-						tempPersonal.setEdit_jf("0");
-						sDialog.cancel();
-						save();
-					}
-				}).show();
+		/*
+		 * new SweetAlertDialog(activity,
+		 * SweetAlertDialog.WARNING_TYPE).setTitleText("现金支付选项").setConfirmText(
+		 * "已支付") .showCancelButton(true).setCancelText("未支付")
+		 * .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener()
+		 * {
+		 * 
+		 * @Override public void onClick(SweetAlertDialog sDialog) {
+		 * tempPersonal.setEdit_jf("1"); sDialog.dismissWithAnimation(); save();
+		 * } }).setCancelClickListener(new
+		 * SweetAlertDialog.OnSweetClickListener() {
+		 * 
+		 * @Override public void onClick(SweetAlertDialog sDialog) {
+		 * tempPersonal.setEdit_jf("0"); sDialog.cancel(); save(); } }).show();
+		 */
+		tip_xjzf = true;
+		if (btn_xjzf.getText().toString().equals("现金支付")) {
+			tempPersonal.setEdit_jf("1");
+			save();
+			img_xjzf.setVisibility(View.VISIBLE);
+		} else {
+			tempPersonal.setEdit_jf("0");
+			save();
+			img_xjzf.setVisibility(View.GONE);
+		}
+
 	}
 
 	Runnable r = new Runnable() {
@@ -576,7 +596,8 @@ public class InfoPersonalActivity extends Activity {
 						e.printStackTrace();
 					}
 					dialog.dismiss();
-					revert();
+					if (!tip_xjzf)
+						revert();
 				}
 			}).start();
 		}
@@ -643,7 +664,6 @@ public class InfoPersonalActivity extends Activity {
 							folk = item.elementTextTrim("folk");
 							birthday = item.elementTextTrim("birthday");
 							address = item.elementTextTrim("address");
-
 							Log.i(tag, cardno);
 						}
 					}
