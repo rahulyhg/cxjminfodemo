@@ -72,6 +72,20 @@ public class LoginActivity extends Activity {
 		context = getApplication();
 		setContentView(R.layout.activity_login);
 		DialogUIUtils.init(context);
+		Intent intent = getIntent();
+		int cancel = intent.getIntExtra("cancel", -1);
+		if (cancel == 0) {
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+
+					// TODO Auto-generated method stub
+					build = DialogUIUtils.showLoadingHorizontal(activity, "注销中。。。");
+					build.show();
+					delay(1000);
+				}
+			});
+		}
 
 		activity = this;
 		utils = new HttpUtils(3000);
@@ -80,6 +94,7 @@ public class LoginActivity extends Activity {
 		// mgr.addUser(users);
 		initView();
 		initData();
+
 	}
 
 	/*
@@ -103,46 +118,10 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				userName = edit_user.getText().toString().trim();
 				passWord = edit_pw.getText().toString().trim();
-				// 显示加载框
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						build = DialogUIUtils.showLoadingHorizontal(activity, "登陆中...");
-						build.show();
-					}
-
-				});
-
 				/** 网络登陆 */
+				showloading();
 				loginfromnet();
-				// 4S后登录失败
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						// 登录等待4S
-						try {
-							Thread.sleep(4000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						build.dialog.dismiss();
-						// 必须加在UI线程中 不然报错
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								// Toast.makeText(getApplicationContext(),
-								// "登录失败，请重试", Toast.LENGTH_SHORT).show();
-								
-							}
-
-						});
-					}
-
-				}).start();
+				
 			}
 		});
 
@@ -173,12 +152,10 @@ public class LoginActivity extends Activity {
 			public void onFailure(HttpException error, String msg) {
 				int exceptionCode = error.getExceptionCode();
 				if (exceptionCode == 0) {
+					// showloading();
 					loginfromlocal();
 				} else if (exceptionCode == 406) {
-					// ToastUtil.showShort(getApplicationContext(),
-					// "用户名或密码错误！");
-					DialogUIUtils.init(activity);
-					DialogUIUtils.showLoadingHorizontal(activity, "登录失败，请重试！...", true).show();
+					waitToast("密码错误，请重新输入！");
 				}
 			}
 
@@ -193,27 +170,73 @@ public class LoginActivity extends Activity {
 				System.out.println("输出结果为" + token);
 
 				/** --------进入选择页面-------- */
-				enterInfo("在线登陆");
+				// showloading();
+				enterInfo(0);
 				insertUser();
 			}
-
 		});
 
+	}
+	
+
+	protected void loginfromlocal() {
+		int quer = mgr.Quer(passWord, userName);
+		if (quer == 1) {
+			enterInfo(1);
+		} else if (quer == -1) {
+
+			waitToast("密码错误，请重新输入！");
+
+		} else if (quer == 0) {
+			// 4S后登录失败
+			waitToast("登录失败，请检查网络！");
+
+		}
+	}
+
+	private void waitToast(final String msg) {
+		// TODO Auto-generated method stub
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				// 登录等待2S
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// 必须加在UI线程中 不然报错
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+					}
+
+				});
+			}
+
+		}).start();
 	}
 
 	/**
 	 * 本地登录 时间：2016年11月8日16:27:45
 	 */
-	protected void loginfromlocal() {
-		List<User> queryUser = mgr.queryUser();
-		for (User user : queryUser) {
-			if (user.username.equals(userName) && user.password.equals(passWord)) {
-				enterInfo("离线登陆");
-				// } else if (!user.username.equals(userName) ||
-				// !user.password.equals(passWord)) {
-				// ToastUtil.showShort(this, "用户名或密码错误！");
+
+	protected void showloading() {
+		activity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				build = DialogUIUtils.showLoadingHorizontal(activity, "登陆中...");
+				build.show();
+				delay(2000);
 			}
-		}
+
+		});
 	}
 
 	/** 把登陆信息存到数据库 */
@@ -235,15 +258,31 @@ public class LoginActivity extends Activity {
 
 	// 2016年10月19日14:36:23
 
-	protected void enterInfo(String info) {
+	protected void enterInfo(int info) {
 		// LoadingDialog ld = new LoadingDialog(this);
 		// ld.show();
-		build.dialog.dismiss();
+		/// build.dialog.dismiss();
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("userName", userName);
 		intent.putExtra("info", info);
 		startActivity(intent);
 		finish();
+	}
+
+	protected void delay(final int time) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+			}
+		}).start();
 	}
 
 	@Override

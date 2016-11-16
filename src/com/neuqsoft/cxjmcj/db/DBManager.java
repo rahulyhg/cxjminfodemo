@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.neuqsoft.cxjmcj.R;
@@ -247,6 +248,24 @@ public class DBManager {
 		return users;
 	}
 
+	public int Quer(String pwd, String name) {
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		Cursor cursor = db.rawQuery("select * from user where username=?", new String[] { name });
+		// hashmap.put("name",db.rawQuery("select * from User where name=?",new
+		// String[]{name}).toString());
+		if (cursor.getCount() > 0) {
+			Cursor pwdcursor = db.rawQuery("select * from user where password=? and username=?",
+					new String[] { pwd, name });
+			if (pwdcursor.getCount() > 0) {
+				return 1;
+			} else {
+				return -1;
+			}
+		} else {
+			return 0;
+		}
+	}
+
 	public List<UserDetail> queryUserDetail(String variable) {
 		ArrayList<UserDetail> UserDetails = new ArrayList<UserDetail>();
 		Cursor c = db.rawQuery("SELECT * FROM userdetail where account='" + variable + "'", null);
@@ -411,7 +430,7 @@ public class DBManager {
 		return account1;
 
 	}
-	
+
 	public String query_user(Context context, String variable) {
 		String userName = "";
 		String sql = " Select * from user where username='" + variable + "'";
@@ -427,8 +446,6 @@ public class DBManager {
 		return userName;
 
 	}
-	
-	
 
 	// 下载标志位置1/上传标志位置1/2016年11月2日10:44:30
 	public void update_df(Context context, String Code, String flag) {

@@ -89,8 +89,8 @@ public class MainActivity extends Activity {
 		// 取值
 		Intent intent = getIntent();
 		userName = intent.getStringExtra("userName");
-		String info = intent.getStringExtra("info");
-		if (info.equals("在线登录")) {
+		int info = intent.getIntExtra("info", -1);
+		if (info == 0) {
 			this.runOnUiThread(new Runnable() {
 
 				@Override
@@ -98,6 +98,7 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登陆成功，加载中...");
 					build.show();
+					delay(3000);
 				}
 			});
 		} else {
@@ -108,6 +109,7 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登陆成功，加载中...");
 					build.show();
+					delay(3000);
 				}
 			});
 		}
@@ -196,9 +198,6 @@ public class MainActivity extends Activity {
 		httpUtils.send(HttpMethod.GET, RcConstant.usertasksPath, params1, new RequestCallBack<String>() {
 			@Override
 			public void onFailure(HttpException error, String msg) {
-				Log.e("AAA-msg", msg);
-				Log.e("AAA-error", error.getMessage());
-				System.out.println("===msg:" + msg);
 			}
 
 			@Override
@@ -570,6 +569,15 @@ public class MainActivity extends Activity {
 						new Thread(down_run).start();
 					} else {
 						// 录入
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								delay(800);
+								// TODO Auto-generated method stub
+								build = DialogUIUtils.showLoadingHorizontal(activity, "加载中。。。");
+								build.show();
+							}
+						});
 						Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
 						intent.putExtra("XZQH",cjarea);
 						startActivityForResult(intent, CBDJ);
@@ -594,15 +602,29 @@ public class MainActivity extends Activity {
 
 								@Override
 								public void onNegative() {
-
 								}
-
 							}).show();
 				}
 			});
 			return convertView;
 		}
 
+	}
+	
+	protected void delay(final int time) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+			}
+		}).start();
 	}
 
 }
