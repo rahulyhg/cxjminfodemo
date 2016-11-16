@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 import com.dou361.dialogui.DialogUIUtils;
 import com.dou361.dialogui.config.BuildBean;
 import com.dou361.dialogui.listener.DialogUIListener;
@@ -59,11 +58,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import info.hoang8f.widget.FButton;
 
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity {
-	ExpandableLayoutListView listview;
+	ListView listview;
 	// image_sjsc
 	public static final int CBDJ = 101;
 	MyAdapter adapter;
@@ -124,7 +124,7 @@ public class MainActivity extends Activity {
 		text_user = (TextView) findViewById(R.id.text_user);
 		title_local = (TextView) findViewById(R.id.title_local);
 		title_num = (TextView) findViewById(R.id.title_num);
-		listview = (ExpandableLayoutListView) findViewById(R.id.listView);
+		listview = (ListView) findViewById(R.id.listView);
 		/** --------初始化数据----------------- */
 
 		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				build = DialogUIUtils.showLoadingHorizontal(activity, "注销中...");
-				build.show();						
+				build.show();
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -148,7 +148,7 @@ public class MainActivity extends Activity {
 							e.printStackTrace();
 						}
 						build.dialog.dismiss();
-						activity.runOnUiThread(new Runnable(){
+						activity.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
@@ -156,9 +156,10 @@ public class MainActivity extends Activity {
 							}
 						});
 						Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-						startActivity(intent);					
+						startActivity(intent);
+						finish();
 					}
-				}).start();			
+				}).start();
 			}
 		});
 	}
@@ -372,8 +373,8 @@ public class MainActivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
-								DialogUIUtils.init(activity);
-								DialogUIUtils.showToastTie(activity, "下载失败...").show();
+								new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("下载失败...")
+										.show();
 							}
 						});
 					}
@@ -393,8 +394,8 @@ public class MainActivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
-								DialogUIUtils.init(activity);
-								DialogUIUtils.showToastTie(activity, "上传失败...").show();
+								new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("上传失败...")
+										.show();
 							}
 						});
 					}
@@ -419,6 +420,7 @@ public class MainActivity extends Activity {
 								holder.top1.setBackgroundResource(R.drawable.top31);
 								holder.top.setBackgroundResource(R.drawable.top3);
 								holder.list.setImageResource(R.drawable.list3);
+								holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
 
 								holder.center.setBackgroundResource(R.drawable.center3);
 								holder.bottom.setImageResource(R.drawable.bottom3);
@@ -454,6 +456,7 @@ public class MainActivity extends Activity {
 								holder.top1.setBackgroundResource(R.drawable.top21);
 								holder.top.setBackgroundResource(R.drawable.top2);
 								holder.list.setImageResource(R.drawable.list2);
+								holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
 
 								holder.center.setBackgroundResource(R.drawable.center2);
 								holder.bottom.setImageResource(R.drawable.bottom2);
@@ -522,6 +525,7 @@ public class MainActivity extends Activity {
 					if (http.isError) {
 						handler.sendEmptyMessage(0);
 					} else
+						// 下载成功
 						handler.sendEmptyMessage(4);
 					build.dialog.dismiss();
 				}
@@ -549,6 +553,7 @@ public class MainActivity extends Activity {
 					if (http.isError) {
 						handler.sendEmptyMessage(2);
 					} else
+						// 上传成功
 						handler.sendEmptyMessage(3);
 					build.dialog.dismiss();
 				}
@@ -580,12 +585,12 @@ public class MainActivity extends Activity {
 							public void run() {
 								delay(800);
 								// TODO Auto-generated method stub
-								build = DialogUIUtils.showLoadingHorizontal(activity, "加载中。。。");
+								build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");
 								build.show();
 							}
 						});
 						Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
-						intent.putExtra("XZQH",cjarea);
+						intent.putExtra("XZQH", cjarea);
 						startActivityForResult(intent, CBDJ);
 						pos = position;
 					}
@@ -595,19 +600,23 @@ public class MainActivity extends Activity {
 			holder.upload.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					DialogUIUtils.init(activity);
-					DialogUIUtils.showAlertHorizontal(activity, "警告", "每个乡镇只能上传一次，上传结束后不可再录入/n是否上传？",
-							new DialogUIListener() {
+					new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("警告")
+							.setContentText("每个乡镇仅限上传一次\n上传成功后将无法录入\n").setConfirmText("上传").setCancelText("取消")
+							.showCancelButton(true)
+							.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 								@Override
-								public void onPositive() {
-									DialogUIUtils.init(activity);
-									build = DialogUIUtils.showLoadingHorizontal(activity, "正在上传...");
+								public void onClick(SweetAlertDialog sDialog) {
+									sDialog.dismissWithAnimation();
+									build = DialogUIUtils.showLoadingHorizontal(activity, "上传中...");
 									build.show();
 									new Thread(up_run).start();
 								}
+							})
 
+							.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
 								@Override
-								public void onNegative() {
+								public void onClick(SweetAlertDialog sDialog) {
+									sDialog.cancel();
 								}
 							}).show();
 				}
@@ -616,7 +625,7 @@ public class MainActivity extends Activity {
 		}
 
 	}
-	
+
 	protected void delay(final int time) {
 		new Thread(new Runnable() {
 			@Override

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:expandable="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <com.andexert.expandablelayout.library.ExpandableLayoutItem
-        android:id="@+id/row"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        expandable:el_contentLayout="@layout/view_content"
-        expandable:el_headerLayout="@layout/view_header" 
-        expandable:el_bottomLayout="@layout/view_bottom"
-        />
+    <include layout="@layout/view_header" />
 
-</RelativeLayout>
+    <include layout="@layout/view_content" />
+
+    <include layout="@layout/view_bottom" />
+
+</LinearLayout>
