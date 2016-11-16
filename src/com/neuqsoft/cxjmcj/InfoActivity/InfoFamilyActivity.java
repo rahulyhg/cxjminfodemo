@@ -81,11 +81,14 @@ public class InfoFamilyActivity extends Activity {
 	@Bind(R.id.edit_gmcfzh)
 	EditText edit_gmcfzh;
 	Activity activity;
+	Bundle bundle;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_family);
+		Intent intent = getIntent();
+		bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		ButterKnife.bind(InfoFamilyActivity.this);
 		mgr = new DBManager(this);
 		calendar = Calendar.getInstance();
@@ -185,8 +188,6 @@ public class InfoFamilyActivity extends Activity {
 	 */
 	private void setSampleFamily() {
 		// TODO Auto-generated method stub
-		Intent intent = getIntent();
-		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		hasTemp = bundle.getString("hasTemp");
 		if (hasTemp.equals("1")) {
 			String str = bundle.getString("Family");
@@ -368,6 +369,7 @@ public class InfoFamilyActivity extends Activity {
 			family.setEdit_lxdh(tempFamily.edit_lxdh);
 			family.setEdit_djrq(tempFamily.edit_djrq);
 			family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
+			family.setXzqh(bundle.getString("XZQH"));
 			familys.add(family);
 			mgr.addFamily(familys);
 

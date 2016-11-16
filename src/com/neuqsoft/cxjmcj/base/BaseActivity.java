@@ -241,14 +241,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 				});
 				mSearchView.setAdapter(searchAdapter);
 			}
-
-			/*
-			 * List<SearchFilter> filter = new ArrayList<>(); filter.add(new
-			 * SearchFilter("Filter1", true)); filter.add(new
-			 * SearchFilter("Filter2", true)); mSearchView.setFilters(filter);
-			 * //use mSearchView.getFiltersStates() to consider filter when
-			 * performing search
-			 */
 		}
 	}
 

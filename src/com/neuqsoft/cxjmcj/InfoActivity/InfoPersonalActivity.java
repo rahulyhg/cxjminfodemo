@@ -576,6 +576,7 @@ public class InfoPersonalActivity extends Activity {
 						e.printStackTrace();
 					}
 					dialog.dismiss();
+					revert();
 				}
 			}).start();
 		}
@@ -583,23 +584,31 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_xyg)
 	public void revert() {
-		if (HZSFZedit != "") {
-			setContent(editPersonal);
-		} else {
-			edit_cbrxm.setText("");
-			edit_gmcfzh.setText("");
-			/* edit_xb.setText(""); */
-			edit_csrq.setText("");
-			edit_yhzgx.setSelection(1, true);
-			edit_xxjzdz.setText("");
+		this.runOnUiThread(new Runnable() {
 
-			edit_zjlx.setSelection(0, true);
-			edit_mz.setSelection(0, true);
-			edit_xb.setSelection(0, true);
-			edit_cbrylb.setSelection(0, true);
-			edit_hkxz.setSelection(1, true);
-			edit_lxdh.setText("");
-		}
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if (HZSFZedit != "") {
+					setContent(editPersonal);
+				} else {
+					edit_cbrxm.setText("");
+					edit_gmcfzh.setText("");
+					/* edit_xb.setText(""); */
+					edit_csrq.setText("");
+					edit_yhzgx.setSelection(1, true);
+					edit_xxjzdz.setText("");
+
+					edit_zjlx.setSelection(0, true);
+					edit_mz.setSelection(0, true);
+					edit_xb.setSelection(0, true);
+					edit_cbrylb.setSelection(0, true);
+					edit_hkxz.setSelection(1, true);
+					edit_lxdh.setText("");
+				}
+			}
+
+		});
 	}
 
 	@OnClick(R.id.btn_camera)

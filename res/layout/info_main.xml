@@ -22,14 +22,28 @@
                 android:scaleType="center"
                 android:src="@drawable/left" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="参保登记"
-                android:textColor="#ffffff"
-                android:textSize="20sp" >
-            </TextView>
+                android:layout_centerInParent="true" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="参保登记"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/title_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(共某村)"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" >
+                </TextView>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout

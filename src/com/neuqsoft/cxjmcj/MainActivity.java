@@ -571,6 +571,7 @@ public class MainActivity extends Activity {
 					} else {
 						// Â¼Èë
 						Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
+						intent.putExtra("XZQH",cjarea);
 						startActivityForResult(intent, CBDJ);
 						pos = position;
 					}

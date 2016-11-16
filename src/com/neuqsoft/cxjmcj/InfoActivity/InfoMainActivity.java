@@ -5,11 +5,13 @@
  */
 package com.neuqsoft.cxjmcj.InfoActivity;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -35,6 +37,7 @@ import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.utils.FamilyUtil;
 import com.neuqsoft.cxjmcj.utils.IDCard;
 import com.neuqsoft.cxjmcj.utils.LoadingDialog;
+import com.neuqsoft.cxjmcj.utils.TextToMap;
 import com.roamer.slidelistview.SlideListView;
 
 import android.app.Activity;
@@ -58,6 +61,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @Title InfoMainActivity
@@ -67,17 +71,6 @@ import butterknife.OnClick;
 public class InfoMainActivity extends BaseActivity {
 
 	/********** DECLARES *************/
-	/*
-	 * private ImageView image_left; private EditText edit_num; private
-	 * ScrollView ScrollView; private com.example.cxjminfodemo.NoScrollListView
-	 * listView1;
-	 * 
-	 * image_left = (ImageView) findViewById(R.id.image_left); edit_num =
-	 * (EditText) findViewById(R.id.edit_num); ScrollView = (ScrollView)
-	 * findViewById(R.id.ScrollView); listView1 =
-	 * (com.example.cxjminfodemo.NoScrollListView) findViewById(R.id.listView1);
-	 * Please visit http://www.ryangmattison.com for updates
-	 */
 	Activity activity;
 	BuildBean build;
 	private static final String tag = "InfoMainActivity";
@@ -106,6 +99,7 @@ public class InfoMainActivity extends BaseActivity {
 	public static MyAdapterMember adapterMember;
 	public static MyAdapterFamily adapterFamily;
 	Gson gson = new Gson();
+	Map<String, String> oldMap;
 
 	private String name = "";
 
@@ -126,11 +120,19 @@ public class InfoMainActivity extends BaseActivity {
 	@Bind(R.id.line)
 	public LinearLayout line;
 
+	String XZQH;
+
+	@Bind(R.id.title_num)
+	TextView title_num;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
 		activity = this;
+		Intent intent = getIntent();
+		XZQH = intent.getStringExtra("XZQH");
+		getIntent().removeExtra("XZQH");
 		((BaseActivity) (getParent()))._sonActivity = InfoMainActivity.this;
 		this._sonActivity = InfoMainActivity.this;
 		ButterKnife.bind(InfoMainActivity.this);
@@ -183,6 +185,13 @@ public class InfoMainActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		lvMember = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
 		lvFamily = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
+		// 用於識別行政區劃
+		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
+		oldMap = new TextToMap().TextToMap(inputStream);
+		for (String key : oldMap.keySet()) {
+			if (key.equals(XZQH))
+				title_num.setText("("+oldMap.get(key)+")");
+		}
 	}
 
 	@OnClick(R.id.image_left)
@@ -231,6 +240,7 @@ public class InfoMainActivity extends BaseActivity {
 				// 新增状态 非编辑
 				intent.putExtra("hasTemp", "0");
 				intent.putExtra("gmsfzh", mSearchView.getTextInput());
+				intent.putExtra("XZQH", XZQH);
 				startActivityForResult(intent, INFO_FAMILY);
 				mHandler.sendEmptyMessage(0);
 			}
@@ -325,11 +335,7 @@ public class InfoMainActivity extends BaseActivity {
 				listItemFamily.add(thefamily);
 			}
 		}
-		// 头部的横线
-		if (listItemMember.size() != 0)
-			line.setVisibility(View.VISIBLE);
-		else
-			line.setVisibility(View.GONE);
+
 		adapterFamily.notifyDataSetChanged();
 		adapterMember.notifyDataSetChanged();
 		new Thread(new Runnable() {
@@ -346,5 +352,29 @@ public class InfoMainActivity extends BaseActivity {
 				build.dialog.dismiss();
 			}
 		}).start();
+
+		// 判断该家庭是否属于该行政区划
+		if (listItemFamily.size() != 0) {
+			if (!listItemFamily.get(0).xzqh.equals(XZQH)) {
+				String country = "";
+				for (String key : oldMap.keySet()) {
+					if (key.equals(listItemFamily.get(0).getXzqh()))
+						country = oldMap.get(key);
+				}
+				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("此家庭不属于该区域")
+						.setContentText(listItemFamily.get(0).getEdit_hzxm() + "\n" + listItemFamily.get(0).edit_gmcfzh
+								+ "\n" + "所属地区：" + country + "\n" + "登记日期：" + listItemFamily.get(0).edit_djrq)
+						.setConfirmText("我知道了").show();
+				listItemMember.clear();
+				listItemFamily.clear();
+				adapterFamily.notifyDataSetChanged();
+				adapterMember.notifyDataSetChanged();
+			}
+		}
+		// 头部的横线
+		if (listItemMember.size() != 0)
+			line.setVisibility(View.VISIBLE);
+		else
+			line.setVisibility(View.GONE);
 	}
 }

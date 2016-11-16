@@ -272,4 +272,12 @@ public class Family {
 		this.edit_jtbh = edit_jtbh;
 	}
 
+	public String getXzqh() {
+		return xzqh;
+	}
+
+	public void setXzqh(String xzqh) {
+		this.xzqh = xzqh;
+	}
+
 }
