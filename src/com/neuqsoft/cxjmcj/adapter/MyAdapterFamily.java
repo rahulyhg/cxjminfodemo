@@ -130,7 +130,7 @@ public class MyAdapterFamily extends SlideBaseAdapter {
 					intent.putExtra("gmsfzh", listItem.get(position).getEdit_gmcfzh());
 					String str = new Gson().toJson(listItem.get(position));
 					intent.putExtra("Family", str);
-					//¾ŽÝ‹ î‘B
+					// ¾ŽÝ‹ î‘B
 					intent.putExtra("hasTemp", "1");
 					((InfoMainActivity) context).startActivityForResult(intent, INFO_FAMILY);
 				}
@@ -152,6 +152,9 @@ public class MyAdapterFamily extends SlideBaseAdapter {
 									listItem.remove(position);
 									notifyDataSetChanged();
 									sDialog.dismissWithAnimation();
+									((InfoMainActivity) context).listItemMember.clear();
+									((InfoMainActivity) context).adapterMember.notifyDataSetChanged();
+									((InfoMainActivity) context).line.setVisibility(View.GONE);
 								}
 							}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
 								@Override

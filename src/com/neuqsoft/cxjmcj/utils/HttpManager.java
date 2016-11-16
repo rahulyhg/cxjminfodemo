@@ -165,7 +165,6 @@ public class HttpManager extends HttpUtils {
 	public void getJbxx(final String countryCode) {
 		country = countryCode;
 		RequestParams params = new RequestParams();
-
 		params.addHeader("Content-Type", "application/json");
 		params.addHeader("Accept", "application/json");
 		String url = RcConstant.getPath + countryCode;
@@ -174,11 +173,22 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
-				int exceptionCode = error.getExceptionCode();
-				if (exceptionCode == 0) {
-					errorMessage = "请检查网络连接是否正常！";
-				}
-				isAlive = false;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+				}).start();
+				ToastUtil.showShort(context, "下载失败，请检查网络。。。");
+				isAlive = false; 
+
 			}
 
 			// 请求成功调用此方法
@@ -193,19 +203,20 @@ public class HttpManager extends HttpUtils {
 				// 存入sql
 				db.addFamily(DTOtoF(dto.getJt()));
 				db.addPersonal(DTOtoM(dto.getRy()));
-				//下载成功user表的download置1
-				db.update_df(context,countryCode,"downloadflag");
+				// 下载成功user表的download置1
+				db.update_df(context, countryCode, "downloadflag");
 				isAlive = false;
 			}
 		});
 	}
 
-	public void getCjxx(final String countryCode, String usertoken, String account) throws UnsupportedEncodingException {
+	public void getCjxx(final String countryCode, String usertoken, String account)
+			throws UnsupportedEncodingException {
 		country = countryCode;
 		RequestParams params = new RequestParams();
 		String url = RcConstant.postPath + countryCode;
 		params.addHeader("Content-Type", "application/json");
-		params.addHeader("Accept", "application/json"); 
+		params.addHeader("Accept", "application/json");
 		params.addHeader("usertoken", usertoken);
 		FamilyMemberDTO f = new FamilyMemberDTO();
 		f = getInfo(f);

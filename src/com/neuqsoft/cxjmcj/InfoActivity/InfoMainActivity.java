@@ -21,6 +21,8 @@ import org.dom4j.io.SAXReader;
 import com.neuqsoft.cxjmcj.R;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterMember;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterFamily;
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.config.BuildBean;
 import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -76,6 +78,8 @@ public class InfoMainActivity extends BaseActivity {
 	 * (com.example.cxjminfodemo.NoScrollListView) findViewById(R.id.listView1);
 	 * Please visit http://www.ryangmattison.com for updates
 	 */
+	Activity activity;
+	BuildBean build;
 	private static final String tag = "InfoMainActivity";
 
 	public static final int INFO_FAMILY = 101;
@@ -95,12 +99,12 @@ public class InfoMainActivity extends BaseActivity {
 	// 存户主与成员的映射
 	static HashMap<String, ArrayList<Personal>> list_family_personal = new HashMap<String, ArrayList<Personal>>();
 	String res = null;// 查询身份证是否有效的返回信息
-	static ArrayList<Personal> listItem = new ArrayList<Personal>();
-	static ArrayList<Family> listItem2 = new ArrayList<Family>();
-	private SlideListView lv;
-	private SlideListView lv2;
-	public static MyAdapterMember adapter;
-	public static MyAdapterFamily adapter2;
+	public static ArrayList<Personal> listItemMember = new ArrayList<Personal>();
+	static ArrayList<Family> listItemFamily = new ArrayList<Family>();
+	private SlideListView lvMember;
+	private SlideListView lvFamily;
+	public static MyAdapterMember adapterMember;
+	public static MyAdapterFamily adapterFamily;
 	Gson gson = new Gson();
 
 	private String name = "";
@@ -120,13 +124,13 @@ public class InfoMainActivity extends BaseActivity {
 	LoadingDialog loading;
 
 	@Bind(R.id.line)
-	LinearLayout line;
+	public LinearLayout line;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_main);
-
+		activity = this;
 		((BaseActivity) (getParent()))._sonActivity = InfoMainActivity.this;
 		this._sonActivity = InfoMainActivity.this;
 		ButterKnife.bind(InfoMainActivity.this);
@@ -136,14 +140,14 @@ public class InfoMainActivity extends BaseActivity {
 		initView();
 		// /*为ListView设置Adapter来绑定数据*/
 		// lv为户主列表
-		listItem.clear();
-		listItem2.clear();
-		adapter = new MyAdapterMember(this, listItem);
-		adapter2 = new MyAdapterFamily(this, listItem2);
-		lv.setAdapter(adapter);
-		lv2.setAdapter(adapter2);
-		adapter.notifyDataSetChanged();
-		adapter2.notifyDataSetChanged();
+		listItemMember.clear();
+		listItemFamily.clear();
+		adapterMember = new MyAdapterMember(this, listItemMember);
+		adapterFamily = new MyAdapterFamily(this, listItemFamily);
+		lvMember.setAdapter(adapterMember);
+		lvFamily.setAdapter(adapterFamily);
+		adapterMember.notifyDataSetChanged();
+		adapterFamily.notifyDataSetChanged();
 		/* 为动态数组添加数据 */
 		setView();
 	}
@@ -167,8 +171,8 @@ public class InfoMainActivity extends BaseActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (listItem2.size() != 0) {
-			UpdateListView(listItem2.get(0).getEdit_gmcfzh());
+		if (listItemFamily.size() != 0) {
+			UpdateListView(listItemFamily.get(0).getEdit_gmcfzh());
 		}
 	}
 
@@ -177,8 +181,8 @@ public class InfoMainActivity extends BaseActivity {
 	 */
 	private void initView() {
 		// TODO Auto-generated method stub
-		lv = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
-		lv2 = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
+		lvMember = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
+		lvFamily = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
 	}
 
 	@OnClick(R.id.image_left)
@@ -188,11 +192,11 @@ public class InfoMainActivity extends BaseActivity {
 
 	@OnClick(R.id.btn_add2)
 	public void toInfoPersonalActivity() {
-		if (listItem2.size() == 0) {
+		if (listItemFamily.size() == 0) {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", listItem2.get(0).getEdit_gmcfzh());
+			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_gmcfzh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 
@@ -224,7 +228,7 @@ public class InfoMainActivity extends BaseActivity {
 		Runnable r2 = new Runnable() {
 			public void run() {
 				Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
-				//新增状态 非编辑
+				// 新增状态 非编辑
 				intent.putExtra("hasTemp", "0");
 				intent.putExtra("gmsfzh", mSearchView.getTextInput());
 				startActivityForResult(intent, INFO_FAMILY);
@@ -237,7 +241,7 @@ public class InfoMainActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case INFO＿PERSONAL:
-			UpdateListView(listItem2.get(0).getEdit_gmcfzh());
+			UpdateListView(listItemFamily.get(0).getEdit_gmcfzh());
 			break;
 
 		case INFO_FAMILY:
@@ -301,10 +305,12 @@ public class InfoMainActivity extends BaseActivity {
 	}
 
 	public void UpdateListView(String temp) {
-		listItem.clear();
-		listItem2.clear();
+		build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");
+		build.show();
+		listItemMember.clear();
+		listItemFamily.clear();
 		ArrayList<Personal> listPersonal = mgr.queryPersonal(temp);
-		listItem.addAll(listPersonal);
+		listItemMember.addAll(listPersonal);
 		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
 		for (Family tempFamily : listFamily) {
@@ -316,15 +322,29 @@ public class InfoMainActivity extends BaseActivity {
 				List<Family> the = new ArrayList<Family>();
 				the.add(thefamily);
 				mgr.addFamily(the);
-				listItem2.add(thefamily);
+				listItemFamily.add(thefamily);
 			}
 		}
-		//头部的横线
-		if(listItem.size()!=0)
+		// 头部的横线
+		if (listItemMember.size() != 0)
 			line.setVisibility(View.VISIBLE);
 		else
 			line.setVisibility(View.GONE);
-		adapter2.notifyDataSetChanged();
-		adapter.notifyDataSetChanged();
+		adapterFamily.notifyDataSetChanged();
+		adapterMember.notifyDataSetChanged();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				// 登录等待4S
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+			}
+		}).start();
 	}
 }
