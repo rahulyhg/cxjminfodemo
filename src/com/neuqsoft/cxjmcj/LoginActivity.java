@@ -73,20 +73,6 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		DialogUIUtils.init(context);
 		Intent intent = getIntent();
-		int cancel = intent.getIntExtra("cancel", -1);
-		if (cancel == 0) {
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-
-					// TODO Auto-generated method stub
-					build = DialogUIUtils.showLoadingHorizontal(activity, "注销中。。。");
-					build.show();
-					delay(1000);
-				}
-			});
-		}
-
 		activity = this;
 		utils = new HttpUtils(3000);
 		gson = new Gson();
@@ -231,11 +217,10 @@ public class LoginActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				build = DialogUIUtils.showLoadingHorizontal(activity, "登陆中...");
+				build = DialogUIUtils.showLoadingHorizontal(activity, "登录中...");
 				build.show();
 				delay(2000);
 			}
-
 		});
 	}
 
@@ -258,15 +243,25 @@ public class LoginActivity extends Activity {
 
 	// 2016年10月19日14:36:23
 
-	protected void enterInfo(int info) {
-		// LoadingDialog ld = new LoadingDialog(this);
-		// ld.show();
-		/// build.dialog.dismiss();
-		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra("userName", userName);
-		intent.putExtra("info", info);
-		startActivity(intent);
-		finish();
+	protected void enterInfo(final int info) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+				Intent intent = new Intent(activity, MainActivity.class);
+				intent.putExtra("userName", userName);
+				intent.putExtra("info", info);
+				startActivity(intent);
+				finish();
+			}
+		}).start();	
 	}
 
 	protected void delay(final int time) {

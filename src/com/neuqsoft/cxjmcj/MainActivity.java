@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 	static int pos;
 	private TextView title_logout, text_user, title_local, title_num;
 	private List<UserDetail> list;
-	Context activity;
+	Activity activity;
 	String sToken;
 	DBManager db;
 	// 当前listview位置
@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登陆成功，加载中...");
+					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...");
 					build.show();
 					delay(3000);
 				}
@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登陆成功，加载中...");
+					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...");
 					build.show();
 					delay(3000);
 				}
@@ -131,28 +131,34 @@ public class MainActivity extends Activity {
 		oldMap = new TextToMap().TextToMap(inputStream);
 		/** ------从本地请求数据---------------- */
 		getDataFromlocal();
-
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				build.dialog.dismiss();
-			}
-		}).start();
 		/** --------注销返回到登陆界面-------------- */
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-				startActivity(intent);
-				ToastUtil.showShort(getApplicationContext(), "注销成功！");
-				finish();
+				build = DialogUIUtils.showLoadingHorizontal(activity, "注销中...");
+				build.show();						
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						build.dialog.dismiss();
+						activity.runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								ToastUtil.showShort(getApplicationContext(), "注销成功！");
+							}
+						});
+						Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+						startActivity(intent);					
+					}
+				}).start();			
 			}
 		});
 	}
