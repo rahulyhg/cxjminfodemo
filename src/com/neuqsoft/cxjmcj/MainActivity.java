@@ -424,6 +424,9 @@ public class MainActivity extends Activity {
 
 								holder.center.setBackgroundResource(R.drawable.center3);
 								holder.bottom.setImageResource(R.drawable.bottom3);
+								
+								new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE).setTitleText("上传成功")
+								.show();
 							}
 						});
 					}

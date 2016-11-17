@@ -100,7 +100,7 @@ public class DBManager {
 			for (Personal personal : personals) {
 				// 14¸ö×Ö¶Î
 				db.execSQL("REPLACE INTO personal VALUES(?, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?,?)",
-						new Object[] { personal.getEdit_gmcfzh(), null, personal.getEdit_cbrxm(),
+						new Object[] { personal.getEdit_gmcfzh(), personal.getEdit_grbh(), personal.getEdit_cbrxm(),
 								personal.getEdit_zjlx(), personal.getEdit_gmcfzh(), personal.getEdit_mz(),
 								personal.getEdit_xb(), personal.getEdit_csrq(), personal.getEdit_cbrylb(),
 								personal.getEdit_cbrq(), personal.getEdit_yhzgx(), personal.getEdit_lxdh(),
@@ -119,8 +119,8 @@ public class DBManager {
 			// 9¸ö×Ö¶Î
 			for (Family family : familys) {
 				db.execSQL("REPLACE INTO family VALUES(?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?)",
-						new Object[] { family.getEdit_gmcfzh(), null, family.getEdit_hzxm(), family.getEdit_jhzzjlx(),
-								family.getEdit_gmcfzh(), null, family.getEdit_cjqtbxrs(), family.getEdit_lxdh(),
+						new Object[] { family.getEdit_gmcfzh(), family.getEdit_jtbh(), family.getEdit_hzxm(), family.getEdit_jhzzjlx(),
+								family.getEdit_gmcfzh(), family.getEdit_hjbh(), family.getEdit_cjqtbxrs(), family.getEdit_lxdh(),
 								family.getEdit_hkxxdz(), family.getEdit_djrq(), family.getIsEdit(), family.isUpload,
 								family.xzqh });
 			}

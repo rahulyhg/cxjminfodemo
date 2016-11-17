@@ -362,6 +362,7 @@ public class InfoFamilyActivity extends Activity {
 			getDataFromEdit();
 			ArrayList<Family> familys = new ArrayList<Family>();
 			Family family = new Family();
+			family.setEdit_hjbh(tempFamily.edit_hjbh);
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);

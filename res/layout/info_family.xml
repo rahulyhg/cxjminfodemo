@@ -38,6 +38,36 @@
             android:layout_height="0dip"
             android:layout_weight="0.3"
             android:gravity="center" />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+
+                <TextView style="@style/star" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="户籍编号："
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/edit_hjbh"
+                    style="@style/et_text"
+                    android:maxLength="12" >
+                </EditText>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/line" />
 
         <LinearLayout
             android:layout_width="match_parent"

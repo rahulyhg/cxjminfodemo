@@ -15,6 +15,7 @@ import android.widget.EditText;
 public class Personal {
 	public String id;
 	public String edit_lxdh;
+	public String edit_grbh;
 	public String edit_zjlx;
 	public String edit_cbrxm;
 	public String edit_gmcfzh;
@@ -254,5 +255,13 @@ public class Personal {
 
 	public void setEdit_zjlx(String edit_zjlx) {
 		this.edit_zjlx = edit_zjlx;
+	}
+
+	public String getEdit_grbh() {
+		return edit_grbh;
+	}
+
+	public void setEdit_grbh(String edit_grbh) {
+		this.edit_grbh = edit_grbh;
 	}
 }

@@ -450,10 +450,10 @@ public class InfoPersonalActivity extends Activity {
 
 		if (personal.getEdit_jf().equals("1")) {
 			btn_xjzf.setText("取消支付");
-			img_xjzf.setVisibility(View.VISIBLE);
+			img_xjzf.setImageResource(R.drawable.yjf);
 		} else {
 			btn_xjzf.setText("现金支付");
-			img_xjzf.setVisibility(View.GONE);
+			img_xjzf.setImageResource(R.drawable.djf);
 		}
 	}
 
@@ -521,11 +521,13 @@ public class InfoPersonalActivity extends Activity {
 		if (btn_xjzf.getText().toString().equals("现金支付")) {
 			tempPersonal.setEdit_jf("1");
 			save();
-			img_xjzf.setVisibility(View.VISIBLE);
+			img_xjzf.setImageResource(R.drawable.yjf);
+			btn_xjzf.setText("取消支付");
 		} else {
 			tempPersonal.setEdit_jf("0");
 			save();
-			img_xjzf.setVisibility(View.GONE);
+			img_xjzf.setImageResource(R.drawable.djf);
+			btn_xjzf.setText("现金支付");
 		}
 
 	}

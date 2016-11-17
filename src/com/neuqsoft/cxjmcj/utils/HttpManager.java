@@ -29,7 +29,7 @@ import android.content.Context;
 
 public class HttpManager extends HttpUtils {
 	Gson gson = new Gson();
-	HttpUtils httpUtils = new HttpUtils(5000);
+	HttpUtils httpUtils = new HttpUtils(6000);
 	public FamilyMemberDTO dto;
 	public boolean isAlive = true;
 	public boolean isError = false;
@@ -58,7 +58,7 @@ public class HttpManager extends HttpUtils {
 			family.edit_djrq = d.getAab050();
 			family.xzqh = country;
 			family.isEdit = "0";
-			family.isUpload = "1";
+			family.isUpload = "0";
 			family.id = d.getLsh();
 			familyList.add(family);
 		}
@@ -71,6 +71,7 @@ public class HttpManager extends HttpUtils {
 			Personal personal = new Personal();
 			personal.edit_cbrxm = d.getAac003();
 			personal.edit_gmcfzh = d.getAae135();
+			personal.edit_grbh=d.getAac999();
 			personal.edit_mz = d.getAac005();
 			personal.edit_xb = d.getAac004();
 			personal.edit_csrq = d.getAac006();
@@ -83,7 +84,8 @@ public class HttpManager extends HttpUtils {
 			personal.edit_jf = d.getJfbz();
 			personal.edit_zjlx = d.getAac058();
 			personal.edit_lxdh = d.getAae005();
-			personal.isUpload = "1";
+			personal.isUpload = "0";
+			personal.isEdit="0";
 			personal.id = d.getLsh();
 			personalList.add(personal);
 		}
@@ -91,6 +93,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	List<MemberDTO> MtoDTO(List<Personal> dto) {
+		//œ¬‘ÿ
 		List<MemberDTO> personalList = new ArrayList<MemberDTO>();
 		for (Personal d : dto) {
 			MemberDTO personal = new MemberDTO();
@@ -108,6 +111,7 @@ public class HttpManager extends HttpUtils {
 			personal.setJfbz(d.edit_jf);
 			personal.setAac058(d.edit_zjlx);
 			personal.setAae005(d.edit_lxdh);
+			personal.setXgbz(d.isEdit);
 			personal.setLsh(MD5Util.encode(d.edit_gmcfzh));
 			personalList.add(personal);
 		}
@@ -115,6 +119,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	FamilyDTO FMtoDTO(Family d) {
+		//œ¬‘ÿ
 		FamilyDTO family = new FamilyDTO();
 		family.setAab999(d.edit_jtbh);
 		family.setAab400(d.edit_hzxm);
@@ -142,7 +147,7 @@ public class HttpManager extends HttpUtils {
 				List<Personal> personal = db.queryPersonal(family.getEdit_gmcfzh());
 				memberdto.addAll((MtoDTO(personal)));
 
-				db.deleteFamily(family);
+				db.updateFamily(family);
 				family.setIsUpload("1");
 				List<Family> temp = new ArrayList<Family>();
 				temp.add(family);
@@ -186,7 +191,6 @@ public class HttpManager extends HttpUtils {
 					}
 					
 				}).start();
-				ToastUtil.showShort(context, "œ¬‘ÿ ß∞‹£¨«ÎºÏ≤ÈÕ¯¬Á°£°£°£");
 				isAlive = false; 
 
 			}
@@ -222,6 +226,7 @@ public class HttpManager extends HttpUtils {
 		f = getInfo(f);
 		f.setXzqh(countryCode);
 		f.setCzr(account);
+		f.setSfcl("");
 		String jsonStr = gson.toJson(f);
 		params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
 
