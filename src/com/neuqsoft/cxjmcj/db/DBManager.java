@@ -119,10 +119,10 @@ public class DBManager {
 			// 9个字段
 			for (Family family : familys) {
 				db.execSQL("REPLACE INTO family VALUES(?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?)",
-						new Object[] { family.getEdit_gmcfzh(), family.getEdit_jtbh(), family.getEdit_hzxm(), family.getEdit_jhzzjlx(),
-								family.getEdit_gmcfzh(), family.getEdit_hjbh(), family.getEdit_cjqtbxrs(), family.getEdit_lxdh(),
-								family.getEdit_hkxxdz(), family.getEdit_djrq(), family.getIsEdit(), family.isUpload,
-								family.xzqh });
+						new Object[] { family.getEdit_gmcfzh(), family.getEdit_jtbh(), family.getEdit_hzxm(),
+								family.getEdit_jhzzjlx(), family.getEdit_gmcfzh(), family.getEdit_hjbh(),
+								family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),
+								family.getEdit_djrq(), family.getIsEdit(), family.isUpload, family.getXzqh() });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {

@@ -107,16 +107,22 @@ public class InfoFamilyActivity extends Activity {
 		 * gson.toJson(defaultFamily)); } }; mHandler.post(r);
 		 */
 		setSampleFamily();
-		fixID();
+		try {
+			fixID();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	private void fixID() {
+	private void fixID() throws ParseException {
 		// TODO Auto-generated method stub
 		if (hasTemp.equals("1")) {
 			// 編輯狀態下不可編輯
 			edit_gmcfzh.setFocusable(false);
 			edit_gmcfzh.setFocusableInTouchMode(false);
+			res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
 			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -149,12 +155,14 @@ public class InfoFamilyActivity extends Activity {
 				editStart = edit_gmcfzh.getSelectionStart();
 				editEnd = edit_gmcfzh.getSelectionEnd();
 				if (temp.length() == charMaxNum) {
+
 					try {
 						res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
 					if (res == "") {
 						// 新增狀態
 						if (hasTemp.equals("0")) {
@@ -378,7 +386,6 @@ public class InfoFamilyActivity extends Activity {
 			family.setXzqh(bundle.getString("XZQH"));
 			familys.add(family);
 			mgr.addFamily(familys);
-			
 
 			// do something
 			// 通过OCR输出的家庭信息
@@ -401,7 +408,9 @@ public class InfoFamilyActivity extends Activity {
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
 		Handler mHandler = new Handler();
-		if (edit_hzxm.getText().toString().isEmpty()) {
+		if(edit_hjbh.getText().toString().isEmpty())
+			Toast.makeText(getApplicationContext(), "户籍编号不能为空！", Toast.LENGTH_SHORT).show();
+		else if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();

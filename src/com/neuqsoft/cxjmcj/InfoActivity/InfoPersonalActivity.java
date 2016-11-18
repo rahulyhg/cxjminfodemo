@@ -145,6 +145,12 @@ public class InfoPersonalActivity extends Activity {
 		if (HZSFZedit != "") {
 			edit_gmcfzh.setFocusable(false);
 			edit_gmcfzh.setFocusableInTouchMode(false);
+			try {
+				res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -332,13 +338,9 @@ public class InfoPersonalActivity extends Activity {
 		edit_cbrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
 				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? 0 + (calendar.get(Calendar.MONTH) + 1)
 						: (calendar.get(Calendar.MONTH) + 1))
-			.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
+				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
-		
-	    
-		
-	
-	   
+
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
 
@@ -554,7 +556,7 @@ public class InfoPersonalActivity extends Activity {
 			personal1.setEdit_csrq(tempPersonal.edit_csrq);
 
 			personal1.setEdit_hkxz(tempPersonal.edit_hkxz);
-            personal1.setIsEdit(tempPersonal.isEdit);
+			personal1.setIsEdit(tempPersonal.isEdit);
 			personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
 			personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
 			personal1.setEdit_jf(tempPersonal.edit_jf);
@@ -720,6 +722,7 @@ public class InfoPersonalActivity extends Activity {
 		tempPersonal.setHZSFZ(HZSFZedit);
 		tempPersonal.setEdit_xxjzdz(edit_xxjzdz.getText().toString());
 		tempPersonal.setEdit_lxdh(edit_lxdh.getText().toString());
+		tempPersonal.setEdit_jf(btn_xjzf.getText().toString().equals("È¡ÏûÖ§¸¶") ? "1" : "0");
 		listPersonal.add(tempPersonal);
 	}
 }

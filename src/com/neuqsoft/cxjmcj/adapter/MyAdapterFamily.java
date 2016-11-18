@@ -132,6 +132,7 @@ public class MyAdapterFamily extends SlideBaseAdapter {
 					intent.putExtra("Family", str);
 					// ¾ŽÝ‹ î‘B
 					intent.putExtra("hasTemp", "1");
+					intent.putExtra("XZQH", listItem.get(position).getXzqh());
 					((InfoMainActivity) context).startActivityForResult(intent, INFO_FAMILY);
 				}
 			});
