@@ -332,8 +332,13 @@ public class InfoPersonalActivity extends Activity {
 		edit_cbrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
 				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? 0 + (calendar.get(Calendar.MONTH) + 1)
 						: (calendar.get(Calendar.MONTH) + 1))
-				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
+			.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
+		
+	    
+		
+	
+	   
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
 
@@ -549,10 +554,11 @@ public class InfoPersonalActivity extends Activity {
 			personal1.setEdit_csrq(tempPersonal.edit_csrq);
 
 			personal1.setEdit_hkxz(tempPersonal.edit_hkxz);
-
+            personal1.setIsEdit(tempPersonal.isEdit);
 			personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
 			personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
 			personal1.setEdit_jf(tempPersonal.edit_jf);
+
 			if (bundle.getString("HZSFZ") != null && bundle.getString("HZSFZ") != "") {
 				// 新增状态
 				personal1.setHZSFZ(bundle.getString("HZSFZ"));
@@ -569,6 +575,7 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_save)
 	public void save() {
+		tempPersonal.setIsEdit("1");
 		Handler mHandler = new Handler();
 		if (edit_cbrxm.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
@@ -603,6 +610,7 @@ public class InfoPersonalActivity extends Activity {
 				}
 			}).start();
 		}
+
 	}
 
 	@OnClick(R.id.btn_xyg)

@@ -378,6 +378,7 @@ public class InfoFamilyActivity extends Activity {
 			family.setXzqh(bundle.getString("XZQH"));
 			familys.add(family);
 			mgr.addFamily(familys);
+			
 
 			// do something
 			// 通过OCR输出的家庭信息
@@ -436,6 +437,7 @@ public class InfoFamilyActivity extends Activity {
 		// spinner
 		edit_jhzzjlx.setSelection(0, true);
 		edit_gmcfzh.setText("");
+		edit_djrq.setText("");
 	}
 
 	private void getDataFromEdit() {
