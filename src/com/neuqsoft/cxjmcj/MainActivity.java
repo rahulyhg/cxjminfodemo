@@ -246,7 +246,7 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					int memberSize = 0;
 					int memberJf = 0;
-					List<Family> familys = db.queryFamily();
+					List<Family> familys = db.queryFamily(holder.cjarea);
 					holder.num1.setText(familys.size() + "");
 					for (Family family : familys) {
 						List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
@@ -283,12 +283,14 @@ public class MainActivity extends Activity {
 			LinearLayout top;
 			LinearLayout center;
 			ImageView bottom;
+
+			public String cjarea = "";
 		}
 
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 		private List<UserDetail> queryUserDetail;
 		private String cjarea2;
-		
+
 		Dialog dialog_up;
 
 		public MyAdapter(List<UserDetail> queryUserDetail) {
@@ -361,10 +363,12 @@ public class MainActivity extends Activity {
 			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 名称 */
-			final String cjarea = queryUserDetail.get(position).getCjarea();
+			holder.cjarea = queryUserDetail.get(position).getCjarea();
 			for (String key : oldMap.keySet()) {
-				if (key.equals(cjarea))
+				if (key.equals(holder.cjarea))
 					holder.local.setText(oldMap.get(key));
+				else
+					holder.local.setText("某村");
 			}
 
 			final Handler handler = new Handler() {
@@ -423,14 +427,12 @@ public class MainActivity extends Activity {
 
 								holder.top1.setBackgroundResource(R.drawable.top31);
 								holder.top.setBackgroundResource(R.drawable.top3);
-								holder.list.setImageResource(R.drawable.list3);
+								holder.list.setImageResource(R.drawable.list2);
 								holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
 
 								holder.center.setBackgroundResource(R.drawable.center3);
 								holder.bottom.setImageResource(R.drawable.bottom3);
-								dialog_up = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
-										.setTitleText("上传成功");
-								dialog_up.show();
+
 							}
 						});
 					}
@@ -443,7 +445,7 @@ public class MainActivity extends Activity {
 								// TODO Auto-generated method stub
 								int memberSize = 0;
 								int memberJf = 0;
-								List<Family> familys = db.queryFamily();
+								List<Family> familys = db.queryFamily(holder.cjarea);
 								holder.num1.setText(familys.size() + "");
 								for (Family family : familys) {
 									List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
@@ -462,7 +464,7 @@ public class MainActivity extends Activity {
 
 								holder.top1.setBackgroundResource(R.drawable.top21);
 								holder.top.setBackgroundResource(R.drawable.top2);
-								holder.list.setImageResource(R.drawable.list2);
+								holder.list.setImageResource(R.drawable.list3);
 								holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
 
 								holder.center.setBackgroundResource(R.drawable.center2);
@@ -483,7 +485,7 @@ public class MainActivity extends Activity {
 			// 判断数据是否下载过,
 			for (UserDetail userDetail : queryUserDetail) {
 				cjarea2 = userDetail.getCjarea();
-				if (cjarea.equals(cjarea2)) {
+				if (holder.cjarea.equals(cjarea2)) {
 					// 是否已下載
 					if (userDetail.downloadflag.equals("1")) {
 						holder.upload.setVisibility(View.VISIBLE);
@@ -520,7 +522,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					http.getJbxx(cjarea);
+					http.getJbxx(holder.cjarea);
 					try {
 						Thread.sleep(1500);
 					} catch (InterruptedException e) {
@@ -543,7 +545,7 @@ public class MainActivity extends Activity {
 				public void run() {
 					// TODO Auto-generated method stub
 					try {
-						http.getCjxx(cjarea, sToken, account);
+						http.getCjxx(holder.cjarea, sToken, account);
 					} catch (UnsupportedEncodingException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -560,9 +562,14 @@ public class MainActivity extends Activity {
 					if (http.isError) {
 						handler.sendEmptyMessage(2);
 					} else
-						// 上传成功
+					// 上传成功
+					{
 						handler.sendEmptyMessage(3);
-					//去dialog
+						dialog_up = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE).setTitleText("上传成功");
+						dialog_up.show();
+					}
+					// 去dialog
+					build.dialog.dismiss();
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
@@ -610,7 +617,7 @@ public class MainActivity extends Activity {
 							}
 						});
 						Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
-						intent.putExtra("XZQH", cjarea);
+						intent.putExtra("XZQH", holder.cjarea);
 						startActivityForResult(intent, CBDJ);
 						pos = position;
 					}
@@ -643,7 +650,6 @@ public class MainActivity extends Activity {
 			});
 			return convertView;
 		}
-
 	}
 
 	protected void delay(final int time) {
@@ -661,5 +667,4 @@ public class MainActivity extends Activity {
 			}
 		}).start();
 	}
-
 }
