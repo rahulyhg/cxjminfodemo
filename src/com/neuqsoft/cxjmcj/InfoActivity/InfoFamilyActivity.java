@@ -52,7 +52,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * @Title InfoFamilyActivity
  * @author tengzj
  * @data 2016年8月23日 下午5:24:46
- */
+ */        
 public class InfoFamilyActivity extends Activity {
 
 	/********** DECLARES *************/
@@ -408,14 +408,14 @@ public class InfoFamilyActivity extends Activity {
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
 		Handler mHandler = new Handler();
-		if(edit_hjbh.getText().toString().isEmpty())
-			Toast.makeText(getApplicationContext(), "户籍编号不能为空！", Toast.LENGTH_SHORT).show();
+		if(edit_hkxxdz.getText().toString().isEmpty())
+			Toast.makeText(getApplicationContext(), "户口地址不能为空！", Toast.LENGTH_SHORT).show();
 		else if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty())
-			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "公民身份证号不能为空！", Toast.LENGTH_SHORT).show();
 		else if (res != "")
-			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "公民身份证号不正确！", Toast.LENGTH_SHORT).show();
 		else {
 			mHandler.post(r);
 			new Thread(new Runnable() {
