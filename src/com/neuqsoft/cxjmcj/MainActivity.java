@@ -35,6 +35,7 @@ import com.neuqsoft.cxjmcj.utils.ToastUtil;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -287,6 +288,8 @@ public class MainActivity extends Activity {
 		private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
 		private List<UserDetail> queryUserDetail;
 		private String cjarea2;
+		
+		Dialog dialog_up;
 
 		public MyAdapter(List<UserDetail> queryUserDetail) {
 			super();
@@ -394,8 +397,9 @@ public class MainActivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
-								new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("上传失败...")
-										.show();
+								dialog_up = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+										.setTitleText("上传失败...");
+								dialog_up.show();
 							}
 						});
 					}
@@ -424,9 +428,9 @@ public class MainActivity extends Activity {
 
 								holder.center.setBackgroundResource(R.drawable.center3);
 								holder.bottom.setImageResource(R.drawable.bottom3);
-								
-								new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE).setTitleText("上传成功")
-								.show();
+								dialog_up = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
+										.setTitleText("上传成功");
+								dialog_up.show();
 							}
 						});
 					}
@@ -558,7 +562,20 @@ public class MainActivity extends Activity {
 					} else
 						// 上传成功
 						handler.sendEmptyMessage(3);
-					build.dialog.dismiss();
+					//去dialog
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							dialog_up.dismiss();
+						}
+					}).start();
 				}
 			};
 

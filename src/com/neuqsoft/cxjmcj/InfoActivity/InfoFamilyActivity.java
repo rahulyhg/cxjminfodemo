@@ -80,7 +80,12 @@ public class InfoFamilyActivity extends Activity {
 
 	@Bind(R.id.edit_gmcfzh)
 	EditText edit_gmcfzh;
+
+	@Bind(R.id.edit_hjbh)
+	EditText edit_hjbh;
+
 	Activity activity;
+
 	Bundle bundle;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +201,7 @@ public class InfoFamilyActivity extends Activity {
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
-
+			edit_hjbh.setText(tempFamily.getEdit_hjbh());
 			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
@@ -422,6 +427,7 @@ public class InfoFamilyActivity extends Activity {
 	@OnClick(R.id.btn_revert)
 	public void revert() {
 		edit_hzxm.setText("");
+		edit_hjbh.setText("");
 		edit_lxdh.setText("");
 		edit_dzyx.setText("");
 		edit_yzbm.setText("");
@@ -438,6 +444,7 @@ public class InfoFamilyActivity extends Activity {
 		// tempFamily.setEdit_jgszcwh(edit_jgszcwh.getText().toString());
 		tempFamily.setEdit_hzxm(edit_hzxm.getText().toString());
 		tempFamily.setEdit_lxdh(edit_lxdh.getText().toString());
+		tempFamily.setEdit_hjbh(edit_hjbh.getText().toString());
 		tempFamily.setEdit_dzyx(edit_dzyx.getText().toString());
 		tempFamily.setEdit_yzbm(edit_yzbm.getText().toString());
 		tempFamily.setEdit_cjqtbxrs(edit_cjqtbxrs.getText().toString());
