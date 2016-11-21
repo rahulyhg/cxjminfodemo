@@ -340,6 +340,7 @@ public class InfoPersonalActivity extends Activity {
 						: (calendar.get(Calendar.MONTH) + 1))
 				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
+
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
 
@@ -492,6 +493,21 @@ public class InfoPersonalActivity extends Activity {
 		finish();
 	}
 
+	@OnClick(R.id.edit_csrq)
+	public void toDateDialog2() {
+		new DatePickerDialog(InfoPersonalActivity.this, new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int month, int day) {
+				// TODO Auto-generated method stub
+				// 更新EditText控件日期 小于10加0
+				edit_csrq.setText(new StringBuilder().append(year).append("-")
+						.append((month + 1) < 10 ? 0 + (month + 1) : (month + 1)).append("-")
+						.append((day < 10) ? 0 + day : day));
+			}
+		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+	}
+
 	@OnClick(R.id.edit_cbrq)
 	public void toDateDialog() {
 		new DatePickerDialog(InfoPersonalActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -582,7 +598,9 @@ public class InfoPersonalActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
 		else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
-		else if (res != "")
+		else if (edit_gmcfzh.length() != 18) {
+			Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
+		} else if (res != "")
 			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
 		else {
 			final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
@@ -606,7 +624,12 @@ public class InfoPersonalActivity extends Activity {
 						e.printStackTrace();
 					}
 					dialog.dismiss();
-					if (!tip_xjzf)
+
+					if (HZSFZedit != "")
+					{
+						// 编辑状态
+					} else if (!tip_xjzf)
+						// 新增状态
 						revert();
 				}
 			}).start();
@@ -629,14 +652,13 @@ public class InfoPersonalActivity extends Activity {
 					/* edit_xb.setText(""); */
 					edit_csrq.setText("");
 					edit_yhzgx.setSelection(1, true);
-					edit_xxjzdz.setText("");
-
+					edit_xxjzdz.setText(tempPersonal.edit_xxjzdz);
 					edit_zjlx.setSelection(0, true);
 					edit_mz.setSelection(0, true);
-					edit_xb.setSelection(0, true);
+					edit_xb.setSelection(1, true);
 					edit_cbrylb.setSelection(0, true);
 					edit_hkxz.setSelection(1, true);
-					edit_lxdh.setText("");
+					edit_lxdh.setText(tempPersonal.edit_lxdh);
 				}
 			}
 

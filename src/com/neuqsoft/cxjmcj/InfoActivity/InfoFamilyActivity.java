@@ -52,7 +52,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * @Title InfoFamilyActivity
  * @author tengzj
  * @data 2016年8月23日 下午5:24:46
- */
+ */        
 public class InfoFamilyActivity extends Activity {
 
 	/********** DECLARES *************/
@@ -370,7 +370,8 @@ public class InfoFamilyActivity extends Activity {
 	Runnable r = new Runnable() {
 		public void run() {
 			// 更新数据
-
+			if (hasTemp.equals("1"))
+				mgr.updateFamily(tempFamily);
 			getDataFromEdit();
 			ArrayList<Family> familys = new ArrayList<Family>();
 			Family family = new Family();
@@ -383,14 +384,6 @@ public class InfoFamilyActivity extends Activity {
 			family.setEdit_djrq(tempFamily.edit_djrq);
 			family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
 			family.setXzqh(bundle.getString("XZQH"));
-			if (hasTemp.equals("1")) {
-				//編輯狀態
-				mgr.updateFamily(tempFamily);
-				family.setEdit_jtbh(tempFamily.edit_jtbh);
-			}
-			else
-				family.setEdit_jtbh(tempFamily.getEdit_gmcfzh());
-
 			familys.add(family);
 			mgr.addFamily(familys);
 
@@ -415,14 +408,18 @@ public class InfoFamilyActivity extends Activity {
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
 		Handler mHandler = new Handler();
-		if (edit_hkxxdz.getText().toString().isEmpty())
+		if(edit_hkxxdz.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "户口地址不能为空！", Toast.LENGTH_SHORT).show();
 		else if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空！", Toast.LENGTH_SHORT).show();
+		else if (edit_gmcfzh.length()!=18) {
+			Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
+		}
 		else if (res != "")
 			Toast.makeText(getApplicationContext(), "公民身份证号不正确！", Toast.LENGTH_SHORT).show();
+		
 		else {
 			mHandler.post(r);
 			new Thread(new Runnable() {

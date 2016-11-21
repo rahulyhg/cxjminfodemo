@@ -325,7 +325,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
 
-                 <TextView style="@style/star" />
+                <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -381,8 +381,7 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:orientation="vertical"
-             >
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -404,8 +403,7 @@
 
                 <EditText
                     android:id="@+id/edit_jtxxdz"
-                    style="@style/et_text"
-                    android:numeric="integer" >
+                    style="@style/et_text" >
                 </EditText>
             </LinearLayout>
         </LinearLayout>

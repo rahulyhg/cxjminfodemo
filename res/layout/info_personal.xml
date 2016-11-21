@@ -398,7 +398,8 @@
                     <EditText
                         android:id="@+id/edit_lxdh"
                         style="@style/et_text"
-                        android:inputType="textPersonName" >
+                        android:inputType="textPersonName" 
+                        android:numeric="integer">
                     </EditText>
                 </LinearLayout>
             </LinearLayout>
