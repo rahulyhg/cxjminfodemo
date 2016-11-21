@@ -20,14 +20,16 @@ import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
+import com.neuqsoft.cxjmcj.dto.UserDetail;
+import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
 import com.neuqsoft.cxjmcj.server.dto.CodeDTO;
 import com.neuqsoft.cxjmcj.server.dto.FamilyDTO;
 import com.neuqsoft.cxjmcj.server.dto.FamilyMemberDTO;
 import com.neuqsoft.cxjmcj.server.dto.MemberDTO;
-import com.neuqsoft.cxjmcj.server.dto.UserDetail;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 public class HttpManager extends HttpUtils {
 	Gson gson = new Gson();
@@ -73,7 +75,7 @@ public class HttpManager extends HttpUtils {
 			Personal personal = new Personal();
 			personal.edit_cbrxm = d.getAac003();
 			personal.edit_gmcfzh = d.getAae135();
-			personal.edit_grbh=d.getAac999();
+			personal.edit_grbh = d.getAac999();
 			personal.edit_mz = d.getAac005();
 			personal.edit_xb = d.getAac004();
 			personal.edit_csrq = d.getAac006();
@@ -87,13 +89,13 @@ public class HttpManager extends HttpUtils {
 			personal.edit_zjlx = d.getAac058();
 			personal.edit_lxdh = d.getAae005();
 			personal.isUpload = "1";
-			personal.isEdit="0";
+			personal.isEdit = "0";
 			personal.id = d.getLsh();
 			personalList.add(personal);
 		}
 		return personalList;
 	}
-	
+
 	List<Code> DTOtoC(List<CodeDTO> dto) {
 		List<Code> Codes = new ArrayList<Code>();
 		for (CodeDTO c : dto) {
@@ -108,7 +110,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	List<MemberDTO> MtoDTO(List<Personal> dto) {
-		//下载
+		// 下载
 		List<MemberDTO> personalList = new ArrayList<MemberDTO>();
 		for (Personal d : dto) {
 			MemberDTO personal = new MemberDTO();
@@ -135,7 +137,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	FamilyDTO FMtoDTO(Family d) {
-		//下载
+		// 下载
 		FamilyDTO family = new FamilyDTO();
 		family.setAab999(d.edit_jtbh);
 		family.setAab400(d.edit_hzxm);
@@ -205,9 +207,9 @@ public class HttpManager extends HttpUtils {
 							e.printStackTrace();
 						}
 					}
-					
+
 				}).start();
-				isAlive = false; 
+				isAlive = false;
 			}
 
 			// 请求成功调用此方法
@@ -229,7 +231,7 @@ public class HttpManager extends HttpUtils {
 		});
 	}
 
-	//上传
+	// 上传
 	public void getCjxx(final String countryCode, String usertoken, String account)
 			throws UnsupportedEncodingException {
 		country = countryCode;
@@ -271,10 +273,9 @@ public class HttpManager extends HttpUtils {
 			}
 		});
 	}
-	
-	//获得代码表
-	public void getCode(final String aaa100)
-			throws UnsupportedEncodingException {
+
+	// 获得代码表
+	public void getCode(final String aaa100) throws UnsupportedEncodingException {
 		RequestParams params = new RequestParams();
 		String url = RcConstant.codePath + aaa100;
 		params.addHeader("Content-Type", "application/xml");
@@ -295,7 +296,7 @@ public class HttpManager extends HttpUtils {
 							e.printStackTrace();
 						}
 					}
-					
+
 				}).start();
 				isAlive = false;
 			}
@@ -311,6 +312,102 @@ public class HttpManager extends HttpUtils {
 				}.getType());
 				// 存入sql
 				db.addCode(DTOtoC(dto));
+				isAlive = false;
+			}
+		});
+	}
+
+	public void getXzqh(final String cjarea) throws UnsupportedEncodingException {
+		RequestParams params = new RequestParams();
+		String url = RcConstant.xzqhPath + cjarea;
+		params.addHeader("Content-Type", "application/xml");
+		params.addHeader("Accept", "application/xml");
+		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
+			// 请求失败调用次方法
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				isError = true;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}).start();
+				isAlive = false;
+			}
+
+			// 请求成功调用此方法
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				// TODO Auto-generated method stub
+				isError = false;
+				String temp = arg0.result;
+				System.out.println(temp);
+				Xzqh dto = gson.fromJson(temp, new TypeToken<Xzqh>() {
+				}.getType());
+				// 存入sql
+				db.addXzqh(dto);
+				isAlive = false;
+			}
+		});
+	}
+
+	/**
+	 * ----从SP中取出token值--- ---请求服务器 --
+	 */
+	public void getUserDetail(String sToken) {
+		HttpUtils httpUtils = new HttpUtils();
+		httpUtils.configCurrentHttpCacheExpiry(0);
+		RequestParams params1 = new RequestParams();
+		params1.addHeader("token", sToken);
+		params1.addHeader("Content-Type", "application/json;charset=utf-8");
+		params1.addHeader("Accept", "*/*");
+		params1.addHeader("client_id", "1");
+		httpUtils.send(HttpMethod.GET, RcConstant.usertasksPath, params1, new RequestCallBack<String>() {
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				isError = true;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}).start();
+				isAlive = false;
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				isError = false;
+				String result = responseInfo.result;
+				// 获取用户的详细信息并添加到list中
+				Gson gson = new Gson();
+				List<UserDetail> list;
+				list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
+				}.getType());
+
+				/**
+				 * 判断user表中是否有此条数据 没有就添加进去
+				 */
+				String account = list.get(1).getAccount();
+				String query_usern = db.query_usern(context, account);
+				if (query_usern.isEmpty()) {
+					db.addUserDetail(list);
+				}
 				isAlive = false;
 			}
 		});

@@ -24,5 +24,5 @@ public class RcConstant {
 	public static String postPath = "http://10.19.95.68:8081/eapdomain/si/mobileInteraction.do?method=uploadData&eap_username=modelapp&eap_password=123456&countyCode=";
 	public static String getPath = "http://10.19.95.68:8081/eapdomain/si/mobileInteraction.do?method=downloadData&eap_username=modelapp&eap_password=123456&countyCode=";
 	public static String codePath="http://10.19.95.68:8081/eapdomain/si/mobileInteraction.do?method=aa10&eap_username=modelapp&eap_password=123456&aaa100=";
-		/*http://10.19.95.68:8081/eapdomain/si/mobileInteraction.do?method=xzqh&eap_username=modelapp&eap_password=123456&countyCode=130729001001
-*/}
+	public static String xzqhPath="http://10.19.95.68:8081/eapdomain/si/mobileInteraction.do?method=xzqh&eap_username=modelapp&eap_password=123456&countyCode=";
+}

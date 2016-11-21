@@ -37,7 +37,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "test.db";
-	private static final int DATABASE_VERSION = 13;
+	private static final int DATABASE_VERSION = 14;
 
 	public DBHelper(Context context) {
 		// CursorFactory设置为null,使用默认值
@@ -119,8 +119,8 @@ public class DBHelper extends SQLiteOpenHelper {
 		
 		db.execSQL("CREATE TABLE IF NOT EXISTS xzqh"
 				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "COUNTRY VARCHAR,"
-				+ "TOWN VARCHAR NOT NULL,"
+				+ "COUNTRY VARCHAR NOT NULL,"
+				+ "TOWN VARCHAR ,"
 				+ "COUNTY VARCHAR,"
 				+ "CITY VARCHAR,"
 				+ "PROVINCE VARCHAR,"

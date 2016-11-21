@@ -25,9 +25,10 @@ import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.User;
+import com.neuqsoft.cxjmcj.dto.UserDetail;
+import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.server.dto.FamilyMemberDTO;
 import com.neuqsoft.cxjmcj.server.dto.MemberDTO;
-import com.neuqsoft.cxjmcj.server.dto.UserDetail;
 import com.neuqsoft.cxjmcj.utils.HttpManager;
 import com.neuqsoft.cxjmcj.utils.TextToMap;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
@@ -68,17 +69,16 @@ public class MainActivity extends Activity {
 	// image_sjsc
 	public static final int CBDJ = 101;
 	MyAdapter adapter;
-	static Map<String, String> oldMap;
 	static int pos;
 	private TextView title_logout, text_user, title_local, title_num;
-	private List<UserDetail> list;
+
 	Activity activity;
 	String sToken;
 	DBManager db;
 	// 当前listview位置
 	static int itemIndex;
 	private List<UserDetail> queryUserDetail;
-	private String userName;
+	private String account;
 	BuildBean build;
 	HttpManager http;
 
@@ -89,36 +89,69 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		activity = this;
 		http = new HttpManager(activity);
+		db = new DBManager(this);
+		InitView();
+		ButterKnife.bind(MainActivity.this);
 		// 取值
 		Intent intent = getIntent();
-		userName = intent.getStringExtra("userName");
+		account = intent.getStringExtra("userName");
+		SharedPreferences tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
+		sToken = tokenSp.getString("token", "");
 		int info = intent.getIntExtra("info", -1);
-		if (info == 0) {
-			this.runOnUiThread(new Runnable() {
+		loginFeedback(info);
+	}
 
+	public void loginFeedback(int info) {
+		if (info == 0) {
+			// 在线登陆
+			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...");
 					build.show();
-					//获得代码表
+					// 获得代码表
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							try {
-								//获得代码表
+								// 获得代码表
 								http.getCode("AAC058");
 								http.getCode("AAC005");
 								http.getCode("AAC004");
 								http.getCode("BAC067");
 								http.getCode("AAC069");
 								http.getCode("AAC009");
-								//获得行政区划信息
-								Thread.sleep(2000);
+								// 获得userTask信息
+								http.getUserDetail(sToken);
+								while (http.isAlive) {
+								}
+								if (http.isError) {
+								} else {
+									// 获得行政区划信息
+									List<UserDetail> userDetails = db.queryUserDetail(account);
+									for (UserDetail userDetail : userDetails) {
+										http.getXzqh(userDetail.getCjarea());
+									}
+								}
 							} catch (UnsupportedEncodingException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+							}
+							activity.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									UpdateView();
+									/** --------设置标题栏的数据-------------- */
+									String city = queryUserDetail.get(0).getCity().toString();
+									title_local.setText(city);
+									title_num.setText("（共" + queryUserDetail.size() + "村）");
+									text_user.setText(account);
+								}
+							});
+							try {
+								Thread.sleep(500);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -130,33 +163,35 @@ public class MainActivity extends Activity {
 			});
 		} else {
 			this.runOnUiThread(new Runnable() {
-
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...");
 					build.show();
-					delay(3000);
+					UpdateView();
+					delay(1500);
 				}
 			});
 		}
-		db = new DBManager(this);
-		ButterKnife.bind(MainActivity.this);
-		/** ------请求数据---------------- */
-		getDataFromNet();
+	}
 
+	private void UpdateView() {
+		queryUserDetail = db.queryUserDetail(account);
+		/** 设置适配器 */
+		adapter = new MyAdapter(queryUserDetail);
+		listview.setAdapter(adapter);
+		adapter.notifyDataSetChanged();
+		// 加载完后隐藏加载框
+	}
+
+	private void InitView() {
 		/** --------初始化布局----------------- */
 		title_logout = (TextView) findViewById(R.id.title_logout);
 		text_user = (TextView) findViewById(R.id.text_user);
 		title_local = (TextView) findViewById(R.id.title_local);
 		title_num = (TextView) findViewById(R.id.title_num);
 		listview = (ListView) findViewById(R.id.listView);
-		/** --------初始化数据----------------- */
 
-		InputStream inputStream = getResources().openRawResource(R.raw.url);
-		oldMap = new TextToMap().TextToMap(inputStream);
-		/** ------从本地请求数据---------------- */
-		getDataFromlocal();
 		/** --------注销返回到登陆界面-------------- */
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
@@ -204,60 +239,6 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-	}
-
-	private void getDataFromlocal() {
-		queryUserDetail = db.queryUserDetail(userName);
-		/** 设置适配器 */
-		adapter = new MyAdapter(queryUserDetail);
-		listview.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
-		// 加载完后隐藏加载框
-	}
-
-	/**
-	 * ----从SP中取出token值--- ---请求服务器 --
-	 */
-	private void getDataFromNet() {
-		HttpUtils httpUtils = new HttpUtils();
-		httpUtils.configCurrentHttpCacheExpiry(0);
-		SharedPreferences tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
-		sToken = tokenSp.getString("token", "");
-		RequestParams params1 = new RequestParams();
-		params1.addHeader("token", sToken);
-		params1.addHeader("Content-Type", "application/json;charset=utf-8");
-		params1.addHeader("Accept", "*/*");
-		params1.addHeader("client_id", "1");
-		httpUtils.send(HttpMethod.GET, RcConstant.usertasksPath, params1, new RequestCallBack<String>() {
-			@Override
-			public void onFailure(HttpException error, String msg) {
-			}
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				String result = responseInfo.result;
-				getInfoData(result);
-			}
-		});
-	}
-
-	/** 获取用户的详细信息并添加到list中--- */
-	protected void getInfoData(String result) {
-		Gson gson = new Gson();
-		list = gson.fromJson(result, new TypeToken<List<UserDetail>>() {
-		}.getType());
-
-		/**
-		 * 判断user表中是否有此条数据 没有就添加进去
-		 */
-		String account = list.get(1).getAccount();
-		String query_usern = db.query_usern(this, account);
-		if (query_usern.isEmpty()) {
-			db.addUserDetail(list);
-		}
-		/** ------从本地请求数据---------------- */
-		getDataFromlocal();
-
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -380,21 +361,14 @@ public class MainActivity extends Activity {
 			} else {
 				holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
 			}
-			/** --------设置标题栏的数据-------------- */
-			String city = queryUserDetail.get(0).getCity().toString();
-			title_local.setText(city);
-			title_num.setText("（共" + queryUserDetail.size() + "村）");
-			final String account = queryUserDetail.get(0).getAccount();
-			text_user.setText(account);
 
 			/** 把乡镇代码转换形成乡镇 名称 */
 			holder.cjarea = queryUserDetail.get(position).getCjarea();
-			for (String key : oldMap.keySet()) {
-				if (key.equals(holder.cjarea))
-					holder.local.setText(oldMap.get(key));
-				else
-					holder.local.setText("某村");
-			}
+			Xzqh xzqh = db.queryXzqh(holder.cjarea);
+			if (xzqh.getName() != null && xzqh.getName() != "")
+				holder.local.setText(xzqh.getName());
+			else
+				holder.local.setText("某村");
 
 			final Handler handler = new Handler() {
 				public void handleMessage(Message msg) {

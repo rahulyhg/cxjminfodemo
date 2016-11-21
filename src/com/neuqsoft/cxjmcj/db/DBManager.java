@@ -13,8 +13,8 @@ import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.CJUrl;
 import com.neuqsoft.cxjmcj.dto.User;
+import com.neuqsoft.cxjmcj.dto.UserDetail;
 import com.neuqsoft.cxjmcj.dto.Xzqh;
-import com.neuqsoft.cxjmcj.server.dto.UserDetail;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -150,7 +150,7 @@ public class DBManager {
 		db.beginTransaction(); // 开始事务
 		try {
 
-			db.execSQL("REPLACE INTO xzqh  VALUES( null, ?,?,?,?,  ?,?,?,?)",
+			db.execSQL("REPLACE INTO xzqh VALUES( null, ?,?,?,?,  ?,?,?,?)",
 					new Object[] { xzqh.getCountry(), xzqh.getTown(), xzqh.getCounty(), xzqh.getCity(),
 							xzqh.getProvince(), xzqh.getName(), xzqh.getSfcl(), xzqh.getCjzt() });
 
@@ -314,9 +314,9 @@ public class DBManager {
 		}
 	}
 
-	public List<UserDetail> queryUserDetail(String variable) {
+	public List<UserDetail> queryUserDetail(String account) {
 		ArrayList<UserDetail> UserDetails = new ArrayList<UserDetail>();
-		Cursor c = db.rawQuery("SELECT * FROM userdetail where account='" + variable + "'", null);
+		Cursor c = db.rawQuery("SELECT * FROM userdetail where account='" + account + "'", null);
 		while (c.moveToNext()) {
 			UserDetail userDetail = new UserDetail();
 			userDetail.taskid = c.getString(c.getColumnIndex("taskid"));

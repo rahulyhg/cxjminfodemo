@@ -22,7 +22,7 @@ import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
-import com.neuqsoft.cxjmcj.server.dto.UserDetail;
+import com.neuqsoft.cxjmcj.dto.UserDetail;
 import com.neuqsoft.cxjmcj.utils.CustomDialog;
 import com.neuqsoft.cxjmcj.utils.IDCard;
 import com.neuqsoft.cxjmcj.utils.PersonalUtil;

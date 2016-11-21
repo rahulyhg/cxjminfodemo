@@ -1,4 +1,4 @@
-package com.neuqsoft.cxjmcj.server.dto;
+package com.neuqsoft.cxjmcj.dto;
 
 public class UserDetail {
 	public String id;
