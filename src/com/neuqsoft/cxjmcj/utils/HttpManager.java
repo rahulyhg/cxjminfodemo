@@ -17,9 +17,11 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.neuqsoft.cxjmcj.RcConstant;
 import com.neuqsoft.cxjmcj.db.DBManager;
+import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
+import com.neuqsoft.cxjmcj.server.dto.CodeDTO;
 import com.neuqsoft.cxjmcj.server.dto.FamilyDTO;
 import com.neuqsoft.cxjmcj.server.dto.FamilyMemberDTO;
 import com.neuqsoft.cxjmcj.server.dto.MemberDTO;
@@ -58,7 +60,7 @@ public class HttpManager extends HttpUtils {
 			family.edit_djrq = d.getAab050();
 			family.xzqh = country;
 			family.isEdit = "0";
-			family.isUpload = "0";
+			family.isUpload = "1";
 			family.id = d.getLsh();
 			familyList.add(family);
 		}
@@ -84,12 +86,25 @@ public class HttpManager extends HttpUtils {
 			personal.edit_jf = d.getJfbz();
 			personal.edit_zjlx = d.getAac058();
 			personal.edit_lxdh = d.getAae005();
-			personal.isUpload = "0";
+			personal.isUpload = "1";
 			personal.isEdit="0";
 			personal.id = d.getLsh();
 			personalList.add(personal);
 		}
 		return personalList;
+	}
+	
+	List<Code> DTOtoC(List<CodeDTO> dto) {
+		List<Code> Codes = new ArrayList<Code>();
+		for (CodeDTO c : dto) {
+			Code code = new Code();
+			code.AAA100 = c.getAAA100();
+			code.AAA101 = c.getAAA101();
+			code.AAA102 = c.getAAA102();
+			code.AAA103 = c.getAAA103();
+			Codes.add(code);
+		}
+		return Codes;
 	}
 
 	List<MemberDTO> MtoDTO(List<Personal> dto) {
@@ -97,6 +112,7 @@ public class HttpManager extends HttpUtils {
 		List<MemberDTO> personalList = new ArrayList<MemberDTO>();
 		for (Personal d : dto) {
 			MemberDTO personal = new MemberDTO();
+			personal.setAac999(d.edit_grbh);
 			personal.setAac003(d.edit_cbrxm);
 			personal.setAae135(d.edit_gmcfzh);
 			personal.setAac005(d.edit_mz);
@@ -192,7 +208,6 @@ public class HttpManager extends HttpUtils {
 					
 				}).start();
 				isAlive = false; 
-
 			}
 
 			// 请求成功调用此方法
@@ -214,6 +229,7 @@ public class HttpManager extends HttpUtils {
 		});
 	}
 
+	//上传
 	public void getCjxx(final String countryCode, String usertoken, String account)
 			throws UnsupportedEncodingException {
 		country = countryCode;
@@ -251,6 +267,50 @@ public class HttpManager extends HttpUtils {
 				System.out.println("上传成功");
 				System.out.println(arg0.result);
 				db.update_df(context, countryCode, "uploadflag");
+				isAlive = false;
+			}
+		});
+	}
+	
+	//获得代码表
+	public void getCode(final String aaa100)
+			throws UnsupportedEncodingException {
+		RequestParams params = new RequestParams();
+		String url = RcConstant.codePath + aaa100;
+		params.addHeader("Content-Type", "application/xml");
+		params.addHeader("Accept", "application/xml");
+		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
+			// 请求失败调用次方法
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				isError = true;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+				}).start();
+				isAlive = false;
+			}
+
+			// 请求成功调用此方法
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				// TODO Auto-generated method stub
+				isError = false;
+				String temp = arg0.result;
+				System.out.println(temp);
+				List<CodeDTO> dto = gson.fromJson(temp, new TypeToken<List<CodeDTO>>() {
+				}.getType());
+				// 存入sql
+				db.addCode(DTOtoC(dto));
 				isAlive = false;
 			}
 		});

@@ -8,9 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.neuqsoft.cxjmcj.R;
+import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
+import com.neuqsoft.cxjmcj.dto.CJUrl;
 import com.neuqsoft.cxjmcj.dto.User;
+import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.server.dto.UserDetail;
 
 import android.content.ContentValues;
@@ -130,26 +133,43 @@ public class DBManager {
 		}
 	}
 
-	/**
-	 * update family
-	 * 
-	 * @param family
-	 */
+	public void addCode(List<Code> list) {
+		db.beginTransaction(); // 开始事务
+		try {
+			for (Code code : list) {
+				db.execSQL("REPLACE INTO code  VALUES( null, ?,?,?,?)",
+						new Object[] { code.AAA100, code.AAA101, code.AAA103, code.AAA102 });
+			}
+			db.setTransactionSuccessful(); // 设置事务成功完成
+		} finally {
+			db.endTransaction(); // 结束事务
+		}
+	}
 
-	/*
-	 * public void updateFamily(Family family) { ContentValues cv = new
-	 * ContentValues(); cv.put("AAB400", family.getEdit_hzxm());
-	 * cv.put("AAE135", family.getEdit_gmcfzh()); cv.put("AAC058",
-	 * family.getEdit_jhzzjlx()); cv.put("BAB041", family.getEdit_cjqtbxrs());
-	 * cv.put("AAE005", family.getEdit_lxdh()); cv.put("AAE006",
-	 * family.getEdit_hkxxdz()); cv.put("AAB050", family.getEdit_djrq());
-	 * 
-	 * cv.put("ISEDIT", family.getIsEdit()); cv.put("ISUPLOAD",
-	 * family.getIsUpload());
-	 * 
-	 * db.update("family", cv, "_id = ?", new String[] {
-	 * String.valueOf(family.getId()) }); }
-	 */
+	public void addXzqh(Xzqh xzqh) {
+		db.beginTransaction(); // 开始事务
+		try {
+
+			db.execSQL("REPLACE INTO xzqh  VALUES( null, ?,?,?,?,  ?,?,?,?)",
+					new Object[] { xzqh.getCountry(), xzqh.getTown(), xzqh.getCounty(), xzqh.getCity(),
+							xzqh.getProvince(), xzqh.getName(), xzqh.getSfcl(), xzqh.getCjzt() });
+
+			db.setTransactionSuccessful(); // 设置事务成功完成
+		} finally {
+			db.endTransaction(); // 结束事务
+		}
+	}
+
+	public void addUrl(CJUrl u) {
+		db.beginTransaction(); // 开始事务
+		try {
+			db.execSQL("REPLACE INTO url  VALUES( null, ?,?,?)",
+					new Object[] { u.getCjarea(), u.getName(), u.getUrl() });
+			db.setTransactionSuccessful(); // 设置事务成功完成
+		} finally {
+			db.endTransaction(); // 结束事务
+		}
+	}
 
 	/**
 	 * update personal
@@ -207,28 +227,10 @@ public class DBManager {
 		db.delete("personal", "_id = ?", new String[] { personal.id });
 	}
 
-	/*
-	 * 家庭信息 序号 字段名称 描述 类型 长度 非空 备注 AAB999 家庭编号 Varchar2 16 为空代表新登记家庭
-	 * getEdit_hzxm AAB400 户主姓名 Varchar2 50 √ AAC058 户主证件类型 Varchar2 3 √ 见代码表
-	 * getEdit_gmcfzh AAE135 户主证件号码 Varchar2 20 √ AAB401 户籍编号 Varchar2 20
-	 * getEdit_cjqtbxrs BAB041 参保人数 number 3 getEdit_lxdh AAE005 联系电话 Varchar2
-	 * 50 getEdit_hkxxdz AAE006 住址 Varchar2 100 getEdit_djrq AAB050 登记日期
-	 * Varchar2 10 √ 格式：yyyymmdd
-	 * 
-	 * 人员信息 序号 字段名称 描述 类型 长度 非空 备注 AAC999 个人编号 Varchar2 16 为空代表新登记人员
-	 * getEdit_cbrxm AAC003 姓名 Varchar2 50 √ AAC058 证件类型 Varchar2 3 √ 见代码表
-	 * getEdit_gmcfzh AAE135 公民身份号码 Varchar2 20 √ getEdit_mz AAC005 民族 Varchar2
-	 * 3 √ 见代码表
-	 * 
-	 * getEdit_xb AAC004 性别 Varchar2 3 √ 见代码表 getEdit_csrq AAC006 出生日期 Varchar2
-	 * 10 √ 格式：yyyymmdd getEdit_cbrylb BAC067 参保人员类别 Varchar2 3 √ 见代码表
-	 * getEdit_cbrq AAC030 登记日期 Varchar2 10 √ 格式：yyyymmdd getEdit_yhzgx AAC069
-	 * 与户主关系 Varchar2 3 见代码表
-	 * 
-	 * AAE005 联系电话 Varchar2 50 getEdit_xxjzdz AAE006 住址 Varchar2 100
-	 * getEdit_hkxz AAC009 户口性质 Varchar2 3 见代码表 getHZSFZ HZSFZ 户主身份号码 Varchar2
-	 * 20 √
-	 */
+	public void deleteCode(String AAA100) {
+		db.delete("code", "AAA100 = ?", new String[] { AAA100 });
+	}
+
 	/**
 	 * query all persons, return list
 	 * 
@@ -246,6 +248,52 @@ public class DBManager {
 		}
 		c.close();
 		return users;
+	}
+
+	public List<Code> queryCode(String var) {
+		ArrayList<Code> codes = new ArrayList<Code>();
+		Cursor c = db.rawQuery("SELECT * FROM code where AAA100='" + var + "'", null);
+		while (c.moveToNext()) {
+			Code code = new Code();
+			code._id = c.getInt(c.getColumnIndex("_id"));
+			code.AAA100 = c.getString(c.getColumnIndex("AAA100"));
+			code.AAA101 = c.getString(c.getColumnIndex("AAA101"));
+			code.AAA103 = c.getString(c.getColumnIndex("AAA103"));
+			code.AAA102 = c.getString(c.getColumnIndex("AAA102"));
+			codes.add(code);
+		}
+		c.close();
+		return codes;
+	}
+
+	public Xzqh queryXzqh(String country) {
+		ArrayList<Code> codes = new ArrayList<Code>();
+		Cursor c = db.rawQuery("SELECT * FROM xzqh where COUNTRY='" + country + "'", null);
+		Xzqh xzqh = new Xzqh();
+		while (c.moveToNext()) {
+			xzqh.country = c.getString(c.getColumnIndex("COUNTRY"));
+			xzqh.town = c.getString(c.getColumnIndex("TOWN"));
+			xzqh.county = c.getString(c.getColumnIndex("COUNTY"));
+			xzqh.city = c.getString(c.getColumnIndex("CITY"));
+			xzqh.province = c.getString(c.getColumnIndex("PROVINCE"));
+			xzqh.name = c.getString(c.getColumnIndex("NAME"));
+			xzqh.sfcl = c.getString(c.getColumnIndex("SFCL"));
+			xzqh.cjzt = c.getString(c.getColumnIndex("CJZT"));
+		}
+		c.close();
+		return xzqh;
+	}
+
+	public CJUrl queryUrl(String cjarea) {
+		Cursor c = db.rawQuery("SELECT * FROM code where COUNTRYCODE='" + cjarea + "'", null);
+		CJUrl url = new CJUrl();
+		while (c.moveToNext()) {
+			url.cjarea = c.getString(c.getColumnIndex("COUNTRYCODE"));
+			url.name = c.getString(c.getColumnIndex("NAME"));
+			url.url = c.getString(c.getColumnIndex("URL"));
+		}
+		c.close();
+		return url;
 	}
 
 	public int Quer(String pwd, String name) {
@@ -336,21 +384,6 @@ public class DBManager {
 		return familys;
 	}
 
-	/*
-	 * 人员信息 序号 字段名称 描述 类型 长度 非空 备注 AAC999 个人编号 Varchar2 16 为空代表新登记人员
-	 * getEdit_cbrxm AAC003 姓名 Varchar2 50 √ AAC058 证件类型 Varchar2 3 √ 见代码表
-	 * getEdit_gmcfzh AAE135 公民身份号码 Varchar2 20 √ getEdit_mz AAC005 民族 Varchar2
-	 * 3 √ 见代码表
-	 * 
-	 * getEdit_xb AAC004 性别 Varchar2 3 √ 见代码表 getEdit_csrq AAC006 出生日期 Varchar2
-	 * 10 √ 格式：yyyymmdd getEdit_cbrylb BAC067 参保人员类别 Varchar2 3 √ 见代码表
-	 * getEdit_cbrq AAC030 登记日期 Varchar2 10 √ 格式：yyyymmdd getEdit_yhzgx AAC069
-	 * 与户主关系 Varchar2 3 见代码表
-	 * 
-	 * AAE005 联系电话 Varchar2 50 getEdit_xxjzdz AAE006 住址 Varchar2 100
-	 * getEdit_hkxz AAC009 户口性质 Varchar2 3 见代码表 getHZSFZ HZSFZ 户主身份号码 Varchar2
-	 * 20 √
-	 */
 	public ArrayList<Personal> queryPersonal() {
 		ArrayList<Personal> personals = new ArrayList<Personal>();
 		Cursor c = queryTheCursor("personal");

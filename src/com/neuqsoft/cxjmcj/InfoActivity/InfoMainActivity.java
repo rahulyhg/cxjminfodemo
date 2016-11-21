@@ -39,7 +39,7 @@ import com.neuqsoft.cxjmcj.utils.IDCard;
 import com.neuqsoft.cxjmcj.utils.LoadingDialog;
 import com.neuqsoft.cxjmcj.utils.TextToMap;
 import com.roamer.slidelistview.SlideListView;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -186,11 +186,11 @@ public class InfoMainActivity extends BaseActivity {
 		lvMember = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
 		lvFamily = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
 		// 用於識別行政區劃
-		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
+		InputStream inputStream = getResources().openRawResource(R.raw.url);
 		oldMap = new TextToMap().TextToMap(inputStream);
 		for (String key : oldMap.keySet()) {
 			if (key.equals(XZQH))
-				title_num.setText("("+oldMap.get(key)+")");
+				title_num.setText("(" + oldMap.get(key) + ")");
 		}
 	}
 
@@ -205,7 +205,7 @@ public class InfoMainActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_gmcfzh());
+			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_jtbh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 
@@ -221,6 +221,7 @@ public class InfoMainActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 		final Handler mHandler = new Handler() {
+			@SuppressLint("HandlerLeak")
 			public void handleMessage(Message msg) {
 				if (msg.what == 0) {
 					/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */

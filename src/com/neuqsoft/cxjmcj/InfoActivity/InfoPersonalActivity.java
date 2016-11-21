@@ -340,7 +340,6 @@ public class InfoPersonalActivity extends Activity {
 						: (calendar.get(Calendar.MONTH) + 1))
 				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
 						: calendar.get(Calendar.DAY_OF_MONTH)));
-
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
 

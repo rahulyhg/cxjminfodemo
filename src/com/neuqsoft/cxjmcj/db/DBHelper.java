@@ -37,7 +37,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "test.db";
-	private static final int DATABASE_VERSION = 11;
+	private static final int DATABASE_VERSION = 13;
 
 	public DBHelper(Context context) {
 		// CursorFactory设置为null,使用默认值
@@ -61,11 +61,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	{
 		db.execSQL("CREATE TABLE IF NOT EXISTS user"
 				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "username VARCHAR ,"
+				+ "username VARCHAR NOT NULL,"
 				+ "password VARCHAR)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS userdetail"
 				+ "(taskid VARCHAR PRIMARY KEY ,"
-				+ "account VARCHAR,"
+				+ "account VARCHAR NOT NULL,"
 				+ "city VARCHAR,"
 				+ "cjarea VARCHAR,"
 				+ "downloadflag VARCHAR,"
@@ -109,5 +109,29 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "HZSFZ VARCHAR  NOT NULL,"
 				+ "ISEDIT VARCHAR NOT　NULL,"
 				+ "ISUPLOAD VARCHAR NOT NULL)");
+		
+		db.execSQL("CREATE TABLE IF NOT EXISTS code"
+				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "AAA100 VARCHAR NOT NULL,"
+				+ "AAA101 VARCHAR,"
+				+ "AAA103 VARCHAR,"
+				+ "AAA102 VARCHAR)");
+		
+		db.execSQL("CREATE TABLE IF NOT EXISTS xzqh"
+				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "COUNTRY VARCHAR,"
+				+ "TOWN VARCHAR NOT NULL,"
+				+ "COUNTY VARCHAR,"
+				+ "CITY VARCHAR,"
+				+ "PROVINCE VARCHAR,"
+				+ "NAME VARCHAR,"
+				+ "SFCL VARCHAR,"
+				+ "CJZT VARCHAR)");
+		
+		db.execSQL("CREATE TABLE IF NOT EXISTS url"
+				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "COUNTRYCODE VARCHAR NOT NULL,"
+				+ "NAME VARCHAR ,"
+				+ "URL VARCHAR)");
 	}
 }

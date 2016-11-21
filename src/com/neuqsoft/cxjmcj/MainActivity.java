@@ -80,6 +80,7 @@ public class MainActivity extends Activity {
 	private List<UserDetail> queryUserDetail;
 	private String userName;
 	BuildBean build;
+	HttpManager http;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -87,6 +88,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		activity = this;
+		http = new HttpManager(activity);
 		// 取值
 		Intent intent = getIntent();
 		userName = intent.getStringExtra("userName");
@@ -99,7 +101,31 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...");
 					build.show();
-					delay(3000);
+					//获得代码表
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							try {
+								//获得代码表
+								http.getCode("AAC058");
+								http.getCode("AAC005");
+								http.getCode("AAC004");
+								http.getCode("BAC067");
+								http.getCode("AAC069");
+								http.getCode("AAC009");
+								//获得行政区划信息
+								Thread.sleep(2000);
+							} catch (UnsupportedEncodingException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							build.dialog.dismiss();
+						}
+					}).start();
 				}
 			});
 		} else {
@@ -114,7 +140,6 @@ public class MainActivity extends Activity {
 				}
 			});
 		}
-
 		db = new DBManager(this);
 		ButterKnife.bind(MainActivity.this);
 		/** ------请求数据---------------- */
@@ -128,7 +153,7 @@ public class MainActivity extends Activity {
 		listview = (ListView) findViewById(R.id.listView);
 		/** --------初始化数据----------------- */
 
-		InputStream inputStream = getResources().openRawResource(R.raw.countrycode);
+		InputStream inputStream = getResources().openRawResource(R.raw.url);
 		oldMap = new TextToMap().TextToMap(inputStream);
 		/** ------从本地请求数据---------------- */
 		getDataFromlocal();
@@ -415,23 +440,44 @@ public class MainActivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								http.isAlive = true;
-								holder.upload2.setVisibility(View.VISIBLE);
-								holder.download.setButtonColor(Color.rgb(204, 204, 204));
-								holder.upload.setButtonColor(Color.rgb(204, 204, 204));
+								/*
+								 * holder.upload2.setVisibility(View.VISIBLE);
+								 * holder.download.setButtonColor(Color.rgb(204,
+								 * 204, 204));
+								 * holder.upload.setButtonColor(Color.rgb(204,
+								 * 204, 204));
+								 * 
+								 * holder.download.setShadowEnabled(false);
+								 * holder.upload.setShadowEnabled(false);
+								 * 
+								 * holder.download.setClickable(false);
+								 * holder.upload.setClickable(false);
+								 * 
+								 * holder.top1.setBackgroundResource(R.drawable.
+								 * top31);
+								 * holder.top.setBackgroundResource(R.drawable.
+								 * top3);
+								 * holder.list.setImageResource(R.drawable.list2
+								 * );
+								 * holder.list.setScaleType(ImageView.ScaleType.
+								 * FIT_XY);
+								 * 
+								 * holder.center.setBackgroundResource(R.
+								 * drawable.center3);
+								 * holder.bottom.setImageResource(R.drawable.
+								 * bottom3);
+								 */
+								activity.runOnUiThread(new Runnable() {
 
-								holder.download.setShadowEnabled(false);
-								holder.upload.setShadowEnabled(false);
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										dialog_up = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
+												.setTitleText("上传成功");
+										dialog_up.show();
+									}
 
-								holder.download.setClickable(false);
-								holder.upload.setClickable(false);
-
-								holder.top1.setBackgroundResource(R.drawable.top31);
-								holder.top.setBackgroundResource(R.drawable.top3);
-								holder.list.setImageResource(R.drawable.list2);
-								holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
-
-								holder.center.setBackgroundResource(R.drawable.center3);
-								holder.bottom.setImageResource(R.drawable.bottom3);
+								});
 
 							}
 						});
@@ -511,7 +557,7 @@ public class MainActivity extends Activity {
 					}
 					// 判断已经上传
 					if (userDetail.uploadflag.equals("1")) {
-						handler.sendEmptyMessage(3);
+						// handler.sendEmptyMessage(3);
 					}
 				}
 			}
@@ -562,12 +608,9 @@ public class MainActivity extends Activity {
 					if (http.isError) {
 						handler.sendEmptyMessage(2);
 					} else
-					// 上传成功
-					{
+						// 上传成功
 						handler.sendEmptyMessage(3);
-						dialog_up = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE).setTitleText("上传成功");
-						dialog_up.show();
-					}
+
 					// 去dialog
 					build.dialog.dismiss();
 					new Thread(new Runnable() {
