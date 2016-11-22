@@ -46,7 +46,7 @@ public class HttpManager extends HttpUtils {
 		this.context = context;
 		db = new DBManager(context);
 	}
-	
+
 	public void Init() {
 		isAlive = true;
 		isError = false;
@@ -203,6 +203,7 @@ public class HttpManager extends HttpUtils {
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
 				ToastUtil.showShort(context, "服务器连接失败！");
+				db.update_df(context, countryCode, "downloadflag", "0");
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -232,7 +233,7 @@ public class HttpManager extends HttpUtils {
 				db.addFamily(DTOtoF(dto.getJt()));
 				db.addPersonal(DTOtoM(dto.getRy()));
 				// 下载成功user表的download置1
-				db.update_df(context, countryCode, "downloadflag");
+
 				isAlive = false;
 			}
 		});
@@ -276,7 +277,6 @@ public class HttpManager extends HttpUtils {
 				isError = false;
 				System.out.println("上传成功");
 				System.out.println(arg0.result);
-				db.update_df(context, countryCode, "uploadflag");
 				isAlive = false;
 			}
 		});

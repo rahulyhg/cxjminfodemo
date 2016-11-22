@@ -501,9 +501,9 @@ public class DBManager {
 	}
 
 	// 下载标志位置1/上传标志位置1/2016年11月2日10:44:30
-	public void update_df(Context context, String Code, String flag) {
+	public void update_df(Context context, String Code, String flag,String flag2) {
 		String cjarea1 = "";
-		String sql = "update userdetail set '" + flag + "'=1 where cjarea='" + Code + "'";
+		String sql = "update userdetail set '" + flag + "'='" + flag2+"' where cjarea='" + Code + "'";
 		Cursor c = db.rawQuery(sql, null);
 		while (c.moveToNext()) {
 			cjarea1 = c.getString(c.getColumnIndex("cjarea"));

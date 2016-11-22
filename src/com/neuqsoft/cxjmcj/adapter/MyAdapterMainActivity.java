@@ -223,7 +223,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 								List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
 								memberSize = memberSize + personals.size();
 								for (Personal personal : personals) {
-									if (!personal.getEdit_jf().equals("0")) {
+									if (personal.getEdit_jf().equals("1")) {
 										memberJf = memberJf + 1;
 									}
 								}
@@ -317,6 +317,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
+					db.update_df(activity, holder.cjarea, "downloadflag", "0");
 					http.getCjxx(holder.cjarea, sToken, sToken);
 				} catch (UnsupportedEncodingException e1) {
 					// TODO Auto-generated catch block
