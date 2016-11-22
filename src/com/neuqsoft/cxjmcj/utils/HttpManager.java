@@ -33,7 +33,7 @@ import android.content.SharedPreferences;
 
 public class HttpManager extends HttpUtils {
 	Gson gson = new Gson();
-	HttpUtils httpUtils = new HttpUtils(1500);
+	HttpUtils httpUtils = new HttpUtils(3000);
 	public FamilyMemberDTO dto;
 	public boolean isAlive = true;
 	public boolean isError = false;
@@ -45,6 +45,11 @@ public class HttpManager extends HttpUtils {
 	public HttpManager(Context context) {
 		this.context = context;
 		db = new DBManager(context);
+	}
+	
+	public void Init() {
+		isAlive = true;
+		isError = false;
 	}
 
 	List<Family> DTOtoF(List<FamilyDTO> dto) {
@@ -186,6 +191,7 @@ public class HttpManager extends HttpUtils {
 	 * 
 	 */
 	public void getJbxx(final String countryCode) {
+		Init();
 		country = countryCode;
 		RequestParams params = new RequestParams();
 		params.addHeader("Content-Type", "application/json");
@@ -196,6 +202,7 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
+				ToastUtil.showShort(context, "服务器连接失败！");
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -234,6 +241,7 @@ public class HttpManager extends HttpUtils {
 	// 上传
 	public void getCjxx(final String countryCode, String usertoken, String account)
 			throws UnsupportedEncodingException {
+		Init();
 		country = countryCode;
 		RequestParams params = new RequestParams();
 		String url = RcConstant.postPath + countryCode;
@@ -276,6 +284,7 @@ public class HttpManager extends HttpUtils {
 
 	// 获得代码表
 	public void getCode(final String aaa100) throws UnsupportedEncodingException {
+		Init();
 		RequestParams params = new RequestParams();
 		String url = RcConstant.codePath + aaa100;
 		params.addHeader("Content-Type", "application/xml");
@@ -284,6 +293,7 @@ public class HttpManager extends HttpUtils {
 			// 请求失败调用次方法
 			@Override
 			public void onFailure(HttpException error, String msg) {
+				ToastUtil.showShort(context, "服务器连接失败！");
 				isError = true;
 				new Thread(new Runnable() {
 					@Override
@@ -317,6 +327,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	public void getXzqh(final String cjarea) throws UnsupportedEncodingException {
+		Init();
 		RequestParams params = new RequestParams();
 		String url = RcConstant.xzqhPath + cjarea;
 		params.addHeader("Content-Type", "application/xml");
@@ -326,6 +337,7 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
+				ToastUtil.showShort(context, "服务器连接失败！");
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -362,6 +374,7 @@ public class HttpManager extends HttpUtils {
 	 * ----从SP中取出token值--- ---请求服务器 --
 	 */
 	public void getUserDetail(String sToken) {
+		Init();
 		HttpUtils httpUtils = new HttpUtils();
 		httpUtils.configCurrentHttpCacheExpiry(0);
 		RequestParams params1 = new RequestParams();
@@ -373,6 +386,7 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
+				ToastUtil.showShort(context, "服务器连接失败！");
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -402,7 +416,7 @@ public class HttpManager extends HttpUtils {
 				/**
 				 * 判断user表中是否有此条数据 没有就添加进去
 				 */
-				String account = list.get(1).getAccount();
+				String account = list.get(0).getAccount();
 				String query_usern = db.query_usern(context, account);
 				if (query_usern.isEmpty()) {
 					db.addUserDetail(list);

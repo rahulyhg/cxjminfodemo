@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 	DBManager db;
 	// 当前listview位置
 	static int itemIndex;
-	private List<UserDetail> queryUserDetail;
+	static List<UserDetail> queryUserDetail = new ArrayList<UserDetail>();
 	private String account;
 	BuildBean build;
 	HttpManager http;
@@ -111,80 +111,49 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...", false, false, true);
 					build.show();
-					// 获得代码表
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							try {
 								// 获得代码表
-								http.getCode("AAC058");
-								http.getCode("AAC005");
-								http.getCode("AAC004");
-								http.getCode("BAC067");
-								http.getCode("AAC069");
-								http.getCode("AAC009");
+								if (db.queryCode("AAC058").size() == 0)
+									GetCode();
 								// 获得userTask信息
 								http.getUserDetail(sToken);
 								while (http.isAlive) {
+									// 用户任务下载完
 								}
 								if (http.isError) {
 									build.dialog.dismiss();
 									activity.runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
-
-											Dialog dialog;
-											dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
-													.setTitleText("服务器异常，请重试").setConfirmClickListener(
-															new SweetAlertDialog.OnSweetClickListener() {
-																@Override
-																public void onClick(SweetAlertDialog sDialog) {
-																	Logout();
-																}
-															});
-											dialog.show();
+											serverError();
 										}
 									});
 								} else {
 									// 获得行政区划信息
-									queryUserDetail = db.queryUserDetail(account);
-									for (UserDetail userDetail : queryUserDetail) {
-										http.getXzqh(userDetail.getCjarea());
-									}
+									GetXzqh();
 								}
+								activity.runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										if (queryUserDetail.size() < 1) {
+											// 无任务
+											serverError();
+										} else {
+											UpdateView(queryUserDetail);
+											/** --------设置标题栏的数据-------------- */
+											InitHeader();
+										}
+									}
+								});
+								// 等待加载完
+								Thread.sleep(500);
 							} catch (UnsupportedEncodingException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							}
-							activity.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									if (queryUserDetail.size() < 1)
-									// 无任务
-									{
-										Dialog dialog;
-										dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
-												.setTitleText("暂无任务，请重試")
-												.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-													@Override
-													public void onClick(SweetAlertDialog sDialog) {
-														Logout();
-													}
-												});
-										dialog.show();
-									} else {
-										UpdateView(queryUserDetail);
-										/** --------设置标题栏的数据-------------- */
-										String city = queryUserDetail.get(0).getCity().toString();
-										title_local.setText(city);
-										title_num.setText("（共" + queryUserDetail.size() + "地区）");
-										text_user.setText(account);
-									}
-								}
-							});
-							try {
-								Thread.sleep(500);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -299,5 +268,64 @@ public class MainActivity extends Activity {
 				finish();
 			}
 		}).start();
+	}
+
+	public void serverError() {
+		Dialog dialog;
+		dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("请重试")
+				.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+					@Override
+					public void onClick(SweetAlertDialog sDialog) {
+						Logout();
+					}
+				});
+		dialog.show();
+	}
+
+	public void GetCode() throws UnsupportedEncodingException {
+		http.getCode("AAC058");
+		while (http.isAlive) {
+		}
+		http.getCode("AAC005");
+		while (http.isAlive) {
+		}
+		http.getCode("AAC004");
+		while (http.isAlive) {
+		}
+		http.getCode("BAC067");
+		while (http.isAlive) {
+		}
+		http.getCode("AAC069");
+		while (http.isAlive) {
+		}
+		http.getCode("AAC009");
+		while (http.isAlive) {
+		}
+	}
+
+	public void InitHeader() {
+		String city = queryUserDetail.get(0).getCity().toString();
+		title_local.setText(city);
+		title_num.setText("（共" + queryUserDetail.size() + "地区）");
+		text_user.setText(account);
+	}
+
+	public void GetXzqh() throws UnsupportedEncodingException {
+		queryUserDetail = db.queryUserDetail(account);
+		for (UserDetail userDetail : queryUserDetail) {
+			http.getXzqh(userDetail.getCjarea());
+			while (http.isAlive) {
+				// 等待行政区划下载完
+			}
+			if (http.isError) {
+				build.dialog.dismiss();
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						serverError();
+					}
+				});
+			}
+		}
 	}
 }
