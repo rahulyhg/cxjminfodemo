@@ -32,7 +32,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/image_user"
-                android:text="某人"
+                android:text="用户名"
                 android:textColor="#ffffff"
                 android:textSize="13sp" />
 

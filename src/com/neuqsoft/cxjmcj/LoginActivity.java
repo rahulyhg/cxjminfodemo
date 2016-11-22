@@ -17,7 +17,6 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.User;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
-import com.neuqsoft.cxjmcj.utils.LoadingDialog;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;

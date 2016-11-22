@@ -37,7 +37,6 @@ import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.utils.FamilyUtil;
 import com.neuqsoft.cxjmcj.utils.IDCard;
-import com.neuqsoft.cxjmcj.utils.LoadingDialog;
 import com.neuqsoft.cxjmcj.utils.TextToMap;
 import com.roamer.slidelistview.SlideListView;
 import android.annotation.SuppressLint;
@@ -116,7 +115,6 @@ public class InfoMainActivity extends BaseActivity {
 
 	public DBManager mgr;
 
-	LoadingDialog loading;
 
 	@Bind(R.id.line)
 	public LinearLayout line;
@@ -137,7 +135,6 @@ public class InfoMainActivity extends BaseActivity {
 		((BaseActivity) (getParent()))._sonActivity = InfoMainActivity.this;
 		this._sonActivity = InfoMainActivity.this;
 		ButterKnife.bind(InfoMainActivity.this);
-		loading = new LoadingDialog(this);
 		mgr = new DBManager(this);
 
 		initView();
@@ -214,39 +211,17 @@ public class InfoMainActivity extends BaseActivity {
 	@OnClick(R.id.btn_add)
 	public void toInfoFamilyActivity() {
 		try {
-			loading.show();
 			res = IDCard.IDCardValidate(mSearchView.getTextInput());
+			Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
+			// 新增状态 非编辑
+			intent.putExtra("hasTemp", "0");
+			intent.putExtra("gmsfzh", mSearchView.getTextInput());
+			intent.putExtra("XZQH", XZQH);
+			startActivityForResult(intent, INFO_FAMILY);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final Handler mHandler = new Handler() {
-			@SuppressLint("HandlerLeak")
-			public void handleMessage(Message msg) {
-				if (msg.what == 0) {
-					/* sendMessage方法更新UI的操作必须在handler的handleMessage回调中完成 */
-					((Activity) InfoMainActivity.this).runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							loading.dismiss();
-						}
-					});
-				}
-			}
-		};
-		Runnable r2 = new Runnable() {
-			public void run() {
-				Intent intent = new Intent(InfoMainActivity.this, InfoFamilyActivity.class);
-				// 新增状态 非编辑
-				intent.putExtra("hasTemp", "0");
-				intent.putExtra("gmsfzh", mSearchView.getTextInput());
-				intent.putExtra("XZQH", XZQH);
-				startActivityForResult(intent, INFO_FAMILY);
-				mHandler.sendEmptyMessage(0);
-			}
-		};
-		mHandler.post(r2);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
