@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...");
+					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...", false, false, true);
 					build.show();
 					// 获得代码表
 					new Thread(new Runnable() {
@@ -129,6 +129,12 @@ public class MainActivity extends Activity {
 								while (http.isAlive) {
 								}
 								if (http.isError) {
+									build.dialog.dismiss();
+									Dialog dialog;
+									dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+											.setTitleText("服务器连接失败...");
+									dialog.show();
+									finish();
 								} else {
 									// 获得行政区划信息
 									List<UserDetail> userDetails = db.queryUserDetail(account);
@@ -167,7 +173,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...");
+					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...", false, false, true);
 					build.show();
 					UpdateView();
 					delay(1500);
