@@ -306,7 +306,7 @@ public class MainActivity extends Activity {
 	public void InitHeader() {
 		String city = queryUserDetail.get(0).getCity().toString();
 		title_local.setText(city);
-		title_num.setText("（共" + queryUserDetail.size() + "地区）");
+		title_num.setText("(共" + queryUserDetail.size() + "地区)");
 		text_user.setText(account);
 	}
 
