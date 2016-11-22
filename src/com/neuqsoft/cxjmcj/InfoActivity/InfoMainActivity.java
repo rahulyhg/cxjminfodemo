@@ -114,7 +114,6 @@ public class InfoMainActivity extends BaseActivity {
 
 	public DBManager mgr;
 
-
 	@Bind(R.id.line)
 	public LinearLayout line;
 
@@ -185,7 +184,7 @@ public class InfoMainActivity extends BaseActivity {
 		// 用於識別行政區劃
 		Xzqh xzqh = mgr.queryXzqh(XZQH);
 		if (xzqh.getName() != null && xzqh.getName() != "")
-			title_num.setText("("+xzqh.getName()+")");
+			title_num.setText("(" + xzqh.getName() + ")");
 		else
 			title_num.setText("某地区");
 	}
@@ -201,7 +200,7 @@ public class InfoMainActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_jtbh());
+			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_gmcfzh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 
@@ -331,7 +330,7 @@ public class InfoMainActivity extends BaseActivity {
 		// 判断该家庭是否属于该行政区划
 		if (listItemFamily.size() != 0) {
 			if (!listItemFamily.get(0).xzqh.equals(XZQH)) {
-				//获得当前地区名
+				// 获得当前地区名
 				String country = "";
 				Xzqh xzqh = mgr.queryXzqh(listItemFamily.get(0).getXzqh());
 				if (xzqh.getName() != null && xzqh.getName() != "")

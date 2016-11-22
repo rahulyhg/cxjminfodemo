@@ -52,7 +52,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * @Title InfoFamilyActivity
  * @author tengzj
  * @data 2016年8月23日 下午5:24:46
- */        
+ */
 public class InfoFamilyActivity extends Activity {
 
 	/********** DECLARES *************/
@@ -80,9 +80,6 @@ public class InfoFamilyActivity extends Activity {
 
 	@Bind(R.id.edit_gmcfzh)
 	EditText edit_gmcfzh;
-
-	@Bind(R.id.edit_hjbh)
-	EditText edit_hjbh;
 
 	Activity activity;
 
@@ -209,7 +206,6 @@ public class InfoFamilyActivity extends Activity {
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
-			edit_hjbh.setText(tempFamily.getEdit_hjbh());
 			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
@@ -369,13 +365,17 @@ public class InfoFamilyActivity extends Activity {
 
 	Runnable r = new Runnable() {
 		public void run() {
-			// 更新数据
-			if (hasTemp.equals("1"))
-				mgr.updateFamily(tempFamily);
-			getDataFromEdit();
 			ArrayList<Family> familys = new ArrayList<Family>();
 			Family family = new Family();
-			family.setEdit_hjbh(tempFamily.edit_hjbh);
+			// 更新数据
+			if (hasTemp.equals("1")) {
+				// 编辑状态
+				mgr.updateFamily(tempFamily);
+				family.setEdit_jtbh(tempFamily.edit_jtbh);
+			} else
+				family.setEdit_jtbh(tempFamily.edit_gmcfzh);
+			getDataFromEdit();
+
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);
@@ -408,18 +408,17 @@ public class InfoFamilyActivity extends Activity {
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
 		Handler mHandler = new Handler();
-		if(edit_hkxxdz.getText().toString().isEmpty())
+		if (edit_hkxxdz.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "户口地址不能为空！", Toast.LENGTH_SHORT).show();
 		else if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空！", Toast.LENGTH_SHORT).show();
-		else if (edit_gmcfzh.length()!=18) {
+		else if (edit_gmcfzh.length() != 18) {
 			Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
-		}
-		else if (res != "")
+		} else if (res != "")
 			Toast.makeText(getApplicationContext(), "公民身份证号不正确！", Toast.LENGTH_SHORT).show();
-		
+
 		else {
 			mHandler.post(r);
 			new Thread(new Runnable() {
@@ -441,7 +440,6 @@ public class InfoFamilyActivity extends Activity {
 	@OnClick(R.id.btn_revert)
 	public void revert() {
 		edit_hzxm.setText("");
-		edit_hjbh.setText("");
 		edit_lxdh.setText("");
 		edit_dzyx.setText("");
 		edit_yzbm.setText("");
@@ -459,7 +457,6 @@ public class InfoFamilyActivity extends Activity {
 		// tempFamily.setEdit_jgszcwh(edit_jgszcwh.getText().toString());
 		tempFamily.setEdit_hzxm(edit_hzxm.getText().toString());
 		tempFamily.setEdit_lxdh(edit_lxdh.getText().toString());
-		tempFamily.setEdit_hjbh(edit_hjbh.getText().toString());
 		tempFamily.setEdit_dzyx(edit_dzyx.getText().toString());
 		tempFamily.setEdit_yzbm(edit_yzbm.getText().toString());
 		tempFamily.setEdit_cjqtbxrs(edit_cjqtbxrs.getText().toString());
