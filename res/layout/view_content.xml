@@ -118,6 +118,7 @@
                     android:layout_height="38dp"
                     android:layout_marginRight="10dp"
                     android:text="上 传"
+                    android:textSize="18sp"
                     android:textColor="#ffffff"
                     fbutton:buttonColor="#149de9"
                     fbutton:cornerRadius="4dp"

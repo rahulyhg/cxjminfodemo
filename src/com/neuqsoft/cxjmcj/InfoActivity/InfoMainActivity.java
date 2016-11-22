@@ -34,6 +34,7 @@ import com.neuqsoft.cxjmcj.base.BaseActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
+import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.utils.FamilyUtil;
 import com.neuqsoft.cxjmcj.utils.IDCard;
 import com.neuqsoft.cxjmcj.utils.LoadingDialog;
@@ -186,12 +187,11 @@ public class InfoMainActivity extends BaseActivity {
 		lvMember = (SlideListView) findViewById(R.id.listView);// 得到ListView对象的引用
 		lvFamily = (SlideListView) findViewById(R.id.listView2);// 得到ListView对象的引用
 		// 用於識別行政區劃
-		InputStream inputStream = getResources().openRawResource(R.raw.url);
-		oldMap = new TextToMap().TextToMap(inputStream);
-		for (String key : oldMap.keySet()) {
-			if (key.equals(XZQH))
-				title_num.setText("(" + oldMap.get(key) + ")");
-		}
+		Xzqh xzqh = mgr.queryXzqh(XZQH);
+		if (xzqh.getName() != null && xzqh.getName() != "")
+			title_num.setText("("+xzqh.getName()+")");
+		else
+			title_num.setText("某地区");
 	}
 
 	@OnClick(R.id.image_left)
@@ -357,11 +357,11 @@ public class InfoMainActivity extends BaseActivity {
 		// 判断该家庭是否属于该行政区划
 		if (listItemFamily.size() != 0) {
 			if (!listItemFamily.get(0).xzqh.equals(XZQH)) {
+				//获得当前地区名
 				String country = "";
-				for (String key : oldMap.keySet()) {
-					if (key.equals(listItemFamily.get(0).getXzqh()))
-						country = oldMap.get(key);
-				}
+				Xzqh xzqh = mgr.queryXzqh(listItemFamily.get(0).getXzqh());
+				if (xzqh.getName() != null && xzqh.getName() != "")
+					country = xzqh.getName();
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("此家庭不属于该区域")
 						.setContentText(listItemFamily.get(0).getEdit_hzxm() + "\n" + listItemFamily.get(0).edit_gmcfzh
 								+ "\n" + "所属地区：" + country + "\n" + "登记日期：" + listItemFamily.get(0).edit_djrq)

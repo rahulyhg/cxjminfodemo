@@ -132,7 +132,7 @@ public class MainActivity extends Activity {
 									build.dialog.dismiss();
 									Dialog dialog;
 									dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
-											.setTitleText("服务器连接失败...");
+											.setTitleText("服务器异常，请重试");
 									dialog.show();
 									finish();
 								} else {
@@ -153,7 +153,7 @@ public class MainActivity extends Activity {
 									/** --------设置标题栏的数据-------------- */
 									String city = queryUserDetail.get(0).getCity().toString();
 									title_local.setText(city);
-									title_num.setText("（共" + queryUserDetail.size() + "村）");
+									title_num.setText("（共" + queryUserDetail.size() + "地区）");
 									text_user.setText(account);
 								}
 							});

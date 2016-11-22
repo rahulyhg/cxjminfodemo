@@ -23,7 +23,6 @@ import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.UserDetail;
-import com.neuqsoft.cxjmcj.utils.CustomDialog;
 import com.neuqsoft.cxjmcj.utils.IDCard;
 import com.neuqsoft.cxjmcj.utils.PersonalUtil;
 
@@ -284,12 +283,12 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner3
 		edit_hkxz = (Spinner) findViewById(R.id.edit_hkxz);
 		ArrayList<String> data_list3 = new ArrayList<String>();
-		data_list3.add("农业户口（农村）");
+		data_list3.add("农业户口（农地区）");
 		data_list3.add("非农业户口（城镇）");
 		data_list3.add("本地非农业户口（本地城镇）");
 		data_list3.add("外地非农业户口（外地城镇）");
-		data_list3.add("本地农业户口（本地农村）");
-		data_list3.add("外地农业户口（外地农村）");
+		data_list3.add("本地农业户口（本地农地区）");
+		data_list3.add("外地农业户口（外地农地区）");
 		data_list3.add("港澳台");
 		data_list3.add("外籍");
 		ArrayAdapter<String> arr_adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
@@ -408,7 +407,7 @@ public class InfoPersonalActivity extends Activity {
 		edit_csrq.setText(personal.edit_csrq);
 
 		String hkxz = personal.getEdit_hkxz();
-		if (hkxz.equals("农业户口（农村）"))
+		if (hkxz.equals("农业户口（农地区）"))
 			edit_hkxz.setSelection(0, true);
 		if (hkxz.equals("非农业户口（城镇）"))
 			edit_hkxz.setSelection(1, true);
@@ -416,9 +415,9 @@ public class InfoPersonalActivity extends Activity {
 			edit_hkxz.setSelection(2, true);
 		if (hkxz.equals("外地非农业户口（外地城镇）"))
 			edit_hkxz.setSelection(3, true);
-		if (hkxz.equals("本地农业户口（本地农村）"))
+		if (hkxz.equals("本地农业户口（本地农地区）"))
 			edit_hkxz.setSelection(4, true);
-		if (hkxz.equals("外地农业户口（外地农村）"))
+		if (hkxz.equals("外地农业户口（外地农地区）"))
 			edit_hkxz.setSelection(5, true);
 		if (hkxz.equals("港澳台"))
 			edit_hkxz.setSelection(6, true);

@@ -148,7 +148,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		if (xzqh.getName() != null && xzqh.getName() != "")
 			holder.local.setText(xzqh.getName());
 		else
-			holder.local.setText("Ä³´å");
+			holder.local.setText("Ä³µØÇø");
 
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -193,32 +193,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 						public void run() {
 							// TODO Auto-generated method stub
 							http.isAlive = true;
-							/*
-							 * holder.upload2.setVisibility(View.VISIBLE);
-							 * holder.download.setButtonColor(Color.rgb(204,
-							 * 204, 204));
-							 * holder.upload.setButtonColor(Color.rgb(204, 204,
-							 * 204));
-							 * 
-							 * holder.download.setShadowEnabled(false);
-							 * holder.upload.setShadowEnabled(false);
-							 * 
-							 * holder.download.setClickable(false);
-							 * holder.upload.setClickable(false);
-							 * 
-							 * holder.top1.setBackgroundResource(R.drawable.
-							 * top31);
-							 * holder.top.setBackgroundResource(R.drawable.
-							 * top3);
-							 * holder.list.setImageResource(R.drawable.list2 );
-							 * holder.list.setScaleType(ImageView.ScaleType.
-							 * FIT_XY);
-							 * 
-							 * holder.center.setBackgroundResource(R.
-							 * drawable.center3);
-							 * holder.bottom.setImageResource(R.drawable.
-							 * bottom3);
-							 */
 							activity.runOnUiThread(new Runnable() {
 
 								@Override

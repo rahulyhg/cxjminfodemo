@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public class FamilyMemberDTO {
-	private String xzqh;    //数据所在区划，以村子为单位
+	private String xzqh;    //数据所在区划，以地区子为单位
 	private String sfcl;    //收费策略
 	private String czr;     //操作员，上传是使用
 	
