@@ -296,7 +296,6 @@ public class HttpManager extends HttpUtils {
 							e.printStackTrace();
 						}
 					}
-
 				}).start();
 				isAlive = false;
 			}
