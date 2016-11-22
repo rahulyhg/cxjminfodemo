@@ -130,15 +130,26 @@ public class MainActivity extends Activity {
 								}
 								if (http.isError) {
 									build.dialog.dismiss();
-									Dialog dialog;
-									dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
-											.setTitleText("服务器异常，请重试");
-									dialog.show();
-									finish();
+									activity.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+
+											Dialog dialog;
+											dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+													.setTitleText("服务器异常，请重试").setConfirmClickListener(
+															new SweetAlertDialog.OnSweetClickListener() {
+																@Override
+																public void onClick(SweetAlertDialog sDialog) {
+																	Logout();
+																}
+															});
+											dialog.show();
+										}
+									});
 								} else {
 									// 获得行政区划信息
-									List<UserDetail> userDetails = db.queryUserDetail(account);
-									for (UserDetail userDetail : userDetails) {
+									queryUserDetail = db.queryUserDetail(account);
+									for (UserDetail userDetail : queryUserDetail) {
 										http.getXzqh(userDetail.getCjarea());
 									}
 								}
@@ -149,12 +160,27 @@ public class MainActivity extends Activity {
 							activity.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									UpdateView();
-									/** --------设置标题栏的数据-------------- */
-									String city = queryUserDetail.get(0).getCity().toString();
-									title_local.setText(city);
-									title_num.setText("（共" + queryUserDetail.size() + "地区）");
-									text_user.setText(account);
+									if (queryUserDetail.size() < 1)
+									// 无任务
+									{
+										Dialog dialog;
+										dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+												.setTitleText("暂无任务，请重試")
+												.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+													@Override
+													public void onClick(SweetAlertDialog sDialog) {
+														Logout();
+													}
+												});
+										dialog.show();
+									} else {
+										UpdateView(queryUserDetail);
+										/** --------设置标题栏的数据-------------- */
+										String city = queryUserDetail.get(0).getCity().toString();
+										title_local.setText(city);
+										title_num.setText("（共" + queryUserDetail.size() + "地区）");
+										text_user.setText(account);
+									}
 								}
 							});
 							try {
@@ -175,15 +201,15 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...", false, false, true);
 					build.show();
-					UpdateView();
+					queryUserDetail = db.queryUserDetail(account);
+					UpdateView(queryUserDetail);
 					delay(1500);
 				}
 			});
 		}
 	}
 
-	private void UpdateView() {
-		queryUserDetail = db.queryUserDetail(account);
+	private void UpdateView(List<UserDetail> queryUserDetail) {
 		/** 设置适配器 */
 		adapter = new MyAdapterMainActivity(activity, queryUserDetail, sToken);
 		listview.setAdapter(adapter);
@@ -203,31 +229,7 @@ public class MainActivity extends Activity {
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				build = DialogUIUtils.showLoadingHorizontal(activity, "注销中...");
-				build.show();
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						build.dialog.dismiss();
-						activity.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								ToastUtil.showShort(getApplicationContext(), "注销成功！");
-							}
-						});
-						Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-						startActivity(intent);
-						finish();
-					}
-				}).start();
+				Logout();
 			}
 		});
 	}
@@ -267,6 +269,34 @@ public class MainActivity extends Activity {
 					e.printStackTrace();
 				}
 				build.dialog.dismiss();
+			}
+		}).start();
+	}
+
+	public void Logout() {
+		build = DialogUIUtils.showLoadingHorizontal(activity, "注销中...");
+		build.show();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						ToastUtil.showShort(getApplicationContext(), "注销成功！");
+					}
+				});
+				Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+				startActivity(intent);
+				finish();
 			}
 		}).start();
 	}

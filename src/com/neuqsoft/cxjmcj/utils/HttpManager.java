@@ -33,7 +33,7 @@ import android.content.SharedPreferences;
 
 public class HttpManager extends HttpUtils {
 	Gson gson = new Gson();
-	HttpUtils httpUtils = new HttpUtils(3000);
+	HttpUtils httpUtils = new HttpUtils(1500);
 	public FamilyMemberDTO dto;
 	public boolean isAlive = true;
 	public boolean isError = false;
