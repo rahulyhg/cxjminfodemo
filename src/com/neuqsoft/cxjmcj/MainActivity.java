@@ -31,7 +31,6 @@ import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.server.dto.FamilyMemberDTO;
 import com.neuqsoft.cxjmcj.server.dto.MemberDTO;
 import com.neuqsoft.cxjmcj.utils.HttpManager;
-import com.neuqsoft.cxjmcj.utils.TextToMap;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 
 import android.Manifest;

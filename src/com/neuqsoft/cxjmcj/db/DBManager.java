@@ -265,6 +265,26 @@ public class DBManager {
 		c.close();
 		return codes;
 	}
+	
+	public String queryCodeFromName(String AAA103) {
+		String AAA102 = "";
+		Cursor c = db.rawQuery("SELECT AAA102 FROM code where AAA103='" + AAA103 + "'", null);
+		while (c.moveToNext()) {
+			AAA102 = c.getString(c.getColumnIndex("AAA102"));
+		}
+		c.close();
+		return AAA102;
+	}
+	
+	public String queryCodeFromCode(String AAA102) {
+		String AAA103 = "";
+		Cursor c = db.rawQuery("SELECT AAA103 FROM code where AAA102='" + AAA102 + "'", null);
+		while (c.moveToNext()) {
+			AAA103 = c.getString(c.getColumnIndex("AAA103"));
+		}
+		c.close();
+		return AAA103;
+	}
 
 	public Xzqh queryXzqh(String country) {
 		ArrayList<Code> codes = new ArrayList<Code>();

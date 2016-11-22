@@ -37,7 +37,6 @@ import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.utils.FamilyUtil;
 import com.neuqsoft.cxjmcj.utils.IDCard;
-import com.neuqsoft.cxjmcj.utils.TextToMap;
 import com.roamer.slidelistview.SlideListView;
 import android.annotation.SuppressLint;
 import android.app.Activity;

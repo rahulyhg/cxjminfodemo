@@ -523,21 +523,6 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_xjzf)
 	public void xjzf() {
-		/*
-		 * new SweetAlertDialog(activity,
-		 * SweetAlertDialog.WARNING_TYPE).setTitleText("现金支付选项").setConfirmText(
-		 * "已支付") .showCancelButton(true).setCancelText("未支付")
-		 * .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener()
-		 * {
-		 * 
-		 * @Override public void onClick(SweetAlertDialog sDialog) {
-		 * tempPersonal.setEdit_jf("1"); sDialog.dismissWithAnimation(); save();
-		 * } }).setCancelClickListener(new
-		 * SweetAlertDialog.OnSweetClickListener() {
-		 * 
-		 * @Override public void onClick(SweetAlertDialog sDialog) {
-		 * tempPersonal.setEdit_jf("0"); sDialog.cancel(); save(); } }).show();
-		 */
 		tip_xjzf = true;
 		if (btn_xjzf.getText().toString().equals("现金支付")) {
 			tempPersonal.setEdit_jf("1");
