@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
 
 import com.neuqsoft.cxjmcj.db.DBManager;
+import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.UserDetail;
@@ -260,20 +261,13 @@ public class InfoPersonalActivity extends Activity {
 		edit_cbrylb = (Spinner) findViewById(R.id.edit_cbrylb);
 
 		ArrayList<String> data_list2 = new ArrayList<String>();
-
-		data_list2.add("普通城乡居民");
-		data_list2.add("重残城乡居民");
-		data_list2.add("低保城乡居民");
-		data_list2.add("五保供养城乡居民");
-		data_list2.add("低收入家庭60岁以上老年人");
-		data_list2.add("五保供养大学生");
-		data_list2.add("重度残疾大学生");
-		data_list2.add("低保大学生");
-		data_list2.add("普通大学生");
-		data_list2.add("五保供养中小学生");
-		data_list2.add("重度残疾中小学生");
-		data_list2.add("低保中小学生");
-		data_list2.add("普通中小学生");
+		List<Code> jmlb = mgr.queryCode("BAC067");
+		for (int i = 0; i < jmlb.size(); i++) {
+			Code code = jmlb.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加居民类别
+			data_list2.add(aaa103);
+		}
 
 		ArrayAdapter<String> arr_adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list2);
@@ -283,14 +277,14 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner3
 		edit_hkxz = (Spinner) findViewById(R.id.edit_hkxz);
 		ArrayList<String> data_list3 = new ArrayList<String>();
-		data_list3.add("农业户口（农地区）");
-		data_list3.add("非农业户口（城镇）");
-		data_list3.add("本地非农业户口（本地城镇）");
-		data_list3.add("外地非农业户口（外地城镇）");
-		data_list3.add("本地农业户口（本地农地区）");
-		data_list3.add("外地农业户口（外地农地区）");
-		data_list3.add("港澳台");
-		data_list3.add("外籍");
+		List<Code> hkxz = mgr.queryCode("AAC009");
+		for (int i = 0; i < hkxz.size(); i++) {
+			Code code = hkxz.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加户口性质
+			data_list3.add(aaa103);
+		}
+	
 		ArrayAdapter<String> arr_adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list3);
 		arr_adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -300,9 +294,14 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner4
 		edit_mz = (Spinner) findViewById(R.id.edit_mz);
 		ArrayList<String> data_list4 = new ArrayList<String>();
-		data_list4.add("汉族");
-		data_list4.add("满族");
-		data_list4.add("回族");
+		//查询数据库
+		List<Code> nation = mgr.queryCode("AAC005");
+		for (int i = 0; i < nation.size(); i++) {
+			Code code = nation.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加民族
+			data_list4.add(aaa103);
+		}
 		ArrayAdapter<String> arr_adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list4);
 		arr_adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -320,13 +319,15 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner6
 		edit_zjlx = (Spinner) findViewById(R.id.edit_zjlx);
 		ArrayList<String> data_list6 = new ArrayList<String>();
-		data_list6.add("居民身份证（户口簿）");
-		data_list6.add("中国人民解放军军官证");
-		data_list6.add("中国人民武装警察警官证");
-		data_list6.add("香港特区护照/身份证明");
-		data_list6.add("澳门特区护照/身份证明");
-		data_list6.add("台湾居民来往大陆通行证");
-		data_list6.add("外国人护照");
+		//查询数据库
+		List<Code> zjlx = mgr.queryCode("AAC058");
+		for (int i = 0; i < zjlx.size(); i++) {
+			Code code = zjlx.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加民族
+			data_list6.add(aaa103);
+		}
+	
 		ArrayAdapter<String> arr_adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list6);
 		arr_adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -445,7 +446,7 @@ public class InfoPersonalActivity extends Activity {
 		if (cbrylb.equals("普通大学生"))
 			edit_cbrylb.setSelection(8, true);
 		if (cbrylb.equals("五保供养中小学生"))
-			edit_cbrylb.setSelection(9, true);
+			edit_cbrylb.setSelection(9, true); 
 		if (cbrylb.equals("重度残疾中小学生"))
 			edit_cbrylb.setSelection(10, true);
 
@@ -609,8 +610,7 @@ public class InfoPersonalActivity extends Activity {
 					}
 					dialog.dismiss();
 
-					if (HZSFZedit != "")
-					{
+					if (HZSFZedit != "") {
 						// 编辑状态
 					} else if (!tip_xjzf)
 						// 新增状态
@@ -693,6 +693,7 @@ public class InfoPersonalActivity extends Activity {
 				edit_gmcfzh.setText(cardno);
 				edit_xxjzdz.setText(address);
 				/* edit_xb.setText(sex); */
+
 				if (folk.equals("汉"))
 					edit_mz.setSelection(0);
 				if (folk.equals("满"))
