@@ -45,8 +45,37 @@
             android:layout_centerInParent="true"
             android:text="某地区"
             android:textColor="#6d6d72"
-            android:textSize="22sp" >
-        </TextView>
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已收："
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3600"
+            android:textColor="#f12809"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/yuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="元"
+            android:textColor="#f12809"
+            android:textSize="22sp" />
     </LinearLayout>
 
     <ImageView
@@ -54,8 +83,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignBottom="@id/top"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="70dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/group" />
 
 </RelativeLayout>
