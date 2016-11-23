@@ -152,7 +152,7 @@ public class InfoPersonalActivity extends Activity {
 				e.printStackTrace();
 			}
 			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
-				@Override
+				@Override 
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("编辑状态下身份证不可变")
@@ -284,7 +284,7 @@ public class InfoPersonalActivity extends Activity {
 			// 添加户口性质
 			data_list3.add(aaa103);
 		}
-	
+
 		ArrayAdapter<String> arr_adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list3);
 		arr_adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -294,7 +294,7 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner4
 		edit_mz = (Spinner) findViewById(R.id.edit_mz);
 		ArrayList<String> data_list4 = new ArrayList<String>();
-		//查询数据库
+		// 查询数据库
 		List<Code> nation = mgr.queryCode("AAC005");
 		for (int i = 0; i < nation.size(); i++) {
 			Code code = nation.get(i);
@@ -319,7 +319,7 @@ public class InfoPersonalActivity extends Activity {
 		// Spiner6
 		edit_zjlx = (Spinner) findViewById(R.id.edit_zjlx);
 		ArrayList<String> data_list6 = new ArrayList<String>();
-		//查询数据库
+		// 查询数据库
 		List<Code> zjlx = mgr.queryCode("AAC058");
 		for (int i = 0; i < zjlx.size(); i++) {
 			Code code = zjlx.get(i);
@@ -327,7 +327,7 @@ public class InfoPersonalActivity extends Activity {
 			// 添加民族
 			data_list6.add(aaa103);
 		}
-	
+
 		ArrayAdapter<String> arr_adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list6);
 		arr_adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -446,7 +446,7 @@ public class InfoPersonalActivity extends Activity {
 		if (cbrylb.equals("普通大学生"))
 			edit_cbrylb.setSelection(8, true);
 		if (cbrylb.equals("五保供养中小学生"))
-			edit_cbrylb.setSelection(9, true); 
+			edit_cbrylb.setSelection(9, true);
 		if (cbrylb.equals("重度残疾中小学生"))
 			edit_cbrylb.setSelection(10, true);
 
@@ -473,6 +473,7 @@ public class InfoPersonalActivity extends Activity {
 					edit_cbrxm.setText(family.getEdit_hzxm());
 					edit_gmcfzh.setText(family.getEdit_gmcfzh());
 					edit_xxjzdz.setText(family.getEdit_hkxxdz());
+					edit_lxdh.setText(family.getEdit_lxdh());
 					/* edit_xb.setText(bundle.getString("sex")); */
 				}
 			}
@@ -582,12 +583,15 @@ public class InfoPersonalActivity extends Activity {
 		if (edit_cbrxm.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
 		else if (edit_gmcfzh.getText().toString().isEmpty())
-			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
-		else if (edit_gmcfzh.length() != 18) {
-			Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
-		} else if (res != "")
-			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-		else {
+			Toast.makeText(getApplicationContext(), "证件号码不能为空", Toast.LENGTH_SHORT).show();
+		//判断证件类型是否是居民身份证（户口簿）
+		 else if (edit_zjlx.getSelectedItem().equals("居民身份证（户口簿）")) {
+			if (res != "")
+				Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+			else if (edit_gmcfzh.length() != 18) {
+				Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
+			}
+		} else {
 			final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
 					.setTitleText("保存成功");
 			runOnUiThread(new Runnable() {
@@ -715,7 +719,7 @@ public class InfoPersonalActivity extends Activity {
 
 		tempPersonal.setEdit_zjlx(edit_zjlx.getSelectedItem().toString());
 
-		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
+		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString()); 
 		/* tempPersonal.setEdit_xb(edit_xb.getText().toString()); */
 		tempPersonal.setEdit_mz(edit_mz.getSelectedItem().toString());
 		tempPersonal.setEdit_xb(edit_xb.getSelectedItem().toString());

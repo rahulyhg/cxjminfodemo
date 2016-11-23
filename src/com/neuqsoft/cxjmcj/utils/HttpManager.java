@@ -15,6 +15,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.lidroid.xutils.http.client.entity.BodyParamsEntity;
 import com.neuqsoft.cxjmcj.RcConstant;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Code;
@@ -233,15 +234,13 @@ public class HttpManager extends HttpUtils {
 				db.addFamily(DTOtoF(dto.getJt()));
 				db.addPersonal(DTOtoM(dto.getRy()));
 				// 下载成功user表的download置1
-
 				isAlive = false;
 			}
 		});
 	}
 
 	// 上传
-	public void getCjxx(final String countryCode, String usertoken, String account)
-			throws UnsupportedEncodingException {
+	public void getCjxx(final String countryCode, String usertoken, String account) {
 		Init();
 		country = countryCode;
 		RequestParams params = new RequestParams();
@@ -256,7 +255,7 @@ public class HttpManager extends HttpUtils {
 		f.setSfcl("");
 		String jsonStr = gson.toJson(f);
 		params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-
+		params.setContentType("application/json");
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 			// 请求失败调用次方法
 			@Override
@@ -375,7 +374,6 @@ public class HttpManager extends HttpUtils {
 	 */
 	public void getUserDetail(String sToken) {
 		Init();
-		HttpUtils httpUtils = new HttpUtils();
 		httpUtils.configCurrentHttpCacheExpiry(0);
 		RequestParams params1 = new RequestParams();
 		params1.addHeader("token", sToken);

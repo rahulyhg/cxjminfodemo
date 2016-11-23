@@ -70,6 +70,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3600"
@@ -93,6 +94,7 @@
         android:layout_height="70dp"
         android:layout_alignBottom="@id/top"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/group" />
+        android:src="@drawable/group"
+        android:visibility="gone" />
 
 </RelativeLayout>

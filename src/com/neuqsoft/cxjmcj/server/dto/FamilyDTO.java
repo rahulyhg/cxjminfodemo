@@ -9,7 +9,8 @@ public class FamilyDTO {
 	private String aab401;  //户籍编号    
 	private String bab041;  //参保人数    
 	private String aae005;  //联系电话    
-	private String aae006;  //住址        
+//	private String aac010;  //户籍地址
+	private String aae006;  //家庭住址        
 	private String aab050;  //登记日期    
 	
 	public String getLsh() {

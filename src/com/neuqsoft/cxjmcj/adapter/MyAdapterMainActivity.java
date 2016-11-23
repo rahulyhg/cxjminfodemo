@@ -59,13 +59,11 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		public TextView num2;
 		public TextView num3;
 		public TextView local;
+		public TextView money;
 		public FButton upload;
 		FButton download;
-		private ImageView upload2;
 		public TextView text_num;
-
 		private ImageView list;
-
 		LinearLayout top1;
 		LinearLayout top;
 		LinearLayout center;
@@ -120,6 +118,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.view_row, null);
 			holder = new ViewHolder();
 			/* 得到各个控件的对象 */
+			holder.money = (TextView) convertView.findViewById(R.id.money);
 			holder.text_num = (TextView) convertView.findViewById(R.id.text_num);
 			holder.num1 = (TextView) convertView.findViewById(R.id.num1);
 			holder.num2 = (TextView) convertView.findViewById(R.id.num2);
@@ -128,7 +127,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 
 			holder.upload = (FButton) convertView.findViewById(R.id.buttom_up);
 			holder.download = (FButton) convertView.findViewById(R.id.buttom_down);
-			holder.upload2 = (ImageView) convertView.findViewById(R.id.buttom_up2);
 
 			holder.top1 = (LinearLayout) convertView.findViewById(R.id.top1);
 			holder.top = (LinearLayout) convertView.findViewById(R.id.top);
@@ -149,6 +147,17 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			holder.local.setText(xzqh.getName());
 		else
 			holder.local.setText("某地区");
+        /**总金额*/
+		String a = holder.num3.getText().toString();
+	
+		if (a!=null) {
+			int A=Integer.parseInt(a);
+//			int B=Integer.parseInt("150");
+			int result=A*150;
+			holder.money.setText(result+"");
+		}else {
+			holder.money.setText(0+"");
+		}
 
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -251,7 +260,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 
 		int posi = position + 1;
 		holder.text_num.setText(posi + "");
-		holder.upload2.setVisibility(View.GONE);
 		holder.upload.setVisibility(View.GONE);
 
 		// 判断数据是否下载过,
@@ -260,25 +268,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			if (holder.cjarea.equals(cjarea2)) {
 				// 是否已下載
 				if (userDetail.downloadflag.equals("1")) {
-					holder.upload.setVisibility(View.VISIBLE);
-					holder.download.setText("录 入");
-					holder.download.setButtonColor(Color.rgb(237, 152, 17));
 					// 显示数据
-					int memberSize = 0;
-					int memberJf = 0;
-					List<Family> familys = db.queryFamily();
-					holder.num1.setText(familys.size() + "");
-					for (Family family : familys) {
-						List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
-						memberSize = memberSize + personals.size();
-						for (Personal personal : personals) {
-							if (!personal.getEdit_jf().equals("0")) {
-								memberJf = memberJf + 1;
-							}
-						}
-					}
-					holder.num2.setText(memberSize + "");
-					holder.num3.setText(memberJf + "");
 					handler.sendEmptyMessage(4);
 				}
 				// 判断已经上传
@@ -294,6 +284,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				db.update_df(activity, holder.cjarea, "downloadflag", "1");
 				http.getJbxx(holder.cjarea);
 				try {
 					Thread.sleep(1500);
@@ -315,15 +306,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		final Runnable up_run = new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					db.update_df(activity, holder.cjarea, "downloadflag", "0");
-					http.getCjxx(holder.cjarea, sToken, sToken);
-				} catch (UnsupportedEncodingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+				http.getCjxx(holder.cjarea, sToken, queryUserDetail.get(0).getAccount());
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
@@ -368,7 +351,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 						public void run() {
 							// TODO Auto-generated method stub
 							DialogUIUtils.init(activity);
-							build = DialogUIUtils.showLoadingHorizontal(activity, "正在下载...");
+							build = DialogUIUtils.showLoadingHorizontal(activity, "正在下载...", false, false, true);
 							build.show();
 						}
 					});
@@ -382,7 +365,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 						public void run() {
 							delay(800);
 							// TODO Auto-generated method stub
-							build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");
+							build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...", false, false, true);
 							build.show();
 						}
 					});
@@ -402,7 +385,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							@Override
 							public void onClick(SweetAlertDialog sDialog) {
 								sDialog.dismissWithAnimation();
-								build = DialogUIUtils.showLoadingHorizontal(activity, "上传中...");
+								build = DialogUIUtils.showLoadingHorizontal(activity, "上传中...", false, false, true);
 								build.show();
 								new Thread(up_run).start();
 							}

@@ -13,12 +13,6 @@ import com.dou361.dialogui.listener.DialogUIListener;
 import com.neuqsoft.cxjmcj.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.neuqsoft.cxjmcj.InfoActivity.InfoMainActivity;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterMainActivity;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterMainActivity.ViewHolder;
@@ -68,7 +62,7 @@ public class MainActivity extends Activity {
 	ListView listview;
 	// image_sjsc
 	public static final int CBDJ = 101;
-	MyAdapterMainActivity adapter;
+	static MyAdapterMainActivity adapter;
 	static int pos;
 	private TextView title_logout, text_user, title_local, title_num;
 
