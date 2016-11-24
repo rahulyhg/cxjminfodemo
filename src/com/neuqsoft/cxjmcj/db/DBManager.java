@@ -213,7 +213,7 @@ public class DBManager {
 	 */
 	public void deleteFamily(Family family) {
 		db.delete("family", "_id = ?", new String[] { family.id });
-		for (Personal personal : queryPersonal(family.getEdit_gmcfzh())) {
+		for (Personal personal : queryPersonal(family.getEdit_jtbh())) {
 			deletePersonal(personal);
 		}
 	}
