@@ -25,6 +25,7 @@ import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.UserDetail;
 import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.utils.HttpManager;
+import com.neuqsoft.cxjmcj.utils.ToastUtil;
 import com.roamer.slidelistview.SlideBaseAdapter;
 import com.roamer.slidelistview.SlideListView.SlideMode;
 
@@ -61,6 +62,8 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		public TextView num3;
 		public TextView local;
 		public TextView money;
+		public TextView ylrj;
+		public TextView ylrr;
 		public FButton upload;
 		FButton download;
 		public TextView text_num;
@@ -125,6 +128,8 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			holder.num2 = (TextView) convertView.findViewById(R.id.num2);
 			holder.num3 = (TextView) convertView.findViewById(R.id.num3);
 			holder.local = (TextView) convertView.findViewById(R.id.local);
+			holder.ylrj = (TextView) convertView.findViewById(R.id.ylrj);
+			holder.ylrr = (TextView) convertView.findViewById(R.id.ylrr);
 
 			holder.upload = (FButton) convertView.findViewById(R.id.buttom_up);
 			holder.download = (FButton) convertView.findViewById(R.id.buttom_down);
@@ -149,17 +154,8 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		else
 			holder.local.setText("某地区");
         /**总金额*/
-		String a = holder.num3.getText().toString();
 	
-		if (a!=null) {
-			int A=Integer.parseInt(a);
-//			int B=Integer.parseInt("150");
-			int result=A*150;
-			holder.money.setText(result+"");
-		}else {
-			holder.money.setText(0+"");
-		}
-
+        
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				// 下载失败
@@ -227,8 +223,9 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							// TODO Auto-generated method stub
 							int memberSize = 0;
 							int memberJf = 0;
+							int memberylr=0;
 							List<Family> familys = db.queryFamily(holder.cjarea);
-							holder.num1.setText(familys.size() + "");
+							holder.num1.setText("共"+familys.size()+"家，" + "");
 							for (Family family : familys) {
 								List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 								memberSize = memberSize + personals.size();
@@ -236,10 +233,22 @@ public class MyAdapterMainActivity extends BaseAdapter {
 									if (personal.getEdit_jf().equals("1")) {
 										memberJf = memberJf + 1;
 									}
+									if (personal.getIsEdit().equals("1")) {
+										memberylr=memberylr+1;
+									}
 								}
 							}
-							holder.num2.setText(memberSize + "");
+							holder.num2.setText(memberSize +"人"+ "");
 							holder.num3.setText(memberJf + "");
+							//已录入人员
+							holder.ylrr.setText(memberylr+"");
+							if (memberJf!=0) {
+//								int B=Integer.parseInt("150");
+								int result=memberJf*150;
+								holder.money.setText(result+"");
+							}else {
+								holder.money.setText(0+"");
+							}
 							holder.upload.setVisibility(View.VISIBLE);
 							holder.download.setText("录 入");
 							holder.download.setButtonColor(Color.rgb(237, 152, 17));
@@ -361,6 +370,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 						}
 					});
 
+					
 					// 下载线程
 					new Thread(down_run).start();
 				} else {
@@ -377,6 +387,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 					Intent intent = new Intent(activity, InfoMainActivity.class);
 					intent.putExtra("XZQH", holder.cjarea);
 					((MainActivity) activity).startActivityForResult(intent, CBDJ);
+					
 				}
 			}
 		});

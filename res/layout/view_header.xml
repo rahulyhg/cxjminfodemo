@@ -23,39 +23,72 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="2"
-            android:orientation="horizontal" 
-            android:gravity="left|center_vertical">
+            android:gravity="left|center_vertical"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/text_num"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="1"
-                android:textColor="#000000"
-                android:textSize="20sp" >
-            </TextView>
+                android:orientation="horizontal" >
 
-            <TextView
+                <TextView
+                    android:id="@+id/text_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="1"
+                    android:textColor="#000000"
+                    android:textSize="20sp" >
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="、"
+                    android:textColor="#000000"
+                    android:textSize="20sp" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="某地区"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="、"
-                android:textColor="#000000"
-                android:textSize="20sp" >
-            </TextView>
+                android:orientation="horizontal" >
+                <TextView 
+                     android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="啊啊啊a"
+                    android:visibility="invisible"/>
 
-            <TextView
-                android:id="@+id/local"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="某地区"
-                android:textColor="#000000"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/num1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="共0家，"
+                  android:textColor="#6d6d72"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/num2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0人"
+                    android:textColor="#6d6d72"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="3"
@@ -73,15 +106,15 @@
                 android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3600"
+                android:text="0"
                 android:textColor="#f12809"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_marginRight="10dp"
                 android:id="@+id/yuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:text="元"
                 android:textColor="#f12809"
                 android:textSize="16sp" />

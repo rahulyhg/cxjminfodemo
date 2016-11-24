@@ -614,47 +614,61 @@ public class InfoPersonalActivity extends Activity {
 		}
 	};
 
+	private Handler mHandler;
+
 	@OnClick(R.id.btn_save)
 	public void save() {
-		Handler mHandler = new Handler();
+		mHandler = new Handler();
 		if (edit_cbrxm.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
 		else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "证件号码不能为空", Toast.LENGTH_SHORT).show();
-		else if ((res != "")) {
-			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+		// 判断证件类型是否是居民身份证（户口簿）
+		else if (edit_zjlx.getSelectedItem().equals("居民身份证（户口簿）")) {
+			if (res != "")
+				Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+			else if (edit_gmcfzh.length() != 18) {
+				Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
+			} else {
+				success();
+			}
 		} else {
-			final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
-					.setTitleText("保存成功");
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					dialog.show();
-				}
-			});
-			mHandler.post(r);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					dialog.dismiss();
 
-					if (JTBHedit != "") {
-						// 编辑状态
-					} else if (!tip_xjzf)
-						// 新增状态
-						revert();
-				}
-			}).start();
+			success();
 		}
 
+	}
+
+	private void success() {
+		final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
+				.setTitleText("保存成功");
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				dialog.show();
+			}
+		});
+		mHandler.post(r);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				dialog.dismiss();
+
+				if (JTBHedit != "") {
+					// 编辑状态
+				} else if (!tip_xjzf)
+					// 新增状态
+					revert();
+			}
+		}).start();
 	}
 
 	@OnClick(R.id.btn_xyg)
