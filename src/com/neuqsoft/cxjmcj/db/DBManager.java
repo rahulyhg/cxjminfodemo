@@ -265,7 +265,7 @@ public class DBManager {
 		c.close();
 		return codes;
 	}
-	
+
 	public String queryCodeFromName(String AAA103) {
 		String AAA102 = "";
 		Cursor c = db.rawQuery("SELECT AAA102 FROM code where AAA103='" + AAA103 + "'", null);
@@ -275,7 +275,7 @@ public class DBManager {
 		c.close();
 		return AAA102;
 	}
-	
+
 	public String queryCodeFromCode(String AAA102) {
 		String AAA103 = "";
 		Cursor c = db.rawQuery("SELECT AAA103 FROM code where AAA102='" + AAA102 + "'", null);
@@ -378,7 +378,7 @@ public class DBManager {
 		c.close();
 		return familys;
 	}
-	
+
 	public Family queryFamilyByJtbh(String jtbh) {
 		ArrayList<Family> familys = new ArrayList<Family>();
 		Family family = new Family();
@@ -446,11 +446,11 @@ public class DBManager {
 				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
 				personal.edit_jf = c.getString(c.getColumnIndex("JFBZ"));
-
 				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
-
 				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
 				personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+				personal.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
+				personal.isUpload = c.getString(c.getColumnIndex("ISUPLOAD"));
 				personals.add(personal);
 			}
 			c.close();
@@ -459,7 +459,7 @@ public class DBManager {
 		return personals;
 	}
 
-	//通过家庭编号
+	// 通过家庭编号
 	public ArrayList<Personal> queryPersonal(String HZSFZ) {
 		ArrayList<Personal> personals = new ArrayList<Personal>();
 		String sql = " Select * from personal where HZSFZ='" + HZSFZ + "'";
@@ -479,17 +479,46 @@ public class DBManager {
 				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
 				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
 				personal.edit_jf = c.getString(c.getColumnIndex("JFBZ"));
-
 				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
-
+				personal.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
+				personal.isUpload = c.getString(c.getColumnIndex("ISUPLOAD"));
 				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
 				personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
 				personals.add(personal);
 			}
 			c.close();
 		}
-
 		return personals;
+	}
+
+	// 通过家庭编号
+	public Personal queryPersonalByGmsfzh(String gmsfzh) {
+		String sql = " Select * from personal where AAE135='" + gmsfzh + "'";
+		Cursor c = db.rawQuery(sql, null);
+		Personal personal = new Personal();
+		if (c != null) {
+			while (c.moveToNext()) {
+				personal.id = c.getString(c.getColumnIndex("_id"));
+				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
+				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
+				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
+				personal.edit_xb = c.getString(c.getColumnIndex("AAC004"));
+				personal.edit_csrq = c.getString(c.getColumnIndex("AAC006"));
+				personal.edit_cbrylb = c.getString(c.getColumnIndex("BAC067"));
+				personal.edit_cbrq = c.getString(c.getColumnIndex("AAC030"));
+				personal.edit_yhzgx = c.getString(c.getColumnIndex("AAC069"));
+				personal.edit_xxjzdz = c.getString(c.getColumnIndex("AAE006"));
+				personal.edit_hkxz = c.getString(c.getColumnIndex("AAC009"));
+				personal.edit_jf = c.getString(c.getColumnIndex("JFBZ"));
+				personal.HZSFZ = c.getString(c.getColumnIndex("HZSFZ"));
+				personal.edit_zjlx = c.getString(c.getColumnIndex("AAC058"));
+				personal.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+				personal.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
+				personal.isUpload = c.getString(c.getColumnIndex("ISUPLOAD"));
+			}
+			c.close();
+		}
+		return personal;
 	}
 
 	// 查询单个字段2016年10月13日17:36:11
@@ -526,9 +555,9 @@ public class DBManager {
 	}
 
 	// 下载标志位置1/上传标志位置1/2016年11月2日10:44:30
-	public void update_df(Context context, String Code, String flag,String flag2) {
+	public void update_df(Context context, String Code, String flag, String flag2) {
 		String cjarea1 = "";
-		String sql = "update userdetail set '" + flag + "'='" + flag2+"' where cjarea='" + Code + "'";
+		String sql = "update userdetail set '" + flag + "'='" + flag2 + "' where cjarea='" + Code + "'";
 		Cursor c = db.rawQuery(sql, null);
 		while (c.moveToNext()) {
 			cjarea1 = c.getString(c.getColumnIndex("cjarea"));

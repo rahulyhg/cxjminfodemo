@@ -94,7 +94,6 @@ public class MainActivity extends Activity {
 		int info = intent.getIntExtra("info", -1);
 		loginFeedback(info);
 	}
-       
 
 	public void loginFeedback(int info) {
 		if (info == 0) {

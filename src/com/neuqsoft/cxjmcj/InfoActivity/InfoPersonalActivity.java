@@ -340,10 +340,19 @@ public class InfoPersonalActivity extends Activity {
 		// 日期
 		calendar = Calendar.getInstance();
 		edit_cbrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
-				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? 0 + (calendar.get(Calendar.MONTH) + 1)
+				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? "0" + (calendar.get(Calendar.MONTH) + 1)
 						: (calendar.get(Calendar.MONTH) + 1))
-				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
-						: calendar.get(Calendar.DAY_OF_MONTH)));
+				.append("-")
+				.append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+						: calendar.get(Calendar.DAY_OF_MONTH))
+				.append(" ")
+				.append((calendar.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + calendar.get(Calendar.HOUR_OF_DAY)
+						: calendar.get(Calendar.HOUR_OF_DAY))
+				.append(":")
+				.append((calendar.get(Calendar.MINUTE) < 10) ? "0" + calendar.get(Calendar.MINUTE)
+						: calendar.get(Calendar.MINUTE))
+				.append(":").append((calendar.get(Calendar.SECOND) < 10) ? "0" + calendar.get(Calendar.SECOND)
+						: calendar.get(Calendar.SECOND)));
 
 	}
 	/* Please visit http://www.ryangmattison.com for updates */
@@ -357,6 +366,9 @@ public class InfoPersonalActivity extends Activity {
 			editPersonal = new Gson().fromJson(per, new TypeToken<Personal>() {
 			}.getType());
 			JTBHedit = editPersonal.HZSFZ;
+			editPersonal = mgr.queryPersonalByGmsfzh(editPersonal.getEdit_gmcfzh());
+			tempPersonal.setIsEdit(editPersonal.getIsEdit());
+			tempPersonal.setIsUpload(editPersonal.getIsUpload());
 			setContent(editPersonal);
 			if (editPersonal.getIsUpload().equals("1")) {
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
@@ -535,9 +547,20 @@ public class InfoPersonalActivity extends Activity {
 			public void onDateSet(DatePicker view, int year, int month, int day) {
 				// TODO Auto-generated method stub
 				// 更新EditText控件日期 小于10加0
-				edit_csrq.setText(new StringBuilder().append(year).append("-")
-						.append((month + 1) < 10 ? 0 + (month + 1) : (month + 1)).append("-")
-						.append((day < 10) ? 0 + day : day));
+				edit_csrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
+						.append((calendar.get(Calendar.MONTH) + 1) < 10 ? "0" + (calendar.get(Calendar.MONTH) + 1)
+								: (calendar.get(Calendar.MONTH) + 1))
+						.append("-")
+						.append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+								: calendar.get(Calendar.DAY_OF_MONTH))
+						.append(" ")
+						.append((calendar.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + calendar.get(Calendar.HOUR_OF_DAY)
+								: calendar.get(Calendar.HOUR_OF_DAY))
+						.append(":")
+						.append((calendar.get(Calendar.MINUTE) < 10) ? "0" + calendar.get(Calendar.MINUTE)
+								: calendar.get(Calendar.MINUTE))
+						.append(":").append((calendar.get(Calendar.SECOND) < 10) ? "0" + calendar.get(Calendar.SECOND)
+								: calendar.get(Calendar.SECOND)));
 			}
 		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -595,11 +618,11 @@ public class InfoPersonalActivity extends Activity {
 			personal1.setEdit_xxjzdz(tempPersonal.edit_xxjzdz);
 			personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
 			personal1.setEdit_jf(tempPersonal.edit_jf);
-
 			if (JTBHedit.equals("")) {
 				// 新增状态
 				personal1.setHZSFZ(bundle.getString("JTBH"));
 				personal1.setIsEdit("1");
+				personal1.setEdit_grbh("");
 				personals.add(personal1);
 				mgr.addPersonal(personals);
 			} else {

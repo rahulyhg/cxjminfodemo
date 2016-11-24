@@ -87,7 +87,7 @@ public class InfoFamilyActivity extends Activity {
 
 	@Bind(R.id.btn_save)
 	FButton btn_save;
-	
+
 	Activity activity;
 
 	Bundle bundle;
@@ -212,10 +212,10 @@ public class InfoFamilyActivity extends Activity {
 			edit_djrq.setText(tempFamily.edit_djrq);
 
 			if (tempFamily.getIsUpload().equals("1")) {
-				//已上传
+				// 已上传
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
 						.setConfirmText("我知道了").show();
-				//按钮置灰
+				// 按钮置灰
 				btn_save.setButtonColor(Color.rgb(204, 204, 204));
 				btn_save.setShadowEnabled(false);
 				btn_save.setClickable(false);
@@ -283,10 +283,19 @@ public class InfoFamilyActivity extends Activity {
 		edit_jtxxdz = (EditText) findViewById(R.id.edit_jtxxdz);
 
 		edit_djrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
-				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? 0 + (calendar.get(Calendar.MONTH) + 1)
+				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? "0" + (calendar.get(Calendar.MONTH) + 1)
 						: (calendar.get(Calendar.MONTH) + 1))
-				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
-						: calendar.get(Calendar.DAY_OF_MONTH)));
+				.append("-")
+				.append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+						: calendar.get(Calendar.DAY_OF_MONTH))
+				.append(" ")
+				.append((calendar.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + calendar.get(Calendar.HOUR_OF_DAY)
+						: calendar.get(Calendar.HOUR_OF_DAY))
+				.append(":")
+				.append((calendar.get(Calendar.MINUTE) < 10) ? "0" + calendar.get(Calendar.MINUTE)
+						: calendar.get(Calendar.MINUTE))
+				.append(":").append((calendar.get(Calendar.SECOND) < 10) ? "0" + calendar.get(Calendar.SECOND)
+						: calendar.get(Calendar.SECOND)));
 	}
 
 	@OnClick(R.id.image_left)
@@ -321,9 +330,20 @@ public class InfoFamilyActivity extends Activity {
 			public void onDateSet(DatePicker view, int year, int month, int day) {
 				// TODO Auto-generated method stub
 				// 更新EditText控件日期 小于10加0
-				edit_djrq.setText(new StringBuilder().append(year).append("-")
-						.append((month + 1) < 10 ? 0 + (month + 1) : (month + 1)).append("-")
-						.append((day < 10) ? 0 + day : day));
+				edit_djrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
+						.append((calendar.get(Calendar.MONTH) + 1) < 10 ? "0" + (calendar.get(Calendar.MONTH) + 1)
+								: (calendar.get(Calendar.MONTH) + 1))
+						.append("-")
+						.append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+								: calendar.get(Calendar.DAY_OF_MONTH))
+						.append(" ")
+						.append((calendar.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + calendar.get(Calendar.HOUR_OF_DAY)
+								: calendar.get(Calendar.HOUR_OF_DAY))
+						.append(":")
+						.append((calendar.get(Calendar.MINUTE) < 10) ? "0" + calendar.get(Calendar.MINUTE)
+								: calendar.get(Calendar.MINUTE))
+						.append(":").append((calendar.get(Calendar.SECOND) < 10) ? "0" + calendar.get(Calendar.SECOND)
+								: calendar.get(Calendar.SECOND)));
 			}
 		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
 	}
@@ -373,6 +393,7 @@ public class InfoFamilyActivity extends Activity {
 			break;
 		}
 	}
+
 	Runnable r = new Runnable() {
 		public void run() {
 			ArrayList<Family> familys = new ArrayList<Family>();
@@ -383,15 +404,10 @@ public class InfoFamilyActivity extends Activity {
 				// 编辑状态
 				mgr.updateFamily(tempFamily);
 				family.setEdit_jtbh(tempFamily.edit_jtbh);
-				if(tempFamily.getIsUpload().equals("2"))
-				{
-					tempFamily.setIsEdit("1");
-				}
-			} else
-			{
-				family.setEdit_jtbh(UUID.randomUUID().toString());
-				tempFamily.setIsEdit("1");
+			} else {
+				family.setEdit_jtbh(UUID.randomUUID().toString().replace("-", "").substring(0, 18));
 			}
+			tempFamily.setIsEdit("1");
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);

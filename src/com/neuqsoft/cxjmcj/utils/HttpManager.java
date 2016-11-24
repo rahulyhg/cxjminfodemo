@@ -146,7 +146,7 @@ public class HttpManager extends HttpUtils {
 		personal.setAac058(db.queryCodeFromName(d.edit_zjlx));
 		personal.setAae005(d.edit_lxdh);
 		personal.setXgbz(d.isEdit);
-		personal.setLsh(MD5Util.encode(d.edit_gmcfzh));
+		personal.setLsh("");
 		return personal;
 	}
 
@@ -162,7 +162,7 @@ public class HttpManager extends HttpUtils {
 		family.setAae005(d.edit_lxdh);
 		family.setAae006(d.edit_hkxxdz);
 		family.setAab050(d.edit_djrq);
-		family.setLsh(MD5Util.encode(d.edit_gmcfzh));
+		family.setLsh("");
 		return family;
 	}
 
@@ -196,7 +196,7 @@ public class HttpManager extends HttpUtils {
 
 			List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 			for (Personal personal : personals) {
-				if (personal.getIsUpload().equals("0")) {
+				if (personal.getIsUpload().equals("0") && personal.getEdit_jf().equals("1")) {
 					memberdto.add(MtoDTO(personal));
 					db.deletePersonal(personal);
 					personal.setIsUpload("1");
@@ -206,7 +206,7 @@ public class HttpManager extends HttpUtils {
 				}
 
 				if (personal.getIsUpload().equals("2")) {
-					if (personal.getIsEdit().equals("1")) {
+					if (personal.getIsEdit().equals("1") && personal.getEdit_jf().equals("1")) {
 						memberdto.add(MtoDTO(personal));
 						db.deletePersonal(personal);
 						personal.setIsUpload("1");
