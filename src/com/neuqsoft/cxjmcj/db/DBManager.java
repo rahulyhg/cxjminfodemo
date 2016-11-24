@@ -435,6 +435,7 @@ public class DBManager {
 		return personals;
 	}
 
+	//Í¨¹ý¼ÒÍ¥±àºÅ
 	public ArrayList<Personal> queryPersonal(String HZSFZ) {
 		ArrayList<Personal> personals = new ArrayList<Personal>();
 		String sql = " Select * from personal where HZSFZ='" + HZSFZ + "'";

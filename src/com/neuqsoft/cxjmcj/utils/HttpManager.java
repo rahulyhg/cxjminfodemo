@@ -1,11 +1,24 @@
 package com.neuqsoft.cxjmcj.utils;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentProducer;
+import org.apache.http.entity.EntityTemplate;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +28,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.lidroid.xutils.http.client.entity.BodyParamsEntity;
+import com.lidroid.xutils.util.LogUtils;
 import com.neuqsoft.cxjmcj.RcConstant;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Code;
@@ -23,14 +36,13 @@ import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.UserDetail;
 import com.neuqsoft.cxjmcj.dto.Xzqh;
-import com.neuqsoft.cxjmcj.server.dto.CjUser;
 import com.neuqsoft.cxjmcj.server.dto.CodeDTO;
 import com.neuqsoft.cxjmcj.server.dto.FamilyDTO;
 import com.neuqsoft.cxjmcj.server.dto.FamilyMemberDTO;
 import com.neuqsoft.cxjmcj.server.dto.MemberDTO;
+import com.neuqsoft.cxjmcj.server.dto.ResponseDTO;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 public class HttpManager extends HttpUtils {
 	Gson gson = new Gson();
@@ -68,7 +80,7 @@ public class HttpManager extends HttpUtils {
 			family.edit_djrq = d.getAab050();
 			family.xzqh = country;
 			family.isEdit = "0";
-			family.isUpload = "1";
+			family.isUpload = "2";
 			family.id = d.getLsh();
 			familyList.add(family);
 		}
@@ -94,7 +106,7 @@ public class HttpManager extends HttpUtils {
 			personal.edit_jf = d.getJfbz();
 			personal.edit_zjlx = db.queryCodeFromName(d.getAac058());
 			personal.edit_lxdh = d.getAae005();
-			personal.isUpload = "1";
+			personal.isUpload = "2";
 			personal.isEdit = "0";
 			personal.id = d.getLsh();
 			personalList.add(personal);
@@ -115,31 +127,27 @@ public class HttpManager extends HttpUtils {
 		return Codes;
 	}
 
-	List<MemberDTO> MtoDTO(List<Personal> dto) {
+	private MemberDTO MtoDTO(Personal d) {
 		// 下载
-		List<MemberDTO> personalList = new ArrayList<MemberDTO>();
-		for (Personal d : dto) {
-			MemberDTO personal = new MemberDTO();
-			personal.setAac999(d.edit_grbh);
-			personal.setAac003(d.edit_cbrxm);
-			personal.setAae135(d.edit_gmcfzh);
-			personal.setAac005(db.queryCodeFromName(d.edit_mz));
-			personal.setAac004(db.queryCodeFromName(d.edit_xb));
-			personal.setAac006(d.edit_csrq);
-			personal.setBac067(db.queryCodeFromName(d.edit_cbrylb));
-			personal.setAac030(d.edit_cbrq);
-			personal.setAac069(db.queryCodeFromName(d.edit_yhzgx));
-			personal.setAae006(d.edit_xxjzdz);
-			personal.setAac009(db.queryCodeFromName(d.edit_hkxz));
-			personal.setHzsfz(d.HZSFZ);
-			personal.setJfbz(d.edit_jf);
-			personal.setAac058(db.queryCodeFromName(d.edit_zjlx));
-			personal.setAae005(d.edit_lxdh);
-			personal.setXgbz(d.isEdit);
-			personal.setLsh(MD5Util.encode(d.edit_gmcfzh));
-			personalList.add(personal);
-		}
-		return personalList;
+		MemberDTO personal = new MemberDTO();
+		personal.setAac999(d.edit_grbh);
+		personal.setAac003(d.edit_cbrxm);
+		personal.setAae135(d.edit_gmcfzh);
+		personal.setAac005(db.queryCodeFromName(d.edit_mz));
+		personal.setAac004(db.queryCodeFromName(d.edit_xb));
+		personal.setAac006(d.edit_csrq);
+		personal.setBac067(db.queryCodeFromName(d.edit_cbrylb));
+		personal.setAac030(d.edit_cbrq);
+		personal.setAac069(db.queryCodeFromName(d.edit_yhzgx));
+		personal.setAae006(d.edit_xxjzdz);
+		personal.setAac009(db.queryCodeFromName(d.edit_hkxz));
+		personal.setHzsfz(d.HZSFZ);
+		personal.setJfbz(d.edit_jf);
+		personal.setAac058(db.queryCodeFromName(d.edit_zjlx));
+		personal.setAae005(d.edit_lxdh);
+		personal.setXgbz(d.isEdit);
+		personal.setLsh(MD5Util.encode(d.edit_gmcfzh));
+		return personal;
 	}
 
 	FamilyDTO FMtoDTO(Family d) {
@@ -165,17 +173,48 @@ public class HttpManager extends HttpUtils {
 
 		List<Family> familys = db.queryFamily(country);
 		for (Family family : familys) {
+
 			if (family.isUpload.equals("0")) {
 				familyDTOList.add(FMtoDTO(family));
-				// 获得人员信息
-				List<Personal> personal = db.queryPersonal(family.getEdit_gmcfzh());
-				memberdto.addAll((MtoDTO(personal)));
-
 				db.updateFamily(family);
 				family.setIsUpload("1");
 				List<Family> temp = new ArrayList<Family>();
 				temp.add(family);
 				db.addFamily(temp);
+			}
+
+			if (family.isUpload.equals("2")) {
+				if (family.getIsEdit().equals("1")) {
+					familyDTOList.add(FMtoDTO(family));
+					db.updateFamily(family);
+					family.setIsUpload("1");
+					List<Family> temp = new ArrayList<Family>();
+					temp.add(family);
+					db.addFamily(temp);
+				}
+			}
+
+			List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
+			for (Personal personal : personals) {
+				if (personal.getIsUpload().equals("0")) {
+					memberdto.add(MtoDTO(personal));
+					db.deletePersonal(personal);
+					personal.setIsUpload("1");
+					List<Personal> temp = new ArrayList<Personal>();
+					temp.add(personal);
+					db.addPersonal(temp);
+				}
+
+				if (personal.getIsUpload().equals("2")) {
+					if (personal.getIsEdit().equals("1")) {
+						memberdto.add(MtoDTO(personal));
+						db.deletePersonal(personal);
+						personal.setIsUpload("1");
+						List<Personal> temp = new ArrayList<Personal>();
+						temp.add(personal);
+						db.addPersonal(temp);
+					}
+				}
 			}
 		}
 		f.setJt(familyDTOList);
@@ -240,10 +279,12 @@ public class HttpManager extends HttpUtils {
 	}
 
 	// 上传
-	public void getCjxx(final String countryCode, String usertoken, String account) {
+	public void getCjxx(final String countryCode, String usertoken, String account)
+			throws ClientProtocolException, IOException {
 		Init();
 		country = countryCode;
 		RequestParams params = new RequestParams();
+
 		String url = RcConstant.postPath + countryCode;
 		params.addHeader("Content-Type", "application/json");
 		params.addHeader("Accept", "application/json");
@@ -253,32 +294,58 @@ public class HttpManager extends HttpUtils {
 		f.setXzqh(countryCode);
 		f.setCzr(account);
 		f.setSfcl("");
-		String jsonStr = gson.toJson(f);
-		params.setBodyEntity(new StringEntity(jsonStr, "utf-8"));
-		params.setContentType("application/json");
-		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
-			// 请求失败调用次方法
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				isError = true;
-				int exceptionCode = error.getExceptionCode();
-				if (exceptionCode == 0) {
-					errorMessage = "请检查网络连接是否正常！";
-					System.out.println(errorMessage);
-				}
-				isAlive = false;
-			}
+		final String jsonStr = gson.toJson(f);
 
-			// 请求成功调用此方法
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
-				isError = false;
-				System.out.println("上传成功");
-				System.out.println(arg0.result);
-				isAlive = false;
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(url);
+		ResponseDTO res = null;
+		// 创建参数队列
+		httppost.addHeader("Content-Type", "application/json");
+		httppost.addHeader("Accept", "application/json");
+		httppost.addHeader("usertoken", usertoken);
+
+		/*
+		 * StringEntity se = new StringEntity(jsonStr);
+		 * se.setContentType("application/json"); se.setContentEncoding(new
+		 * BasicHeader("Content-Type", "application/json"));
+		 * httppost.setEntity(se);
+		 */
+
+		ContentProducer cp = new ContentProducer() {
+			public void writeTo(OutputStream out) throws IOException {
+				try {
+					out.write(jsonStr.getBytes());
+					out.flush();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					out.close();
+				}
 			}
-		});
+		};
+		httppost.setEntity(new EntityTemplate(cp));
+		httpClient.execute(httppost);
+		isError = false;
+		isAlive = false;
+
+		/*
+		 * params.setContentType("application/json"); params.setBodyEntity(new
+		 * StringEntity(jsonStr, "utf-8")); HttpUtils httpUtils = new
+		 * HttpUtils(8000); httpUtils.send(HttpMethod.POST, url, params, new
+		 * RequestCallBack<String>() { // 请求失败调用次方法
+		 * 
+		 * @Override public void onFailure(HttpException error, String msg) {
+		 * isError = true; int exceptionCode = error.getExceptionCode(); if
+		 * (exceptionCode == 0) { errorMessage = "请检查网络连接是否正常！";
+		 * System.out.println(errorMessage); } isAlive = false; }
+		 * 
+		 * // 请求成功调用此方法
+		 * 
+		 * @Override public void onSuccess(ResponseInfo<String> arg0) { // TODO
+		 * Auto-generated method stub isError = false;
+		 * System.out.println("上传成功"); System.out.println(arg0.result); isAlive
+		 * = false; } });
+		 */
 	}
 
 	// 获得代码表

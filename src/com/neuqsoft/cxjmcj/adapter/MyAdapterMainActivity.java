@@ -5,6 +5,7 @@
  */
 package com.neuqsoft.cxjmcj.adapter;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -229,7 +230,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							List<Family> familys = db.queryFamily(holder.cjarea);
 							holder.num1.setText(familys.size() + "");
 							for (Family family : familys) {
-								List<Personal> personals = db.queryPersonal(family.getEdit_gmcfzh());
+								List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 								memberSize = memberSize + personals.size();
 								for (Personal personal : personals) {
 									if (personal.getEdit_jf().equals("1")) {
@@ -306,7 +307,12 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		final Runnable up_run = new Runnable() {
 			@Override
 			public void run() {
-				http.getCjxx(holder.cjarea, sToken, queryUserDetail.get(0).getAccount());
+				try {
+					http.getCjxx(holder.cjarea, sToken, queryUserDetail.get(0).getAccount());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
@@ -320,7 +326,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 				} else
 					// 上传成功
 					handler.sendEmptyMessage(3);
-
 				// 去dialog
 				build.dialog.dismiss();
 				new Thread(new Runnable() {

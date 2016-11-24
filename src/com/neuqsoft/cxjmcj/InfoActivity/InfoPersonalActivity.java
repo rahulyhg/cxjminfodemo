@@ -70,7 +70,6 @@ public class InfoPersonalActivity extends Activity {
 	private EditText edit_lxdh;
 	private TextView edit_csrq;
 	private TextView edit_xxjzdz;
-	private LinearLayout btn_save;
 
 	private Spinner edit_zjlx;
 	private Spinner edit_xb;
@@ -117,6 +116,9 @@ public class InfoPersonalActivity extends Activity {
 	FButton btn_xjzf;
 	Activity activity;
 
+	@Bind(R.id.btn_save)
+	FButton btn_save;
+
 	Boolean tip_xjzf = false;
 
 	@Override
@@ -152,7 +154,7 @@ public class InfoPersonalActivity extends Activity {
 				e.printStackTrace();
 			}
 			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
-				@Override 
+				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("编辑状态下身份证不可变")
@@ -354,6 +356,20 @@ public class InfoPersonalActivity extends Activity {
 			}.getType());
 			HZSFZedit = editPersonal.HZSFZ;
 			setContent(editPersonal);
+			tempPersonal.setIsEdit(editPersonal.getIsEdit());
+			tempPersonal.setIsUpload(editPersonal.getIsUpload());
+			if (editPersonal.getIsUpload().equals("1")) {
+				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
+						.setConfirmText("我知道了").show();
+				// 按钮置灰
+				btn_save.setButtonColor(Color.rgb(204, 204, 204));
+				btn_save.setShadowEnabled(false);
+				btn_save.setClickable(false);
+
+				btn_xjzf.setButtonColor(Color.rgb(204, 204, 204));
+				btn_xjzf.setShadowEnabled(false);
+				btn_xjzf.setClickable(false);
+			}
 		}
 	}
 
@@ -569,6 +585,9 @@ public class InfoPersonalActivity extends Activity {
 				mgr.addPersonal(personals);
 			} else {
 				// 编辑状态
+				if (tempPersonal.getIsUpload().equals("2")) {
+					personal1.setIsEdit("1");
+				}
 				personal1.setHZSFZ(tempPersonal.HZSFZ);
 				personals.add(personal1);
 				mgr.addPersonal(personals);
@@ -578,19 +597,13 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_save)
 	public void save() {
-		tempPersonal.setIsEdit("1");
 		Handler mHandler = new Handler();
 		if (edit_cbrxm.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "参保人姓名不能为空", Toast.LENGTH_SHORT).show();
 		else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "证件号码不能为空", Toast.LENGTH_SHORT).show();
-		//判断证件类型是否是居民身份证（户口簿）
-		 else if (edit_zjlx.getSelectedItem().equals("居民身份证（户口簿）")) {
-			if (res != "")
-				Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-			else if (edit_gmcfzh.length() != 18) {
-				Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
-			}
+		else if ((res != "")) {
+			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
 		} else {
 			final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
 					.setTitleText("保存成功");
@@ -719,7 +732,7 @@ public class InfoPersonalActivity extends Activity {
 
 		tempPersonal.setEdit_zjlx(edit_zjlx.getSelectedItem().toString());
 
-		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString()); 
+		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
 		/* tempPersonal.setEdit_xb(edit_xb.getText().toString()); */
 		tempPersonal.setEdit_mz(edit_mz.getSelectedItem().toString());
 		tempPersonal.setEdit_xb(edit_xb.getSelectedItem().toString());

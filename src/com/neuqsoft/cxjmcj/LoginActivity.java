@@ -1,5 +1,6 @@
 package com.neuqsoft.cxjmcj;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,21 +106,26 @@ public class LoginActivity extends Activity {
 				passWord = edit_pw.getText().toString().trim();
 				/** 网络登陆 */
 				showloading();
-				loginfromnet();
+				try {
+					loginfromnet();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		});
 
 	}
 
-	protected void loginfromnet() {
+	protected void loginfromnet() throws UnsupportedEncodingException {
 		// TODO Auto-generated method stub
 		/**
 		 * 用户登录POST请求服务器，验证用户名和密码是否正确 登陆成功返回token 时间：2016年10月20日09:45:42
 		 */
 		RequestParams params = new RequestParams();
 		params.addHeader("Content-Type", "application/json");
-		params.addHeader("Accept", "text/plain");
+		params.addHeader("Accept", "application/json");
 		params.addHeader("client_id", "1");
 		CjUser userDTO = new CjUser();
 		userDTO.setAccount(userName);

@@ -200,10 +200,9 @@ public class InfoMainActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_gmcfzh());
+			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_jtbh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
-
 	}
 
 	@OnClick(R.id.btn_add)
@@ -293,8 +292,6 @@ public class InfoMainActivity extends BaseActivity {
 		build.show();
 		listItemMember.clear();
 		listItemFamily.clear();
-		ArrayList<Personal> listPersonal = mgr.queryPersonal(temp);
-		listItemMember.addAll(listPersonal);
 		// 更新家庭信息参保人数的数据
 		listFamily = mgr.queryFamily();
 		for (Family tempFamily : listFamily) {
@@ -302,11 +299,13 @@ public class InfoMainActivity extends BaseActivity {
 				Family thefamily = new Family();
 				thefamily = tempFamily;
 				mgr.updateFamily(thefamily);
-				thefamily.setEdit_cjqtbxrs(listPersonal.size() + "");
 				List<Family> the = new ArrayList<Family>();
 				the.add(thefamily);
 				mgr.addFamily(the);
 				listItemFamily.add(thefamily);
+				//获得人员信息
+				ArrayList<Personal> listPersonal = mgr.queryPersonal(thefamily.getEdit_jtbh());
+				listItemMember.addAll(listPersonal);
 			}
 		}
 
@@ -318,7 +317,7 @@ public class InfoMainActivity extends BaseActivity {
 				// TODO Auto-generated method stub
 				// 登录等待4S
 				try {
-					Thread.sleep(800);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

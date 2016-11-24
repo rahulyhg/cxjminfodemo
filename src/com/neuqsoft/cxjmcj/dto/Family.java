@@ -35,8 +35,8 @@ public class Family {
 	public String edit_hkxxdz;
 	public String edit_djrq;
 	public String xzqh;
-	public String isEdit; // 0未修改 1修改了
-	public String isUpload;// 0w未上传 1已上传
+	public String isEdit="0"; // 0未修改 1修改了
+	public String isUpload="0";// 0w未上传 1已上传
 
 	/**
 	 * @param string

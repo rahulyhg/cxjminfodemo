@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.xutils.x;
+
 import com.dou361.dialogui.DialogUIUtils;
 import com.dou361.dialogui.config.BuildBean;
 import com.dou361.dialogui.listener.DialogUIListener;
@@ -60,6 +62,7 @@ import info.hoang8f.widget.FButton;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity {
 	ListView listview;
+
 	// image_sjsc
 	public static final int CBDJ = 101;
 	static MyAdapterMainActivity adapter;
@@ -80,6 +83,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// 初始化
+		x.Ext.init(this.getApplication());
+		// 设置是否输出debug
+		x.Ext.setDebug(true);
 		setContentView(R.layout.activity_main);
 		activity = this;
 		http = new HttpManager(activity);

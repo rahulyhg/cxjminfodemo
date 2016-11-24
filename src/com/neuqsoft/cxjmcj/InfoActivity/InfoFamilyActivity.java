@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.UUID;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -31,6 +32,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -47,6 +49,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import info.hoang8f.widget.FButton;
 
 /**
  * @Title InfoFamilyActivity
@@ -82,6 +85,9 @@ public class InfoFamilyActivity extends Activity {
 	@Bind(R.id.edit_gmcfzh)
 	EditText edit_gmcfzh;
 
+	@Bind(R.id.btn_save)
+	FButton btn_save;
+	
 	Activity activity;
 
 	Bundle bundle;
@@ -211,6 +217,16 @@ public class InfoFamilyActivity extends Activity {
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
 			edit_djrq.setText(tempFamily.edit_djrq);
+
+			if (tempFamily.getIsUpload().equals("1")) {
+				//已上传
+				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
+						.setConfirmText("我知道了").show();
+				//按钮置灰
+				btn_save.setButtonColor(Color.rgb(204, 204, 204));
+				btn_save.setShadowEnabled(false);
+				btn_save.setClickable(false);
+			}
 		}
 	}
 
@@ -364,7 +380,6 @@ public class InfoFamilyActivity extends Activity {
 			break;
 		}
 	}
-
 	Runnable r = new Runnable() {
 		public void run() {
 			ArrayList<Family> familys = new ArrayList<Family>();
@@ -375,8 +390,12 @@ public class InfoFamilyActivity extends Activity {
 				// 编辑状态
 				mgr.updateFamily(tempFamily);
 				family.setEdit_jtbh(tempFamily.edit_jtbh);
+				if(tempFamily.getIsUpload().equals("2"))
+				{
+					tempFamily.setIsEdit("1");
+				}
 			} else
-				family.setEdit_jtbh(tempFamily.edit_gmcfzh);
+				family.setEdit_jtbh(UUID.randomUUID().toString());
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);
@@ -385,6 +404,8 @@ public class InfoFamilyActivity extends Activity {
 			family.setEdit_djrq(tempFamily.edit_djrq);
 			family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
 			family.setXzqh(bundle.getString("XZQH"));
+			family.setIsEdit(tempFamily.getIsEdit());
+			family.setIsUpload(tempFamily.getIsUpload());
 			familys.add(family);
 			mgr.addFamily(familys);
 
@@ -415,13 +436,8 @@ public class InfoFamilyActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty())
 			Toast.makeText(getApplicationContext(), "公民身份证号不能为空！", Toast.LENGTH_SHORT).show();
-		// 判断证件类型是否是居民身份证（户口簿）
-		else if (edit_jhzzjlx.getSelectedItem().equals("居民身份证（户口簿）")) {
-			if (res != "")
-				Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-			else if (edit_gmcfzh.length() != 18) {
-				Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
-			}
+		else if (res != "") {
+			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
 		} else {
 			mHandler.post(r);
 			new Thread(new Runnable() {
