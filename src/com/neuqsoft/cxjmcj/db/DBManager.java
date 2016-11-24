@@ -378,6 +378,30 @@ public class DBManager {
 		c.close();
 		return familys;
 	}
+	
+	public Family queryFamilyByJtbh(String jtbh) {
+		ArrayList<Family> familys = new ArrayList<Family>();
+		Family family = new Family();
+		String sql = " Select * from family where AAB999='" + jtbh + "'";
+		Cursor c = db.rawQuery(sql, null);
+		while (c.moveToNext()) {
+			family.id = c.getString(c.getColumnIndex("_id"));
+			family.edit_jtbh = c.getString(c.getColumnIndex("AAB999"));
+			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
+			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
+			family.edit_jhzzjlx = c.getString(c.getColumnIndex("AAC058"));
+			family.edit_hjbh = c.getString(c.getColumnIndex("AAB401"));
+			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
+			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
+			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
+			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
+			family.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
+			family.isUpload = c.getString(c.getColumnIndex("ISUPLOAD"));
+		}
+		c.close();
+		return family;
+	}
 
 	public ArrayList<Family> queryFamily(String XZQH) {
 		ArrayList<Family> familys = new ArrayList<Family>();

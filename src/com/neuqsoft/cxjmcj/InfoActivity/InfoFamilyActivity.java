@@ -103,13 +103,6 @@ public class InfoFamilyActivity extends Activity {
 		calendar = Calendar.getInstance();
 		activity = this;
 		initView();
-		/*
-		 * Handler mHandler = new Handler(); Runnable r = new Runnable() {
-		 * public void run() { // do something
-		 * FamilyUtil.saveValue(getApplicationContext(),
-		 * gson.toJson(defaultFamily)); System.out.println("first" +
-		 * gson.toJson(defaultFamily)); } }; mHandler.post(r);
-		 */
 		setSampleFamily();
 		try {
 			fixID();
@@ -395,7 +388,10 @@ public class InfoFamilyActivity extends Activity {
 					tempFamily.setIsEdit("1");
 				}
 			} else
+			{
 				family.setEdit_jtbh(UUID.randomUUID().toString());
+				tempFamily.setIsEdit("1");
+			}
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);

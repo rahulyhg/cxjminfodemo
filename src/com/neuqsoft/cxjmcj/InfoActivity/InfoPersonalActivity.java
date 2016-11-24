@@ -24,6 +24,7 @@ import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.UserDetail;
+import com.neuqsoft.cxjmcj.utils.FamilyUtil;
 import com.neuqsoft.cxjmcj.utils.IDCard;
 import com.neuqsoft.cxjmcj.utils.PersonalUtil;
 
@@ -99,7 +100,7 @@ public class InfoPersonalActivity extends Activity {
 	String res = null;
 	public static final int CAMERA = 1001;
 	Personal tempPersonal;
-	String HZSFZedit = "";
+	String JTBHedit = "";// 是否为编辑状态
 	Gson gson = new Gson();
 	ArrayList<Personal> listPersonal = new ArrayList<Personal>();
 	Personal editPersonal;
@@ -144,7 +145,7 @@ public class InfoPersonalActivity extends Activity {
 	*/
 	private void fixID() {
 		// TODO Auto-generated method stub
-		if (HZSFZedit != "") {
+		if (JTBHedit != "") {
 			edit_gmcfzh.setFocusable(false);
 			edit_gmcfzh.setFocusableInTouchMode(false);
 			try {
@@ -197,13 +198,14 @@ public class InfoPersonalActivity extends Activity {
 					if (res == "") {
 						Boolean hasPersonal = false;
 						// 新增狀態
-						if (HZSFZedit.equals("")) {
+						if (JTBHedit.equals("")) {
 							for (Personal tem : mgr.queryPersonal()) {
 								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
 									// 数据库已存在
 									new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("已存在该人员")
 											.setContentText(tem.edit_cbrxm + "\n" + tem.edit_gmcfzh + "\n" + "户主身份证号码："
-													+ tem.HZSFZ + "\n" + "登记日期：" + tem.edit_cbrq)
+													+ mgr.queryFamilyByJtbh(tem.HZSFZ).getEdit_gmcfzh() + "\n" + "登记日期："
+													+ tem.edit_cbrq)
 											.setConfirmText("我知道了").show();
 									hasPersonal = true;
 									revert();
@@ -354,10 +356,8 @@ public class InfoPersonalActivity extends Activity {
 		if (per != null && per != "") {
 			editPersonal = new Gson().fromJson(per, new TypeToken<Personal>() {
 			}.getType());
-			HZSFZedit = editPersonal.HZSFZ;
+			JTBHedit = editPersonal.HZSFZ;
 			setContent(editPersonal);
-			tempPersonal.setIsEdit(editPersonal.getIsEdit());
-			tempPersonal.setIsUpload(editPersonal.getIsUpload());
 			if (editPersonal.getIsUpload().equals("1")) {
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
 						.setConfirmText("我知道了").show();
@@ -365,7 +365,6 @@ public class InfoPersonalActivity extends Activity {
 				btn_save.setButtonColor(Color.rgb(204, 204, 204));
 				btn_save.setShadowEnabled(false);
 				btn_save.setClickable(false);
-
 				btn_xjzf.setButtonColor(Color.rgb(204, 204, 204));
 				btn_xjzf.setShadowEnabled(false);
 				btn_xjzf.setClickable(false);
@@ -484,30 +483,49 @@ public class InfoPersonalActivity extends Activity {
 	void onItemSelected(int position) {
 		switch (position) {
 		case 0:
-			for (Family family : mgr.queryFamily()) {
-				if (family.getEdit_gmcfzh().equals(bundle.getString("HZSFZ"))) {
-					edit_cbrxm.setText(family.getEdit_hzxm());
-					edit_gmcfzh.setText(family.getEdit_gmcfzh());
-					edit_xxjzdz.setText(family.getEdit_hkxxdz());
-					edit_lxdh.setText(family.getEdit_lxdh());
-					/* edit_xb.setText(bundle.getString("sex")); */
-				}
+			if (JTBHedit.equals("")) {
+				// 新增状态
+				Family family = mgr.queryFamilyByJtbh(bundle.getString("JTBH"));
+				// 请添加证件类型选项
+				edit_cbrxm.setText(family.getEdit_hzxm());
+				edit_gmcfzh.setText(family.getEdit_gmcfzh());
+				edit_xxjzdz.setText(family.getEdit_hkxxdz());
+				edit_lxdh.setText(family.getEdit_lxdh());
 			}
 			break;
 		default:
-			/*
-			 * edit_cbrxm.setText(""); edit_gmcfzh.setText("");
-			 * edit_xb.setText(""); edit_csrq.setText("");
-			 * edit_xxjzdz.setText(""); tv_xjzf.setText("现金支付");
-			 * tv_xjzf.setTextColor(Color.BLACK);
-			 */
+			if (JTBHedit.equals("")) {
+				// 新增状态
+				edit_cbrxm.setText("");
+				edit_gmcfzh.setText("");
+				edit_zjlx.setSelection(0, true);
+				edit_mz.setSelection(0, true);
+				edit_xb.setSelection(0, true);
+				edit_csrq.setText("");
+				img_xjzf.setImageResource(R.drawable.djf);
+				btn_xjzf.setText("现金支付");
+			}
 			break;
 		}
 	}
 
 	@OnClick(R.id.image_left)
 	public void toinfoMainActivity() {
+		intentMain();
 		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		intentMain();
+		super.onBackPressed();
+	}
+
+	private void intentMain() {
+		if (!tempPersonal.getEdit_gmcfzh().equals("")) {
+			Intent intent = new Intent(InfoPersonalActivity.this, InfoMainActivity.class);
+			setResult(RESULT_OK, intent);
+		}
 	}
 
 	@OnClick(R.id.edit_csrq)
@@ -578,9 +596,10 @@ public class InfoPersonalActivity extends Activity {
 			personal1.setEdit_lxdh(tempPersonal.edit_lxdh);
 			personal1.setEdit_jf(tempPersonal.edit_jf);
 
-			if (bundle.getString("HZSFZ") != null && bundle.getString("HZSFZ") != "") {
+			if (JTBHedit.equals("")) {
 				// 新增状态
-				personal1.setHZSFZ(bundle.getString("HZSFZ"));
+				personal1.setHZSFZ(bundle.getString("JTBH"));
+				personal1.setIsEdit("1");
 				personals.add(personal1);
 				mgr.addPersonal(personals);
 			} else {
@@ -588,7 +607,7 @@ public class InfoPersonalActivity extends Activity {
 				if (tempPersonal.getIsUpload().equals("2")) {
 					personal1.setIsEdit("1");
 				}
-				personal1.setHZSFZ(tempPersonal.HZSFZ);
+				personal1.setHZSFZ(JTBHedit);
 				personals.add(personal1);
 				mgr.addPersonal(personals);
 			}
@@ -627,7 +646,7 @@ public class InfoPersonalActivity extends Activity {
 					}
 					dialog.dismiss();
 
-					if (HZSFZedit != "") {
+					if (JTBHedit != "") {
 						// 编辑状态
 					} else if (!tip_xjzf)
 						// 新增状态
@@ -641,11 +660,11 @@ public class InfoPersonalActivity extends Activity {
 	@OnClick(R.id.btn_xyg)
 	public void revert() {
 		this.runOnUiThread(new Runnable() {
-
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				if (HZSFZedit != "") {
+				if (JTBHedit != "") {
+					// 编辑状态
 					setContent(editPersonal);
 				} else {
 					edit_cbrxm.setText("");
@@ -742,7 +761,6 @@ public class InfoPersonalActivity extends Activity {
 
 		tempPersonal.setEdit_cbrylb(edit_cbrylb.getSelectedItem().toString());
 		tempPersonal.setEdit_hkxz(edit_hkxz.getSelectedItem().toString());
-		tempPersonal.setHZSFZ(HZSFZedit);
 		tempPersonal.setEdit_xxjzdz(edit_xxjzdz.getText().toString());
 		tempPersonal.setEdit_lxdh(edit_lxdh.getText().toString());
 		tempPersonal.setEdit_jf(btn_xjzf.getText().toString().equals("取消支付") ? "1" : "0");

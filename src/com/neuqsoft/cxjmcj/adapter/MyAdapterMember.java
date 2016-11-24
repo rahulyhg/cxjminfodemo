@@ -123,7 +123,7 @@ public class MyAdapterMember extends SlideBaseAdapter {
 			holder.jf.setVisibility(View.VISIBLE);
 			holder.yjf.setVisibility(View.INVISIBLE);
 		}
-		if (listItem.get(position).getEdit_gmcfzh().equals(listItem.get(position).getHZSFZ())) {
+		if (listItem.get(position).getEdit_yhzgx().equals("»§Ö÷")) {
 			holder.icon.setVisibility(View.VISIBLE);
 			holder.icon2.setVisibility(View.INVISIBLE);
 		} else {

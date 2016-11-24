@@ -200,7 +200,7 @@ public class InfoMainActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "请先添加户主信息", Toast.LENGTH_LONG).show();
 		} else {
 			Intent intent = new Intent(this, InfoPersonalActivity.class);
-			intent.putExtra("HZSFZ", listItemFamily.get(0).getEdit_jtbh());
+			intent.putExtra("JTBH", listItemFamily.get(0).getEdit_jtbh());
 			startActivityForResult(intent, INFO＿PERSONAL);
 		}
 	}
@@ -224,7 +224,23 @@ public class InfoMainActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case INFO＿PERSONAL:
-			UpdateListView(listItemFamily.get(0).getEdit_gmcfzh());
+			if (resultCode == Activity.RESULT_OK) {
+				UpdateListView(listItemFamily.get(0).getEdit_gmcfzh());
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						// 登录等待4S
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						build.dialog.dismiss();
+					}
+				}).start();
+			}
 			break;
 
 		case INFO_FAMILY:
@@ -234,6 +250,20 @@ public class InfoMainActivity extends BaseActivity {
 				Family tempFamily = gson.fromJson(str2, Family.class);
 				// 刷新listview
 				UpdateListView(tempFamily.getEdit_gmcfzh());
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						// 登录等待4S
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						build.dialog.dismiss();
+					}
+				}).start();
 			}
 			break;
 		case CAMERA:
@@ -303,7 +333,7 @@ public class InfoMainActivity extends BaseActivity {
 				the.add(thefamily);
 				mgr.addFamily(the);
 				listItemFamily.add(thefamily);
-				//获得人员信息
+				// 获得人员信息
 				ArrayList<Personal> listPersonal = mgr.queryPersonal(thefamily.getEdit_jtbh());
 				listItemMember.addAll(listPersonal);
 			}
