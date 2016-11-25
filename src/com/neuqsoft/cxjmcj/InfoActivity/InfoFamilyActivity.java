@@ -408,6 +408,7 @@ public class InfoFamilyActivity extends Activity {
 				family.setEdit_jtbh(UUID.randomUUID().toString().replace("-", "").substring(0, 18));
 			}
 			tempFamily.setIsEdit("1");
+			family.setLsh(tempFamily.lsh);
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);

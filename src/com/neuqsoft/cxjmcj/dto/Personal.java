@@ -14,6 +14,7 @@ import android.widget.EditText;
  */
 public class Personal {
 	public String id;
+	public String lsh;
 	public String edit_lxdh;
 	public String edit_grbh;
 	public String edit_zjlx;
@@ -33,7 +34,7 @@ public class Personal {
 	public String isUpload;// 0w未上传 1已上传
 
 	public Personal() {
-
+		this.lsh = "";
 		this.edit_lxdh = "";
 		this.edit_zjlx = "";
 		this.edit_cbrxm = "";
@@ -43,13 +44,12 @@ public class Personal {
 		this.edit_csrq = "";
 		this.edit_cbrq = "";
 		this.edit_cbrylb = "";
-
+		this.edit_grbh = "";
 		this.edit_yhzgx = "";
 		this.edit_xxjzdz = "";
 		this.edit_hkxz = "";
 		this.HZSFZ = "";
 		// 默认未交费
-
 		this.edit_jf = "0";
 		this.isEdit = "0";
 		this.isUpload = "0";
@@ -263,5 +263,13 @@ public class Personal {
 
 	public void setEdit_grbh(String edit_grbh) {
 		this.edit_grbh = edit_grbh;
+	}
+
+	public String getLsh() {
+		return lsh;
+	}
+
+	public void setLsh(String lsh) {
+		this.lsh = lsh;
 	}
 }

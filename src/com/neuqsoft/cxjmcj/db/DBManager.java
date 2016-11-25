@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lapism.searchview.SearchItem;
 import com.neuqsoft.cxjmcj.R;
 import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
@@ -102,8 +103,8 @@ public class DBManager {
 		try {
 			for (Personal personal : personals) {
 				// 14个字段
-				db.execSQL("REPLACE INTO personal VALUES(?, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?,?)",
-						new Object[] { personal.getEdit_gmcfzh(), personal.getEdit_grbh(), personal.getEdit_cbrxm(),
+				db.execSQL("REPLACE INTO personal VALUES(null,?, ?,?,?,?,?,   ?,?,?,?,?  ,?,?,?,?,?  ,?,?)",
+						new Object[] { personal.getLsh(), personal.getEdit_grbh(), personal.getEdit_cbrxm(),
 								personal.getEdit_zjlx(), personal.getEdit_gmcfzh(), personal.getEdit_mz(),
 								personal.getEdit_xb(), personal.getEdit_csrq(), personal.getEdit_cbrylb(),
 								personal.getEdit_cbrq(), personal.getEdit_yhzgx(), personal.getEdit_lxdh(),
@@ -121,8 +122,8 @@ public class DBManager {
 		try {
 			// 9个字段
 			for (Family family : familys) {
-				db.execSQL("REPLACE INTO family VALUES(?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?)",
-						new Object[] { family.getEdit_gmcfzh(), family.getEdit_jtbh(), family.getEdit_hzxm(),
+				db.execSQL("REPLACE INTO family VALUES(null,?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?)",
+						new Object[] { family.getLsh(), family.getEdit_jtbh(), family.getEdit_hzxm(),
 								family.getEdit_jhzzjlx(), family.getEdit_gmcfzh(), family.getEdit_hjbh(),
 								family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),
 								family.getEdit_djrq(), family.getIsEdit(), family.isUpload, family.getXzqh() });
@@ -178,24 +179,22 @@ public class DBManager {
 	 */
 	public void updatePersonal(Personal personal) {
 		ContentValues cv = new ContentValues();
+		cv.put("LSH", personal.getLsh());
 		cv.put("AAC003", personal.getEdit_cbrxm());
 		cv.put("AAE135", personal.getEdit_gmcfzh());
 		cv.put("AAC005", personal.getEdit_mz());
 		cv.put("AAC004", personal.getEdit_xb());
 		cv.put("AAC006", personal.getEdit_csrq());
 		cv.put("BAC067", personal.getEdit_cbrylb());
-
+		cv.put("AAC999", personal.getEdit_grbh());
 		cv.put("AAC030", personal.getEdit_cbrq());
 		cv.put("AAC069", personal.getEdit_yhzgx());
 		cv.put("AAE006", personal.getEdit_xxjzdz());
 		cv.put("AAC009", personal.getEdit_hkxz());
 		cv.put("HZSFZ", personal.getHZSFZ());
-
 		cv.put("AAC058", personal.getEdit_zjlx());
 		cv.put("AAE005", personal.getEdit_lxdh());
-
 		cv.put("JFBZ", personal.getEdit_jf());
-
 		cv.put("ISEDIT", personal.getIsEdit());
 		cv.put("ISUPLOAD", personal.getIsUpload());
 
@@ -361,6 +360,7 @@ public class DBManager {
 		while (c.moveToNext()) {
 			Family family = new Family();
 			family.id = c.getString(c.getColumnIndex("_id"));
+			family.lsh = c.getString(c.getColumnIndex("LSH"));
 			family.edit_jtbh = c.getString(c.getColumnIndex("AAB999"));
 			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
 			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
@@ -386,6 +386,7 @@ public class DBManager {
 		Cursor c = db.rawQuery(sql, null);
 		while (c.moveToNext()) {
 			family.id = c.getString(c.getColumnIndex("_id"));
+			family.lsh = c.getString(c.getColumnIndex("LSH"));
 			family.edit_jtbh = c.getString(c.getColumnIndex("AAB999"));
 			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
 			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
@@ -410,6 +411,7 @@ public class DBManager {
 		while (c.moveToNext()) {
 			Family family = new Family();
 			family.id = c.getString(c.getColumnIndex("_id"));
+			family.lsh = c.getString(c.getColumnIndex("LSH"));
 			family.edit_jtbh = c.getString(c.getColumnIndex("AAB999"));
 			family.edit_hzxm = c.getString(c.getColumnIndex("AAB400"));
 			family.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
@@ -435,6 +437,8 @@ public class DBManager {
 			while (c.moveToNext()) {
 				Personal personal = new Personal();
 				personal.id = c.getString(c.getColumnIndex("_id"));
+				personal.lsh = c.getString(c.getColumnIndex("LSH"));
+				personal.edit_grbh = c.getString(c.getColumnIndex("AAC999"));
 				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
 				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
 				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
@@ -468,6 +472,8 @@ public class DBManager {
 			while (c.moveToNext()) {
 				Personal personal = new Personal();
 				personal.id = c.getString(c.getColumnIndex("_id"));
+				personal.lsh = c.getString(c.getColumnIndex("LSH"));
+				personal.edit_grbh = c.getString(c.getColumnIndex("AAC999"));
 				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
 				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
 				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
@@ -499,6 +505,8 @@ public class DBManager {
 		if (c != null) {
 			while (c.moveToNext()) {
 				personal.id = c.getString(c.getColumnIndex("_id"));
+				personal.lsh = c.getString(c.getColumnIndex("LSH"));
+				personal.edit_grbh = c.getString(c.getColumnIndex("AAC999"));
 				personal.edit_cbrxm = c.getString(c.getColumnIndex("AAC003"));
 				personal.edit_gmcfzh = c.getString(c.getColumnIndex("AAE135"));
 				personal.edit_mz = c.getString(c.getColumnIndex("AAC005"));
@@ -595,6 +603,54 @@ public class DBManager {
 	 */
 	public void closeDB() {
 		db.close();
+	}
+
+	public ArrayList<SearchItem> querySearchItemFamily() {
+		ArrayList<SearchItem> familys = new ArrayList<SearchItem>();
+		String sql = "Select AAE135 from family";
+		Cursor c = db.rawQuery(sql, null);
+		while (c.moveToNext()) {
+			SearchItem family = new SearchItem();
+			// 户主为0
+			family.set_icon(R.drawable.yezhu);
+			// family.set_name(c.getString(c.getColumnIndex("AAB400")));
+			family.set_text(c.getString(c.getColumnIndex("AAE135")));
+			familys.add(family);
+		}
+		c.close();
+		return familys;
+	}
+
+	public ArrayList<SearchItem> querySearchItemMember() {
+		ArrayList<SearchItem> familys = new ArrayList<SearchItem>();
+		String sql = "Select AAE135 from personal";
+		Cursor c = db.rawQuery(sql, null);
+		while (c.moveToNext()) {
+			SearchItem family = new SearchItem();
+			// 户主为0
+			family.set_icon(R.drawable.member);
+			family.set_name(c.getString(c.getColumnIndex("AAC003")));
+			family.set_text(c.getString(c.getColumnIndex("AAE135")));
+			familys.add(family);
+		}
+		c.close();
+		return familys;
+	}
+
+	public ArrayList<SearchItem> querySearchItemMemberName() {
+		ArrayList<SearchItem> familys = new ArrayList<SearchItem>();
+		String sql = "Select AAC003 from personal";
+		Cursor c = db.rawQuery(sql, null);
+		while (c.moveToNext()) {
+			SearchItem family = new SearchItem();
+			// 户主为0
+			family.set_icon(R.drawable.member);
+			family.set_text(c.getString(c.getColumnIndex("AAC003")));
+			family.set_num(c.getString(c.getColumnIndex("AAE135")));
+			familys.add(family);
+		}
+		c.close();
+		return familys;
 	}
 
 }

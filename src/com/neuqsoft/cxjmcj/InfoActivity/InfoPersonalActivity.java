@@ -369,6 +369,8 @@ public class InfoPersonalActivity extends Activity {
 			editPersonal = mgr.queryPersonalByGmsfzh(editPersonal.getEdit_gmcfzh());
 			tempPersonal.setIsEdit(editPersonal.getIsEdit());
 			tempPersonal.setIsUpload(editPersonal.getIsUpload());
+			tempPersonal.setLsh(editPersonal.getLsh());
+			tempPersonal.setEdit_grbh(editPersonal.getEdit_grbh());
 			setContent(editPersonal);
 			if (editPersonal.getIsUpload().equals("1")) {
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
@@ -602,6 +604,8 @@ public class InfoPersonalActivity extends Activity {
 			ArrayList<Personal> personals = new ArrayList<Personal>();
 			getDataFromEdit();
 			Personal personal1 = new Personal();
+			personal1.setEdit_grbh(tempPersonal.edit_grbh);
+			personal1.setLsh(tempPersonal.lsh);
 			personal1.setEdit_yhzgx(tempPersonal.edit_yhzgx);
 			personal1.setEdit_cbrxm(tempPersonal.edit_cbrxm);
 			personal1.setEdit_zjlx(tempPersonal.edit_zjlx);
@@ -622,7 +626,6 @@ public class InfoPersonalActivity extends Activity {
 				// 新增状态
 				personal1.setHZSFZ(bundle.getString("JTBH"));
 				personal1.setIsEdit("1");
-				personal1.setEdit_grbh("");
 				personals.add(personal1);
 				mgr.addPersonal(personals);
 			} else {
