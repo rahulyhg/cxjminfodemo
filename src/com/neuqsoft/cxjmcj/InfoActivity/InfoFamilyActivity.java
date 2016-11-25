@@ -404,6 +404,7 @@ public class InfoFamilyActivity extends Activity {
 				// �༭״̬
 				mgr.updateFamily(tempFamily);
 				family.setEdit_jtbh(tempFamily.edit_jtbh);
+				family.setId(tempFamily.id);
 			} else {
 				family.setEdit_jtbh(UUID.randomUUID().toString().replace("-", "").substring(0, 18));
 			}
