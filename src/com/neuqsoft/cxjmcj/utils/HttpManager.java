@@ -242,7 +242,7 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
-				ToastUtil.showShort(context, "服务器连接失败！");
+
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -331,7 +331,6 @@ public class HttpManager extends HttpUtils {
 			// 请求失败调用次方法
 			@Override
 			public void onFailure(HttpException error, String msg) {
-				ToastUtil.showShort(context, "服务器连接失败！");
 				isError = true;
 				new Thread(new Runnable() {
 					@Override
@@ -352,7 +351,6 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onSuccess(ResponseInfo<String> arg0) {
 				// TODO Auto-generated method stub
-				isError = false;
 				String temp = arg0.result;
 				System.out.println(temp);
 				List<CodeDTO> dto = gson.fromJson(temp, new TypeToken<List<CodeDTO>>() {
@@ -375,7 +373,7 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
-				ToastUtil.showShort(context, "服务器连接失败！");
+
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -423,7 +421,7 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
-				ToastUtil.showShort(context, "服务器连接失败！");
+
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

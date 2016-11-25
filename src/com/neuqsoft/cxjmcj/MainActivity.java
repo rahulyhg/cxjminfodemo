@@ -75,6 +75,7 @@ public class MainActivity extends Activity {
 	private String account;
 	BuildBean build;
 	HttpManager http;
+	Thread downData;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -104,7 +105,8 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated method stub
 					build = DialogUIUtils.showLoadingHorizontal(activity, "在线登录成功，加载中...", false, false, true);
 					build.show();
-					new Thread(new Runnable() {
+
+					downData = new Thread(new Runnable() {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
@@ -112,36 +114,38 @@ public class MainActivity extends Activity {
 								// 获得代码表
 								if (db.queryCode("AAC058").size() == 0)
 									GetCode();
-								// 获得userTask信息
-								http.getUserDetail(sToken);
-								while (http.isAlive) {
-									// 用户任务下载完
-								}
-								if (http.isError) {
-									build.dialog.dismiss();
+								if (!http.isError) {
+									// 获得userTask信息
+									http.getUserDetail(sToken);
+									while (http.isAlive) {
+										// 用户任务下载完
+									}
+									if (http.isError) {
+										build.dialog.dismiss();
+										activity.runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												serverError();
+											}
+										});
+									} else {
+										// 获得行政区划信息
+										GetXzqh();
+									}
 									activity.runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
-											serverError();
+											if (queryUserDetail.size() < 1) {
+												// 无任务
+												serverError();
+											} else {
+												UpdateView(queryUserDetail);
+												/** --------设置标题栏的数据-------------- */
+												InitHeader();
+											}
 										}
 									});
-								} else {
-									// 获得行政区划信息
-									GetXzqh();
 								}
-								activity.runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										if (queryUserDetail.size() < 1) {
-											// 无任务
-											serverError();
-										} else {
-											UpdateView(queryUserDetail);
-											/** --------设置标题栏的数据-------------- */
-											InitHeader();
-										}
-									}
-								});
 								// 等待加载完
 								Thread.sleep(500);
 							} catch (UnsupportedEncodingException e) {
@@ -153,7 +157,8 @@ public class MainActivity extends Activity {
 							}
 							build.dialog.dismiss();
 						}
-					}).start();
+					});
+					downData.start();
 				}
 			});
 		} else {
@@ -165,6 +170,7 @@ public class MainActivity extends Activity {
 					build.show();
 					queryUserDetail = db.queryUserDetail(account);
 					UpdateView(queryUserDetail);
+					InitHeader();
 					delay(1500);
 				}
 			});
@@ -215,6 +221,9 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CBDJ:
+			build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...", false, false, true);
+			build.show();
+			delay(1500);
 			queryUserDetail = db.queryUserDetail(account);
 			UpdateView(queryUserDetail);
 		}
@@ -264,6 +273,7 @@ public class MainActivity extends Activity {
 		}).start();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void serverError() {
 		Dialog dialog;
 		dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("请重试")
@@ -280,20 +290,30 @@ public class MainActivity extends Activity {
 		http.getCode("AAC058");
 		while (http.isAlive) {
 		}
-		http.getCode("AAC005");
-		while (http.isAlive) {
-		}
-		http.getCode("AAC004");
-		while (http.isAlive) {
-		}
-		http.getCode("BAC067");
-		while (http.isAlive) {
-		}
-		http.getCode("AAC069");
-		while (http.isAlive) {
-		}
-		http.getCode("AAC009");
-		while (http.isAlive) {
+		if (http.isError) {
+			build.dialog.dismiss();
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					serverError();
+				}
+			});
+		} else {
+			http.getCode("AAC005");
+			while (http.isAlive) {
+			}
+			http.getCode("AAC004");
+			while (http.isAlive) {
+			}
+			http.getCode("BAC067");
+			while (http.isAlive) {
+			}
+			http.getCode("AAC069");
+			while (http.isAlive) {
+			}
+			http.getCode("AAC009");
+			while (http.isAlive) {
+			}
 		}
 	}
 
