@@ -215,7 +215,8 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CBDJ:
-			adapter.notifyDataSetChanged();
+			queryUserDetail = db.queryUserDetail(account);
+			UpdateView(queryUserDetail);
 		}
 	}
 

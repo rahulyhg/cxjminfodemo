@@ -462,6 +462,19 @@ public class DBManager {
 
 		return personals;
 	}
+	
+	public String queryTime(String HZSFZ) {
+		String date = null;
+		String sql = "Select * from personal where HZSFZ='" + HZSFZ + "'order by AAC030 desc limit 1";
+		Cursor c = db.rawQuery(sql, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				date = c.getString(c.getColumnIndex("AAC030"));
+			}
+			c.close();
+		}
+		return date;
+	}
 
 	// Í¨¹ý¼ÒÍ¥±àºÅ
 	public ArrayList<Personal> queryPersonal(String HZSFZ) {

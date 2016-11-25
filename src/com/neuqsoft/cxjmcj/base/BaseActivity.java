@@ -236,7 +236,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 						getData(query, position);
 						mSearchView.setTextInput(query);
 						mSearchView.close(false);
-						_sonActivity.UpdateListView(mSearchView.getTextInput());
+						_sonActivity.UpdateListView(mSearchView.getTextInput().substring(0, 18));
 					}
 				});
 				mSearchView.setAdapter(searchAdapter);

@@ -243,7 +243,6 @@ public class HttpManager extends HttpUtils {
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
 				ToastUtil.showShort(context, "服务器连接失败！");
-				db.update_df(context, countryCode, "downloadflag", "0");
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

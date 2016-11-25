@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp" >
+    android:layout_height="60dp"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/top1"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@drawable/top11"
-        android:orientation="vertical" >
-    </LinearLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/top"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/top1"
-        android:background="@drawable/top1"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:gravity="left|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -58,76 +47,65 @@
                     android:textColor="#000000"
                     android:textSize="20sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView 
-                     android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="啊啊啊a"
-                    android:visibility="invisible"/>
-
-                <TextView
-                    android:id="@+id/num1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="共0家，"
-                  android:textColor="#6d6d72"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/num2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0人"
-                    android:textColor="#6d6d72"
-                    android:textSize="14sp" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="3"
-            android:gravity="right|center_vertical"
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
             android:orientation="horizontal" >
 
             <TextView
+                android:id="@+id/num1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已收："
+                android:text="共 0 家 ，"
                 android:textColor="#6d6d72"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/money"
+                android:id="@+id/num2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="#f12809"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/yuan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="元"
-                android:textColor="#f12809"
-                android:textSize="16sp" />
+                android:text="0 人"
+                android:textColor="#6d6d72"
+                android:textSize="14sp" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/buttom_up2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignBottom="@id/top"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/group"
-        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/top"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="应缴纳金额 ："
+            android:textColor="#f12809"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#f12809"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/yuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 元"
+            android:textColor="#f12809"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 </RelativeLayout>

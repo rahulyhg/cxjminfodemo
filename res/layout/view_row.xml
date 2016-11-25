@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <include layout="@layout/view_header" />
+    <LinearLayout
+        android:id="@+id/id_top"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical" />
 
-    <include layout="@layout/view_content" />
+    <LinearLayout
+        android:id="@+id/id_background"
+        android:layout_width="fill_parent"
+        android:layout_height="230dp"
+        android:layout_below="@id/id_top"
+        android:background="@drawable/item_background1"
+        android:orientation="vertical" />
 
-    <include layout="@layout/view_bottom" />
+    <LinearLayout
+        android:id="@+id/id_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_top" >
+        <include layout="@layout/view_header" />
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/id_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_header" >
+        <include layout="@layout/view_content" />
+    </LinearLayout>
+
+</RelativeLayout>

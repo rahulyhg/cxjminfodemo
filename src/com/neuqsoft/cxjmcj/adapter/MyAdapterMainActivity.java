@@ -7,7 +7,9 @@ package com.neuqsoft.cxjmcj.adapter;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.dou361.dialogui.DialogUIUtils;
@@ -28,7 +30,7 @@ import com.neuqsoft.cxjmcj.utils.HttpManager;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 import com.roamer.slidelistview.SlideBaseAdapter;
 import com.roamer.slidelistview.SlideListView.SlideMode;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -68,10 +70,12 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		FButton download;
 		public TextView text_num;
 		private ImageView list;
-		LinearLayout top1;
-		LinearLayout top;
-		LinearLayout center;
-		ImageView bottom;
+		LinearLayout background;
+
+		LinearLayout blank;
+
+		LinearLayout time;
+		TextView time2;
 
 		public String cjarea = "";
 
@@ -134,12 +138,12 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			holder.upload = (FButton) convertView.findViewById(R.id.buttom_up);
 			holder.download = (FButton) convertView.findViewById(R.id.buttom_down);
 
-			holder.top1 = (LinearLayout) convertView.findViewById(R.id.top1);
-			holder.top = (LinearLayout) convertView.findViewById(R.id.top);
+			holder.background = (LinearLayout) convertView.findViewById(R.id.id_background);
 			holder.list = (ImageView) convertView.findViewById(R.id.list);
 
-			holder.center = (LinearLayout) convertView.findViewById(R.id.center);
-			holder.bottom = (ImageView) convertView.findViewById(R.id.bottom);
+			holder.blank = (LinearLayout) convertView.findViewById(R.id.blank);
+			holder.time = (LinearLayout) convertView.findViewById(R.id.time);
+			holder.time2 = (TextView) convertView.findViewById(R.id.time2);
 
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
@@ -153,9 +157,8 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			holder.local.setText(xzqh.getName());
 		else
 			holder.local.setText("某地区");
-        /**总金额*/
-	
-        
+		/** 总金额 */
+
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				// 下载失败
@@ -223,9 +226,10 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							// TODO Auto-generated method stub
 							int memberSize = 0;
 							int memberJf = 0;
-							int memberylr=0;
+							int memberylr = 0;
 							List<Family> familys = db.queryFamily(holder.cjarea);
-							holder.num1.setText("共"+familys.size()+"家，" + "");
+							holder.num1.setText("共 " + familys.size() + " 家 ，");
+							String MaxTime="0000-00-00 00:00:00";
 							for (Family family : familys) {
 								List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 								memberSize = memberSize + personals.size();
@@ -234,32 +238,51 @@ public class MyAdapterMainActivity extends BaseAdapter {
 										memberJf = memberJf + 1;
 									}
 									if (personal.getIsEdit().equals("1")) {
-										memberylr=memberylr+1;
+										memberylr = memberylr + 1;
 									}
 								}
+								
+								if(db.queryTime(family.getEdit_jtbh())!=null)
+								{
+									String newTime=db.queryTime(family.getEdit_jtbh());
+									if(MaxTime.compareTo(newTime)>0)
+									{
+										//MaxTime晚于newTime
+									}
+									else
+									{
+										MaxTime=newTime;
+									}
+								}
+								
 							}
-							holder.num2.setText(memberSize +"人"+ "");
+							holder.num2.setText(memberSize + " 人");
 							holder.num3.setText(memberJf + "");
-							//已录入人员
-							holder.ylrr.setText(memberylr+"");
-							if (memberJf!=0) {
-//								int B=Integer.parseInt("150");
-								int result=memberJf*150;
-								holder.money.setText(result+"");
-							}else {
-								holder.money.setText(0+"");
+							// 已录入人员
+							holder.ylrr.setText(memberylr + "");
+							if (memberJf != 0) {
+								// int B=Integer.parseInt("150");
+								int result = memberJf * 150;
+								holder.money.setText(result + "");
+							} else {
+								holder.money.setText(0 + "");
 							}
 							holder.upload.setVisibility(View.VISIBLE);
 							holder.download.setText("录 入");
 							holder.download.setButtonColor(Color.rgb(237, 152, 17));
 
-							holder.top1.setBackgroundResource(R.drawable.top21);
-							holder.top.setBackgroundResource(R.drawable.top2);
+							holder.background.setBackgroundResource(R.drawable.item_background2);
 							holder.list.setImageResource(R.drawable.list3);
 							holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
-
-							holder.center.setBackgroundResource(R.drawable.center2);
-							holder.bottom.setImageResource(R.drawable.bottom2);
+							holder.blank.setVisibility(View.VISIBLE);
+							holder.time.setVisibility(View.VISIBLE);
+							if(MaxTime.equals("0000-00-00 00:00:00"))
+							{
+								holder.time2.setText("");
+							}
+							else
+								holder.time2.setText(MaxTime);
+							
 						}
 					});
 				}
@@ -294,7 +317,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				db.update_df(activity, holder.cjarea, "downloadflag", "1");
+
 				http.getJbxx(holder.cjarea);
 				try {
 					Thread.sleep(1500);
@@ -306,9 +329,13 @@ public class MyAdapterMainActivity extends BaseAdapter {
 				}
 				if (http.isError) {
 					handler.sendEmptyMessage(0);
+					db.update_df(activity.getApplicationContext(), holder.cjarea, "downloadflag", "0");
 				} else
-					// 下载成功
+				// 下载成功
+				{
 					handler.sendEmptyMessage(4);
+					db.update_df(activity.getApplicationContext(), holder.cjarea, "downloadflag", "1");
+				}
 				build.dialog.dismiss();
 			}
 		};
@@ -354,6 +381,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		};
 
 		holder.download.setOnClickListener(new View.OnClickListener() {
+			@SuppressLint("SimpleDateFormat")
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View v) {
@@ -370,7 +398,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 						}
 					});
 
-					
 					// 下载线程
 					new Thread(down_run).start();
 				} else {
@@ -387,7 +414,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 					Intent intent = new Intent(activity, InfoMainActivity.class);
 					intent.putExtra("XZQH", holder.cjarea);
 					((MainActivity) activity).startActivityForResult(intent, CBDJ);
-					
 				}
 			}
 		});
