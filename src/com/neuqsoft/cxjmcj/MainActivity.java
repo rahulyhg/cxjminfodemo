@@ -76,6 +76,7 @@ public class MainActivity extends Activity {
 	BuildBean build;
 	HttpManager http;
 	Thread downData;
+	Dialog dialog;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -275,7 +276,6 @@ public class MainActivity extends Activity {
 
 	@SuppressWarnings("deprecation")
 	public void serverError() {
-		Dialog dialog;
 		dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("在线登录失败")
 				.setCancelText("注销重试").setConfirmText("离线登录")
 				.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -300,6 +300,7 @@ public class MainActivity extends Activity {
 								}
 							}
 						});
+						sDialog.dismissWithAnimation();
 					}
 				}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
 					@Override
