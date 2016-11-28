@@ -94,6 +94,7 @@ public class InfoMainActivity extends BaseActivity {
 	public static ArrayList<Personal> listItemMember = new ArrayList<Personal>();
 	static ArrayList<Family> listItemFamily = new ArrayList<Family>();
 	private SlideListView lvMember;
+	private static int ListMemberNum;
 	private SlideListView lvFamily;
 	public static MyAdapterMember adapterMember;
 	public static MyAdapterFamily adapterFamily;
@@ -318,6 +319,7 @@ public class InfoMainActivity extends BaseActivity {
 	}
 
 	public void UpdateListView(String temp) {
+		int ListMemberNumNow = 0;
 		build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");
 		build.show();
 		listItemMember.clear();
@@ -328,15 +330,22 @@ public class InfoMainActivity extends BaseActivity {
 			if (tempFamily.getEdit_gmcfzh().equals(temp)) {
 				Family thefamily = new Family();
 				thefamily = tempFamily;
-				mgr.updateFamily(thefamily);
-				List<Family> the = new ArrayList<Family>();
-				the.add(thefamily);
-				mgr.addFamily(the);
 				listItemFamily.add(thefamily);
 				// 获得人员信息
 				ArrayList<Personal> listPersonal = mgr.queryPersonal(thefamily.getEdit_jtbh());
 				listItemMember.addAll(listPersonal);
+				ListMemberNumNow = listItemMember.size();
 			}
+		}
+		if (listItemFamily.size() == 0) {
+			Personal listPersonal = mgr.queryPersonalByGmsfzh(temp);
+			Family thefamily = new Family();
+			thefamily = mgr.queryFamilyByJtbh(listPersonal.getHZSFZ());
+			listItemFamily.add(thefamily);
+			// 获得人员信息
+			ArrayList<Personal> listPersonals = mgr.queryPersonal(thefamily.getEdit_jtbh());
+			listItemMember.addAll(listPersonals);
+			ListMemberNumNow = listItemMember.size();
 		}
 
 		adapterFamily.notifyDataSetChanged();
@@ -379,5 +388,24 @@ public class InfoMainActivity extends BaseActivity {
 			line.setVisibility(View.VISIBLE);
 		else
 			line.setVisibility(View.GONE);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				// 登录等待4S
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+			}
+		}).start();
+		if (ListMemberNumNow > ListMemberNum) {
+			lvMember.setSelectionFromTop(ListMemberNumNow, 0);
+		}
+
+		ListMemberNum = listItemMember.size();
 	}
 }

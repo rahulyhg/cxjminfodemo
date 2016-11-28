@@ -627,14 +627,12 @@ public class InfoPersonalActivity extends Activity {
 				mgr.addPersonal(personals);
 			} else {
 				// �༭״̬
-				mgr.deletePersonal(tempPersonal);
 				if (tempPersonal.getIsUpload().equals("2")) {
 					personal1.setIsEdit("1");
 				}
 				personal1.setId(tempPersonal.id);
 				personal1.setHZSFZ(JTBHedit);
-				personals.add(personal1);
-				mgr.addPersonal(personals);
+				mgr.updatePersonal(personal1);
 			}
 		}
 	};

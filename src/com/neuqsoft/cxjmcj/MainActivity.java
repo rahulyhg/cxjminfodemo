@@ -133,19 +133,23 @@ public class MainActivity extends Activity {
 										// 获得行政区划信息
 										GetXzqh();
 									}
-									activity.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											if (queryUserDetail.size() < 1) {
-												// 无任务
-												serverError();
-											} else {
-												UpdateView(queryUserDetail);
-												/** --------设置标题栏的数据-------------- */
-												InitHeader();
+									if(!http.isError)
+									{
+										activity.runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												if (queryUserDetail.size() < 1) {
+													// 无任务
+													serverError();
+												} else {
+													UpdateView(queryUserDetail);
+													/** --------设置标题栏的数据-------------- */
+													InitHeader();
+												}
 											}
-										}
-									});
+										});
+									}
+									
 								}
 								// 等待加载完
 								Thread.sleep(500);
