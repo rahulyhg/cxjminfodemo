@@ -210,7 +210,7 @@ public class InfoFamilyActivity extends Activity {
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
 			edit_djrq.setText(tempFamily.edit_djrq);
-			//edit_jtxxdz.setText(text);
+			edit_jtxxdz.setText(tempFamily.edit_jtxxdz);
 			if (tempFamily.getIsUpload().equals("1")) {
 				// 已上传
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
@@ -417,6 +417,7 @@ public class InfoFamilyActivity extends Activity {
 			family.setEdit_lxdh(tempFamily.edit_lxdh);
 			family.setEdit_djrq(tempFamily.edit_djrq);
 			family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
+			family.setEdit_jtxxdz(tempFamily.edit_jtxxdz);
 			family.setXzqh(bundle.getString("XZQH"));
 			family.setIsEdit(tempFamily.getIsEdit());
 			family.setIsUpload(tempFamily.getIsUpload());
@@ -492,6 +493,7 @@ public class InfoFamilyActivity extends Activity {
 		edit_yzbm.setText("");
 		edit_cjqtbxrs.setText("");
 		edit_hkxxdz.setText("");
+		edit_jtxxdz.setText("");
 		// spinner
 		edit_jhzzjlx.setSelection(0, true);
 		edit_gmcfzh.setText("");
@@ -508,6 +510,7 @@ public class InfoFamilyActivity extends Activity {
 		tempFamily.setEdit_yzbm(edit_yzbm.getText().toString());
 		tempFamily.setEdit_cjqtbxrs(edit_cjqtbxrs.getText().toString());
 		tempFamily.setEdit_hkxxdz(edit_hkxxdz.getText().toString());
+		tempFamily.setEdit_jtxxdz(edit_jtxxdz.getText().toString());
 		// spinner
 		tempFamily.setEdit_jhzzjlx(edit_jhzzjlx.getSelectedItem().toString());
 		tempFamily.setEdit_gmcfzh(edit_gmcfzh.getText().toString());

@@ -122,10 +122,10 @@ public class DBManager {
 		try {
 			// 9个字段
 			for (Family family : familys) {
-				db.execSQL("REPLACE INTO family VALUES(null,?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?)",
+				db.execSQL("REPLACE INTO family VALUES(null,?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?,?)",
 						new Object[] { family.getLsh(), family.getEdit_jtbh(), family.getEdit_hzxm(),
 								family.getEdit_jhzzjlx(), family.getEdit_gmcfzh(), family.getEdit_hjbh(),
-								family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),
+								family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),family.getEdit_jtxxdz(),
 								family.getEdit_djrq(), family.getIsEdit(), family.isUpload, family.getXzqh() });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
@@ -368,6 +368,7 @@ public class DBManager {
 			family.edit_hjbh = c.getString(c.getColumnIndex("AAB401"));
 			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
 			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
+			family.edit_jtxxdz = c.getString(c.getColumnIndex("AAC010"));
 			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
 			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
 			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
@@ -394,7 +395,8 @@ public class DBManager {
 			family.edit_hjbh = c.getString(c.getColumnIndex("AAB401"));
 			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
 			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
-			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
+			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAC010"));
+			family.edit_jtxxdz = c.getString(c.getColumnIndex("AAE006"));
 			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
 			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
 			family.isEdit = c.getString(c.getColumnIndex("ISEDIT"));
@@ -419,7 +421,8 @@ public class DBManager {
 			family.edit_hjbh = c.getString(c.getColumnIndex("AAB401"));
 			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
 			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
-			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
+			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAC010"));
+			family.edit_jtxxdz = c.getString(c.getColumnIndex("AAE006"));
 			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
 			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
 			family.isEdit = c.getString(c.getColumnIndex("ISEDIT"));

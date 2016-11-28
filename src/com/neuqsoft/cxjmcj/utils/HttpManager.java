@@ -77,7 +77,8 @@ public class HttpManager extends HttpUtils {
 			family.edit_hjbh = d.getAab401();
 			family.edit_cjqtbxrs = d.getBab041();
 			family.edit_lxdh = d.getAae005();
-			family.edit_hkxxdz = d.getAae006();
+			family.edit_hkxxdz = d.getAac010();
+			family.edit_jtxxdz = d.getAae006();
 			family.edit_djrq = d.getAab050();
 			family.xzqh = country;
 			family.isEdit = "0";
@@ -161,7 +162,8 @@ public class HttpManager extends HttpUtils {
 		family.setAab401(d.edit_hjbh);
 		family.setBab041(d.edit_cjqtbxrs);
 		family.setAae005(d.edit_lxdh);
-		family.setAae006(d.edit_hkxxdz);
+		family.setAac010(d.edit_hkxxdz);
+		family.setAae006(d.edit_jtxxdz);
 		family.setAab050(d.edit_djrq);
 		return family;
 	}

@@ -9,7 +9,7 @@ public class FamilyDTO {
 	private String aab401;  //户籍编号    
 	private String bab041;  //参保人数    
 	private String aae005;  //联系电话    
-//	private String aac010;  //户籍地址
+	private String aac010;  //户籍地址
 	private String aae006;  //家庭住址        
 	private String aab050;  //登记日期    
 	
@@ -78,5 +78,11 @@ public class FamilyDTO {
 		return "FamilyDTO [lsh=" + lsh + ", aab999=" + aab999 + ", aab400=" + aab400 + ", aac058=" + aac058
 				+ ", aae135=" + aae135 + ", aab401=" + aab401 + ", bab041=" + bab041 + ", aae005=" + aae005
 				+ ", aae006=" + aae006 + ", aab050=" + aab050 + "]";
+	}
+	public String getAac010() {
+		return aac010;
+	}
+	public void setAac010(String aac010) {
+		this.aac010 = aac010;
 	}	
 }

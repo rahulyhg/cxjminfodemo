@@ -34,6 +34,7 @@ public class Family {
 	public String edit_yzbm;
 	public String edit_cjqtbxrs;
 	public String edit_hkxxdz;
+	public String edit_jtxxdz;
 	public String edit_djrq;
 	public String xzqh;
 	public String isEdit = "0"; // 0Î´ÐÞ¸Ä 1ÐÞ¸ÄÁË
@@ -287,6 +288,14 @@ public class Family {
 
 	public void setLsh(String lsh) {
 		this.lsh = lsh;
+	}
+
+	public String getEdit_jtxxdz() {
+		return edit_jtxxdz;
+	}
+
+	public void setEdit_jtxxdz(String edit_jtxxdz) {
+		this.edit_jtxxdz = edit_jtxxdz;
 	}
 
 }

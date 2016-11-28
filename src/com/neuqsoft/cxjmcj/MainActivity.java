@@ -197,7 +197,7 @@ public class MainActivity extends Activity {
 		title_logout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Logout();
+				Logout("注销中...");
 			}
 		});
 	}
@@ -245,8 +245,8 @@ public class MainActivity extends Activity {
 		}).start();
 	}
 
-	public void Logout() {
-		build = DialogUIUtils.showLoadingHorizontal(activity, "注销中...");
+	public void Logout(String info) {
+		build = DialogUIUtils.showLoadingHorizontal(activity, info);
 		build.show();
 		new Thread(new Runnable() {
 			@Override
@@ -276,11 +276,35 @@ public class MainActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	public void serverError() {
 		Dialog dialog;
-		dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("请重试")
+		dialog = new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE).setTitleText("在线登录失败")
+				.setCancelText("注销重试").setConfirmText("离线登录")
 				.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 					@Override
 					public void onClick(SweetAlertDialog sDialog) {
-						Logout();
+						activity.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...", false, false,
+										true);
+								build.show();
+								if(db.queryCode("AAC058").size() == 0||db.queryUserDetail(account).size()==0)
+								{
+									Logout("无配置数据，注销中...");
+								}
+								else{
+									queryUserDetail = db.queryUserDetail(account);
+									UpdateView(queryUserDetail);
+									InitHeader();
+									delay(1500);
+								}
+							}
+						});
+					}
+				}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+					@Override
+					public void onClick(SweetAlertDialog sDialog) {
+						Logout("注销中...");
 					}
 				});
 		dialog.show();
