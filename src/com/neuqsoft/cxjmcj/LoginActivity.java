@@ -1,5 +1,6 @@
 package com.neuqsoft.cxjmcj;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,10 +78,8 @@ public class LoginActivity extends Activity {
 		utils = new HttpUtils(3000);
 		gson = new Gson();
 		mgr = new DBManager(this);
-		// mgr.addUser(users);
 		initView();
 		initData();
-
 	}
 
 	/*
@@ -112,7 +111,7 @@ public class LoginActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 
@@ -168,7 +167,6 @@ public class LoginActivity extends Activity {
 		});
 
 	}
-	
 
 	protected void loginfromlocal() {
 		int quer = mgr.Quer(passWord, userName);
@@ -266,7 +264,7 @@ public class LoginActivity extends Activity {
 				startActivity(intent);
 				finish();
 			}
-		}).start();	
+		}).start();
 	}
 
 	protected void delay(final int time) {

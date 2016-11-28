@@ -288,11 +288,9 @@ public class MainActivity extends Activity {
 								build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...", false, false,
 										true);
 								build.show();
-								if(db.queryCode("AAC058").size() == 0||db.queryUserDetail(account).size()==0)
-								{
+								if (db.queryCode("AAC058").size() == 0 || db.queryUserDetail(account).size() == 0) {
 									Logout("无配置数据，注销中...");
-								}
-								else{
+								} else {
 									queryUserDetail = db.queryUserDetail(account);
 									UpdateView(queryUserDetail);
 									InitHeader();
