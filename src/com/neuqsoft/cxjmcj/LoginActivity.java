@@ -144,8 +144,8 @@ public class LoginActivity extends Activity {
 				if (exceptionCode == 0) {
 					// showloading();
 					loginfromlocal();
-				} else if (exceptionCode == 406) {
-					waitToast("密码错误，请重新输入！");
+				} else if (exceptionCode == 500) {
+					waitToast("用户名或密码错误，请重新输入！");
 				}
 			}
 
