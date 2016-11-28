@@ -210,7 +210,7 @@ public class InfoFamilyActivity extends Activity {
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
 			edit_djrq.setText(tempFamily.edit_djrq);
-
+			//edit_jtxxdz.setText(text);
 			if (tempFamily.getIsUpload().equals("1")) {
 				// 已上传
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
