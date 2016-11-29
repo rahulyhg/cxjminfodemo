@@ -112,44 +112,34 @@ public class MainActivity extends Activity {
 						public void run() {
 							// TODO Auto-generated method stub
 							try {
-								// 获得代码表
-								if (db.queryCode("AAC058").size() == 0)
-									GetCode();
-								if (!http.isError) {
-									// 获得userTask信息
-									http.getUserDetail(sToken);
-									while (http.isAlive) {
-										// 用户任务下载完
-									}
-									if (http.isError) {
-										build.dialog.dismiss();
-										activity.runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												serverError();
-											}
-										});
-									} else {
+								GetUserTask();
+								// 有任务
+								queryUserDetail = db.queryUserDetail(account);
+								if (queryUserDetail.size() > 0) {
+									// 获得代码表
+									if (db.queryCode("AAC058").size() == 0)
+										GetCode();
+									if (!http.isError) {
 										// 获得行政区划信息
 										GetXzqh();
-									}
-									if(!http.isError)
-									{
-										activity.runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												if (queryUserDetail.size() < 1) {
-													// 无任务
-													serverError();
-												} else {
+										if (!http.isError)
+											activity.runOnUiThread(new Runnable() {
+												@Override
+												public void run() {
 													UpdateView(queryUserDetail);
 													/** --------设置标题栏的数据-------------- */
 													InitHeader();
 												}
-											}
-										});
+											});
 									}
-									
+								} else {
+									// 无任务
+									activity.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											serverError();
+										}
+									});
 								}
 								// 等待加载完
 								Thread.sleep(500);
@@ -352,7 +342,6 @@ public class MainActivity extends Activity {
 	}
 
 	public void GetXzqh() throws UnsupportedEncodingException {
-		queryUserDetail = db.queryUserDetail(account);
 		for (UserDetail userDetail : queryUserDetail) {
 			http.getXzqh(userDetail.getCjarea());
 			while (http.isAlive) {
@@ -366,7 +355,25 @@ public class MainActivity extends Activity {
 						serverError();
 					}
 				});
+				return;
 			}
+		}
+	}
+
+	public void GetUserTask() {
+		// 获得userTask信息
+		http.getUserDetail(sToken);
+		while (http.isAlive) {
+			// 用户任务下载完
+		}
+		if (http.isError) {
+			build.dialog.dismiss();
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					serverError();
+				}
+			});
 		}
 	}
 }

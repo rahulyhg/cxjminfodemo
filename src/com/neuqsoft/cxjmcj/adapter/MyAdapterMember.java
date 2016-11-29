@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -50,6 +51,7 @@ public class MyAdapterMember extends SlideBaseAdapter {
 		private ImageView icon2;
 		TextView edit;
 		TextView delete;
+		public RelativeLayout front;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
@@ -107,6 +109,7 @@ public class MyAdapterMember extends SlideBaseAdapter {
 			holder.yjf = (TextView) convertView.findViewById(R.id.text_yjf);
 			holder.edit = (TextView) convertView.findViewById(R.id.edit);
 			holder.delete = (TextView) convertView.findViewById(R.id.delete);
+			holder.front = (RelativeLayout) convertView.findViewById(R.id.front);
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
 			holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象

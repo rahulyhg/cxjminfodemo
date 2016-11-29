@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -232,11 +233,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 					@Override
 					public void onItemClick(View view, int position) {
 						TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+						ImageView imageView = (ImageView) view.findViewById(R.id.imageView_item_icon_left);
+						int isMember = 1;
 						String query = textView.getText().toString();
 						getData(query, position);
 						mSearchView.setTextInput(query);
 						mSearchView.close(false);
-						_sonActivity.UpdateListView(mSearchView.getTextInput().substring(0, 18));
+						if (imageView.getDrawable().getCurrent().getConstantState()
+								.equals(getResources().getDrawable(R.drawable.yezhu).getConstantState())) {
+							isMember = 0;
+						}
+						_sonActivity.UpdateListView(mSearchView.getTextInput().substring(0, 18), isMember);
 					}
 				});
 				mSearchView.setAdapter(searchAdapter);

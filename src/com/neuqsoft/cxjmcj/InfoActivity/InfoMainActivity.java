@@ -22,6 +22,7 @@ import org.dom4j.io.SAXReader;
 
 import com.neuqsoft.cxjmcj.R;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterMember;
+import com.neuqsoft.cxjmcj.adapter.MyAdapterMember.ViewHolder;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterFamily;
 import com.dou361.dialogui.DialogUIUtils;
 import com.dou361.dialogui.config.BuildBean;
@@ -55,6 +56,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
@@ -83,6 +85,9 @@ public class InfoMainActivity extends BaseActivity {
 
 	@Bind(R.id.image_left)
 	ImageView image_left;
+
+	@Bind(R.id.ScrollView)
+	ScrollView mScrollView;
 
 	String tempFamily;
 	Family family = new Family();// 传回的数据
@@ -171,7 +176,7 @@ public class InfoMainActivity extends BaseActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (listItemFamily.size() != 0) {
-			UpdateListView(listItemFamily.get(0).getEdit_gmcfzh());
+			UpdateListView(listItemFamily.get(0).getEdit_gmcfzh(), 0);
 		}
 	}
 
@@ -226,7 +231,7 @@ public class InfoMainActivity extends BaseActivity {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case INFO＿PERSONAL:
 			if (resultCode == Activity.RESULT_OK) {
-				UpdateListView(listItemFamily.get(0).getEdit_gmcfzh());
+				UpdateListView(listItemFamily.get(0).getEdit_gmcfzh(), 0);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -250,7 +255,7 @@ public class InfoMainActivity extends BaseActivity {
 				String str2 = f.getString("Family");// str即为回传的值
 				Family tempFamily = gson.fromJson(str2, Family.class);
 				// 刷新listview
-				UpdateListView(tempFamily.getEdit_gmcfzh());
+				UpdateListView(tempFamily.getEdit_gmcfzh(), 0);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -303,13 +308,13 @@ public class InfoMainActivity extends BaseActivity {
 				Boolean hasTemp = false;
 				for (Family tempFamily : listFamily) {
 					if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-						UpdateListView(tempFamily.getEdit_gmcfzh());
+						UpdateListView(tempFamily.getEdit_gmcfzh(), 0);
 						hasTemp = true;
 					}
 				}
 				if (!hasTemp) {
 					// 拍照后不存在用户信息
-					UpdateListView(mSearchView.getTextInput());
+					UpdateListView(mSearchView.getTextInput(), 0);
 				}
 			}
 			break;
@@ -318,35 +323,12 @@ public class InfoMainActivity extends BaseActivity {
 		}
 	}
 
-	public void UpdateListView(String temp) {
-		int ListMemberNumNow = 0;
+	public void UpdateListView(final String temp, int isMember) {
 		build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");
 		build.show();
 		listItemMember.clear();
 		listItemFamily.clear();
-		// 更新家庭信息参保人数的数据
-		listFamily = mgr.queryFamily();
-		for (Family tempFamily : listFamily) {
-			if (tempFamily.getEdit_gmcfzh().equals(temp)) {
-				Family thefamily = new Family();
-				thefamily = tempFamily;
-				listItemFamily.add(thefamily);
-				// 获得人员信息
-				ArrayList<Personal> listPersonal = mgr.queryPersonal(thefamily.getEdit_jtbh());
-				listItemMember.addAll(listPersonal);
-				ListMemberNumNow = listItemMember.size();
-			}
-		}
-		if (listItemFamily.size() == 0) {
-			Personal listPersonal = mgr.queryPersonalByGmsfzh(temp);
-			Family thefamily = new Family();
-			thefamily = mgr.queryFamilyByJtbh(listPersonal.getHZSFZ());
-			listItemFamily.add(thefamily);
-			// 获得人员信息
-			ArrayList<Personal> listPersonals = mgr.queryPersonal(thefamily.getEdit_jtbh());
-			listItemMember.addAll(listPersonals);
-			ListMemberNumNow = listItemMember.size();
-		}
+		LoadData(temp, isMember);
 
 		adapterFamily.notifyDataSetChanged();
 		adapterMember.notifyDataSetChanged();
@@ -402,10 +384,93 @@ public class InfoMainActivity extends BaseActivity {
 				build.dialog.dismiss();
 			}
 		}).start();
-		if (ListMemberNumNow > ListMemberNum) {
-			lvMember.setSelectionFromTop(ListMemberNumNow, 0);
+
+		ScorllingSituation(temp, isMember);
+	}
+
+	// 新增和搜索状态时自动滑动到指定位置
+	public void ScorllingSituation(final String temp, int isMember) {
+		View listItem = adapterMember.getView(0, null, lvMember);
+		listItem.measure(0, 0);
+		final int itemHeight = listItem.getMeasuredHeight();
+		if (listItemMember.size() == ListMemberNum + 1) {
+			mScrollView.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					// 新增状态
+					mScrollView.smoothScrollTo(0, listItemMember.size() * itemHeight);
+				}
+			}, 500);
+		}
+		if (isMember == 1) {
+			// 搜索状态
+			mScrollView.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					// 新增状态
+					Personal listPersonal = mgr.queryPersonalByGmsfzh(temp);
+					int memberPos = 0;
+					for (Personal per : listItemMember) {
+						if (per.getId().equals(listPersonal.getId()))
+							break;
+						else
+							memberPos = memberPos + 1;
+					}
+					View listItem = lvMember.getChildAt(memberPos);
+					final ViewHolder viewHolder = (ViewHolder) listItem.getTag();
+					mScrollView.smoothScrollTo(0, (memberPos - 2) * itemHeight);
+					viewHolder.front.setBackgroundColor(Color.RED);
+					// 1500毫秒后恢复原来状况
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							activity.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									viewHolder.front.setBackgroundColor(Color.parseColor("#99F1F1F1"));
+								}
+							});
+						}
+					}).start();
+				}
+			}, 500);
+		}
+		ListMemberNum = listItemMember.size();
+	}
+
+	// 载入数据
+	public void LoadData(final String temp, int isMember) {
+		if (isMember == 0) {
+			// 更新家庭信息参保人数的数据
+			listFamily = mgr.queryFamily();
+			for (Family tempFamily : listFamily) {
+				if (tempFamily.getEdit_gmcfzh().equals(temp)) {
+					Family thefamily = new Family();
+					thefamily = tempFamily;
+					listItemFamily.add(thefamily);
+					// 获得人员信息
+					ArrayList<Personal> listPersonal = mgr.queryPersonal(thefamily.getEdit_jtbh());
+					listItemMember.addAll(listPersonal);
+				}
+			}
 		}
 
-		ListMemberNum = listItemMember.size();
+		if (isMember == 1) {
+			Personal listPersonal = mgr.queryPersonalByGmsfzh(temp);
+			Family thefamily = new Family();
+			thefamily = mgr.queryFamilyByJtbh(listPersonal.getHZSFZ());
+			listItemFamily.add(thefamily);
+			// 获得人员信息
+			ArrayList<Personal> listPersonals = mgr.queryPersonal(thefamily.getEdit_jtbh());
+			listItemMember.addAll(listPersonals);
+		}
 	}
 }
