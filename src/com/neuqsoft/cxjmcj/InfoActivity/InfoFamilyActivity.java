@@ -434,7 +434,7 @@ public class InfoFamilyActivity extends Activity {
 		} else if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
 		} else if (edit_gmcfzh.getText().toString().isEmpty()) {
-			Toast.makeText(getApplicationContext(), "公民身份证号不能为空！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "证件号码不能为空！", Toast.LENGTH_SHORT).show();
 			// 判断证件类型是否是居民身份证（户口簿）
 		} else if (edit_jhzzjlx.getSelectedItem().equals("居民身份证（户口簿）")) {
 			if (res != "") {
@@ -484,7 +484,7 @@ public class InfoFamilyActivity extends Activity {
 			// spinner
 			edit_jhzzjlx.setSelection(0, true);
 			edit_gmcfzh.setText("");
-			edit_djrq.setText("");
+			//edit_djrq.setText("");
 		}
 	}
 

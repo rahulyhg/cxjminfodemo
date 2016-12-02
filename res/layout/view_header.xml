@@ -87,7 +87,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="应缴纳金额 ："
+            android:text="缴纳金额 ："
             android:textColor="#f12809"
             android:textSize="12sp" />
 

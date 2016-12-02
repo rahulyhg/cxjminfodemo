@@ -625,7 +625,7 @@ public class InfoPersonalActivity extends Activity {
 					edit_mz.setSelection(0, true);
 					edit_xb.setSelection(1, true);
 					edit_cbrylb.setSelection(0, true);
-					edit_hkxz.setSelection(1, true);
+					edit_hkxz.setSelection(0, true);
 					edit_lxdh.setText(tempPersonal.edit_lxdh);
 				}
 			}
