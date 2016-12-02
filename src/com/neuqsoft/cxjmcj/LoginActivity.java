@@ -1,5 +1,6 @@
 package com.neuqsoft.cxjmcj;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,10 +78,8 @@ public class LoginActivity extends Activity {
 		utils = new HttpUtils(3000);
 		gson = new Gson();
 		mgr = new DBManager(this);
-		// mgr.addUser(users);
 		initView();
 		initData();
-
 	}
 
 	/*
@@ -112,7 +111,7 @@ public class LoginActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 
@@ -145,15 +144,14 @@ public class LoginActivity extends Activity {
 				if (exceptionCode == 0) {
 					// showloading();
 					loginfromlocal();
-				} else if (exceptionCode == 406) {
-					waitToast("密码错误，请重新输入！");
+				} else if (exceptionCode == 500) {
+					waitToast("用户名或密码错误，请重新输入！");
 				}
 			}
 
 			// 请求成功调用此方法
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
-
 				/** 获取服务器返回的Token，并储存到SP中 */
 				String token = responseInfo.result;
 				tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
@@ -168,20 +166,16 @@ public class LoginActivity extends Activity {
 		});
 
 	}
-	
 
 	protected void loginfromlocal() {
 		int quer = mgr.Quer(passWord, userName);
 		if (quer == 1) {
 			enterInfo(1);
 		} else if (quer == -1) {
-
 			waitToast("密码错误，请重新输入！");
-
 		} else if (quer == 0) {
 			// 4S后登录失败
 			waitToast("登录失败，请检查网络！");
-
 		}
 	}
 
@@ -266,7 +260,7 @@ public class LoginActivity extends Activity {
 				startActivity(intent);
 				finish();
 			}
-		}).start();	
+		}).start();
 	}
 
 	protected void delay(final int time) {
@@ -289,7 +283,5 @@ public class LoginActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		// 应用的最后一个Activity关闭时应释放DB
-
 	}
-
 }

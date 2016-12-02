@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 	public static final int CBDJ = 101;
 	static MyAdapterMainActivity adapter;
 	static int pos;
-	private TextView title_logout, text_user, title_local, title_num;
+	private TextView title_logout, title_local, title_num;
 
 	Activity activity;
 	String sToken;
@@ -112,38 +112,32 @@ public class MainActivity extends Activity {
 						public void run() {
 							// TODO Auto-generated method stub
 							try {
-								// 获得代码表
-								if (db.queryCode("AAC058").size() == 0)
-									GetCode();
-								if (!http.isError) {
-									// 获得userTask信息
-									http.getUserDetail(sToken);
-									while (http.isAlive) {
-										// 用户任务下载完
-									}
-									if (http.isError) {
-										build.dialog.dismiss();
-										activity.runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												serverError();
-											}
-										});
-									} else {
+								GetUserTask();
+								// 有任务
+								queryUserDetail = db.queryUserDetail(account);
+								if (queryUserDetail.size() > 0) {
+									// 获得代码表
+									if (db.queryCode("AAC058").size() == 0)
+										GetCode();
+									if (!http.isError) {
 										// 获得行政区划信息
 										GetXzqh();
+										if (!http.isError)
+											activity.runOnUiThread(new Runnable() {
+												@Override
+												public void run() {
+													UpdateView(queryUserDetail);
+													/** --------设置标题栏的数据-------------- */
+													InitHeader();
+												}
+											});
 									}
+								} else {
+									// 无任务
 									activity.runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
-											if (queryUserDetail.size() < 1) {
-												// 无任务
-												serverError();
-											} else {
-												UpdateView(queryUserDetail);
-												/** --------设置标题栏的数据-------------- */
-												InitHeader();
-											}
+											serverError();
 										}
 									});
 								}
@@ -189,7 +183,6 @@ public class MainActivity extends Activity {
 	private void InitView() {
 		/** --------初始化布局----------------- */
 		title_logout = (TextView) findViewById(R.id.title_logout);
-		text_user = (TextView) findViewById(R.id.text_user);
 		title_local = (TextView) findViewById(R.id.title_local);
 		title_num = (TextView) findViewById(R.id.title_num);
 		listview = (ListView) findViewById(R.id.listView);
@@ -254,7 +247,7 @@ public class MainActivity extends Activity {
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(1500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -288,11 +281,9 @@ public class MainActivity extends Activity {
 								build = DialogUIUtils.showLoadingHorizontal(activity, "离线登录成功，加载中...", false, false,
 										true);
 								build.show();
-								if(db.queryCode("AAC058").size() == 0||db.queryUserDetail(account).size()==0)
-								{
+								if (db.queryCode("AAC058").size() == 0 || db.queryUserDetail(account).size() == 0) {
 									Logout("无配置数据，注销中...");
-								}
-								else{
+								} else {
 									queryUserDetail = db.queryUserDetail(account);
 									UpdateView(queryUserDetail);
 									InitHeader();
@@ -346,11 +337,9 @@ public class MainActivity extends Activity {
 		String city = queryUserDetail.get(0).getCity().toString();
 		title_local.setText(city);
 		title_num.setText("(共" + queryUserDetail.size() + "地区)");
-		text_user.setText(account);
 	}
 
 	public void GetXzqh() throws UnsupportedEncodingException {
-		queryUserDetail = db.queryUserDetail(account);
 		for (UserDetail userDetail : queryUserDetail) {
 			http.getXzqh(userDetail.getCjarea());
 			while (http.isAlive) {
@@ -364,7 +353,25 @@ public class MainActivity extends Activity {
 						serverError();
 					}
 				});
+				return;
 			}
+		}
+	}
+
+	public void GetUserTask() {
+		// 获得userTask信息
+		http.getUserDetail(sToken);
+		while (http.isAlive) {
+			// 用户任务下载完
+		}
+		if (http.isError) {
+			build.dialog.dismiss();
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					serverError();
+				}
+			});
 		}
 	}
 }

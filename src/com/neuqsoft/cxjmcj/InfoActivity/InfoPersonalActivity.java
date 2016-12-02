@@ -248,94 +248,46 @@ public class InfoPersonalActivity extends Activity {
 		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
-		ArrayList<String> data_list = new ArrayList<String>();
-		data_list.add("户主");
-		data_list.add("夫妻");
-		data_list.add("父母");
-		data_list.add("子女");
-		data_list.add("其他");
-		// 适配器
-		ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list);
-		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		edit_yhzgx.setAdapter(arr_adapter);
+		
+		// 添加与户主关系
+		addsp("AAC069", edit_yhzgx);
 		edit_yhzgx.setSelection(1, true);
+
+		// 适配器
+//		ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+//				data_list);
+//		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//		edit_yhzgx.setAdapter(arr_adapter);
+//		edit_yhzgx.setSelection(1, true);
 
 		// Spiner2
 		edit_cbrylb = (Spinner) findViewById(R.id.edit_cbrylb);
-
-		ArrayList<String> data_list2 = new ArrayList<String>();
-		List<Code> jmlb = mgr.queryCode("BAC067");
-		for (int i = 0; i < jmlb.size(); i++) {
-			Code code = jmlb.get(i);
-			String aaa103 = code.getAAA103();
-			// 添加居民类别
-			data_list2.add(aaa103);
-		}
-
-		ArrayAdapter<String> arr_adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list2);
-		arr_adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		edit_cbrylb.setAdapter(arr_adapter2);
-
+		
+		addsp("BAC067", edit_cbrylb);
+	
 		// Spiner3
 		edit_hkxz = (Spinner) findViewById(R.id.edit_hkxz);
-		ArrayList<String> data_list3 = new ArrayList<String>();
-		List<Code> hkxz = mgr.queryCode("AAC009");
-		for (int i = 0; i < hkxz.size(); i++) {
-			Code code = hkxz.get(i);
-			String aaa103 = code.getAAA103();
-			// 添加户口性质
-			data_list3.add(aaa103);
-		}
+		
+		addsp("AAC009", edit_hkxz);
 
-		ArrayAdapter<String> arr_adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list3);
-		arr_adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		edit_hkxz.setAdapter(arr_adapter3);
-		edit_hkxz.setSelection(1, true);
+		
 
 		// Spiner4
 		edit_mz = (Spinner) findViewById(R.id.edit_mz);
-		ArrayList<String> data_list4 = new ArrayList<String>();
-		// 查询数据库
-		List<Code> nation = mgr.queryCode("AAC005");
-		for (int i = 0; i < nation.size(); i++) {
-			Code code = nation.get(i);
-			String aaa103 = code.getAAA103();
-			// 添加民族
-			data_list4.add(aaa103);
-		}
-		ArrayAdapter<String> arr_adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list4);
-		arr_adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		edit_mz.setAdapter(arr_adapter4);
+		// 添加民族
+		addsp("AAC005", edit_mz);
 		// Spiner5
 		edit_xb = (Spinner) findViewById(R.id.edit_xb);
-		ArrayList<String> data_list5 = new ArrayList<String>();
-		data_list5.add("男");
-		data_list5.add("女");
-		data_list5.add("未说明性别");
-		ArrayAdapter<String> arr_adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list5);
-		arr_adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		edit_xb.setAdapter(arr_adapter5);
+		//添加性别
+		addsp("AAC004", edit_xb);
+		
 		// Spiner6
 		edit_zjlx = (Spinner) findViewById(R.id.edit_zjlx);
-		ArrayList<String> data_list6 = new ArrayList<String>();
-		// 查询数据库
-		List<Code> zjlx = mgr.queryCode("AAC058");
-		for (int i = 0; i < zjlx.size(); i++) {
-			Code code = zjlx.get(i);
-			String aaa103 = code.getAAA103();
-			// 添加民族
-			data_list6.add(aaa103);
-		}
-
-		ArrayAdapter<String> arr_adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-				data_list6);
-		arr_adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		edit_zjlx.setAdapter(arr_adapter6);
+		
+		//添加证件类型
+		addsp("AAC058", edit_zjlx);
+	
+		
 
 		// 日期
 		calendar = Calendar.getInstance();
@@ -355,6 +307,33 @@ public class InfoPersonalActivity extends Activity {
 						: calendar.get(Calendar.SECOND)));
 
 	}
+	// 添加Spnner
+	 public void addsp(String AAA100,Spinner spinner ){
+		 ArrayList<String> data_list = new ArrayList<String>();
+		 List<Code> lx = mgr.queryCode(AAA100);
+			for (int i = 0; i < lx.size(); i++) {
+				Code code = lx.get(i);
+				String aaa103 = code.getAAA103();
+				// 添加居民类别
+				data_list.add(aaa103);
+			}
+			// 适配器
+			ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+					data_list);
+			arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner.setAdapter(arr_adapter);
+			
+	 }
+	 public void bjsp(String AAA100,String data,Spinner spinner){
+		 List<Code> lx1 = mgr.queryCode(AAA100);
+			for (int i = 0; i < lx1.size(); i++) {
+				Code code = lx1.get(i);
+				String aaa103 = code.getAAA103();
+				if (aaa103.equals(data)) {
+					spinner.setSelection(i,true);
+				}
+			}
+	 }
 	/* Please visit http://www.ryangmattison.com for updates */
 
 	private void whenEdit() {
@@ -384,102 +363,33 @@ public class InfoPersonalActivity extends Activity {
 	}
 
 	private void setContent(Personal personal) {
+		
+		//与户主关系
 		String yhzgx = personal.edit_yhzgx;
-		if (yhzgx.equals("户主"))
-			edit_yhzgx.setSelection(0, true);
-		if (yhzgx.equals("夫妻"))
-			edit_yhzgx.setSelection(1, true);
-		if (yhzgx.equals("父母"))
-			edit_yhzgx.setSelection(2, true);
-		if (yhzgx.equals("子女"))
-			edit_yhzgx.setSelection(3, true);
-		if (yhzgx.equals("其他"))
-			edit_yhzgx.setSelection(4, true);
-
+	    bjsp("AAC069", yhzgx, edit_yhzgx);
+        //证件类型
 		String zjlx = personal.edit_zjlx;
-		if (zjlx.equals("居民身份证（户口簿）"))
-			edit_zjlx.setSelection(0, true);
-		if (zjlx.equals("中国人民解放军军官证"))
-			edit_zjlx.setSelection(1, true);
-		if (zjlx.equals("中国人民武装警察警官证"))
-			edit_zjlx.setSelection(2, true);
-		if (zjlx.equals("香港特区护照/身份证明"))
-			edit_zjlx.setSelection(3, true);
-		if (zjlx.equals("澳门特区护照/身份证明"))
-			edit_zjlx.setSelection(4, true);
-		if (zjlx.equals("台湾居民来往大陆通行证"))
-			edit_zjlx.setSelection(5, true);
-		if (zjlx.equals("外国人护照"))
-			edit_zjlx.setSelection(6, true);
-
+		 bjsp("AAC058", zjlx, edit_zjlx);
+        //性别
 		String xb = personal.edit_xb;
-		if (xb.equals("男"))
-			edit_xb.setSelection(0, true);
-		if (xb.equals("女"))
-			edit_xb.setSelection(1, true);
-		if (xb.equals("未说明性别"))
-			edit_xb.setSelection(2, true);
-
+		bjsp("AAC004", xb, edit_xb);
+		
 		edit_cbrxm.setText(personal.getEdit_cbrxm());
 		edit_gmcfzh.setText(personal.getEdit_gmcfzh());
 		edit_xxjzdz.setText(personal.getEdit_xxjzdz());
 		edit_lxdh.setText(personal.getEdit_lxdh());
-		String temp_folk = personal.getEdit_mz();
-		if (temp_folk.equals("汉"))
-			edit_mz.setSelection(0, true);
-		if (temp_folk.equals("满"))
-			edit_mz.setSelection(1, true);
-		if (temp_folk.equals("回"))
-			edit_mz.setSelection(2, true);
+		//民族
+		String temp_folk = personal.edit_mz;
+		bjsp("AAC005", temp_folk, edit_mz);
+		
 		edit_csrq.setText(personal.edit_csrq);
-
-		String hkxz = personal.getEdit_hkxz();
-		if (hkxz.equals("农业户口（农地区）"))
-			edit_hkxz.setSelection(0, true);
-		if (hkxz.equals("非农业户口（城镇）"))
-			edit_hkxz.setSelection(1, true);
-		if (hkxz.equals("本地非农业户口（本地城镇）"))
-			edit_hkxz.setSelection(2, true);
-		if (hkxz.equals("外地非农业户口（外地城镇）"))
-			edit_hkxz.setSelection(3, true);
-		if (hkxz.equals("本地农业户口（本地农地区）"))
-			edit_hkxz.setSelection(4, true);
-		if (hkxz.equals("外地农业户口（外地农地区）"))
-			edit_hkxz.setSelection(5, true);
-		if (hkxz.equals("港澳台"))
-			edit_hkxz.setSelection(6, true);
-		if (hkxz.equals("外籍"))
-			edit_hkxz.setSelection(7, true);
-
-		String cbrylb = personal.getEdit_cbrylb();
-		if (cbrylb.equals("普通城乡居民"))
-			edit_cbrylb.setSelection(0, true);
-		if (cbrylb.equals("重残城乡居民"))
-			edit_cbrylb.setSelection(1, true);
-		if (cbrylb.equals("低保城乡居民"))
-			edit_cbrylb.setSelection(2, true);
-		if (cbrylb.equals("五保供养城乡居民"))
-			edit_cbrylb.setSelection(3, true);
-		if (cbrylb.equals("低收入家庭60岁以上老年人"))
-			edit_cbrylb.setSelection(4, true);
-		if (cbrylb.equals("五保供养大学生"))
-			edit_cbrylb.setSelection(5, true);
-		if (cbrylb.equals("重度残疾大学生"))
-			edit_cbrylb.setSelection(6, true);
-		if (cbrylb.equals("低保大学生"))
-			edit_cbrylb.setSelection(7, true);
-
-		if (cbrylb.equals("普通大学生"))
-			edit_cbrylb.setSelection(8, true);
-		if (cbrylb.equals("五保供养中小学生"))
-			edit_cbrylb.setSelection(9, true);
-		if (cbrylb.equals("重度残疾中小学生"))
-			edit_cbrylb.setSelection(10, true);
-
-		if (cbrylb.equals("低保中小学生"))
-			edit_cbrylb.setSelection(11, true);
-		if (cbrylb.equals("普通中小学生"))
-			edit_cbrylb.setSelection(12, true);
+        //户口性质
+		String hkxz = personal.edit_hkxz;
+		bjsp("AAC009", hkxz, edit_hkxz);
+        //人员类别
+		String cbrylb = personal.edit_cbrylb;
+		bjsp("BAC067", cbrylb, edit_cbrylb);
+		
 
 		if (personal.getEdit_jf().equals("1")) {
 			btn_xjzf.setText("取消支付");
@@ -627,14 +537,12 @@ public class InfoPersonalActivity extends Activity {
 				mgr.addPersonal(personals);
 			} else {
 				// 编辑状态
-				mgr.deletePersonal(tempPersonal);
 				if (tempPersonal.getIsUpload().equals("2")) {
 					personal1.setIsEdit("1");
 				}
 				personal1.setId(tempPersonal.id);
 				personal1.setHZSFZ(JTBHedit);
-				personals.add(personal1);
-				mgr.addPersonal(personals);
+				mgr.updatePersonal(personal1);
 			}
 		}
 	};

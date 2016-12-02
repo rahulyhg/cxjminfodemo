@@ -1,7 +1,9 @@
 package com.neuqsoft.cxjmcj.db;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +23,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.util.Log;
 
 /*
 家庭信息
@@ -55,8 +59,14 @@ getEdit_hkxz	AAC009	户口性质	Varchar2	3		见代码表
 getHZSFZ		HZSFZ	户主身份号码	Varchar2	20	√	*/
 
 public class DBManager {
+	private final int BUFFER_SIZE = 400000;
 	private DBHelper helper;
 	private SQLiteDatabase db;
+	public static final String DB_NAME = "test.db"; // 保存的数据库文件名
+	public static final String PACKAGE_NAME = "com.neuqsoft.cxjmcj";
+	public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME
+			+ "/database"; // 在手机里存放数据库的位置(/data/data/com.cssystem.activity/cssystem.db)
+	private Context context;
 
 	public DBManager(Context context) {
 		helper = new DBHelper(context);
@@ -64,6 +74,7 @@ public class DBManager {
 		// mFactory);
 		// 所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里
 		db = helper.getWritableDatabase();
+		this.context = context;
 	}
 
 	/**
@@ -87,7 +98,7 @@ public class DBManager {
 		db.beginTransaction(); // 开始事务
 		try {
 			for (UserDetail userDetail : list) {
-				db.execSQL("INSERT INTO userdetail  VALUES( ?, ?,?, ?,?, ?,?, ?,?, ?)",
+				db.execSQL("REPLACE INTO userdetail  VALUES( ?, ?,?, ?,?, ?,?, ?,?, ?)",
 						new Object[] { userDetail.taskid, userDetail.account, userDetail.city, userDetail.cjarea,
 								userDetail.downloadflag, userDetail.sfcl, userDetail.taskdesc, userDetail.taskstatus,
 								userDetail.uploadflag, userDetail.validcfcburl });
@@ -125,8 +136,9 @@ public class DBManager {
 				db.execSQL("REPLACE INTO family VALUES(null,?, ?,?,?,?,?   ,?,?,?,?,?,  ?,?,?)",
 						new Object[] { family.getLsh(), family.getEdit_jtbh(), family.getEdit_hzxm(),
 								family.getEdit_jhzzjlx(), family.getEdit_gmcfzh(), family.getEdit_hjbh(),
-								family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),family.getEdit_jtxxdz(),
-								family.getEdit_djrq(), family.getIsEdit(), family.isUpload, family.getXzqh() });
+								family.getEdit_cjqtbxrs(), family.getEdit_lxdh(), family.getEdit_hkxxdz(),
+								family.getEdit_jtxxdz(), family.getEdit_djrq(), family.getIsEdit(), family.isUpload,
+								family.getXzqh() });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -381,9 +393,8 @@ public class DBManager {
 	}
 
 	public Family queryFamilyByJtbh(String jtbh) {
-		ArrayList<Family> familys = new ArrayList<Family>();
-		Family family = new Family();
 		String sql = " Select * from family where AAB999='" + jtbh + "'";
+		Family family = new Family();
 		Cursor c = db.rawQuery(sql, null);
 		while (c.moveToNext()) {
 			family.id = c.getString(c.getColumnIndex("_id"));
@@ -465,7 +476,7 @@ public class DBManager {
 
 		return personals;
 	}
-	
+
 	public String queryTime(String HZSFZ) {
 		String date = null;
 		String sql = "Select * from personal where HZSFZ='" + HZSFZ + "'order by AAC030 desc limit 1";

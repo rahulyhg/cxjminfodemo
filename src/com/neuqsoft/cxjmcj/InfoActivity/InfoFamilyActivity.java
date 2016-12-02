@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import org.dom4j.Document;
@@ -22,6 +23,7 @@ import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
+import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.utils.FamilyUtil;
@@ -206,7 +208,14 @@ public class InfoFamilyActivity extends Activity {
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
-			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
+			// 编辑状态Spnnier
+			for (int i = 0; i < hkxz.size(); i++) {
+				Code code = hkxz.get(i);
+				String aaa103 = code.getAAA103();
+				if (aaa103.equals(tempFamily.edit_jhzzjlx)) {
+					edit_jhzzjlx.setSelection(i);
+				}
+			}
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
 			edit_djrq.setText(tempFamily.edit_djrq);
@@ -223,35 +232,6 @@ public class InfoFamilyActivity extends Activity {
 		}
 	}
 
-	private int GetPos(String edit_jhzzjlx2) {
-		// TODO Auto-generated method stub
-		int i = 0;
-		switch (edit_jhzzjlx2) {
-		case "居民身份证（户口簿）":
-			i = 0;
-			break;
-		case "中国人民解放军军官证":
-			i = 1;
-			break;
-		case "中国人民武装警察警官证":
-			i = 2;
-			break;
-		case "香港特区护照/身份证明":
-			i = 3;
-			break;
-		case "澳门特区护照/身份证明":
-			i = 4;
-			break;
-		case "台湾居民来往大陆通行证":
-			i = 5;
-			break;
-		case "外国人护照":
-			i = 6;
-			break;
-		}
-		return i;
-	}
-
 	/**
 	 * 
 	 */
@@ -261,13 +241,15 @@ public class InfoFamilyActivity extends Activity {
 		/* 户主证件类型spiner */
 		edit_jhzzjlx = (Spinner) findViewById(R.id.edit_jhzzjlx);
 		ArrayList<String> data_list1 = new ArrayList<String>();
-		data_list1.add("居民身份证（户口簿）");
-		data_list1.add("中国人民解放军军官证");
-		data_list1.add("中国人民武装警察警官证");
-		data_list1.add("香港特区护照/身份证明");
-		data_list1.add("澳门特区护照/身份证明");
-		data_list1.add("台湾居民来往大陆通行证");
-		data_list1.add("外国人护照");
+		hkxz = mgr.queryCode("AAC058");
+
+		for (int i = 0; i < hkxz.size(); i++) {
+			Code code = hkxz.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加证件类型
+			data_list1.add(aaa103);
+		}
+
 		ArrayAdapter<String> arr_adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list1);
 		// 设置样式
@@ -308,6 +290,7 @@ public class InfoFamilyActivity extends Activity {
 	public void onBackPressed() {
 		intentMain();
 		super.onBackPressed();
+		finish();
 	}
 
 	// intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
@@ -442,6 +425,7 @@ public class InfoFamilyActivity extends Activity {
 		}
 	};
 	private Handler mHandler;
+	private List<Code> hkxz;
 
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
@@ -487,17 +471,23 @@ public class InfoFamilyActivity extends Activity {
 
 	@OnClick(R.id.btn_revert)
 	public void revert() {
-		edit_hzxm.setText("");
-		edit_lxdh.setText("");
-		edit_dzyx.setText("");
-		edit_yzbm.setText("");
-		edit_cjqtbxrs.setText("");
-		edit_hkxxdz.setText("");
-		edit_jtxxdz.setText("");
-		// spinner
-		edit_jhzzjlx.setSelection(0, true);
-		edit_gmcfzh.setText("");
-		edit_djrq.setText("");
+		if (hasTemp.equals("1")) {
+			// 编辑状态
+			setSampleFamily();
+		}
+		else{
+			edit_hzxm.setText("");
+			edit_lxdh.setText("");
+			edit_dzyx.setText("");
+			edit_yzbm.setText("");
+			edit_cjqtbxrs.setText("");
+			edit_hkxxdz.setText("");
+			edit_jtxxdz.setText("");
+			// spinner
+			edit_jhzzjlx.setSelection(0, true);
+			edit_gmcfzh.setText("");
+			edit_djrq.setText("");
+		}
 	}
 
 	private void getDataFromEdit() {

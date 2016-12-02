@@ -27,6 +27,7 @@ import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.dto.UserDetail;
 import com.neuqsoft.cxjmcj.dto.Xzqh;
 import com.neuqsoft.cxjmcj.utils.HttpManager;
+import com.neuqsoft.cxjmcj.utils.Sfcl;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 import com.roamer.slidelistview.SlideBaseAdapter;
 import com.roamer.slidelistview.SlideListView.SlideMode;
@@ -152,7 +153,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 
 		/** 把乡镇代码转换形成乡镇 名称 */
 		holder.cjarea = queryUserDetail.get(position).getCjarea();
-		Xzqh xzqh = db.queryXzqh(holder.cjarea);
+		final Xzqh xzqh = db.queryXzqh(holder.cjarea);
 		if (xzqh.getName() != null && xzqh.getName() != "")
 			holder.local.setText(xzqh.getName());
 		else
@@ -211,9 +212,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 											.setTitleText("上传成功");
 									dialog_up.show();
 								}
-
 							});
-
 						}
 					});
 				}
@@ -227,46 +226,45 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							int memberSize = 0;
 							int memberJf = 0;
 							int memberylr = 0;
+							int familyyl = 0;
 							List<Family> familys = db.queryFamily(holder.cjarea);
 							holder.num1.setText("共 " + familys.size() + " 家 ，");
-							String MaxTime="0000-00-00 00:00:00";
+							String MaxTime = "0000-00-00 00:00:00";
+							int sum = 0;
 							for (Family family : familys) {
+								if (family.getId().equals("1")) {
+									familyyl = familyyl + 1;
+								}
 								List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 								memberSize = memberSize + personals.size();
 								for (Personal personal : personals) {
 									if (personal.getEdit_jf().equals("1")) {
 										memberJf = memberJf + 1;
+
+										String lb = personal.getEdit_cbrylb();
+										String sfcl = xzqh.getSfcl();
+										sum = Sfcl.Calculate(sum, lb, sfcl);
 									}
 									if (personal.getIsEdit().equals("1")) {
 										memberylr = memberylr + 1;
 									}
 								}
-								
-								if(db.queryTime(family.getEdit_jtbh())!=null)
-								{
-									String newTime=db.queryTime(family.getEdit_jtbh());
-									if(MaxTime.compareTo(newTime)>0)
-									{
-										//MaxTime晚于newTime
-									}
-									else
-									{
-										MaxTime=newTime;
+								if (db.queryTime(family.getEdit_jtbh()) != null) {
+									String newTime = db.queryTime(family.getEdit_jtbh());
+									if (MaxTime.compareTo(newTime) > 0) {
+										// MaxTime晚于newTime
+									} else {
+										MaxTime = newTime;
 									}
 								}
-								
 							}
+							// 設置金額
+							holder.money.setText(sum + "");
 							holder.num2.setText(memberSize + " 人");
 							holder.num3.setText(memberJf + "");
 							// 已录入人员
+							holder.ylrj.setText(familyyl + "");
 							holder.ylrr.setText(memberylr + "");
-							if (memberJf != 0) {
-								// int B=Integer.parseInt("150");
-								int result = memberJf * 150;
-								holder.money.setText(result + "");
-							} else {
-								holder.money.setText(0 + "");
-							}
 							holder.upload.setVisibility(View.VISIBLE);
 							holder.download.setText("录 入");
 							holder.download.setButtonColor(Color.rgb(237, 152, 17));
@@ -276,13 +274,11 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							holder.list.setScaleType(ImageView.ScaleType.FIT_XY);
 							holder.blank.setVisibility(View.VISIBLE);
 							holder.time.setVisibility(View.VISIBLE);
-							if(MaxTime.equals("0000-00-00 00:00:00"))
-							{
+							if (MaxTime.equals("0000-00-00 00:00:00")) {
 								holder.time2.setText("");
-							}
-							else
+							} else
 								holder.time2.setText(MaxTime);
-							
+
 						}
 					});
 				}
@@ -431,9 +427,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 								build.show();
 								new Thread(up_run).start();
 							}
-						})
-
-						.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+						}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
 							@Override
 							public void onClick(SweetAlertDialog sDialog) {
 								sDialog.cancel();
