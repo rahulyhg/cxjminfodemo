@@ -232,7 +232,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 							String MaxTime = "0000-00-00 00:00:00";
 							int sum = 0;
 							for (Family family : familys) {
-								if (family.getId().equals("1")) {
+								if (family.isEdit.equals("1")) {
 									familyyl = familyyl + 1;
 								}
 								List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());

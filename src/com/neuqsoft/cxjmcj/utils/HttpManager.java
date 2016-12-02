@@ -178,21 +178,15 @@ public class HttpManager extends HttpUtils {
 
 			if (family.isUpload.equals("0")) {
 				familyDTOList.add(FMtoDTO(family));
-				db.updateFamily(family);
 				family.setIsUpload("1");
-				List<Family> temp = new ArrayList<Family>();
-				temp.add(family);
-				db.addFamily(temp);
+				db.updateFamily(family);
 			}
 
 			if (family.isUpload.equals("2")) {
 				if (family.getIsEdit().equals("1")) {
 					familyDTOList.add(FMtoDTO(family));
-					db.updateFamily(family);
 					family.setIsUpload("1");
-					List<Family> temp = new ArrayList<Family>();
-					temp.add(family);
-					db.addFamily(temp);
+					db.updateFamily(family);
 				}
 			}
 

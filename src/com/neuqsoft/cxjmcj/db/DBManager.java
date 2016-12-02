@@ -214,7 +214,23 @@ public class DBManager {
 	}
 
 	public void updateFamily(Family family) {
-		db.delete("family", "_id = ?", new String[] { family.id });
+		ContentValues cv = new ContentValues();
+		cv.put("LSH", family.getLsh());
+		cv.put("AAB999", family.getEdit_jtbh());
+		cv.put("AAB400", family.getEdit_hzxm());
+		cv.put("AAE135", family.getEdit_gmcfzh());
+		cv.put("AAC058", family.getEdit_jhzzjlx());
+		cv.put("AAB401", family.getEdit_hjbh());
+		cv.put("BAB041", family.getEdit_cjqtbxrs());
+		cv.put("AAE005", family.getEdit_lxdh());
+		cv.put("AAC010", family.getEdit_hkxxdz());
+		cv.put("AAE006", family.getEdit_jtxxdz());
+		cv.put("AAB050", family.getEdit_djrq());
+		cv.put("XZQH", family.getXzqh());
+		cv.put("ISEDIT", family.getIsEdit());
+		cv.put("ISUPLOAD", family.getIsUpload());
+
+		db.update("family", cv, "_id = ?", new String[] { String.valueOf(family.getId()) });
 	}
 
 	/**
@@ -380,8 +396,8 @@ public class DBManager {
 			family.edit_hjbh = c.getString(c.getColumnIndex("AAB401"));
 			family.edit_cjqtbxrs = c.getString(c.getColumnIndex("BAB041"));
 			family.edit_lxdh = c.getString(c.getColumnIndex("AAE005"));
-			family.edit_jtxxdz = c.getString(c.getColumnIndex("AAC010"));
-			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAE006"));
+			family.edit_hkxxdz = c.getString(c.getColumnIndex("AAC010"));
+			family.edit_jtxxdz = c.getString(c.getColumnIndex("AAE006"));
 			family.edit_djrq = c.getString(c.getColumnIndex("AAB050"));
 			family.xzqh = c.getString(c.getColumnIndex("XZQH"));
 			family.isEdit = c.getString(c.getColumnIndex("ISEDIT"));

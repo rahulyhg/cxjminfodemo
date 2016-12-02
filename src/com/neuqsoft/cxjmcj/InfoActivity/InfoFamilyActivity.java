@@ -385,7 +385,6 @@ public class InfoFamilyActivity extends Activity {
 			// 更新数据
 			if (hasTemp.equals("1")) {
 				// 编辑状态
-				mgr.updateFamily(tempFamily);
 				family.setEdit_jtbh(tempFamily.edit_jtbh);
 				family.setId(tempFamily.id);
 			} else {
@@ -405,7 +404,10 @@ public class InfoFamilyActivity extends Activity {
 			family.setIsEdit(tempFamily.getIsEdit());
 			family.setIsUpload(tempFamily.getIsUpload());
 			familys.add(family);
-			mgr.addFamily(familys);
+			if (hasTemp.equals("1"))
+				mgr.updateFamily(family);
+			else
+				mgr.addFamily(familys);
 
 			// do something
 			// 通过OCR输出的家庭信息
@@ -474,8 +476,7 @@ public class InfoFamilyActivity extends Activity {
 		if (hasTemp.equals("1")) {
 			// 编辑状态
 			setSampleFamily();
-		}
-		else{
+		} else {
 			edit_hzxm.setText("");
 			edit_lxdh.setText("");
 			edit_dzyx.setText("");

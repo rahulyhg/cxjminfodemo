@@ -79,7 +79,7 @@ public class InfoMainActivity extends BaseActivity {
 
 	/********** DECLARES *************/
 	Activity activity;
-	BuildBean build;
+	final BuildBean build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");;
 	private static final String tag = "InfoMainActivity";
 
 	public static final int INFO_FAMILY = 101;
@@ -313,7 +313,6 @@ public class InfoMainActivity extends BaseActivity {
 	}
 
 	public void UpdateListView(final String temp, int isMember) {
-		build = DialogUIUtils.showLoadingHorizontal(activity, "加载中...");
 		build.show();
 		listItemMember.clear();
 		listItemFamily.clear();
