@@ -161,12 +161,11 @@ public class InfoFamilyActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
 					if (res == "") {
 						// 新增狀態
 						if (hasTemp.equals("0")) {
 							Boolean hasFamily = false;
-							for (Family tem : mgr.queryFamily()) {
+							for (Family tem : mgr.queryFamily(bundle.getString("XZQH"))) {
 								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
 									// 数据库已存在
 									new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
@@ -181,7 +180,6 @@ public class InfoFamilyActivity extends Activity {
 						}
 					} else
 						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
-
 				}
 				if (temp.length() > charMaxNum) {
 					s.delete(editStart - 1, editEnd);
@@ -189,7 +187,6 @@ public class InfoFamilyActivity extends Activity {
 					edit_gmcfzh.setText(s);
 					edit_gmcfzh.setSelection(tempSelection);
 				}
-
 			}
 		});
 
@@ -506,7 +503,5 @@ public class InfoFamilyActivity extends Activity {
 		tempFamily.setEdit_jhzzjlx(edit_jhzzjlx.getSelectedItem().toString());
 		tempFamily.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
 		tempFamily.setEdit_djrq(edit_djrq.getText().toString());
-
 	}
-
 }

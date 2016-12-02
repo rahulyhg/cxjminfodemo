@@ -199,17 +199,20 @@ public class InfoPersonalActivity extends Activity {
 						Boolean hasPersonal = false;
 						// 新增狀態
 						if (JTBHedit.equals("")) {
-							for (Personal tem : mgr.queryPersonal()) {
-								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
-									// 数据库已存在
-									new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("已存在该人员")
-											.setContentText(tem.edit_cbrxm + "\n" + tem.edit_gmcfzh + "\n" + "户主身份证号码："
-													+ mgr.queryFamilyByJtbh(tem.HZSFZ).getEdit_gmcfzh() + "\n" + "登记日期："
-													+ tem.edit_cbrq)
-											.setConfirmText("我知道了").show();
-									hasPersonal = true;
-									revert();
-									break;
+							for (Family tem : mgr.queryFamily(bundle.getString("XZQH"))) {
+								for (Personal per : mgr.queryPersonal(tem.getEdit_jtbh())) {
+									if (per.getEdit_gmcfzh().equals(temp.toString())) {
+										// 数据库已存在
+										new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+												.setTitleText("已存在该人员")
+												.setContentText(per.edit_cbrxm + "\n" + per.edit_gmcfzh + "\n"
+														+ "户主身份证号码：" + mgr.queryFamilyByJtbh(per.HZSFZ).getEdit_gmcfzh()
+														+ "\n" + "登记日期：" + per.edit_cbrq)
+												.setConfirmText("我知道了").show();
+										hasPersonal = true;
+										revert();
+										break;
+									}
 								}
 							}
 						}
@@ -248,29 +251,28 @@ public class InfoPersonalActivity extends Activity {
 		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
-		
+
 		// 添加与户主关系
 		addsp("AAC069", edit_yhzgx);
 		edit_yhzgx.setSelection(1, true);
 
 		// 适配器
-//		ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-//				data_list);
-//		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		edit_yhzgx.setAdapter(arr_adapter);
-//		edit_yhzgx.setSelection(1, true);
+		// ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this,
+		// android.R.layout.simple_spinner_item,
+		// data_list);
+		// arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// edit_yhzgx.setAdapter(arr_adapter);
+		// edit_yhzgx.setSelection(1, true);
 
 		// Spiner2
 		edit_cbrylb = (Spinner) findViewById(R.id.edit_cbrylb);
-		
+
 		addsp("BAC067", edit_cbrylb);
-	
+
 		// Spiner3
 		edit_hkxz = (Spinner) findViewById(R.id.edit_hkxz);
-		
-		addsp("AAC009", edit_hkxz);
 
-		
+		addsp("AAC009", edit_hkxz);
 
 		// Spiner4
 		edit_mz = (Spinner) findViewById(R.id.edit_mz);
@@ -278,16 +280,14 @@ public class InfoPersonalActivity extends Activity {
 		addsp("AAC005", edit_mz);
 		// Spiner5
 		edit_xb = (Spinner) findViewById(R.id.edit_xb);
-		//添加性别
+		// 添加性别
 		addsp("AAC004", edit_xb);
-		
+
 		// Spiner6
 		edit_zjlx = (Spinner) findViewById(R.id.edit_zjlx);
-		
-		//添加证件类型
+
+		// 添加证件类型
 		addsp("AAC058", edit_zjlx);
-	
-		
 
 		// 日期
 		calendar = Calendar.getInstance();
@@ -307,33 +307,35 @@ public class InfoPersonalActivity extends Activity {
 						: calendar.get(Calendar.SECOND)));
 
 	}
+
 	// 添加Spnner
-	 public void addsp(String AAA100,Spinner spinner ){
-		 ArrayList<String> data_list = new ArrayList<String>();
-		 List<Code> lx = mgr.queryCode(AAA100);
-			for (int i = 0; i < lx.size(); i++) {
-				Code code = lx.get(i);
-				String aaa103 = code.getAAA103();
-				// 添加居民类别
-				data_list.add(aaa103);
+	public void addsp(String AAA100, Spinner spinner) {
+		ArrayList<String> data_list = new ArrayList<String>();
+		List<Code> lx = mgr.queryCode(AAA100);
+		for (int i = 0; i < lx.size(); i++) {
+			Code code = lx.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加居民类别
+			data_list.add(aaa103);
+		}
+		// 适配器
+		ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+				data_list);
+		arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(arr_adapter);
+
+	}
+
+	public void bjsp(String AAA100, String data, Spinner spinner) {
+		List<Code> lx1 = mgr.queryCode(AAA100);
+		for (int i = 0; i < lx1.size(); i++) {
+			Code code = lx1.get(i);
+			String aaa103 = code.getAAA103();
+			if (aaa103.equals(data)) {
+				spinner.setSelection(i, true);
 			}
-			// 适配器
-			ArrayAdapter<String> arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-					data_list);
-			arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(arr_adapter);
-			
-	 }
-	 public void bjsp(String AAA100,String data,Spinner spinner){
-		 List<Code> lx1 = mgr.queryCode(AAA100);
-			for (int i = 0; i < lx1.size(); i++) {
-				Code code = lx1.get(i);
-				String aaa103 = code.getAAA103();
-				if (aaa103.equals(data)) {
-					spinner.setSelection(i,true);
-				}
-			}
-	 }
+		}
+	}
 	/* Please visit http://www.ryangmattison.com for updates */
 
 	private void whenEdit() {
@@ -363,33 +365,32 @@ public class InfoPersonalActivity extends Activity {
 	}
 
 	private void setContent(Personal personal) {
-		
-		//与户主关系
+
+		// 与户主关系
 		String yhzgx = personal.edit_yhzgx;
-	    bjsp("AAC069", yhzgx, edit_yhzgx);
-        //证件类型
+		bjsp("AAC069", yhzgx, edit_yhzgx);
+		// 证件类型
 		String zjlx = personal.edit_zjlx;
-		 bjsp("AAC058", zjlx, edit_zjlx);
-        //性别
+		bjsp("AAC058", zjlx, edit_zjlx);
+		// 性别
 		String xb = personal.edit_xb;
 		bjsp("AAC004", xb, edit_xb);
-		
+
 		edit_cbrxm.setText(personal.getEdit_cbrxm());
 		edit_gmcfzh.setText(personal.getEdit_gmcfzh());
 		edit_xxjzdz.setText(personal.getEdit_xxjzdz());
 		edit_lxdh.setText(personal.getEdit_lxdh());
-		//民族
+		// 民族
 		String temp_folk = personal.edit_mz;
 		bjsp("AAC005", temp_folk, edit_mz);
-		
+
 		edit_csrq.setText(personal.edit_csrq);
-        //户口性质
+		// 户口性质
 		String hkxz = personal.edit_hkxz;
 		bjsp("AAC009", hkxz, edit_hkxz);
-        //人员类别
+		// 人员类别
 		String cbrylb = personal.edit_cbrylb;
 		bjsp("BAC067", cbrylb, edit_cbrylb);
-		
 
 		if (personal.getEdit_jf().equals("1")) {
 			btn_xjzf.setText("取消支付");

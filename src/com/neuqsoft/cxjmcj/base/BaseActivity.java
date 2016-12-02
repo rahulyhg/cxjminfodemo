@@ -228,7 +228,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 			if (mSearchView.getAdapter() == null) {
 				List<SearchItem> suggestionsList = new ArrayList<>();
 
-				SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+				SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList, _sonActivity.XZQH);
 				searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
 					@SuppressWarnings("deprecation")
 					@Override
@@ -239,6 +239,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 						String query = textView.getText().toString();
 						getData(query, position);
 						mSearchView.setTextInput(query);
+						String[] querys = query.split("\\t");
 						mSearchView.close(false);
 						if (imageView.getDrawable().getCurrent().getConstantState()
 								.equals(getResources().getDrawable(R.drawable.yezhu).getConstantState())) {
@@ -248,7 +249,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 								.equals(getResources().getDrawable(R.drawable.member).getConstantState())) {
 							isMember = 1;
 						}
-						_sonActivity.UpdateListView(mSearchView.getTextInput().substring(0, 18), isMember);
+						_sonActivity.UpdateListView(querys[0], isMember);
 					}
 				});
 				mSearchView.setAdapter(searchAdapter);
@@ -273,5 +274,4 @@ public abstract class BaseActivity extends AppCompatActivity {
 		// Toast.makeText(getApplicationContext(), text + ", position: " +
 		// position, Toast.LENGTH_SHORT).show();
 	}
-
 }
