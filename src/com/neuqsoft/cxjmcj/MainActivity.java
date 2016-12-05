@@ -303,6 +303,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void GetCode() throws UnsupportedEncodingException {
+		UserDetail userDetail=queryUserDetail.get(0);
 		http.getCode("AAC058",userDetail.getCjarea());
 		while (http.isAlive) {
 		}

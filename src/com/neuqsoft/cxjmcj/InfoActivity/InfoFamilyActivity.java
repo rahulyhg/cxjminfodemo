@@ -385,7 +385,7 @@ public class InfoFamilyActivity extends Activity {
 				family.setEdit_jtbh(tempFamily.edit_jtbh);
 				family.setId(tempFamily.id);
 			} else {
-				family.setEdit_jtbh(UUID.randomUUID().toString().replace("-", "").substring(0, 18));
+				family.setEdit_jtbh(UUID.randomUUID().toString().replace("-", ""));
 			}
 			tempFamily.setIsEdit("1");
 			family.setLsh(tempFamily.lsh);
