@@ -1,5 +1,7 @@
 package com.neuqsoft.cxjmcj;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,6 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.User;
 import com.neuqsoft.cxjmcj.server.dto.CjUser;
-import com.neuqsoft.cxjmcj.utils.LoadingDialog;
 import com.neuqsoft.cxjmcj.utils.ToastUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -72,18 +73,17 @@ public class LoginActivity extends Activity {
 		context = getApplication();
 		setContentView(R.layout.activity_login);
 		DialogUIUtils.init(context);
-
+		Intent intent = getIntent();
 		activity = this;
 		utils = new HttpUtils(3000);
 		gson = new Gson();
 		mgr = new DBManager(this);
-		// mgr.addUser(users);
 		initView();
 		initData();
 	}
 
 	/*
-	 * （1）输入用户名、密码 （2）无需注册功能 ，一个村对应一个用户名、密码 （3）登录安全性的考虑，密码用MD5加密传输
+	 * （1）输入用户名、密码 （2）无需注册功能 ，一个地区对应一个用户名、密码 （3）登录安全性的考虑，密码用MD5加密传输
 	 * （4）实现用户系统注销功能（首页注销功能） （5）登录后，自动将当前用户信息保存到sqlite中
 	 */
 
@@ -103,59 +103,28 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				userName = edit_user.getText().toString().trim();
 				passWord = edit_pw.getText().toString().trim();
-				// 显示加载框
-				activity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						build = DialogUIUtils.showLoadingHorizontal(activity, "登陆中...");
-						build.show();
-					}
-
-				});
-
 				/** 网络登陆 */
-				loginfromnet();
-				// 4S后登录失败
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						// 登录等待4S
-						try {
-							Thread.sleep(4000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						build.dialog.dismiss();
-						// 必须加在UI线程中 不然报错
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								// Toast.makeText(getApplicationContext(),
-								// "登录失败，请重试", Toast.LENGTH_SHORT).show();
-								
-							}
+				showloading();
+				try {
+					loginfromnet();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-						});
-					}
-
-				}).start();
 			}
 		});
 
 	}
 
-	protected void loginfromnet() {
+	protected void loginfromnet() throws UnsupportedEncodingException {
 		// TODO Auto-generated method stub
 		/**
 		 * 用户登录POST请求服务器，验证用户名和密码是否正确 登陆成功返回token 时间：2016年10月20日09:45:42
 		 */
 		RequestParams params = new RequestParams();
 		params.addHeader("Content-Type", "application/json");
-		params.addHeader("Accept", "text/plain");
+		params.addHeader("Accept", "application/json");
 		params.addHeader("client_id", "1");
 		CjUser userDTO = new CjUser();
 		userDTO.setAccount(userName);
@@ -173,19 +142,16 @@ public class LoginActivity extends Activity {
 			public void onFailure(HttpException error, String msg) {
 				int exceptionCode = error.getExceptionCode();
 				if (exceptionCode == 0) {
+					// showloading();
 					loginfromlocal();
-				} else if (exceptionCode == 406) {
-					// ToastUtil.showShort(getApplicationContext(),
-					// "用户名或密码错误！");
-					DialogUIUtils.init(activity);
-					DialogUIUtils.showLoadingHorizontal(activity, "登录失败，请重试！...", true).show();
+				} else if (exceptionCode == 500) {
+					waitToast("用户名或密码错误，请重新输入！");
 				}
 			}
 
 			// 请求成功调用此方法
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
-
 				/** 获取服务器返回的Token，并储存到SP中 */
 				String token = responseInfo.result;
 				tokenSp = getSharedPreferences("Token", MODE_PRIVATE);
@@ -193,27 +159,68 @@ public class LoginActivity extends Activity {
 				System.out.println("输出结果为" + token);
 
 				/** --------进入选择页面-------- */
-				enterInfo("在线登陆");
+				// showloading();
+				enterInfo(0);
 				insertUser();
 			}
-
 		});
 
+	}
+
+	protected void loginfromlocal() {
+		int quer = mgr.Quer(passWord, userName);
+		if (quer == 1) {
+			enterInfo(1);
+		} else if (quer == -1) {
+			waitToast("密码错误，请重新输入！");
+		} else if (quer == 0) {
+			// 4S后登录失败
+			waitToast("登录失败，请检查网络！");
+		}
+	}
+
+	private void waitToast(final String msg) {
+		// TODO Auto-generated method stub
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				// 登录等待2S
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// 必须加在UI线程中 不然报错
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+					}
+
+				});
+			}
+
+		}).start();
 	}
 
 	/**
 	 * 本地登录 时间：2016年11月8日16:27:45
 	 */
-	protected void loginfromlocal() {
-		List<User> queryUser = mgr.queryUser();
-		for (User user : queryUser) {
-			if (user.username.equals(userName) && user.password.equals(passWord)) {
-				enterInfo("离线登陆");
-				// } else if (!user.username.equals(userName) ||
-				// !user.password.equals(passWord)) {
-				// ToastUtil.showShort(this, "用户名或密码错误！");
+
+	protected void showloading() {
+		activity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				build = DialogUIUtils.showLoadingHorizontal(activity, "登录中...");
+				build.show();
+				delay(2000);
 			}
-		}
+		});
 	}
 
 	/** 把登陆信息存到数据库 */
@@ -235,22 +242,46 @@ public class LoginActivity extends Activity {
 
 	// 2016年10月19日14:36:23
 
-	protected void enterInfo(String info) {
-		// LoadingDialog ld = new LoadingDialog(this);
-		// ld.show();
-		build.dialog.dismiss();
-		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra("userName", userName);
-		intent.putExtra("info", info);
-		startActivity(intent);
-		finish();
+	protected void enterInfo(final int info) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+				Intent intent = new Intent(activity, MainActivity.class);
+				intent.putExtra("userName", userName);
+				intent.putExtra("info", info);
+				startActivity(intent);
+				finish();
+			}
+		}).start();
+	}
+
+	protected void delay(final int time) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				build.dialog.dismiss();
+			}
+		}).start();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		// 应用的最后一个Activity关闭时应释放DB
-
 	}
-
 }

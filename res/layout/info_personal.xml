@@ -27,471 +27,488 @@
         </TextView>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background"
-        android:orientation="vertical" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
             android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout style="@style/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView style="@style/star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="与户主关系："
+                        android:textSize="13sp" />
+
+                    <Spinner
+                        android:id="@+id/edit_yhzgx"
+                        style="@style/spinner" >
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout style="@style/line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView style="@style/star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="参保人姓名："
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/edit_cbrxm"
+                        style="@style/et_text"
+                        android:inputType="textPersonName" >
+                    </EditText>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:orientation="horizontal" >
 
                 <TextView style="@style/star" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="与户主关系："
+                    android:text="证 件 类 型 ："
                     android:textSize="13sp" />
 
                 <Spinner
-                    android:id="@+id/edit_yhzgx"
-                    style="@style/spinner" >
-                </Spinner>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView style="@style/star" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="参保人姓名："
-                    android:textSize="13sp" />
-
-                <EditText
-                    android:id="@+id/edit_cbrxm"
-                    style="@style/et_text"
-                    android:inputType="textPersonName" >
-                </EditText>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:orientation="horizontal" >
-
-            <TextView style="@style/star" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="证 件 类 型 ："
-                android:textSize="13sp" />
-
-            <Spinner
-                android:id="@+id/edit_zjlx"
-                style="@style/spinner"
-                android:inputType="textPersonName"
-                android:textColorHint="#b3b2b2" >
-            </Spinner>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView style="@style/star" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="身 份 证 号 ："
-                    android:textSize="13sp" />
-
-                <EditText
-                    android:id="@+id/edit_gmcfzh"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="6.5"
-                    android:background="@null"
+                    android:id="@+id/edit_zjlx"
+                    style="@style/spinner"
                     android:inputType="textPersonName"
-                    android:textColorHint="#b3b2b2"
-                    android:textSize="16sp" >
-                </EditText>
+                    android:textColorHint="#b3b2b2" >
+                </Spinner>
+            </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/btn_camera"
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView style="@style/star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="证 件 号 码 ："
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/edit_gmcfzh"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="6.5"
+                        android:background="@null"
+                        android:inputType="textPersonName"
+                        android:textColorHint="#b3b2b2"
+                        android:textSize="16sp" >
+                    </EditText>
+
+                    <ImageView
+                        android:id="@+id/btn_camera"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/xiangji" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView style="@style/star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="民           族 ："
+                        android:textSize="13sp" />
+
+                    <Spinner
+                        android:id="@+id/edit_mz"
+                        style="@style/spinner" >
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView style="@style/star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="性           别 ："
+                        android:textSize="13sp" />
+
+                    <Spinner
+                        android:id="@+id/edit_xb"
+                        style="@style/spinner" >
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="  "
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="出 生 日 期 ："
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/edit_csrq"
+                        style="@style/et_text"
+                        android:inputType="textPersonName" >
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="  "
+                        android:textColor="@color/transparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="参 保 日 期 ："
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/edit_cbrq"
+                        style="@style/et_text"
+                        android:inputType="textPersonName" >
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="  "
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人 员 类 别 ："
+                        android:textSize="13sp" />
+
+                    <Spinner
+                        android:id="@+id/edit_cbrylb"
+                        style="@style/spinner"
+                       >
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="  "
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="户 口 性 质 ："
+                        android:textSize="13sp" />
+
+                    <Spinner
+                        android:id="@+id/edit_hkxz"
+                        style="@style/spinner" >
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="  "
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联 系 电 话 ："
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/edit_lxdh"
+                        style="@style/et_text"
+                        android:inputType="textPersonName"
+                        android:numeric="integer" >
+                    </EditText>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.2"
+                android:background="@color/transparent"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="  "
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="详细居住地址："
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/edit_xxjzdz"
+                        style="@style/et_text" >
+                    </EditText>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1.6" >
+
+                <info.hoang8f.widget.FButton
+                    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/btn_save"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/xiangji" />
+                    android:layout_height="38dp"
+                    android:layout_weight="240"
+                    android:text="保 存"
+                    android:textColor="#ffffff"
+                    fbutton:buttonColor="#149de9"
+                    fbutton:cornerRadius="4dp"
+                    fbutton:shadowEnabled="false"
+                    fbutton:shadowHeight="3dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="30" />
+
+                <info.hoang8f.widget.FButton
+                    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/btn_xjzf"
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_weight="240"
+                    android:text="现金支付"
+                    android:textColor="#ffffff"
+                    fbutton:buttonColor="#d77944"
+                    fbutton:cornerRadius="4dp"
+                    fbutton:shadowEnabled="false"
+                    fbutton:shadowHeight="3dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="30" />
+
+                <info.hoang8f.widget.FButton
+                    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/btn_xyg"
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_weight="150"
+                    android:text="重置"
+                    android:textColor="#ffffff"
+                    fbutton:buttonColor="#2ba589"
+                    fbutton:cornerRadius="4dp"
+                    fbutton:shadowEnabled="false"
+                    fbutton:shadowHeight="3dp" />
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView style="@style/star" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="民           族 ："
-                    android:textSize="13sp" />
-
-                <Spinner
-                    android:id="@+id/edit_mz"
-                    style="@style/spinner" >
-                </Spinner>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView style="@style/star" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="性           别 ："
-                    android:textSize="13sp" />
-
-                <Spinner
-                    android:id="@+id/edit_xb"
-                    style="@style/spinner" >
-                </Spinner>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="  "
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="出 生 日 期 ："
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/edit_csrq"
-                    style="@style/et_text"
-                    android:inputType="textPersonName" >
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="  "
-                    android:textColor="@color/transparent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="参 保 日 期 ："
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/edit_cbrq"
-                    style="@style/et_text"
-                    android:inputType="textPersonName" >
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="  "
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="人 员 类 别 ："
-                    android:textSize="13sp" />
-
-                <Spinner
-                    android:id="@+id/edit_cbrylb"
-                    style="@style/spinner" >
-                </Spinner>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="  "
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="户 口 性 质 ："
-                    android:textSize="13sp" />
-
-                <Spinner
-                    android:id="@+id/edit_hkxz"
-                    style="@style/spinner" >
-                </Spinner>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="  "
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="联 系 电 话 ："
-                    android:textSize="13sp" />
-
-                <EditText
-                    android:id="@+id/edit_lxdh"
-                    style="@style/et_text"
-                    android:inputType="textPersonName" >
-                </EditText>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1.2"
-            android:background="@color/transparent"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="  "
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="详细居住地址："
-                    android:textSize="13sp" />
-
-                <EditText
-                    android:id="@+id/edit_xxjzdz"
-                    style="@style/et_text" >
-                </EditText>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout style="@style/line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1.6" >
-
-            <info.hoang8f.widget.FButton
-                xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/btn_save"
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_weight="240"
-                android:text="保 存"
-                android:textColor="#ffffff"
-                fbutton:buttonColor="#149de9"
-                fbutton:cornerRadius="4dp"
-                fbutton:shadowEnabled="false"
-                fbutton:shadowHeight="3dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="30" />
-
-            <info.hoang8f.widget.FButton
-                xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/btn_xjzf"
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_weight="240"
-                android:text="现金支付"
-                android:textColor="#ffffff"
-                fbutton:buttonColor="#d77944"
-                fbutton:cornerRadius="4dp"
-                fbutton:shadowEnabled="false"
-                fbutton:shadowHeight="3dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="30" />
-
-            <info.hoang8f.widget.FButton
-                xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/btn_xyg"
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_weight="150"
-                android:text="重置"
-                android:textColor="#ffffff"
-                fbutton:buttonColor="#2ba589"
-                fbutton:cornerRadius="4dp"
-                fbutton:shadowEnabled="false"
-                fbutton:shadowHeight="3dp" />
-        </LinearLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/img_xjzf"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="270dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/djf" />
+    </RelativeLayout>
 
 </LinearLayout>

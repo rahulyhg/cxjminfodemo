@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="170dp" >
 
     <LinearLayout
         android:id="@+id/center"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@drawable/center1"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -33,82 +32,125 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="70dp"
-                android:gravity="center_vertical" >
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/blank"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="共"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/num1"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:singleLine="true"
-                    android:text="0"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:layout_height="0dp"
+                    android:layout_weight="8"
+                    android:gravity="center_vertical" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="家，"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="已录"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/num2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:singleLine="true"
-                    android:text="0"
-                    android:textColor="#f12809"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/ylrj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="人，已缴费"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="家，"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/num3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:singleLine="true"
-                    android:text="0"
-                    android:textColor="#f12809"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/ylrr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="#f12809"
+                        android:textSize="16sp" />
 
-                <TextView
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人，已缴费"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/num3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="#f12809"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="人"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="人"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:gravity="center_vertical"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text="上次录入时间："
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/time2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="暂无"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="18" >
+            android:layout_weight="16" >
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="35"
                 android:gravity="center" >
 
                 <info.hoang8f.widget.FButton
@@ -119,6 +161,7 @@
                     android:layout_marginRight="10dp"
                     android:text="上 传"
                     android:textColor="#ffffff"
+                    android:textSize="18sp"
                     fbutton:buttonColor="#149de9"
                     fbutton:cornerRadius="4dp"
                     fbutton:shadowEnabled="false"
@@ -145,6 +188,11 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
     </LinearLayout>
 
 </RelativeLayout>

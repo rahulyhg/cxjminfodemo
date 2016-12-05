@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -50,6 +51,7 @@ public class MyAdapterMember extends SlideBaseAdapter {
 		private ImageView icon2;
 		TextView edit;
 		TextView delete;
+		public RelativeLayout front;
 	}
 
 	private LayoutInflater mInflater; // 得到一个LayoutInfalter对象用来导入布局
@@ -107,6 +109,7 @@ public class MyAdapterMember extends SlideBaseAdapter {
 			holder.yjf = (TextView) convertView.findViewById(R.id.text_yjf);
 			holder.edit = (TextView) convertView.findViewById(R.id.edit);
 			holder.delete = (TextView) convertView.findViewById(R.id.delete);
+			holder.front = (RelativeLayout) convertView.findViewById(R.id.front);
 			convertView.setTag(holder); // 绑定ViewHolder对象
 		} else {
 			holder = (ViewHolder) convertView.getTag(); // 取出ViewHolder对象
@@ -123,7 +126,7 @@ public class MyAdapterMember extends SlideBaseAdapter {
 			holder.jf.setVisibility(View.VISIBLE);
 			holder.yjf.setVisibility(View.INVISIBLE);
 		}
-		if (listItem.get(position).getEdit_gmcfzh().equals(listItem.get(position).getHZSFZ())) {
+		if (listItem.get(position).getEdit_yhzgx().equals("户主")) {
 			holder.icon.setVisibility(View.VISIBLE);
 			holder.icon2.setVisibility(View.INVISIBLE);
 		} else {
@@ -143,29 +146,39 @@ public class MyAdapterMember extends SlideBaseAdapter {
 		}
 
 		if (holder.delete != null) {
-			holder.delete.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除人员")
-							.setContentText(
-									holder.name.getText().toString() + "\n" + holder.gmsfzh.getText().toString())
-							.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
-							.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-								@Override
-								public void onClick(SweetAlertDialog sDialog) {
-									db.deletePersonal(listItem.get(position));
-									listItem.remove(position);
-									notifyDataSetChanged();
-									sDialog.dismissWithAnimation();
-								}
-							}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-								@Override
-								public void onClick(SweetAlertDialog sDialog) {
-									sDialog.cancel();
-								}
-							}).show();
-				}
-			});
+			if (listItem.get(position).getIsUpload().equals("0")||listItem.get(position).getIsUpload().equals("2")) {
+				holder.delete.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除人员")
+								.setContentText(
+										holder.name.getText().toString() + "\n" + holder.gmsfzh.getText().toString())
+								.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
+								.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+									@Override
+									public void onClick(SweetAlertDialog sDialog) {
+										db.deletePersonal(listItem.get(position));
+										listItem.remove(position);
+										notifyDataSetChanged();
+										sDialog.dismissWithAnimation();
+									}
+								}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+									@Override
+									public void onClick(SweetAlertDialog sDialog) {
+										sDialog.cancel();
+									}
+								}).show();
+					}
+				});
+			} else {
+				holder.delete.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("此人员已上传，不可删除")
+								.setConfirmText("我知道了").show();
+					}
+				});
+			}
 		}
 		return convertView;
 	}

@@ -16,25 +16,30 @@
             android:layout_weight="10"
             android:background="#0198cc" >
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/image_user"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/gerenzhuye" />
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/text_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
-                android:layout_toRightOf="@id/image_user"
-                android:text="某人"
-                android:textColor="#ffffff"
-                android:textSize="13sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/logo" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -45,7 +50,7 @@
                     android:id="@+id/title_local"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="某镇"
+                    android:text="某地市"
                     android:textColor="#ffffff"
                     android:textSize="20sp" >
                 </TextView>
@@ -55,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="(共某村)"
+                    android:text="(共某地区)"
                     android:textColor="#ffffff"
                     android:textSize="20sp" >
                 </TextView>

@@ -22,14 +22,28 @@
                 android:scaleType="center"
                 android:src="@drawable/left" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="参保登记"
-                android:textColor="#ffffff"
-                android:textSize="20sp" >
-            </TextView>
+                android:layout_centerInParent="true" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="参保登记"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/title_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(某地区)"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" >
+                </TextView>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -186,11 +200,12 @@
             </LinearLayout>
 
             <com.lapism.searchview.SearchView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true" >
+                android:layout_centerVertical="true"
+                app:search_text_highlight_color="#ff0000" >
             </com.lapism.searchview.SearchView>
         </RelativeLayout>
     </LinearLayout>

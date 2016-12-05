@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -227,28 +228,32 @@ public abstract class BaseActivity extends AppCompatActivity {
 			if (mSearchView.getAdapter() == null) {
 				List<SearchItem> suggestionsList = new ArrayList<>();
 
-				SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+				SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList, _sonActivity.XZQH);
 				searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+					@SuppressWarnings("deprecation")
 					@Override
 					public void onItemClick(View view, int position) {
 						TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+						ImageView imageView = (ImageView) view.findViewById(R.id.imageView_item_icon_left);
+						int isMember = -1;
 						String query = textView.getText().toString();
 						getData(query, position);
 						mSearchView.setTextInput(query);
+						String[] querys = query.split("\\t");
 						mSearchView.close(false);
-						_sonActivity.UpdateListView(mSearchView.getTextInput());
+						if (imageView.getDrawable().getCurrent().getConstantState()
+								.equals(getResources().getDrawable(R.drawable.yezhu).getConstantState())) {
+							isMember = 0;
+						}
+						if (imageView.getDrawable().getCurrent().getConstantState()
+								.equals(getResources().getDrawable(R.drawable.member).getConstantState())) {
+							isMember = 1;
+						}
+						_sonActivity.UpdateListView(querys[0], isMember);
 					}
 				});
 				mSearchView.setAdapter(searchAdapter);
 			}
-
-			/*
-			 * List<SearchFilter> filter = new ArrayList<>(); filter.add(new
-			 * SearchFilter("Filter1", true)); filter.add(new
-			 * SearchFilter("Filter2", true)); mSearchView.setFilters(filter);
-			 * //use mSearchView.getFiltersStates() to consider filter when
-			 * performing search
-			 */
 		}
 	}
 
@@ -269,5 +274,4 @@ public abstract class BaseActivity extends AppCompatActivity {
 		// Toast.makeText(getApplicationContext(), text + ", position: " +
 		// position, Toast.LENGTH_SHORT).show();
 	}
-
 }

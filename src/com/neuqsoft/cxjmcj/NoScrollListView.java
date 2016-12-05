@@ -5,8 +5,6 @@
  */
 package com.neuqsoft.cxjmcj;
 
-import com.andexert.expandablelayout.library.ExpandableLayoutListView;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
@@ -18,7 +16,7 @@ import android.widget.ListView;
  * @author tengzj
  * @data 2016年8月23日 下午2:24:09
  */
-public class NoScrollListView extends ExpandableLayoutListView {
+public class NoScrollListView extends ListView {
 
 	public NoScrollListView(Context context) {
 		super(context);

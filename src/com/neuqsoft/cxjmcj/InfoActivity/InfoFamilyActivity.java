@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -21,6 +23,7 @@ import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
+import com.neuqsoft.cxjmcj.dto.Code;
 import com.neuqsoft.cxjmcj.dto.Family;
 import com.neuqsoft.cxjmcj.dto.Personal;
 import com.neuqsoft.cxjmcj.utils.FamilyUtil;
@@ -31,6 +34,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -47,6 +51,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import info.hoang8f.widget.FButton;
 
 /**
  * @Title InfoFamilyActivity
@@ -63,6 +68,7 @@ public class InfoFamilyActivity extends Activity {
 	private EditText edit_yzbm;
 	private EditText edit_cjqtbxrs;
 	private EditText edit_hkxxdz;
+	private EditText edit_jtxxdz;
 	private Calendar calendar;
 	public static final int CAMERA = 1001;
 	private String name = "";
@@ -80,35 +86,42 @@ public class InfoFamilyActivity extends Activity {
 
 	@Bind(R.id.edit_gmcfzh)
 	EditText edit_gmcfzh;
+
+	@Bind(R.id.btn_save)
+	FButton btn_save;
+
 	Activity activity;
+
+	Bundle bundle;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_family);
+		Intent intent = getIntent();
+		bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		ButterKnife.bind(InfoFamilyActivity.this);
 		mgr = new DBManager(this);
 		calendar = Calendar.getInstance();
 		activity = this;
 		initView();
-		/*
-		 * Handler mHandler = new Handler(); Runnable r = new Runnable() {
-		 * public void run() { // do something
-		 * FamilyUtil.saveValue(getApplicationContext(),
-		 * gson.toJson(defaultFamily)); System.out.println("first" +
-		 * gson.toJson(defaultFamily)); } }; mHandler.post(r);
-		 */
 		setSampleFamily();
-		fixID();
+		try {
+			fixID();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	private void fixID() {
+	private void fixID() throws ParseException {
 		// TODO Auto-generated method stub
 		if (hasTemp.equals("1")) {
 			// 編輯狀態下不可編輯
 			edit_gmcfzh.setFocusable(false);
 			edit_gmcfzh.setFocusableInTouchMode(false);
+			res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
 			edit_gmcfzh.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -141,6 +154,7 @@ public class InfoFamilyActivity extends Activity {
 				editStart = edit_gmcfzh.getSelectionStart();
 				editEnd = edit_gmcfzh.getSelectionEnd();
 				if (temp.length() == charMaxNum) {
+
 					try {
 						res = IDCard.IDCardValidate(edit_gmcfzh.getText().toString());
 					} catch (ParseException e) {
@@ -151,7 +165,7 @@ public class InfoFamilyActivity extends Activity {
 						// 新增狀態
 						if (hasTemp.equals("0")) {
 							Boolean hasFamily = false;
-							for (Family tem : mgr.queryFamily()) {
+							for (Family tem : mgr.queryFamily(bundle.getString("XZQH"))) {
 								if (tem.getEdit_gmcfzh().equals(temp.toString())) {
 									// 数据库已存在
 									new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
@@ -166,7 +180,6 @@ public class InfoFamilyActivity extends Activity {
 						}
 					} else
 						Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
-
 				}
 				if (temp.length() > charMaxNum) {
 					s.delete(editStart - 1, editEnd);
@@ -174,7 +187,6 @@ public class InfoFamilyActivity extends Activity {
 					edit_gmcfzh.setText(s);
 					edit_gmcfzh.setSelection(tempSelection);
 				}
-
 			}
 		});
 
@@ -185,8 +197,6 @@ public class InfoFamilyActivity extends Activity {
 	 */
 	private void setSampleFamily() {
 		// TODO Auto-generated method stub
-		Intent intent = getIntent();
-		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		hasTemp = bundle.getString("hasTemp");
 		if (hasTemp.equals("1")) {
 			String str = bundle.getString("Family");
@@ -195,41 +205,28 @@ public class InfoFamilyActivity extends Activity {
 			edit_yzbm.setText(tempFamily.getEdit_yzbm());
 			edit_hkxxdz.setText(tempFamily.getEdit_hkxxdz());
 			edit_gmcfzh.setText(tempFamily.getEdit_gmcfzh());
-
-			edit_jhzzjlx.setSelection(GetPos(tempFamily.edit_jhzzjlx));
+			// 编辑状态Spnnier
+			for (int i = 0; i < hkxz.size(); i++) {
+				Code code = hkxz.get(i);
+				String aaa103 = code.getAAA103();
+				if (aaa103.equals(tempFamily.edit_jhzzjlx)) {
+					edit_jhzzjlx.setSelection(i);
+				}
+			}
 			edit_cjqtbxrs.setText(tempFamily.edit_cjqtbxrs);
 			edit_lxdh.setText(tempFamily.edit_lxdh);
 			edit_djrq.setText(tempFamily.edit_djrq);
+			edit_jtxxdz.setText(tempFamily.edit_jtxxdz);
+			if (tempFamily.getIsUpload().equals("1")) {
+				// 已上传
+				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("该家庭信息已上传，不可保存")
+						.setConfirmText("我知道了").show();
+				// 按钮置灰
+				btn_save.setButtonColor(Color.rgb(204, 204, 204));
+				btn_save.setShadowEnabled(false);
+				btn_save.setClickable(false);
+			}
 		}
-	}
-
-	private int GetPos(String edit_jhzzjlx2) {
-		// TODO Auto-generated method stub
-		int i = 0;
-		switch (edit_jhzzjlx2) {
-		case "居民身份证（户口簿）":
-			i = 0;
-			break;
-		case "中国人民解放军军官证":
-			i = 1;
-			break;
-		case "中国人民武装警察警官证":
-			i = 2;
-			break;
-		case "香港特区护照/身份证明":
-			i = 3;
-			break;
-		case "澳门特区护照/身份证明":
-			i = 4;
-			break;
-		case "台湾居民来往大陆通行证":
-			i = 5;
-			break;
-		case "外国人护照":
-			i = 6;
-			break;
-		}
-		return i;
 	}
 
 	/**
@@ -241,13 +238,15 @@ public class InfoFamilyActivity extends Activity {
 		/* 户主证件类型spiner */
 		edit_jhzzjlx = (Spinner) findViewById(R.id.edit_jhzzjlx);
 		ArrayList<String> data_list1 = new ArrayList<String>();
-		data_list1.add("居民身份证（户口簿）");
-		data_list1.add("中国人民解放军军官证");
-		data_list1.add("中国人民武装警察警官证");
-		data_list1.add("香港特区护照/身份证明");
-		data_list1.add("澳门特区护照/身份证明");
-		data_list1.add("台湾居民来往大陆通行证");
-		data_list1.add("外国人护照");
+		hkxz = mgr.queryCode("AAC058");
+
+		for (int i = 0; i < hkxz.size(); i++) {
+			Code code = hkxz.get(i);
+			String aaa103 = code.getAAA103();
+			// 添加证件类型
+			data_list1.add(aaa103);
+		}
+
 		ArrayAdapter<String> arr_adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
 				data_list1);
 		// 设置样式
@@ -260,12 +259,22 @@ public class InfoFamilyActivity extends Activity {
 		edit_yzbm = (EditText) findViewById(R.id.edit_yzbm);
 		edit_cjqtbxrs = (EditText) findViewById(R.id.edit_cjqtbxrs);
 		edit_hkxxdz = (EditText) findViewById(R.id.edit_hkxxdz);
+		edit_jtxxdz = (EditText) findViewById(R.id.edit_jtxxdz);
 
 		edit_djrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
-				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? 0 + (calendar.get(Calendar.MONTH) + 1)
+				.append((calendar.get(Calendar.MONTH) + 1) < 10 ? "0" + (calendar.get(Calendar.MONTH) + 1)
 						: (calendar.get(Calendar.MONTH) + 1))
-				.append("-").append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? 0 + calendar.get(Calendar.DAY_OF_MONTH)
-						: calendar.get(Calendar.DAY_OF_MONTH)));
+				.append("-")
+				.append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+						: calendar.get(Calendar.DAY_OF_MONTH))
+				.append(" ")
+				.append((calendar.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + calendar.get(Calendar.HOUR_OF_DAY)
+						: calendar.get(Calendar.HOUR_OF_DAY))
+				.append(":")
+				.append((calendar.get(Calendar.MINUTE) < 10) ? "0" + calendar.get(Calendar.MINUTE)
+						: calendar.get(Calendar.MINUTE))
+				.append(":").append((calendar.get(Calendar.SECOND) < 10) ? "0" + calendar.get(Calendar.SECOND)
+						: calendar.get(Calendar.SECOND)));
 	}
 
 	@OnClick(R.id.image_left)
@@ -278,6 +287,7 @@ public class InfoFamilyActivity extends Activity {
 	public void onBackPressed() {
 		intentMain();
 		super.onBackPressed();
+		finish();
 	}
 
 	// intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
@@ -300,9 +310,20 @@ public class InfoFamilyActivity extends Activity {
 			public void onDateSet(DatePicker view, int year, int month, int day) {
 				// TODO Auto-generated method stub
 				// 更新EditText控件日期 小于10加0
-				edit_djrq.setText(new StringBuilder().append(year).append("-")
-						.append((month + 1) < 10 ? 0 + (month + 1) : (month + 1)).append("-")
-						.append((day < 10) ? 0 + day : day));
+				edit_djrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
+						.append((calendar.get(Calendar.MONTH) + 1) < 10 ? "0" + (calendar.get(Calendar.MONTH) + 1)
+								: (calendar.get(Calendar.MONTH) + 1))
+						.append("-")
+						.append((calendar.get(Calendar.DAY_OF_MONTH) < 10) ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+								: calendar.get(Calendar.DAY_OF_MONTH))
+						.append(" ")
+						.append((calendar.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + calendar.get(Calendar.HOUR_OF_DAY)
+								: calendar.get(Calendar.HOUR_OF_DAY))
+						.append(":")
+						.append((calendar.get(Calendar.MINUTE) < 10) ? "0" + calendar.get(Calendar.MINUTE)
+								: calendar.get(Calendar.MINUTE))
+						.append(":").append((calendar.get(Calendar.SECOND) < 10) ? "0" + calendar.get(Calendar.SECOND)
+								: calendar.get(Calendar.SECOND)));
 			}
 		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
 	}
@@ -355,12 +376,19 @@ public class InfoFamilyActivity extends Activity {
 
 	Runnable r = new Runnable() {
 		public void run() {
-			// 更新数据
-			if (hasTemp.equals("1"))
-				mgr.updateFamily(tempFamily);
-			getDataFromEdit();
 			ArrayList<Family> familys = new ArrayList<Family>();
 			Family family = new Family();
+			getDataFromEdit();
+			// 更新数据
+			if (hasTemp.equals("1")) {
+				// 编辑状态
+				family.setEdit_jtbh(tempFamily.edit_jtbh);
+				family.setId(tempFamily.id);
+			} else {
+				family.setEdit_jtbh(UUID.randomUUID().toString().replace("-", ""));
+			}
+			tempFamily.setIsEdit("1");
+			family.setLsh(tempFamily.lsh);
 			family.setEdit_gmcfzh(tempFamily.edit_gmcfzh);
 			family.setEdit_hzxm(tempFamily.edit_hzxm);
 			family.setEdit_jhzzjlx(tempFamily.edit_jhzzjlx);
@@ -368,8 +396,15 @@ public class InfoFamilyActivity extends Activity {
 			family.setEdit_lxdh(tempFamily.edit_lxdh);
 			family.setEdit_djrq(tempFamily.edit_djrq);
 			family.setEdit_hkxxdz(tempFamily.edit_hkxxdz);
+			family.setEdit_jtxxdz(tempFamily.edit_jtxxdz);
+			family.setXzqh(bundle.getString("XZQH"));
+			family.setIsEdit(tempFamily.getIsEdit());
+			family.setIsUpload(tempFamily.getIsUpload());
 			familys.add(family);
-			mgr.addFamily(familys);
+			if (hasTemp.equals("1"))
+				mgr.updateFamily(family);
+			else
+				mgr.addFamily(familys);
 
 			// do something
 			// 通过OCR输出的家庭信息
@@ -388,45 +423,69 @@ public class InfoFamilyActivity extends Activity {
 			});
 		}
 	};
+	private Handler mHandler;
+	private List<Code> hkxz;
 
 	@OnClick(R.id.btn_save)
 	public void toInfoMainActivity2() {
-		Handler mHandler = new Handler();
-		if (edit_hzxm.getText().toString().isEmpty()) {
+		mHandler = new Handler();
+		if (edit_hkxxdz.getText().toString().isEmpty()) {
+			Toast.makeText(getApplicationContext(), "户口地址不能为空！", Toast.LENGTH_SHORT).show();
+		} else if (edit_hzxm.getText().toString().isEmpty()) {
 			Toast.makeText(getApplicationContext(), "户主姓名不能为空！", Toast.LENGTH_SHORT).show();
-		} else if (edit_gmcfzh.getText().toString().isEmpty())
-			Toast.makeText(getApplicationContext(), "公民身份证号不能为空", Toast.LENGTH_SHORT).show();
-		else if (!res.equals(""))
-			Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
-		else {
-			mHandler.post(r);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					finish();
-				}
-			}).start();
+		} else if (edit_gmcfzh.getText().toString().isEmpty()) {
+			Toast.makeText(getApplicationContext(), "证件号码不能为空！", Toast.LENGTH_SHORT).show();
+			// 判断证件类型是否是居民身份证（户口簿）
+		} else if (edit_jhzzjlx.getSelectedItem().equals("居民身份证（户口簿）")) {
+			if (res != "") {
+				Toast.makeText(getApplicationContext(), "公民身份证号不正确", Toast.LENGTH_SHORT).show();
+			} else if (edit_gmcfzh.length() != 18) {
+				Toast.makeText(getApplicationContext(), "公民身份证号不是18位！", Toast.LENGTH_SHORT).show();
+			} else {
+				success();
+			}
+		} else {
+			success();
+
 		}
+	}
+
+	private void success() {
+		// TODO Auto-generated method stub
+		mHandler.post(r);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				finish();
+			}
+		}).start();
 	}
 
 	@OnClick(R.id.btn_revert)
 	public void revert() {
-		edit_hzxm.setText("");
-		edit_lxdh.setText("");
-		edit_dzyx.setText("");
-		edit_yzbm.setText("");
-		edit_cjqtbxrs.setText("");
-		edit_hkxxdz.setText("");
-		// spinner
-		edit_jhzzjlx.setSelection(0, true);
-		edit_gmcfzh.setText("");
+		if (hasTemp.equals("1")) {
+			// 编辑状态
+			setSampleFamily();
+		} else {
+			edit_hzxm.setText("");
+			edit_lxdh.setText("");
+			edit_dzyx.setText("");
+			edit_yzbm.setText("");
+			edit_cjqtbxrs.setText("");
+			edit_hkxxdz.setText("");
+			edit_jtxxdz.setText("");
+			// spinner
+			edit_jhzzjlx.setSelection(0, true);
+			edit_gmcfzh.setText("");
+			//edit_djrq.setText("");
+		}
 	}
 
 	private void getDataFromEdit() {
@@ -439,11 +498,10 @@ public class InfoFamilyActivity extends Activity {
 		tempFamily.setEdit_yzbm(edit_yzbm.getText().toString());
 		tempFamily.setEdit_cjqtbxrs(edit_cjqtbxrs.getText().toString());
 		tempFamily.setEdit_hkxxdz(edit_hkxxdz.getText().toString());
+		tempFamily.setEdit_jtxxdz(edit_jtxxdz.getText().toString());
 		// spinner
 		tempFamily.setEdit_jhzzjlx(edit_jhzzjlx.getSelectedItem().toString());
 		tempFamily.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
 		tempFamily.setEdit_djrq(edit_djrq.getText().toString());
-
 	}
-
 }
