@@ -26,7 +26,6 @@ import com.neuqsoft.cxjmcj.adapter.MyAdapterMember.ViewHolder;
 import com.neuqsoft.cxjmcj.adapter.MyAdapterFamily;
 import com.dou361.dialogui.DialogUIUtils;
 import com.dou361.dialogui.config.BuildBean;
-import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lapism.searchview.SearchView;
@@ -179,7 +178,9 @@ public class InfoMainActivity extends BaseActivity {
 		mSearchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
 			@Override
 			public void onMenuClick() {
-				Intent intent = new Intent(InfoMainActivity.this, ACameraActivity.class);
+				Intent intent = new Intent(InfoMainActivity.this,com.megvii.idcardlib.IDCardScanActivity.class);
+				intent.putExtra("side", 0);
+				intent.putExtra("isvertical", false);
 				startActivityForResult(intent, CAMERA);
 			}
 		});

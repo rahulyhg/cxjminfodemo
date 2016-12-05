@@ -19,7 +19,6 @@ import org.dom4j.Element;
 
 import com.neuqsoft.cxjmcj.R;
 import com.dou361.dialogui.DialogUIUtils;
-import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
@@ -319,7 +318,9 @@ public class InfoFamilyActivity extends Activity {
 
 	@OnClick(R.id.btn_camera)
 	public void toOCR() {
-		Intent intent = new Intent(InfoFamilyActivity.this, ACameraActivity.class);
+		Intent intent = new Intent(InfoFamilyActivity.this, com.megvii.idcardlib.IDCardScanActivity.class);
+		intent.putExtra("side", 0);
+		intent.putExtra("isvertical", false);
 		startActivityForResult(intent, CAMERA);
 	}
 
@@ -473,7 +474,7 @@ public class InfoFamilyActivity extends Activity {
 			// spinner
 			edit_jhzzjlx.setSelection(0, true);
 			edit_gmcfzh.setText("");
-			//edit_djrq.setText("");
+			// edit_djrq.setText("");
 		}
 	}
 

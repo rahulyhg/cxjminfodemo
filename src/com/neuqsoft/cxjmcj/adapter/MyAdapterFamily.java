@@ -7,7 +7,6 @@ package com.neuqsoft.cxjmcj.adapter;
 
 import java.util.ArrayList;
 
-import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.neuqsoft.cxjmcj.R;
 import com.neuqsoft.cxjmcj.InfoActivity.InfoFamilyActivity;

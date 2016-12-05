@@ -14,7 +14,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import com.neuqsoft.cxjmcj.R;
-import com.example.idcardscandemo.ACameraActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
@@ -379,7 +378,7 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh.setText(personal.getEdit_gmcfzh());
 		edit_xxjzdz.setText(personal.getEdit_xxjzdz());
 		edit_lxdh.setText(personal.getEdit_lxdh());
-		//民族
+		// 民族
 		String temp_folk = personal.edit_mz;
 		bjsp("AAC005", temp_folk, edit_mz);
 		edit_cbrq.setText(personal.edit_cbrq);
@@ -554,13 +553,10 @@ public class InfoPersonalActivity extends Activity {
 	}
 
 	private void success() {
-		if(tempPersonal.getEdit_jf().equals("1"))
-		{
+		if (tempPersonal.getEdit_jf().equals("1")) {
 			img_xjzf.setImageResource(R.drawable.yjf);
 			btn_xjzf.setText("取消支付");
-		}
-		else
-		{
+		} else {
 			img_xjzf.setImageResource(R.drawable.djf);
 			btn_xjzf.setText("现金支付");
 		}
@@ -588,7 +584,7 @@ public class InfoPersonalActivity extends Activity {
 				if (JTBHedit != "") {
 					// 编辑状态
 					toinfoMainActivity();
-				} else{
+				} else {
 					// 新增状态
 					revert();
 				}
@@ -626,7 +622,9 @@ public class InfoPersonalActivity extends Activity {
 
 	@OnClick(R.id.btn_camera)
 	public void toOCR() {
-		Intent intent = new Intent(InfoPersonalActivity.this, ACameraActivity.class);
+		Intent intent = new Intent(InfoPersonalActivity.this, com.megvii.idcardlib.IDCardScanActivity.class);
+		intent.putExtra("side", 0);
+		intent.putExtra("isvertical", false);
 		startActivityForResult(intent, CAMERA);
 	}
 
