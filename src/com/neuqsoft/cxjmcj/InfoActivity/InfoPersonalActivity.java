@@ -288,7 +288,6 @@ public class InfoPersonalActivity extends Activity {
 
 		// 添加证件类型
 		addsp("AAC058", edit_zjlx);
-
 		// 日期
 		calendar = Calendar.getInstance();
 		edit_cbrq.setText(new StringBuilder().append(calendar.get(Calendar.YEAR)).append("-")
