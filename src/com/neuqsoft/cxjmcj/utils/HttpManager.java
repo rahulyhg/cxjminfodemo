@@ -317,10 +317,10 @@ public class HttpManager extends HttpUtils {
 	}
 
 	// 获得代码表
-	public void getCode(final String aaa100) throws UnsupportedEncodingException {
+	public void getCode(final String aaa100, String xzqh) throws UnsupportedEncodingException {
 		Init();
 		RequestParams params = new RequestParams();
-		String url = RcConstant.codePath + aaa100;
+		String url = RcConstant.codePath + aaa100 + "&countyCode=" + xzqh;
 		params.addHeader("Content-Type", "application/xml");
 		params.addHeader("Accept", "application/xml");
 		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {

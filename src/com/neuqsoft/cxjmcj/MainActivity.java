@@ -303,7 +303,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void GetCode() throws UnsupportedEncodingException {
-		http.getCode("AAC058");
+		http.getCode("AAC058",userDetail.getCjarea());
 		while (http.isAlive) {
 		}
 		if (http.isError) {
@@ -315,19 +315,19 @@ public class MainActivity extends Activity {
 				}
 			});
 		} else {
-			http.getCode("AAC005");
+			http.getCode("AAC005",userDetail.getCjarea());
 			while (http.isAlive) {
 			}
-			http.getCode("AAC004");
+			http.getCode("AAC004",userDetail.getCjarea());
 			while (http.isAlive) {
 			}
-			http.getCode("BAC067");
+			http.getCode("BAC067",userDetail.getCjarea());
 			while (http.isAlive) {
 			}
-			http.getCode("AAC069");
+			http.getCode("AAC069",userDetail.getCjarea());
 			while (http.isAlive) {
 			}
-			http.getCode("AAC009");
+			http.getCode("AAC009",userDetail.getCjarea());
 			while (http.isAlive) {
 			}
 		}
