@@ -505,6 +505,18 @@ public class DBManager {
 		}
 		return date;
 	}
+	public String queryTime2(String gmcfzh) {
+		String date = null;
+		String sql = "Select * from family where AAE135='" + gmcfzh + "'order by AAB050 desc limit 1";
+		Cursor c = db.rawQuery(sql, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				date = c.getString(c.getColumnIndex("AAB050"));
+			}
+			c.close();
+		}
+		return date;
+	}
 
 	// Í¨¹ý¼ÒÍ¥±àºÅ
 	public ArrayList<Personal> queryPersonal(String HZSFZ) {

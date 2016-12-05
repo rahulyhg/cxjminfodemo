@@ -231,7 +231,9 @@
 
                 <EditText
                     android:id="@+id/edit_lxdh"
-                    style="@style/et_text" >
+                    style="@style/et_text"
+                    android:phoneNumber="true" 
+                    android:inputType="phone">
                 </EditText>
             </LinearLayout>
         </LinearLayout>
