@@ -343,6 +343,9 @@ public class HttpManager extends HttpUtils {
 				isAlive = false;
 			}
 
+			
+			
+			
 			// 请求成功调用此方法
 			@Override
 			public void onSuccess(ResponseInfo<String> arg0) {
