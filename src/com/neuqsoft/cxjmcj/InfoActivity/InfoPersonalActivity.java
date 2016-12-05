@@ -587,9 +587,11 @@ public class InfoPersonalActivity extends Activity {
 				dialog.dismiss();
 				if (JTBHedit != "") {
 					// ±à¼­×´Ì¬
-				} else if (!tip_xjzf)
+					toinfoMainActivity();
+				} else{
 					// ÐÂÔö×´Ì¬
 					revert();
+				}
 			}
 		}).start();
 	}

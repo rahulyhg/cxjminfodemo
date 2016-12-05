@@ -175,40 +175,24 @@ public class HttpManager extends HttpUtils {
 
 		List<Family> familys = db.queryFamily(country);
 		for (Family family : familys) {
-
 			if (family.isUpload.equals("0")) {
 				familyDTOList.add(FMtoDTO(family));
-				family.setIsUpload("1");
-				db.updateFamily(family);
 			}
 
 			if (family.isUpload.equals("2")) {
 				if (family.getIsEdit().equals("1")) {
 					familyDTOList.add(FMtoDTO(family));
-					family.setIsUpload("1");
-					db.updateFamily(family);
 				}
 			}
-
 			List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 			for (Personal personal : personals) {
 				if (personal.getIsUpload().equals("0") && personal.getEdit_jf().equals("1")) {
 					memberdto.add(MtoDTO(personal));
-					db.deletePersonal(personal);
-					personal.setIsUpload("1");
-					List<Personal> temp = new ArrayList<Personal>();
-					temp.add(personal);
-					db.addPersonal(temp);
 				}
 
 				if (personal.getIsUpload().equals("2")) {
 					if (personal.getIsEdit().equals("1") && personal.getEdit_jf().equals("1")) {
 						memberdto.add(MtoDTO(personal));
-						db.deletePersonal(personal);
-						personal.setIsUpload("1");
-						List<Personal> temp = new ArrayList<Personal>();
-						temp.add(personal);
-						db.addPersonal(temp);
 					}
 				}
 			}
@@ -312,6 +296,39 @@ public class HttpManager extends HttpUtils {
 				System.out.println("上传成功");
 				System.out.println(arg0.result);
 				isAlive = false;
+				UpdateUpload();
+			}
+
+			private void UpdateUpload() {
+				// TODO Auto-generated method stub
+				List<Family> familys = db.queryFamily(country);
+				for (Family family : familys) {
+					if (family.isUpload.equals("0")) {
+						family.setIsUpload("1");
+						db.updateFamily(family);
+					}
+
+					if (family.isUpload.equals("2")) {
+						if (family.getIsEdit().equals("1")) {
+							family.setIsUpload("1");
+							db.updateFamily(family);
+						}
+					}
+					List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
+					for (Personal personal : personals) {
+						if (personal.getIsUpload().equals("0") && personal.getEdit_jf().equals("1")) {
+							personal.setIsUpload("1");
+							db.updatePersonal(personal);
+						}
+
+						if (personal.getIsUpload().equals("2")) {
+							if (personal.getIsEdit().equals("1") && personal.getEdit_jf().equals("1")) {
+								personal.setIsUpload("1");
+								db.updatePersonal(personal);
+							}
+						}
+					}
+				}
 			}
 		});
 	}
@@ -342,9 +359,6 @@ public class HttpManager extends HttpUtils {
 				}).start();
 				isAlive = false;
 			}
-
-			
-			
 			
 			// 请求成功调用此方法
 			@Override
