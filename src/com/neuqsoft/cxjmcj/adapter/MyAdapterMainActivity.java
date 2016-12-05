@@ -417,9 +417,9 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		holder.upload.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("警告")
-						.setContentText("每个乡镇仅限上传一次\n上传成功后将无法录入\n").setConfirmText("上传").setCancelText("取消")
-						.showCancelButton(true).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("确认上传？")
+						.setContentText(">上传人员为已缴费人员\n>已上传的家庭人员无法编辑或删除\n").setConfirmText("上传").setCancelText("取消").showCancelButton(true)
+						.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 							@Override
 							public void onClick(SweetAlertDialog sDialog) {
 								sDialog.dismissWithAnimation();

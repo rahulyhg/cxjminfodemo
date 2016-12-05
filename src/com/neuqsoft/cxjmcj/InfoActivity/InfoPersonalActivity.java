@@ -380,10 +380,10 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh.setText(personal.getEdit_gmcfzh());
 		edit_xxjzdz.setText(personal.getEdit_xxjzdz());
 		edit_lxdh.setText(personal.getEdit_lxdh());
-		// 民族
+		//民族
 		String temp_folk = personal.edit_mz;
 		bjsp("AAC005", temp_folk, edit_mz);
-
+		edit_cbrq.setText(personal.edit_cbrq);
 		edit_csrq.setText(personal.edit_csrq);
 		// 户口性质
 		String hkxz = personal.edit_hkxz;
@@ -496,15 +496,10 @@ public class InfoPersonalActivity extends Activity {
 		if (btn_xjzf.getText().toString().equals("现金支付")) {
 			tempPersonal.setEdit_jf("1");
 			save();
-			img_xjzf.setImageResource(R.drawable.yjf);
-			btn_xjzf.setText("取消支付");
 		} else {
 			tempPersonal.setEdit_jf("0");
 			save();
-			img_xjzf.setImageResource(R.drawable.djf);
-			btn_xjzf.setText("现金支付");
 		}
-
 	}
 
 	Runnable r = new Runnable() {
@@ -567,13 +562,21 @@ public class InfoPersonalActivity extends Activity {
 				success();
 			}
 		} else {
-
 			success();
 		}
-
 	}
 
 	private void success() {
+		if(tempPersonal.getEdit_jf().equals("1"))
+		{
+			img_xjzf.setImageResource(R.drawable.yjf);
+			btn_xjzf.setText("取消支付");
+		}
+		else
+		{
+			img_xjzf.setImageResource(R.drawable.djf);
+			btn_xjzf.setText("现金支付");
+		}
 		final SweetAlertDialog dialog = new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
 				.setTitleText("保存成功");
 		runOnUiThread(new Runnable() {
@@ -595,7 +598,6 @@ public class InfoPersonalActivity extends Activity {
 					e.printStackTrace();
 				}
 				dialog.dismiss();
-
 				if (JTBHedit != "") {
 					// 编辑状态
 				} else if (!tip_xjzf)

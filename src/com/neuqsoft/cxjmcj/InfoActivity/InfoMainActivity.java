@@ -173,7 +173,7 @@ public class InfoMainActivity extends BaseActivity {
 
 	private void setView() {
 		setSearchView();
-		mSearchView.setHint("身份证号码查询");
+		mSearchView.setHint("请输入证件号码或姓名");
 		mSearchView.setTextSize(15);
 		mSearchView.setNavigationIconArrowHamburger();
 		mSearchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
@@ -238,7 +238,6 @@ public class InfoMainActivity extends BaseActivity {
 			intent.putExtra("XZQH", XZQH);
 			startActivityForResult(intent, INFO_FAMILY);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -262,7 +261,6 @@ public class InfoMainActivity extends BaseActivity {
 			break;
 		case CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
-
 				String result = data.getStringExtra("result");
 				try {
 					// 解析xml
@@ -372,23 +370,26 @@ public class InfoMainActivity extends BaseActivity {
 		}).start();
 
 		// 判断该家庭是否属于该行政区划
-//		if (listItemFamily.size() != 0) {
-//			if (!listItemFamily.get(0).xzqh.equals(XZQH)) {
-//				// 获得当前地区名
-//				String country = "";
-//				Xzqh xzqh = mgr.queryXzqh(listItemFamily.get(0).getXzqh());
-//				if (xzqh.getName() != null && xzqh.getName() != "")
-//					country = xzqh.getName();
-//				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("此家庭不属于该区域")
-//						.setContentText(listItemFamily.get(0).getEdit_hzxm() + "\n" + listItemFamily.get(0).edit_gmcfzh
-//								+ "\n" + "所属地区：" + country + "\n" + "登记日期：" + listItemFamily.get(0).edit_djrq)
-//						.setConfirmText("我知道了").show();
-//				listItemMember.clear();
-//				listItemFamily.clear();
-//				adapterFamily.notifyDataSetChanged();
-//				adapterMember.notifyDataSetChanged();
-//			}
-//		}
+		// if (listItemFamily.size() != 0) {
+		// if (!listItemFamily.get(0).xzqh.equals(XZQH)) {
+		// // 获得当前地区名
+		// String country = "";
+		// Xzqh xzqh = mgr.queryXzqh(listItemFamily.get(0).getXzqh());
+		// if (xzqh.getName() != null && xzqh.getName() != "")
+		// country = xzqh.getName();
+		// new SweetAlertDialog(activity,
+		// SweetAlertDialog.WARNING_TYPE).setTitleText("此家庭不属于该区域")
+		// .setContentText(listItemFamily.get(0).getEdit_hzxm() + "\n" +
+		// listItemFamily.get(0).edit_gmcfzh
+		// + "\n" + "所属地区：" + country + "\n" + "登记日期：" +
+		// listItemFamily.get(0).edit_djrq)
+		// .setConfirmText("我知道了").show();
+		// listItemMember.clear();
+		// listItemFamily.clear();
+		// adapterFamily.notifyDataSetChanged();
+		// adapterMember.notifyDataSetChanged();
+		// }
+		// }
 		// 头部的横线
 		if (listItemMember.size() != 0) {
 			line.setVisibility(View.VISIBLE);

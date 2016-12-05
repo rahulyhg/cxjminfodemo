@@ -146,29 +146,39 @@ public class MyAdapterMember extends SlideBaseAdapter {
 		}
 
 		if (holder.delete != null) {
-			holder.delete.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除人员")
-							.setContentText(
-									holder.name.getText().toString() + "\n" + holder.gmsfzh.getText().toString())
-							.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
-							.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-								@Override
-								public void onClick(SweetAlertDialog sDialog) {
-									db.deletePersonal(listItem.get(position));
-									listItem.remove(position);
-									notifyDataSetChanged();
-									sDialog.dismissWithAnimation();
-								}
-							}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-								@Override
-								public void onClick(SweetAlertDialog sDialog) {
-									sDialog.cancel();
-								}
-							}).show();
-				}
-			});
+			if (listItem.get(position).getIsUpload().equals("0")||listItem.get(position).getIsUpload().equals("2")) {
+				holder.delete.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("删除人员")
+								.setContentText(
+										holder.name.getText().toString() + "\n" + holder.gmsfzh.getText().toString())
+								.setConfirmText("删 除").showCancelButton(true).setCancelText("取 消")
+								.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+									@Override
+									public void onClick(SweetAlertDialog sDialog) {
+										db.deletePersonal(listItem.get(position));
+										listItem.remove(position);
+										notifyDataSetChanged();
+										sDialog.dismissWithAnimation();
+									}
+								}).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+									@Override
+									public void onClick(SweetAlertDialog sDialog) {
+										sDialog.cancel();
+									}
+								}).show();
+					}
+				});
+			} else {
+				holder.delete.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE).setTitleText("此人员已上传，不可删除")
+								.setConfirmText("我知道了").show();
+					}
+				});
+			}
 		}
 		return convertView;
 	}
