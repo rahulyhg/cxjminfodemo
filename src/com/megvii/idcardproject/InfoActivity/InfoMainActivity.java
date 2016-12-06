@@ -199,7 +199,6 @@ public class InfoMainActivity extends BaseActivity {
 				intent.putExtra("side", 0);
 				intent.putExtra("isvertical", false);
 				startActivityForResult(intent, CAMERA);
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			} else if (msg.what == 2) {
 				Toast.makeText(getApplicationContext(), "联网授权失败，请点击按钮重新授权", Toast.LENGTH_SHORT).show();
 			}
@@ -279,7 +278,6 @@ public class InfoMainActivity extends BaseActivity {
 			}
 			break;
 		case CAMERA:
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
 				JSONTokener jsonTokener = new JSONTokener(result);
@@ -293,20 +291,7 @@ public class InfoMainActivity extends BaseActivity {
 					e.printStackTrace();
 				}
 				mSearchView.setTextInput(cardno);
-				// 匹配身份证信息 并输出到户主信息栏
-				listFamily = mgr.queryFamily();
-				// System.out.println(listFamily.toString());
-				Boolean hasTemp = false;
-				for (Family tempFamily : listFamily) {
-					if (tempFamily.getEdit_gmcfzh().equals(mSearchView.getTextInput())) {
-						UpdateListView(tempFamily.getEdit_gmcfzh(), 0);
-						hasTemp = true;
-					}
-				}
-				if (!hasTemp) {
-					// 拍照后不存在用户信息
-					// UpdateListView(mSearchView.getTextInput(), 0);
-				}
+				mSearchView.addFocus();
 			}
 			break;
 		default:

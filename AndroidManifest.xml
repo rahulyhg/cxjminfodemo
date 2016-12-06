@@ -28,6 +28,7 @@
 		</activity>
 		<activity android:name="com.megvii.idcardproject.LoginActivity" />
 		<activity android:name="com.megvii.idcardproject.InfoActivity.InfoPersonalActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:windowSoftInputMode="adjustPan|stateHidden" />
 		<activity android:name="com.megvii.idcardproject.InfoActivity.InfoMainActivity"
 			android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -39,7 +40,6 @@
 		<activity android:name="com.example.idcardscandemo.ACameraActivity"
 			android:screenOrientation="landscape"
 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-		<activity android:name="com.megvii.idcardproject.MainActivity2" />
 		<activity android:name="com.megvii.idcardproject.MainActivity" />
 		<activity
 			android:name="com.neuqsoft.cxjmcj.base.menu.MenuItemActivityase.menu.MenuItemActivity"

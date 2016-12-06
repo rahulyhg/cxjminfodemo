@@ -226,6 +226,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 					@SuppressWarnings("deprecation")
 					@Override
 					public void onItemClick(View view, int position) {
+						//点击刷新事件
 						TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
 						ImageView imageView = (ImageView) view.findViewById(R.id.imageView_item_icon_left);
 						int isMember = -1;
@@ -242,6 +243,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 								.equals(getResources().getDrawable(R.drawable.member).getConstantState())) {
 							isMember = 1;
 						}
+						mSearchView.removeFocus();
 						_sonActivity.UpdateListView(querys[0], isMember);
 					}
 				});
