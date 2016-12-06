@@ -29,6 +29,9 @@ import com.dou361.dialogui.config.BuildBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lapism.searchview.SearchView;
+import com.megvii.idcardlib.LoadingActivity;
+import com.megvii.idcardquality.IDCardQualityLicenseManager;
+import com.megvii.licensemanager.Manager;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.base.BaseActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
@@ -178,7 +181,7 @@ public class InfoMainActivity extends BaseActivity {
 		mSearchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
 			@Override
 			public void onMenuClick() {
-				Intent intent = new Intent(InfoMainActivity.this,com.megvii.idcardlib.IDCardScanActivity.class);
+				Intent intent = new Intent(InfoMainActivity.this, com.megvii.idcardlib.IDCardScanActivity.class);
 				intent.putExtra("side", 0);
 				intent.putExtra("isvertical", false);
 				startActivityForResult(intent, CAMERA);

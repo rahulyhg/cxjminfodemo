@@ -20,6 +20,11 @@ import org.dom4j.Element;
 import com.neuqsoft.cxjmcj.R;
 import com.dou361.dialogui.DialogUIUtils;
 import com.google.gson.Gson;
+import com.megvii.idcardlib.IDCardScanActivity;
+import com.megvii.idcardlib.LoadingActivity;
+import com.megvii.idcardlib.util.Util;
+import com.megvii.idcardquality.IDCardQualityLicenseManager;
+import com.megvii.licensemanager.Manager;
 import com.neuqsoft.cxjmcj.WelcomeActivity;
 import com.neuqsoft.cxjmcj.db.DBManager;
 import com.neuqsoft.cxjmcj.dto.Code;
@@ -36,6 +41,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -318,11 +324,35 @@ public class InfoFamilyActivity extends Activity {
 
 	@OnClick(R.id.btn_camera)
 	public void toOCR() {
-		Intent intent = new Intent(InfoFamilyActivity.this, com.megvii.idcardlib.IDCardScanActivity.class);
-		intent.putExtra("side", 0);
-		intent.putExtra("isvertical", false);
-		startActivityForResult(intent, CAMERA);
+		final String uuid = Util.getUUIDString(activity);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Manager manager = new Manager(activity);
+				IDCardQualityLicenseManager idCardLicenseManager = new IDCardQualityLicenseManager(activity);
+				manager.registerLicenseManager(idCardLicenseManager);
+				manager.takeLicenseFromNetwork(uuid);
+				if (idCardLicenseManager.checkCachedLicense() > 0)
+					mHandler2.sendEmptyMessage(1);
+				else
+					mHandler2.sendEmptyMessage(2);
+			}
+		}).start();
 	}
+
+	Handler mHandler2 = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == 1) {
+				Intent intent = new Intent(InfoFamilyActivity.this, com.megvii.idcardlib.IDCardScanActivity.class);
+				intent.putExtra("side", 1);
+				intent.putExtra("isvertical", false);
+				startActivityForResult(intent, CAMERA);
+			} else if (msg.what == 2) {
+				Toast.makeText(getApplicationContext(), "联网授权失败，请点击按钮重新授权", Toast.LENGTH_SHORT).show();
+			}
+		}
+	};
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
@@ -347,7 +377,7 @@ public class InfoFamilyActivity extends Activity {
 							Element item = (Element) itt.next();
 							System.out.println(item.getStringValue());
 							name = item.elementTextTrim("name");
-							cardno = item.elementTextTrim("cardno");
+							cardno = item.elementTextTrim("id_card_number");
 							address = item.elementTextTrim("address");
 						}
 					}
