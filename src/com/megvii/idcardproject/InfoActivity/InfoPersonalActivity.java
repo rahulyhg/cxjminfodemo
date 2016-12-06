@@ -653,6 +653,7 @@ public class InfoPersonalActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
 

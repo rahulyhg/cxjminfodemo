@@ -279,6 +279,7 @@ public class InfoMainActivity extends BaseActivity {
 			}
 			break;
 		case CAMERA:
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
 				JSONTokener jsonTokener = new JSONTokener(result);
