@@ -252,17 +252,20 @@ public class MyAdapterMainActivity extends BaseAdapter {
 								if (db.queryTime(family.getEdit_jtbh()) != null) {
 									String newTime = db.queryTime(family.getEdit_jtbh());
 									String newTime2 = db.queryTime2(family.getEdit_gmcfzh());
-									if (MaxTime.compareTo(newTime) > 0) {
-										// MaxTime晚于newTime
-										
+									if (newTime.compareTo(newTime2) > 0) {
+										if (MaxTime.compareTo(newTime) > 0) {
+											// MaxTime晚于newTime
+										} else {
+											MaxTime = newTime;
+										}
 									} else {
-										MaxTime = newTime;
+										if (MaxTime.compareTo(newTime2) > 0) {
+
+										} else {
+											MaxTime = newTime2;
+										}
 									}
-									if (MaxTime.compareTo(newTime2)>0) {
-										
-									}else {
-										MaxTime=newTime2;
-									}
+
 								}
 							}
 							// 設置金額
@@ -425,8 +428,8 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE).setTitleText("确认上传？")
-						.setContentText(">上传人员为已缴费人员\n>已上传的家庭人员无法编辑或删除\n").setConfirmText("上传").setCancelText("取消").showCancelButton(true)
-						.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+						.setContentText(">上传人员为已缴费人员\n>已上传的家庭人员无法编辑或删除\n").setConfirmText("上传").setCancelText("取消")
+						.showCancelButton(true).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 							@Override
 							public void onClick(SweetAlertDialog sDialog) {
 								sDialog.dismissWithAnimation();
