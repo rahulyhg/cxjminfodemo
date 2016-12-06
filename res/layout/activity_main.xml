@@ -109,7 +109,7 @@
 
                         <!-- 原： <ListView> -->
 
-                        <com.neuqsoft.cxjmcj.NoScrollListView
+                        <com.megvii.idcardproject.NoScrollListView
                             android:id="@+id/listView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
