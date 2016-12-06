@@ -75,9 +75,9 @@ public class InfoPersonalActivity extends Activity {
 	private Spinner edit_mz;
 	private Calendar calendar;
 
-	private String name = "";
+	private static String name = "";
 
-	private String cardno = "";
+	private static String cardno = "";
 
 	private String sex = "";
 
@@ -131,6 +131,11 @@ public class InfoPersonalActivity extends Activity {
 		initView();
 		whenEdit();
 		fixID();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 	}
 
 	/********** DECLARES *************/
@@ -243,6 +248,9 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
 		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
+
+		edit_cbrxm.setSaveEnabled(false);
+		edit_gmcfzh.setSaveEnabled(false);
 		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
@@ -633,7 +641,7 @@ public class InfoPersonalActivity extends Activity {
 			}
 		}).start();
 	}
-	
+
 	@SuppressLint("HandlerLeak")
 	Handler mHandler2 = new Handler() {
 		@Override
@@ -667,19 +675,11 @@ public class InfoPersonalActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				edit_cbrxm = (EditText) findViewById(R.id.edit_cbrxm);
+				edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 				edit_cbrxm.setText(name);
 				edit_gmcfzh.setText(cardno);
 				edit_xxjzdz.setText(address);
-				/* edit_xb.setText(sex); */
-
-				if (folk.equals("ºº"))
-					edit_mz.setSelection(0);
-				if (folk.equals("Âú"))
-					edit_mz.setSelection(1);
-				if (folk.equals("»Ø"))
-					edit_mz.setSelection(2);
-				edit_csrq.setText(birthday);
 			}
 			break;
 		default:
@@ -695,7 +695,6 @@ public class InfoPersonalActivity extends Activity {
 		tempPersonal.setEdit_zjlx(edit_zjlx.getSelectedItem().toString());
 
 		tempPersonal.setEdit_gmcfzh(edit_gmcfzh.getText().toString());
-		/* tempPersonal.setEdit_xb(edit_xb.getText().toString()); */
 		tempPersonal.setEdit_mz(edit_mz.getSelectedItem().toString());
 		tempPersonal.setEdit_xb(edit_xb.getSelectedItem().toString());
 

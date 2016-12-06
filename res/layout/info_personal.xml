@@ -96,7 +96,8 @@
                     <EditText
                         android:id="@+id/edit_cbrxm"
                         style="@style/et_text"
-                        android:inputType="textPersonName" >
+                        android:inputType="textPersonName"
+                        android:saveEnabled="false" >
                     </EditText>
                 </LinearLayout>
             </LinearLayout>
@@ -329,8 +330,7 @@
 
                     <Spinner
                         android:id="@+id/edit_cbrylb"
-                        style="@style/spinner"
-                       >
+                        style="@style/spinner" >
                     </Spinner>
                 </LinearLayout>
             </LinearLayout>
@@ -400,8 +400,7 @@
                         android:id="@+id/edit_lxdh"
                         style="@style/et_text"
                         android:inputType="phone"
-                        android:phoneNumber="true"
-                         >
+                        android:phoneNumber="true" >
                     </EditText>
                 </LinearLayout>
             </LinearLayout>
