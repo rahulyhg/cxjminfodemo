@@ -237,7 +237,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 								}
 								List<Personal> personals = db.queryPersonal(family.getEdit_jtbh());
 								memberSize = memberSize + personals.size();
-								for (Personal personal : personals) {
+								for (Personal personal : personals) { 
 									if (personal.getEdit_jf().equals("1")) {
 										memberJf = memberJf + 1;
 
@@ -265,7 +265,6 @@ public class MyAdapterMainActivity extends BaseAdapter {
 											MaxTime = newTime2;
 										}
 									}
-
 								}
 							}
 							// ÔOÖÃ½ðî~

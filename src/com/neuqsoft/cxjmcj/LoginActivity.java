@@ -140,8 +140,9 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onFailure(HttpException error, String msg) {
+				
 				int exceptionCode = error.getExceptionCode();
-				if (exceptionCode == 0) {
+				if (exceptionCode == 0||exceptionCode == 502) {
 					// showloading();
 					loginfromlocal();
 				} else if (exceptionCode == 500) {

@@ -12,6 +12,8 @@ public class Sfcl {
 		case "G":
 			sum = sum + switchG(lb);
 			break;
+			default:
+				break;
 		}
 		return sum;
 	}
@@ -25,7 +27,9 @@ public class Sfcl {
 			return 180;
 		if (lb.equals("处于劳动年龄段非从业居民"))
 			return 180;
+		
 		return 0;
+		
 	}
 
 	private static int switchC(String lb) {
