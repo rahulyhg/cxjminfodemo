@@ -252,16 +252,18 @@ public class MyAdapterMainActivity extends BaseAdapter {
 								if (db.queryTime(family.getEdit_jtbh()) != null) {
 									String newTime = db.queryTime(family.getEdit_jtbh());
 									String newTime2 = db.queryTime2(family.getEdit_gmcfzh());
-									if (MaxTime.compareTo(newTime) > 0) {
-										// MaxTimeÍíÓÚnewTime
-										
+									if (newTime.compareTo(newTime2) > 0) {
+										if (MaxTime.compareTo(newTime) > 0) {
+											// MaxTimeÍíÓÚnewTime
+										} else {
+											MaxTime = newTime;
+										}
 									} else {
-										MaxTime = newTime;
-									}
-									if (MaxTime.compareTo(newTime2)>0) {
-										
-									}else {
-										MaxTime=newTime2;
+										if (MaxTime.compareTo(newTime2) > 0) {
+
+										} else {
+											MaxTime = newTime2;
+										}
 									}
 								}
 							}
