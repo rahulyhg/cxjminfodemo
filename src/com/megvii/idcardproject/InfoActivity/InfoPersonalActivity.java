@@ -133,6 +133,16 @@ public class InfoPersonalActivity extends Activity {
 		fixID();
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
 	/********** DECLARES *************/
 
 	/**
@@ -643,7 +653,6 @@ public class InfoPersonalActivity extends Activity {
 				intent.putExtra("side", 0);
 				intent.putExtra("isvertical", false);
 				startActivityForResult(intent, CAMERA);
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			} else if (msg.what == 2) {
 				Toast.makeText(getApplicationContext(), "联网授权失败，请点击按钮重新授权", Toast.LENGTH_SHORT).show();
 			}
@@ -651,7 +660,6 @@ public class InfoPersonalActivity extends Activity {
 	};
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
@@ -670,6 +678,8 @@ public class InfoPersonalActivity extends Activity {
 				edit_cbrxm.setText(name);
 				edit_gmcfzh.setText(cardno);
 				edit_xxjzdz.setText(address);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			}
 			break;
 		default:
