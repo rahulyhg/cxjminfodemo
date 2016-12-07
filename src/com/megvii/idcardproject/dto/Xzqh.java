@@ -8,14 +8,6 @@ public class Xzqh {
 	public String city; // 甯�
 	public String province; // 鐪�
 	public String name; // 涔℃潙鍚嶇�?
-	// {
-	// "city": "string",
-	// "country": "string",
-	// "county": "string",
-	// "name": "string",
-	// "province": "string",
-	// "town": "string"
-	// }
 
 	public String getCountry() {
 		return country;

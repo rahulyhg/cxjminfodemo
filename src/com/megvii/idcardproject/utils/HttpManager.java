@@ -38,6 +38,8 @@ public class HttpManager extends HttpUtils {
 	Context context;
 	DBManager db;
 	String country = "";
+	private String cityUrl;
+	
 
 	public HttpManager(Context context) {
 		this.context = context;
@@ -47,6 +49,10 @@ public class HttpManager extends HttpUtils {
 	public void Init() {
 		isAlive = true;
 		isError = false;
+	}
+	public void getUrl(String account){
+		List<UserDetail> queryUserDetail = db.queryUserDetail(account);
+		cityUrl = queryUserDetail.get(0).serverBaseurl;
 	}
 
 	List<Family> DTOtoF(List<FamilyDTO> dto) {
@@ -200,7 +206,7 @@ public class HttpManager extends HttpUtils {
 		RequestParams params = new RequestParams();
 		params.addHeader("Content-Type", "application/json");
 		params.addHeader("Accept", "application/json");
-		String url = RcConstant.getPath + countryCode;
+		String url =RcConstant.getPath + countryCode;
 		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
 			// 请求失败调用次方法
 			@Override
@@ -364,8 +370,8 @@ public class HttpManager extends HttpUtils {
 		Init();
 		RequestParams params = new RequestParams();
 		String url = RcConstant.xzqhPath + cjarea;
-		params.addHeader("Content-Type", "application/xml");
-		params.addHeader("Accept", "application/xml");
+		
+		params.addHeader("Accept", "*/*");
 		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
 			// 请求失败调用次方法
 			@Override
@@ -457,4 +463,5 @@ public class HttpManager extends HttpUtils {
 			}
 		});
 	}
+	
 }

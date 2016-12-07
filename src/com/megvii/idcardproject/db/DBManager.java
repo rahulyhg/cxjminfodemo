@@ -157,7 +157,7 @@ public class DBManager {
 		db.beginTransaction(); // 开始事务
 		try {
 
-			db.execSQL("REPLACE INTO xzqh VALUES( null, ?,?,?,?,  ?,?,?,?)",
+			db.execSQL("REPLACE INTO xzqh VALUES( null, ?,?,?,?, ?,?)",
 					new Object[] { xzqh.getCountry(), xzqh.getTown(), xzqh.getCounty(), xzqh.getCity(),
 							xzqh.getProvince(), xzqh.getName()});
 

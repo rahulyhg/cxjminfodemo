@@ -127,9 +127,8 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "COUNTY VARCHAR,"
 				+ "CITY VARCHAR,"
 				+ "PROVINCE VARCHAR,"
-				+ "NAME VARCHAR,"
-				+ "SFCL VARCHAR,"
-				+ "CJZT VARCHAR)");
+				+ "NAME VARCHAR)");
+				
 		
 		db.execSQL("CREATE TABLE IF NOT EXISTS url"
 				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT,"
