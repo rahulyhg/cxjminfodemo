@@ -119,7 +119,7 @@ public class LoginActivity extends Activity {
 		RequestParams params = new RequestParams();
 		params.addHeader("Content-Type", "application/json");
 		params.addHeader("Accept", "application/json");
-		params.addHeader("client_id", "1");
+		params.addHeader("clientId", "1");
 		CjUser userDTO = new CjUser();
 		userDTO.setAccount(userName);
 		userDTO.setName("");
@@ -134,12 +134,19 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onFailure(HttpException error, String msg) {
+
 				int exceptionCode = error.getExceptionCode();
+				System.out.println("*********************" + exceptionCode);
 				if (exceptionCode == 0 || exceptionCode == 502) {
 					// showloading();
 					loginfromlocal();
-				} else if (exceptionCode == 500) {
+				} else if (exceptionCode == 404) {
 					waitToast("用户名或密码错误，请重新输入！");
+				} else if (exceptionCode == 402) {
+					waitToast("用户名或密码非法，请重新输入！");
+				} else if (exceptionCode == 403) {
+					waitToast("用户名或密码被禁止，请重新输入！");
+
 				}
 			}
 

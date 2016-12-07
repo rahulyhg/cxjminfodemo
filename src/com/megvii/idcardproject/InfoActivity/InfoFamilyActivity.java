@@ -367,7 +367,6 @@ public class InfoFamilyActivity extends Activity {
 				return;
 			else if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
-
 				JSONTokener jsonTokener = new JSONTokener(result);
 				try {
 					JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();

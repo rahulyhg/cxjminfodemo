@@ -230,7 +230,8 @@ public class MyAdapterMainActivity extends BaseAdapter {
 										memberJf = memberJf + 1;
 
 										String lb = personal.getEdit_cbrylb();
-										String sfcl = xzqh.getSfcl();
+										//สีทัฒ฿ยิ
+										String sfcl = queryUserDetail.get(position).sfcl;
 										sum = Sfcl.Calculate(sum, lb, sfcl);
 									}
 									if (personal.getIsEdit().equals("1")) {

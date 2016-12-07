@@ -73,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ "taskdesc VARCHAR,"
 				+ "taskstatus VARCHAR,"
 				+ "uploadflag VARCHAR,"
-				+ "validcfcburl VARCHAR)");
+				+ "serverBaseurl VARCHAR)");
 
 		db.execSQL("CREATE TABLE IF NOT EXISTS family"
 				+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "

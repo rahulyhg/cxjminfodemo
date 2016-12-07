@@ -138,6 +138,11 @@ public class InfoPersonalActivity extends Activity {
 		super.onSaveInstanceState(outState);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
 	/********** DECLARES *************/
 
 	/**
@@ -248,9 +253,6 @@ public class InfoPersonalActivity extends Activity {
 		edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
 		edit_csrq = (TextView) findViewById(R.id.edit_csrq);
 		edit_xxjzdz = (TextView) findViewById(R.id.edit_xxjzdz);
-
-		edit_cbrxm.setSaveEnabled(false);
-		edit_gmcfzh.setSaveEnabled(false);
 		edit_lxdh = (EditText) findViewById(R.id.edit_lxdh);
 		// Spiner1
 		edit_yhzgx = (Spinner) findViewById(R.id.edit_yhzgx);
@@ -651,7 +653,6 @@ public class InfoPersonalActivity extends Activity {
 				intent.putExtra("side", 0);
 				intent.putExtra("isvertical", false);
 				startActivityForResult(intent, CAMERA);
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			} else if (msg.what == 2) {
 				Toast.makeText(getApplicationContext(), "联网授权失败，请点击按钮重新授权", Toast.LENGTH_SHORT).show();
 			}
@@ -661,7 +662,6 @@ public class InfoPersonalActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) { // resultCode为回传的标记，我在B中回传的是RESULT_OK
 		case CAMERA:
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
 
@@ -675,11 +675,12 @@ public class InfoPersonalActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				edit_cbrxm = (EditText) findViewById(R.id.edit_cbrxm);
-				edit_gmcfzh = (EditText) findViewById(R.id.edit_gmcfzh);
+			
 				edit_cbrxm.setText(name);
 				edit_gmcfzh.setText(cardno);
 				edit_xxjzdz.setText(address);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			}
 			break;
 		default:

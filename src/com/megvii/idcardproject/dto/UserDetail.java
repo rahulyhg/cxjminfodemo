@@ -6,7 +6,7 @@ public class UserDetail {
 	public String cjarea;
 	public String account;
 	public String city;
-	public String validcfcburl;
+	public String serverBaseurl;
 	public String sfcl;
 	public String taskdesc;
 	public String taskstatus;
@@ -45,12 +45,12 @@ public class UserDetail {
 		this.city = city;
 	}
 
-	public String getValidcfcburl() {
-		return validcfcburl;
+	public String getserverBaseurl() {
+		return serverBaseurl;
 	}
 
-	public void setValidcfcburl(String validcfcburl) {
-		this.validcfcburl = validcfcburl;
+	public void setserverBaseurl(String serverBaseurl) {
+		this.serverBaseurl = serverBaseurl;
 	}
 
 	public String getSfcl() {
@@ -96,7 +96,7 @@ public class UserDetail {
 	@Override
 	public String toString() {
 		return "UserDetail [taskid=" + taskid + ", cjarea=" + cjarea + ", account=" + account + ", city=" + city
-				+ ", validcfcburl=" + validcfcburl + ", sfcl=" + sfcl + ", taskdesc=" + taskdesc + ", taskstatus="
+				+ ", serverBaseurl=" + serverBaseurl + ", sfcl=" + sfcl + ", taskdesc=" + taskdesc + ", taskstatus="
 				+ taskstatus + ", downloadflag=" + downloadflag + ", uploadflag=" + uploadflag + "]";
 	}
 

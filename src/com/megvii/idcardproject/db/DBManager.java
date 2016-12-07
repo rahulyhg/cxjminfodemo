@@ -95,7 +95,7 @@ public class DBManager {
 				db.execSQL("REPLACE INTO userdetail  VALUES( ?, ?,?, ?,?, ?,?, ?,?, ?)",
 						new Object[] { userDetail.taskid, userDetail.account, userDetail.city, userDetail.cjarea,
 								userDetail.downloadflag, userDetail.sfcl, userDetail.taskdesc, userDetail.taskstatus,
-								userDetail.uploadflag, userDetail.validcfcburl });
+								userDetail.uploadflag, userDetail.serverBaseurl });
 			}
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -159,7 +159,7 @@ public class DBManager {
 
 			db.execSQL("REPLACE INTO xzqh VALUES( null, ?,?,?,?,  ?,?,?,?)",
 					new Object[] { xzqh.getCountry(), xzqh.getTown(), xzqh.getCounty(), xzqh.getCity(),
-							xzqh.getProvince(), xzqh.getName(), xzqh.getSfcl(), xzqh.getCjzt() });
+							xzqh.getProvince(), xzqh.getName()});
 
 			db.setTransactionSuccessful(); // 设置事务成功完成
 		} finally {
@@ -318,8 +318,8 @@ public class DBManager {
 			xzqh.city = c.getString(c.getColumnIndex("CITY"));
 			xzqh.province = c.getString(c.getColumnIndex("PROVINCE"));
 			xzqh.name = c.getString(c.getColumnIndex("NAME"));
-			xzqh.sfcl = c.getString(c.getColumnIndex("SFCL"));
-			xzqh.cjzt = c.getString(c.getColumnIndex("CJZT"));
+//			xzqh.sfcl = c.getString(c.getColumnIndex("SFCL"));
+//			xzqh.cjzt = c.getString(c.getColumnIndex("CJZT"));
 		}
 		c.close();
 		return xzqh;
@@ -366,10 +366,10 @@ public class DBManager {
 			userDetail.cjarea = c.getString(c.getColumnIndex("cjarea"));
 			userDetail.downloadflag = c.getString(c.getColumnIndex("downloadflag"));
 			userDetail.sfcl = c.getString(c.getColumnIndex("sfcl"));
-			userDetail.taskdesc = c.getString(c.getColumnIndex("taskdesc"));
+	    	userDetail.taskdesc = c.getString(c.getColumnIndex("taskdesc"));
 			userDetail.taskstatus = c.getString(c.getColumnIndex("taskstatus"));
 			userDetail.uploadflag = c.getString(c.getColumnIndex("uploadflag"));
-			userDetail.validcfcburl = c.getString(c.getColumnIndex("validcfcburl"));
+			userDetail.serverBaseurl = c.getString(c.getColumnIndex("serverBaseurl"));
 			UserDetails.add(userDetail);
 		}
 		c.close();
