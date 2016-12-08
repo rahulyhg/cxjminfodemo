@@ -67,6 +67,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 		TextView time2;
 
 		public String cjarea = "";
+		public String cityUrl;
 
 	}
 
@@ -141,6 +142,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 
 		/** 把乡镇代码转换形成乡镇 名称 */
 		holder.cjarea = queryUserDetail.get(position).getCjarea();
+		holder.cityUrl=queryUserDetail.get(position).getserverBaseurl();
 		final Xzqh xzqh = db.queryXzqh(holder.cjarea);
 		if (xzqh.getName() != null && xzqh.getName() != "")
 			holder.local.setText(xzqh.getName());
@@ -312,7 +314,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			public void run() {
 				// TODO Auto-generated method stub
 
-				http.getJbxx(holder.cjarea);
+				http.getJbxx(holder.cjarea,holder.cityUrl);
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
@@ -338,7 +340,7 @@ public class MyAdapterMainActivity extends BaseAdapter {
 			@Override
 			public void run() {
 				try {
-					http.getCjxx(holder.cjarea, sToken, queryUserDetail.get(0).getAccount());
+					http.getCjxx(holder.cjarea, sToken, queryUserDetail.get(0).getAccount(),queryUserDetail.get(0).getserverBaseurl());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

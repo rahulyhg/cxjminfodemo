@@ -43,7 +43,6 @@ public class MainActivity extends Activity {
 	static int itemIndex;
 	static List<UserDetail> queryUserDetail = new ArrayList<UserDetail>();
 	public static String account;
-	public static String cityUrl;
 	BuildBean build;
 	HttpManager http;
 	Thread downData;
@@ -89,7 +88,7 @@ public class MainActivity extends Activity {
 								GetUserTask();
 								// 有任务
 								queryUserDetail = db.queryUserDetail(account);
-								cityUrl = queryUserDetail.get(0).getserverBaseurl();
+								
 								if (queryUserDetail.size() > 0) {
 									
 									// 获得代码表
@@ -280,7 +279,8 @@ public class MainActivity extends Activity {
 
 	public void GetCode() throws UnsupportedEncodingException {
 		UserDetail userDetail = queryUserDetail.get(0);
-		http.getCode("AAC058", userDetail.getCjarea());
+		String cityUrl = userDetail.getserverBaseurl();
+		http.getCode("AAC058", userDetail.getCjarea(),cityUrl);
 		while (http.isAlive) {
 		}
 		if (http.isError) {
@@ -292,19 +292,19 @@ public class MainActivity extends Activity {
 				}
 			});
 		} else {
-			http.getCode("AAC005", userDetail.getCjarea());
+			http.getCode("AAC005", userDetail.getCjarea(),cityUrl);
 			while (http.isAlive) {
 			}
-			http.getCode("AAC004", userDetail.getCjarea());
+			http.getCode("AAC004", userDetail.getCjarea(),cityUrl);
 			while (http.isAlive) {
 			}
-			http.getCode("BAC067", userDetail.getCjarea());
+			http.getCode("BAC067", userDetail.getCjarea(),cityUrl);
 			while (http.isAlive) {
 			}
-			http.getCode("AAC069", userDetail.getCjarea());
+			http.getCode("AAC069", userDetail.getCjarea(),cityUrl);
 			while (http.isAlive) {
 			}
-			http.getCode("AAC009", userDetail.getCjarea());
+			http.getCode("AAC009", userDetail.getCjarea(),cityUrl);
 			while (http.isAlive) {
 			}
 		}

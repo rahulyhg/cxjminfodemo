@@ -40,13 +40,13 @@ public class HttpManager extends HttpUtils {
 	Context context;
 	DBManager db;
 	String country = "";
-	private String cityUrl;
+	
 	
 
 	public HttpManager(Context context) {
 		this.context = context;
 		db = new DBManager(context);
-		 cityUrl= MainActivity.cityUrl;
+		
 	}
 
 	
@@ -201,7 +201,7 @@ public class HttpManager extends HttpUtils {
 	 * @return
 	 * 
 	 */
-	public void getJbxx(final String countryCode) {
+	public void getJbxx(final String countryCode,String cityUrl) {
 		Init();
 		country = countryCode;
 		RequestParams params = new RequestParams();
@@ -249,7 +249,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	// 上传
-	public void getCjxx(final String countryCode, String usertoken, String account)
+	public void getCjxx(final String countryCode, String usertoken, String account,String cityUrl)
 			throws UnsupportedEncodingException {
 		Init();
 		country = countryCode;
@@ -325,7 +325,7 @@ public class HttpManager extends HttpUtils {
 	}
 
 	// 获得代码表
-	public void getCode(final String aaa100, String xzqh) throws UnsupportedEncodingException {
+	public void getCode(final String aaa100, String xzqh,String cityUrl) throws UnsupportedEncodingException {
 		Init();
 		RequestParams params = new RequestParams();
 		String url = cityUrl+RcConstant.codePath + aaa100 + "&countyCode=" + xzqh;
