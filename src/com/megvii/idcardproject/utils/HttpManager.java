@@ -14,6 +14,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.megvii.idcardproject.MainActivity;
 import com.megvii.idcardproject.RcConstant;
 import com.megvii.idcardproject.db.DBManager;
 import com.megvii.idcardproject.dto.Code;
@@ -26,6 +27,7 @@ import com.megvii.idcardproject.server.dto.FamilyDTO;
 import com.megvii.idcardproject.server.dto.FamilyMemberDTO;
 import com.megvii.idcardproject.server.dto.MemberDTO;
 
+import android.app.Activity;
 import android.content.Context;
 
 public class HttpManager extends HttpUtils {
@@ -44,15 +46,14 @@ public class HttpManager extends HttpUtils {
 	public HttpManager(Context context) {
 		this.context = context;
 		db = new DBManager(context);
+		 cityUrl= MainActivity.cityUrl;
 	}
+
+	
 
 	public void Init() {
 		isAlive = true;
 		isError = false;
-	}
-	public void getUrl(String account){
-		List<UserDetail> queryUserDetail = db.queryUserDetail(account);
-		cityUrl = queryUserDetail.get(0).serverBaseurl;
 	}
 
 	List<Family> DTOtoF(List<FamilyDTO> dto) {
@@ -206,7 +207,7 @@ public class HttpManager extends HttpUtils {
 		RequestParams params = new RequestParams();
 		params.addHeader("Content-Type", "application/json");
 		params.addHeader("Accept", "application/json");
-		String url =RcConstant.getPath + countryCode;
+		String url =cityUrl+RcConstant.getPath + countryCode;
 		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
 			// 请求失败调用次方法
 			@Override
@@ -253,7 +254,7 @@ public class HttpManager extends HttpUtils {
 		Init();
 		country = countryCode;
 		RequestParams params = new RequestParams();
-		String url = RcConstant.postPath + countryCode;
+		String url = cityUrl+RcConstant.postPath + countryCode;
 		params.addHeader("Content-Type", "application/json");
 		params.addHeader("Accept", "application/json");
 		params.addHeader("usertoken", usertoken);
@@ -327,7 +328,7 @@ public class HttpManager extends HttpUtils {
 	public void getCode(final String aaa100, String xzqh) throws UnsupportedEncodingException {
 		Init();
 		RequestParams params = new RequestParams();
-		String url = RcConstant.codePath + aaa100 + "&countyCode=" + xzqh;
+		String url = cityUrl+RcConstant.codePath + aaa100 + "&countyCode=" + xzqh;
 		params.addHeader("Content-Type", "application/xml");
 		params.addHeader("Accept", "application/xml");
 		httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
@@ -424,7 +425,6 @@ public class HttpManager extends HttpUtils {
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				isError = true;
-
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

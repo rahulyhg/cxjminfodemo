@@ -199,7 +199,6 @@ public class InfoMainActivity extends BaseActivity {
 				intent.putExtra("side", 0);
 				intent.putExtra("isvertical", false);
 				startActivityForResult(intent, CAMERA);
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			} else if (msg.what == 2) {
 				Toast.makeText(getApplicationContext(), "联网授权失败，请点击按钮重新授权", Toast.LENGTH_SHORT).show();
 			}
@@ -279,7 +278,6 @@ public class InfoMainActivity extends BaseActivity {
 			}
 			break;
 		case CAMERA:
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
 				JSONTokener jsonTokener = new JSONTokener(result);
@@ -294,6 +292,8 @@ public class InfoMainActivity extends BaseActivity {
 				}
 				mSearchView.setTextInput(cardno);
 				mSearchView.addFocus();
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			}
 			break;
 		default:

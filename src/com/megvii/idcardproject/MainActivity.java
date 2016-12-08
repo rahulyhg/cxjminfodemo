@@ -42,7 +42,8 @@ public class MainActivity extends Activity {
 	// 当前listview位置
 	static int itemIndex;
 	static List<UserDetail> queryUserDetail = new ArrayList<UserDetail>();
-	private String account;
+	public static String account;
+	public static String cityUrl;
 	BuildBean build;
 	HttpManager http;
 	Thread downData;
@@ -65,6 +66,7 @@ public class MainActivity extends Activity {
 		sToken = tokenSp.getString("token", "");
 		int info = intent.getIntExtra("info", -1);
 		loginFeedback(info);
+		
 	}
 
 	public void loginFeedback(int info) {
@@ -78,6 +80,8 @@ public class MainActivity extends Activity {
 					build.show();
 
 					downData = new Thread(new Runnable() {
+						
+
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
@@ -85,7 +89,9 @@ public class MainActivity extends Activity {
 								GetUserTask();
 								// 有任务
 								queryUserDetail = db.queryUserDetail(account);
+								cityUrl = queryUserDetail.get(0).getserverBaseurl();
 								if (queryUserDetail.size() > 0) {
+									
 									// 获得代码表
 									if (db.queryCode("AAC058").size() == 0)
 										GetCode();

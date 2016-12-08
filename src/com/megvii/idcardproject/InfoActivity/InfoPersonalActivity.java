@@ -664,7 +664,6 @@ public class InfoPersonalActivity extends Activity {
 		case CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
 				String result = data.getStringExtra("result");
-
 				JSONTokener jsonTokener = new JSONTokener(result);
 				try {
 					JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();

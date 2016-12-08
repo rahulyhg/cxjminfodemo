@@ -28,9 +28,9 @@ public class RcConstant {
 	// "http://172.30.2.11:9001/eapdomain/si/mobileInteraction.do?method=downloadData&eap_username=130729001001&eap_password=123456&countycode=";
 	// public static String postPath =
 	// "http://172.30.2.11:9001/eapdomain/si/mobileInteraction.do?method=uploadData&eap_username=130729001001&eap_password=123456&countyCode=";
-	public static String postPath = "http://172.30.2.11:9001/eapdomain/si/mobileInteraction.do?method=uploadData&eap_username=modelapp&eap_password=123456&countyCode=";
-	public static String getPath = "http://172.30.2.11:9001/eapdomain/si/mobileInteraction.do?method=downloadData&eap_username=modelapp&eap_password=123456&countyCode=";
-	public static String codePath = "http://172.30.2.11:9001/eapdomain/si/mobileInteraction.do?method=aa10&eap_username=modelapp&eap_password=123456&aaa100=";
+	public static String postPath = "/eapdomain/si/mobileInteraction.do?method=uploadData&eap_username=modelapp&eap_password=123456&countyCode=";
+	public static String getPath = "/eapdomain/si/mobileInteraction.do?method=downloadData&eap_username=modelapp&eap_password=123456&countyCode=";
+	public static String codePath = "/eapdomain/si/mobileInteraction.do?method=aa10&eap_username=modelapp&eap_password=123456&aaa100=";
 	//public static String xzqhPath = "http://172.30.2.11:9001/eapdomain/si/mobileInteraction.do?method=xzqh&eap_username=modelapp&eap_password=123456&countyCode=";
 	public static String xzqhPath = "http://172.30.3.164:8082/cxjmcj/api/xzqh/";
 }
