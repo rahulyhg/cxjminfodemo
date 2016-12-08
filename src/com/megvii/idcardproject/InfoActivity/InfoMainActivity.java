@@ -135,7 +135,8 @@ public class InfoMainActivity extends BaseActivity {
 					Manifest.permission_group.STORAGE);
 			if (checkLocationPermission != PackageManager.PERMISSION_GRANTED) {
 				String[] mPermissionList = new String[] { Manifest.permission.READ_EXTERNAL_STORAGE,
-						Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA };
+						Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
+						Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_PHONE_STATE};
 				ActivityCompat.requestPermissions(this, mPermissionList, 10);
 			}
 		}
